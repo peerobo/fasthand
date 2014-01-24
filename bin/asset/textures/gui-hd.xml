@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:3653f96a61c59f6ab4b05c9b6f3f3f44$ -->
+<TextureAtlas imagePath="gui-hd.png">
+    <SubTexture name="banhmi" x="2" y="2" width="508" height="516" frameX="-2" frameY="-2" frameWidth="512" frameHeight="520"/>
+    <SubTexture name="bg_house_stt" x="489" y="520" width="17" height="17"/>
+    <SubTexture name="bg_item" x="2" y="865" width="93" height="97"/>
+    <SubTexture name="bg_tile" x="462" y="695" width="46" height="39"/>
+    <SubTexture name="bg_tile_header" x="344" y="701" width="96" height="61"/>
+    <SubTexture name="bg_title" x="2" y="520" width="354" height="85"/>
+    <SubTexture name="bg_title_bar" x="189" y="865" width="236" height="84"/>
+    <SubTexture name="bg_window" x="2" y="607" width="340" height="256"/>
+    <SubTexture name="bt_close" x="462" y="645" width="47" height="48"/>
+    <SubTexture name="bt_cyan" x="358" y="589" width="118" height="54"/>
+    <SubTexture name="bt_light_brown" x="344" y="645" width="116" height="54"/>
+    <SubTexture name="ico_logo" x="358" y="520" width="129" height="67"/>
+    <SubTexture name="ico_star" x="97" y="865" width="90" height="90"/>
+</TextureAtlas>
