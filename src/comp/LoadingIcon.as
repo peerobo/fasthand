@@ -29,7 +29,8 @@ package comp
 		public function LoadingIcon() 
 		{
 			super();
-			
+			interval = 0.033;
+			progressString = "";
 			W *= Starling.contentScaleFactor;
 			shape = Graphics4Starling.beginDrawing();
 			var graphics:Graphics = Graphics4Starling.getGraphicObject(shape);
@@ -44,7 +45,7 @@ package comp
 			addChild(status);	
 		}
 				
-		override public function advanceTime(time:Number):void 
+		override public function update(time:Number):void 
 		{
 			deegree += 2/Starling.contentScaleFactor;
 			if(deegree >= 360){

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:9c386cb02525329f858233f2c96684e1$ -->
+<!-- $TexturePacker:SmartUpdate:47389314aa03f22ace8fc4a52b658f1e$ -->
 <TextureAtlas imagePath="adjectives-sd.png">
     <SubTexture name="big" x="126" y="389" width="66" height="67"/>
     <SubTexture name="cold" x="272" y="65" width="123" height="121"/>

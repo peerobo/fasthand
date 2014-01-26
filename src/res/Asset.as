@@ -34,7 +34,7 @@ package res
 		static public function getBasicTextureURL():Array // png/atf, xml 
 		{
 			return [
-				ASSET_FOLDER + BASE_GUI + contentSuffix + ".png", 
+				ASSET_FOLDER + BASE_GUI + contentSuffix + ".atf", 
 				ASSET_FOLDER + BASE_GUI + contentSuffix + ".xml",
 				TEXT_FOLDER + BFConstructor.BANHMI_ASSET
 				]
@@ -42,7 +42,7 @@ package res
 		
 		static public function getTextureURL(name:String):Array // png/atf, xml 
 		{
-			return [ASSET_FOLDER + name + contentSuffix + ".png", ASSET_FOLDER + name + contentSuffix + ".xml"]
+			return [ASSET_FOLDER + name + contentSuffix + ".atf", ASSET_FOLDER + name + contentSuffix + ".xml"]
 		}
 		
 		public static function getBaseImage(str:String):DisplayObject

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:5d891673482e3ee24c94710eae5693c9$ -->
+<TextureAtlas imagePath="positions-hd.png">
+    <SubTexture name="above" x="2" y="815" width="443" height="700"/>
+    <SubTexture name="behind" x="2" y="1517" width="443" height="472"/>
+    <SubTexture name="between" x="2" y="2" width="968" height="407"/>
+    <SubTexture name="in front of" x="892" y="804" width="443" height="442"/>
+    <SubTexture name="in" x="1337" y="804" width="443" height="409"/>
+    <SubTexture name="next to" x="2" y="411" width="602" height="402"/>
+    <SubTexture name="on the left" x="972" y="403" width="746" height="399"/>
+    <SubTexture name="on the right" x="972" y="2" width="764" height="399"/>
+    <SubTexture name="on" x="447" y="815" width="443" height="596"/>
+    <SubTexture name="under" x="447" y="1413" width="443" height="530"/>
+</TextureAtlas>

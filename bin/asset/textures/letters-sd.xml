@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:ec076acdf04b8fda65753f70fbd44292$ -->
+<TextureAtlas imagePath="letters-sd.png">
+    <SubTexture name="a" x="94" y="154" width="33" height="31" frameX="-17" frameY="-18" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="b" x="33" y="53" width="29" height="47" frameX="-21" frameY="-8" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="c" x="85" y="41" width="27" height="37" frameX="-20" frameY="-14" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="d" x="62" y="102" width="29" height="45" frameX="-19" frameY="-10" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="e" x="62" y="200" width="29" height="37" frameX="-20" frameY="-15" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="f" x="33" y="151" width="19" height="47" frameX="-23" frameY="-10" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="g" x="2" y="167" width="29" height="49" frameX="-18" frameY="-9" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="h" x="33" y="102" width="27" height="47" frameX="-21" frameY="-8" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="i" x="49" y="200" width="11" height="47" frameX="-28" frameY="-9" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="j" x="2" y="2" width="15" height="61" frameX="-26" frameY="-3" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="k" x="50" y="2" width="27" height="47" frameX="-22" frameY="-8" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="l" x="54" y="151" width="9" height="47" frameX="-30" frameY="-9" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="m" x="110" y="2" width="45" height="35" frameX="-12" frameY="-17" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="n" x="114" y="39" width="27" height="35" frameX="-22" frameY="-17" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="o" x="79" y="2" width="29" height="37" frameX="-19" frameY="-15" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="p" x="2" y="116" width="29" height="49" frameX="-21" frameY="-10" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="q" x="19" y="2" width="29" height="49" frameX="-19" frameY="-10" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="r" x="124" y="76" width="19" height="35" frameX="-25" frameY="-17" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="s" x="121" y="117" width="25" height="35" frameX="-23" frameY="-16" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="t" x="64" y="51" width="19" height="45" frameX="-24" frameY="-10" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="u" x="65" y="149" width="27" height="37" frameX="-21" frameY="-15" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="v" x="93" y="80" width="29" height="35" frameX="-20" frameY="-17" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="w" x="2" y="218" width="45" height="35" frameX="-12" frameY="-16" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="x" x="93" y="188" width="29" height="35" frameX="-20" frameY="-15" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="y" x="2" y="65" width="29" height="49" frameX="-19" frameY="-9" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="z" x="94" y="117" width="25" height="35" frameX="-21" frameY="-14" frameWidth="67" frameHeight="67"/>
+</TextureAtlas>

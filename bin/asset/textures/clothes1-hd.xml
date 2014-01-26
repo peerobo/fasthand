@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:1d6947886dc54556a8f96def193c3df8$ -->
+<TextureAtlas imagePath="clothes1-hd.png">
+    <SubTexture name="belt" x="828" y="463" width="468" height="283"/>
+    <SubTexture name="boots" x="822" y="2" width="306" height="310"/>
+    <SubTexture name="coat" x="541" y="2" width="279" height="322"/>
+    <SubTexture name="dress" x="356" y="1604" width="235" height="430"/>
+    <SubTexture name="glasses" x="1113" y="314" width="323" height="143"/>
+    <SubTexture name="gloves" x="2" y="1665" width="352" height="358"/>
+    <SubTexture name="hat" x="455" y="338" width="367" height="202"/>
+    <SubTexture name="jacket" x="259" y="1157" width="429" height="445"/>
+    <SubTexture name="pants" x="2" y="1162" width="255" height="501"/>
+    <SubTexture name="ring" x="250" y="338" width="203" height="223"/>
+    <SubTexture name="scarf" x="156" y="1052" width="152" height="103"/>
+    <SubTexture name="shoe" x="824" y="314" width="287" height="147"/>
+    <SubTexture name="shorts" x="250" y="2" width="289" height="334"/>
+    <SubTexture name="skirt" x="560" y="542" width="266" height="304"/>
+    <SubTexture name="socks" x="560" y="848" width="279" height="287"/>
+    <SubTexture name="suit" x="2" y="2" width="246" height="596"/>
+    <SubTexture name="sweater" x="156" y="600" width="402" height="450"/>
+    <SubTexture name="tie" x="2" y="600" width="152" height="560"/>
+    <SubTexture name="tshirt" x="593" y="1604" width="349" height="398"/>
+    <SubTexture name="umbrella" x="1130" y="2" width="225" height="261"/>
+</TextureAtlas>

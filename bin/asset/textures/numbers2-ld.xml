@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:a70337ee37c8d0e48d41b01e1676ad5a$ -->
+<TextureAtlas imagePath="numbers2-ld.png">
+    <SubTexture name="one billion" x="68" y="48" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="one hundred thousand" x="2" y="27" width="31" height="23" frameX="-1" frameY="-5" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="one hundred" x="97" y="94" width="27" height="21" frameX="-4" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="one million" x="68" y="25" width="31" height="21" frameX="-1" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="one thousand" x="97" y="71" width="27" height="21" frameX="-3" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="ten thousand" x="68" y="94" width="27" height="21" frameX="-3" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="thirty" x="35" y="96" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty eight" x="35" y="73" width="31" height="21" frameX="-1" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty five" x="35" y="50" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty four" x="2" y="2" width="31" height="23" frameX="-1" frameY="-5" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty nine" x="64" y="2" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty one" x="101" y="25" width="25" height="21" frameX="-4" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty seven" x="97" y="2" width="29" height="21" frameX="-2" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty six" x="35" y="27" width="31" height="21" frameX="-1" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty thousand" x="35" y="96" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty three" x="2" y="98" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty two" x="2" y="75" width="31" height="21" frameX="-1" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="two hundred thousand" x="2" y="52" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="two hundred" x="35" y="2" width="27" height="23" frameX="-3" frameY="-5" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="two thousand" x="68" y="71" width="27" height="21" frameX="-3" frameY="-6" frameWidth="33" frameHeight="33"/>
+</TextureAtlas>

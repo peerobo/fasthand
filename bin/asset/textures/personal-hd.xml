@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:3adf953796d2ea97bb91644f127adb82$ -->
+<TextureAtlas imagePath="personal-hd.png">
+    <SubTexture name="bag" x="2" y="218" width="401" height="325"/>
+    <SubTexture name="balloon" x="763" y="294" width="158" height="306"/>
+    <SubTexture name="binoculars" x="239" y="1477" width="160" height="141"/>
+    <SubTexture name="bottle opener" x="822" y="1314" width="196" height="135"/>
+    <SubTexture name="camera" x="334" y="692" width="323" height="255"/>
+    <SubTexture name="candle" x="923" y="126" width="33" height="234"/>
+    <SubTexture name="card" x="405" y="505" width="347" height="185"/>
+    <SubTexture name="coat hanger" x="659" y="922" width="321" height="160"/>
+    <SubTexture name="comb" x="754" y="602" width="254" height="318"/>
+    <SubTexture name="dice" x="334" y="949" width="315" height="238"/>
+    <SubTexture name="flashlight" x="405" y="294" width="356" height="209"/>
+    <SubTexture name="glasses" x="2" y="2" width="482" height="214"/>
+    <SubTexture name="gun" x="2" y="1162" width="307" height="152"/>
+    <SubTexture name="key" x="2" y="958" width="307" height="202"/>
+    <SubTexture name="kite" x="552" y="1617" width="119" height="114"/>
+    <SubTexture name="magnet" x="651" y="1084" width="294" height="228"/>
+    <SubTexture name="map" x="594" y="1314" width="226" height="122"/>
+    <SubTexture name="mobile phone" x="177" y="1622" width="172" height="313"/>
+    <SubTexture name="money" x="486" y="2" width="435" height="290"/>
+    <SubTexture name="mp three" x="311" y="1189" width="281" height="286"/>
+    <SubTexture name="newspaper" x="2" y="1953" width="159" height="84"/>
+    <SubTexture name="passport" x="923" y="2" width="93" height="122"/>
+    <SubTexture name="rucksack" x="779" y="1567" width="136" height="156"/>
+    <SubTexture name="shopping cart" x="401" y="1477" width="149" height="152"/>
+    <SubTexture name="straw" x="594" y="1438" width="183" height="177"/>
+    <SubTexture name="suitcase" x="2" y="1316" width="235" height="304"/>
+    <SubTexture name="ticket" x="779" y="1451" width="145" height="114"/>
+    <SubTexture name="trashcan" x="351" y="1631" width="108" height="160"/>
+    <SubTexture name="wallet" x="2" y="545" width="330" height="411"/>
+    <SubTexture name="watch" x="2" y="1622" width="173" height="329"/>
+</TextureAtlas>

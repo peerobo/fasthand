@@ -1,6 +1,6 @@
 package 
 {
-	import com.hdi.nativeExtensions.NativeAds;
+	//import com.hdi.nativeExtensions.NativeAds;
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
 	import flash.display.Sprite;
@@ -10,6 +10,9 @@ package
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
 	import res.Asset;
+	import so.cuo.platform.admob.Admob;
+	import so.cuo.platform.admob.AdmobEvent;
+	import so.cuo.platform.admob.AdmobPosition;
 	import starling.core.Starling;
 	
 	/**
@@ -17,7 +20,7 @@ package
 	 * @author ndp
 	 */
 	public class Main extends Sprite 
-	{
+	{		
 		
 		public function Main():void 
 		{
@@ -64,18 +67,22 @@ package
 			starling.stage.stageHeight = h;				
 			starling.start();					
 			Asset.init();	
-			
-			NativeAds.setUnitId("a152e1293565247");
-			NativeAds.setAdMode(false);//put the ads in real mode
-			//initialize the ad banner with size compatible for phones, it's applicable to iOS only
-			NativeAds.initAd(0,0, 320, 50);
+			Util.initAd();
+		}
+		
+		private function onAdReceived(event:AdmobEvent):void 
+		{
+			if(event.type==AdmobEvent.onBannerReceive){
+				trace(event.data.width,event.data.height);
+			}
+
 		}
 		
 		private function deactivate(e:Event):void 
 		{
 			// make sure the app behaves well (or exits) when in background
-			//NativeApplication.nativeApplication.exit();
-			NativeAds.deactivateAd();
+			NativeApplication.nativeApplication.exit();
+			//NativeAds.deactivateAd();
 		}
 		
 	}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:c63f103a974b51998bdfc43956587501$ -->
+<TextureAtlas imagePath="transport-ld.png">
+    <SubTexture name="ambulance" x="2" y="246" width="93" height="65"/>
+    <SubTexture name="bike" x="2" y="2" width="211" height="133"/>
+    <SubTexture name="bus" x="107" y="137" width="102" height="62"/>
+    <SubTexture name="car" x="2" y="198" width="101" height="46"/>
+    <SubTexture name="elevator" x="2" y="313" width="82" height="157"/>
+    <SubTexture name="escalator" x="86" y="313" width="72" height="103"/>
+    <SubTexture name="fire engine" x="385" y="2" width="109" height="66"/>
+    <SubTexture name="glider" x="158" y="418" width="80" height="74"/>
+    <SubTexture name="helicopter" x="232" y="329" width="81" height="51"/>
+    <SubTexture name="motorbike" x="211" y="167" width="100" height="63"/>
+    <SubTexture name="plane" x="215" y="84" width="149" height="81"/>
+    <SubTexture name="rocket" x="86" y="418" width="70" height="90"/>
+    <SubTexture name="ship" x="214" y="232" width="86" height="95"/>
+    <SubTexture name="skateboard" x="160" y="371" width="70" height="44"/>
+    <SubTexture name="taxi" x="366" y="132" width="104" height="60"/>
+    <SubTexture name="tractor" x="105" y="201" width="94" height="69"/>
+    <SubTexture name="train" x="215" y="2" width="168" height="80"/>
+    <SubTexture name="truck" x="385" y="70" width="104" height="60"/>
+    <SubTexture name="van" x="2" y="137" width="103" height="59"/>
+    <SubTexture name="walking" x="160" y="272" width="52" height="97"/>
+</TextureAtlas>

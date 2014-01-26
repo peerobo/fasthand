@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:0662b511a07d33e2abf54e15084fe84c$ -->
+<TextureAtlas imagePath="nature-ld.png">
+    <SubTexture name="beach" x="2" y="110" width="135" height="85"/>
+    <SubTexture name="bush" x="2" y="197" width="120" height="61"/>
+    <SubTexture name="cloud" x="345" y="176" width="101" height="61"/>
+    <SubTexture name="flower" x="2" y="363" width="60" height="135"/>
+    <SubTexture name="island" x="139" y="194" width="122" height="77"/>
+    <SubTexture name="lake" x="350" y="2" width="156" height="75"/>
+    <SubTexture name="leaf" x="186" y="103" width="138" height="50"/>
+    <SubTexture name="lightning" x="295" y="239" width="82" height="80"/>
+    <SubTexture name="moon" x="272" y="155" width="71" height="71"/>
+    <SubTexture name="mountain" x="350" y="79" width="150" height="95"/>
+    <SubTexture name="rain" x="199" y="273" width="94" height="87"/>
+    <SubTexture name="rainbow" x="186" y="2" width="162" height="99"/>
+    <SubTexture name="river" x="158" y="363" width="85" height="99"/>
+    <SubTexture name="snow" x="245" y="362" width="96" height="81"/>
+    <SubTexture name="star" x="105" y="273" width="92" height="88"/>
+    <SubTexture name="sun" x="2" y="260" width="101" height="101"/>
+    <SubTexture name="tornado" x="343" y="321" width="95" height="155"/>
+    <SubTexture name="tree" x="64" y="363" width="92" height="123"/>
+    <SubTexture name="wave" x="139" y="155" width="131" height="37"/>
+    <SubTexture name="wind" x="2" y="2" width="182" height="106"/>
+</TextureAtlas>

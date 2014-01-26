@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:c67358d21f41c6d22a93f3ea13de2455$ -->
+<TextureAtlas imagePath="food1-hd.png">
+    <SubTexture name="apple" x="782" y="491" width="239" height="273"/>
+    <SubTexture name="banana" x="289" y="445" width="231" height="388"/>
+    <SubTexture name="bread" x="522" y="316" width="289" height="150"/>
+    <SubTexture name="broccoli" x="2" y="1031" width="225" height="231"/>
+    <SubTexture name="cake" x="504" y="1187" width="212" height="196"/>
+    <SubTexture name="carrot" x="423" y="1254" width="67" height="100"/>
+    <SubTexture name="chili" x="2" y="1967" width="100" height="34"/>
+    <SubTexture name="chocolate" x="2" y="1264" width="191" height="179"/>
+    <SubTexture name="coffee" x="522" y="468" width="258" height="209"/>
+    <SubTexture name="cookie" x="2" y="1829" width="166" height="136"/>
+    <SubTexture name="corn" x="423" y="1356" width="62" height="99"/>
+    <SubTexture name="egg" x="2" y="810" width="264" height="219"/>
+    <SubTexture name="fish" x="2" y="686" width="281" height="122"/>
+    <SubTexture name="grapes" x="522" y="2" width="496" height="312"/>
+    <SubTexture name="hamburger" x="268" y="835" width="239" height="189"/>
+    <SubTexture name="milk" x="509" y="901" width="234" height="284"/>
+    <SubTexture name="noodles" x="781" y="766" width="239" height="209"/>
+    <SubTexture name="onion" x="229" y="1254" width="192" height="192"/>
+    <SubTexture name="orange juice" x="170" y="1719" width="152" height="246"/>
+    <SubTexture name="orange" x="522" y="679" width="257" height="220"/>
+    <SubTexture name="peach" x="745" y="977" width="225" height="195"/>
+    <SubTexture name="pear" x="183" y="1448" width="173" height="269"/>
+    <SubTexture name="peas" x="2" y="1640" width="166" height="187"/>
+    <SubTexture name="rice" x="718" y="1315" width="148" height="116"/>
+    <SubTexture name="sandwich" x="745" y="1174" width="223" height="139"/>
+    <SubTexture name="soup" x="2" y="445" width="285" height="239"/>
+    <SubTexture name="steak" x="813" y="316" width="207" height="173"/>
+    <SubTexture name="strawberry" x="268" y="1026" width="234" height="226"/>
+    <SubTexture name="tomato" x="2" y="1445" width="179" height="193"/>
+    <SubTexture name="watermelon" x="2" y="2" width="518" height="441"/>
+</TextureAtlas>

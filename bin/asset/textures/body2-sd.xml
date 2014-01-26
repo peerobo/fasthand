@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:b753f070adc1730eb68e8b8c23cef87f$ -->
+<TextureAtlas imagePath="body2-sd.png">
+    <SubTexture name="ankle" x="2" y="2" width="340" height="182"/>
+    <SubTexture name="armpit" x="869" y="173" width="152" height="187"/>
+    <SubTexture name="belly button" x="843" y="362" width="173" height="84"/>
+    <SubTexture name="bicep" x="371" y="572" width="126" height="174"/>
+    <SubTexture name="bone" x="486" y="359" width="100" height="35"/>
+    <SubTexture name="calf" x="206" y="510" width="163" height="97"/>
+    <SubTexture name="earlobe" x="869" y="2" width="153" height="169"/>
+    <SubTexture name="elbow" x="568" y="476" width="194" height="210"/>
+    <SubTexture name="eyebrow" x="2" y="186" width="260" height="197"/>
+    <SubTexture name="eyelash" x="344" y="2" width="263" height="293"/>
+    <SubTexture name="forehead" x="764" y="582" width="189" height="144"/>
+    <SubTexture name="heel" x="609" y="221" width="232" height="253"/>
+    <SubTexture name="hip" x="843" y="448" width="163" height="132"/>
+    <SubTexture name="knee" x="2" y="385" width="202" height="209"/>
+    <SubTexture name="lips" x="486" y="297" width="103" height="60"/>
+    <SubTexture name="moustache" x="264" y="297" width="220" height="211"/>
+    <SubTexture name="nostril" x="486" y="396" width="80" height="174"/>
+    <SubTexture name="shoulder" x="609" y="2" width="258" height="217"/>
+    <SubTexture name="thigh" x="2" y="596" width="181" height="121"/>
+    <SubTexture name="wrist" x="2" y="728" width="162" height="223"/>
+</TextureAtlas>

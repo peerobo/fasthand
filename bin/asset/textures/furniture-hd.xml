@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:048074385f2c74d7d9d9474a5d3d9939$ -->
+<TextureAtlas imagePath="furniture-hd.png">
+    <SubTexture name="air conditioner" x="1472" y="285" width="482" height="281"/>
+    <SubTexture name="armchair" x="574" y="2" width="366" height="339" frameX="-1" frameY="-2" frameWidth="368" frameHeight="343"/>
+    <SubTexture name="bin" x="1363" y="294" width="92" height="180"/>
+    <SubTexture name="bookcase" x="937" y="881" width="284" height="259"/>
+    <SubTexture name="ceiling" x="1262" y="825" width="317" height="187"/>
+    <SubTexture name="chair" x="248" y="1016" width="181" height="268"/>
+    <SubTexture name="clock" x="431" y="1054" width="244" height="244"/>
+    <SubTexture name="closet" x="2" y="544" width="445" height="470"/>
+    <SubTexture name="curtain" x="584" y="343" width="354" height="273"/>
+    <SubTexture name="cushion" x="750" y="618" width="186" height="177"/>
+    <SubTexture name="door" x="2" y="2" width="294" height="540"/>
+    <SubTexture name="fan" x="677" y="1111" width="200" height="313"/>
+    <SubTexture name="fireplace" x="1223" y="1014" width="270" height="227"/>
+    <SubTexture name="floor" x="1581" y="837" width="316" height="201"/>
+    <SubTexture name="globe" x="2" y="1330" width="227" height="313"/>
+    <SubTexture name="lamp" x="298" y="2" width="274" height="376"/>
+    <SubTexture name="picture" x="2" y="1016" width="244" height="312"/>
+    <SubTexture name="plant" x="248" y="1286" width="168" height="204"/>
+    <SubTexture name="remote" x="1965" y="2" width="81" height="103"/>
+    <SubTexture name="rug" x="940" y="590" width="320" height="289"/>
+    <SubTexture name="shelf" x="298" y="380" width="284" height="137"/>
+    <SubTexture name="sofa" x="942" y="2" width="528" height="290"/>
+    <SubTexture name="stairs" x="449" y="797" width="295" height="255"/>
+    <SubTexture name="stereo" x="449" y="618" width="299" height="177"/>
+    <SubTexture name="stool" x="746" y="797" width="189" height="312"/>
+    <SubTexture name="table" x="1363" y="568" width="352" height="255"/>
+    <SubTexture name="telephone" x="1472" y="2" width="491" height="281"/>
+    <SubTexture name="tv" x="1717" y="568" width="321" height="267"/>
+    <SubTexture name="vase" x="1965" y="107" width="80" height="197"/>
+    <SubTexture name="window" x="942" y="294" width="419" height="294"/>
+</TextureAtlas>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:96ca55b1763f49c3b2fdbe1e19fef7b5$ -->
+<TextureAtlas imagePath="sports-sd.png">
+    <SubTexture name="american football" x="354" y="1271" width="157" height="191"/>
+    <SubTexture name="baseball" x="2" y="780" width="195" height="207"/>
+    <SubTexture name="basketball" x="866" y="498" width="123" height="259"/>
+    <SubTexture name="bowling" x="447" y="1037" width="161" height="232"/>
+    <SubTexture name="boxing" x="2" y="989" width="194" height="213"/>
+    <SubTexture name="chess" x="496" y="675" width="125" height="153"/>
+    <SubTexture name="cricket" x="2" y="1415" width="158" height="198"/>
+    <SubTexture name="cycling" x="252" y="507" width="242" height="235"/>
+    <SubTexture name="darts" x="497" y="367" width="145" height="122"/>
+    <SubTexture name="diving" x="233" y="744" width="212" height="295"/>
+    <SubTexture name="fishing" x="623" y="743" width="214" height="251"/>
+    <SubTexture name="golf" x="497" y="491" width="140" height="182"/>
+    <SubTexture name="gymnastics" x="252" y="367" width="243" height="138"/>
+    <SubTexture name="high jump" x="646" y="2" width="263" height="235"/>
+    <SubTexture name="hockey" x="610" y="1171" width="200" height="193"/>
+    <SubTexture name="horse riding" x="639" y="498" width="225" height="243"/>
+    <SubTexture name="javelin" x="646" y="239" width="258" height="257"/>
+    <SubTexture name="long jump" x="2" y="2" width="642" height="363"/>
+    <SubTexture name="poker" x="162" y="1419" width="121" height="165"/>
+    <SubTexture name="pole vault" x="2" y="367" width="248" height="251"/>
+    <SubTexture name="pool" x="447" y="830" width="169" height="205"/>
+    <SubTexture name="rugby" x="193" y="1224" width="159" height="193"/>
+    <SubTexture name="shooting" x="812" y="1339" width="198" height="202"/>
+    <SubTexture name="shot putt" x="198" y="1041" width="192" height="181"/>
+    <SubTexture name="soccer" x="2" y="1204" width="189" height="209"/>
+    <SubTexture name="swimming" x="839" y="759" width="181" height="118"/>
+    <SubTexture name="table tennis" x="2" y="620" width="229" height="158"/>
+    <SubTexture name="tennis" x="618" y="996" width="205" height="173"/>
+    <SubTexture name="volley ball" x="825" y="1100" width="195" height="237"/>
+    <SubTexture name="wrestling" x="839" y="879" width="169" height="219"/>
+</TextureAtlas>

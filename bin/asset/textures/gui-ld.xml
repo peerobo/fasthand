@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:77a7309672f78f820536a2e07c04237d$ -->
+<!-- $TexturePacker:SmartUpdate:c673659ba104d827af6e5098e8bf0340$ -->
 <TextureAtlas imagePath="gui-ld.png">
     <SubTexture name="banhmi" x="2" y="2" width="171" height="173"/>
     <SubTexture name="bg_house_stt" x="248" y="88" width="6" height="6"/>

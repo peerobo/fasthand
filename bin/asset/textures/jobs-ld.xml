@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:23d013193a12de31ac86344e9e67c7a1$ -->
+<TextureAtlas imagePath="jobs-ld.png">
+    <SubTexture name="athlete" x="2" y="506" width="83" height="98"/>
+    <SubTexture name="barman" x="347" y="466" width="63" height="73"/>
+    <SubTexture name="builder" x="181" y="446" width="80" height="92"/>
+    <SubTexture name="chef" x="264" y="215" width="111" height="153"/>
+    <SubTexture name="dancer" x="263" y="472" width="59" height="131"/>
+    <SubTexture name="dentist" x="92" y="415" width="87" height="90"/>
+    <SubTexture name="doctor" x="213" y="236" width="47" height="99"/>
+    <SubTexture name="driver" x="2" y="133" width="117" height="92"/>
+    <SubTexture name="electrician" x="263" y="370" width="82" height="100"/>
+    <SubTexture name="factory worker" x="2" y="2" width="133" height="129"/>
+    <SubTexture name="farmer" x="271" y="2" width="129" height="124"/>
+    <SubTexture name="fireman" x="271" y="128" width="126" height="85"/>
+    <SubTexture name="fisherman" x="2" y="302" width="91" height="97"/>
+    <SubTexture name="gardener" x="137" y="130" width="125" height="104"/>
+    <SubTexture name="handyman" x="2" y="401" width="88" height="103"/>
+    <SubTexture name="life guard" x="420" y="405" width="70" height="161"/>
+    <SubTexture name="mechanic" x="137" y="2" width="132" height="126"/>
+    <SubTexture name="nurse" x="187" y="347" width="74" height="97"/>
+    <SubTexture name="office worker" x="347" y="405" width="71" height="59"/>
+    <SubTexture name="pirate" x="87" y="583" width="54" height="116"/>
+    <SubTexture name="policeman" x="120" y="236" width="91" height="109"/>
+    <SubTexture name="receptionist" x="377" y="218" width="102" height="100"/>
+    <SubTexture name="reporter" x="402" y="121" width="104" height="95"/>
+    <SubTexture name="security guard" x="171" y="540" width="55" height="95"/>
+    <SubTexture name="shop assistant" x="377" y="320" width="96" height="83"/>
+    <SubTexture name="singer" x="2" y="606" width="51" height="69"/>
+    <SubTexture name="soldier" x="95" y="347" width="90" height="66"/>
+    <SubTexture name="teacher" x="2" y="227" width="116" height="73"/>
+    <SubTexture name="waiter" x="402" y="2" width="105" height="117"/>
+    <SubTexture name="writer" x="87" y="507" width="82" height="74"/>
+</TextureAtlas>

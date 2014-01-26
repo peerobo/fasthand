@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:63f2fed84e79c6db14090a9052546e2b$ -->
+<TextureAtlas imagePath="stationary-sd.png">
+    <SubTexture name="board" x="2" y="2" width="262" height="277"/>
+    <SubTexture name="calculator" x="2" y="281" width="190" height="183"/>
+    <SubTexture name="cards" x="266" y="2" width="239" height="245"/>
+    <SubTexture name="compass" x="882" y="2" width="140" height="185"/>
+    <SubTexture name="crayons" x="194" y="281" width="131" height="179"/>
+    <SubTexture name="eraser" x="619" y="389" width="125" height="95"/>
+    <SubTexture name="fountain pen" x="327" y="249" width="157" height="155"/>
+    <SubTexture name="marker" x="507" y="2" width="213" height="118"/>
+    <SubTexture name="notepad" x="863" y="189" width="138" height="130"/>
+    <SubTexture name="paintbrush" x="486" y="249" width="131" height="155"/>
+    <SubTexture name="paper" x="718" y="233" width="143" height="135"/>
+    <SubTexture name="pen" x="746" y="370" width="121" height="126"/>
+    <SubTexture name="pencil case" x="869" y="321" width="147" height="84"/>
+    <SubTexture name="pencil" x="619" y="240" width="97" height="147"/>
+    <SubTexture name="penknife" x="327" y="406" width="153" height="101"/>
+    <SubTexture name="protractor" x="722" y="2" width="158" height="119"/>
+    <SubTexture name="ruler" x="695" y="123" width="153" height="108"/>
+    <SubTexture name="scissors" x="482" y="406" width="135" height="93"/>
+    <SubTexture name="sharpener" x="869" y="407" width="67" height="63"/>
+    <SubTexture name="whistle" x="507" y="122" width="186" height="116"/>
+</TextureAtlas>

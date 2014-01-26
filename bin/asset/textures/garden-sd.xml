@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:e2d7d91e65f64d821e5d493a5f52f640$ -->
+<TextureAtlas imagePath="garden-sd.png">
+    <SubTexture name="barbeque" x="148" y="430" width="75" height="159"/>
+    <SubTexture name="bench" x="293" y="101" width="170" height="131"/>
+    <SubTexture name="broom" x="2" y="174" width="155" height="151"/>
+    <SubTexture name="bucket" x="159" y="323" width="100" height="105"/>
+    <SubTexture name="chimney" x="562" y="284" width="163" height="175"/>
+    <SubTexture name="coat rack" x="433" y="317" width="86" height="204"/>
+    <SubTexture name="drain" x="280" y="234" width="151" height="178"/>
+    <SubTexture name="dustpan and brush" x="566" y="56" width="202" height="226"/>
+    <SubTexture name="fence" x="566" y="2" width="224" height="52"/>
+    <SubTexture name="flower bed" x="2" y="560" width="134" height="186"/>
+    <SubTexture name="gate" x="792" y="2" width="219" height="104"/>
+    <SubTexture name="ladder" x="2" y="748" width="71" height="183"/>
+    <SubTexture name="lawn" x="2" y="2" width="289" height="170"/>
+    <SubTexture name="lawnmower" x="159" y="174" width="119" height="147"/>
+    <SubTexture name="mop" x="2" y="327" width="144" height="231"/>
+    <SubTexture name="shed" x="261" y="414" width="138" height="125"/>
+    <SubTexture name="spade" x="465" y="101" width="95" height="214"/>
+    <SubTexture name="swing" x="770" y="282" width="185" height="172"/>
+    <SubTexture name="wall" x="293" y="2" width="271" height="97"/>
+    <SubTexture name="wheel barrow" x="770" y="108" width="190" height="172"/>
+</TextureAtlas>

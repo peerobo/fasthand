@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:8972c3caa4762487816f428b4ea0d205$ -->
+<TextureAtlas imagePath="animals1-hd.png">
+    <SubTexture name="bear" x="212" y="963" width="200" height="153"/>
+    <SubTexture name="bird" x="611" y="1154" width="165" height="157"/>
+    <SubTexture name="butterfly" x="696" y="253" width="267" height="164"/>
+    <SubTexture name="cat" x="384" y="2" width="310" height="267"/>
+    <SubTexture name="chicken" x="248" y="481" width="238" height="167"/>
+    <SubTexture name="cow" x="241" y="650" width="226" height="159"/>
+    <SubTexture name="dog" x="414" y="1009" width="195" height="152"/>
+    <SubTexture name="dragon" x="2" y="1230" width="174" height="187"/>
+    <SubTexture name="duck" x="460" y="916" width="206" height="91"/>
+    <SubTexture name="elephant" x="626" y="419" width="240" height="217"/>
+    <SubTexture name="fish" x="868" y="419" width="118" height="81"/>
+    <SubTexture name="fox" x="241" y="811" width="217" height="150"/>
+    <SubTexture name="frog" x="668" y="956" width="197" height="196"/>
+    <SubTexture name="giraffe" x="202" y="1118" width="183" height="258"/>
+    <SubTexture name="goat" x="2" y="602" width="237" height="240"/>
+    <SubTexture name="horse" x="363" y="271" width="261" height="208"/>
+    <SubTexture name="leopard" x="689" y="795" width="206" height="159"/>
+    <SubTexture name="lion" x="696" y="2" width="299" height="249"/>
+    <SubTexture name="monkey" x="266" y="236" width="95" height="153"/>
+    <SubTexture name="mouse" x="867" y="956" width="155" height="49"/>
+    <SubTexture name="panda" x="2" y="1004" width="198" height="224"/>
+    <SubTexture name="penguin" x="778" y="1154" width="159" height="221"/>
+    <SubTexture name="pig" x="488" y="638" width="235" height="153"/>
+    <SubTexture name="rat" x="725" y="638" width="226" height="155"/>
+    <SubTexture name="shark" x="2" y="413" width="244" height="187"/>
+    <SubTexture name="sheep" x="2" y="236" width="262" height="175"/>
+    <SubTexture name="snake" x="469" y="793" width="218" height="121"/>
+    <SubTexture name="tiger" x="2" y="844" width="208" height="158"/>
+    <SubTexture name="whale" x="2" y="2" width="380" height="232"/>
+    <SubTexture name="wolf" x="387" y="1163" width="163" height="173"/>
+</TextureAtlas>

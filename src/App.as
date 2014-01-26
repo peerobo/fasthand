@@ -3,8 +3,8 @@ package
 	import base.BFConstructor;
 	import base.Factory;
 	import base.LayerMgr;
-	import com.hdi.nativeExtensions.NativeAds;
-	import com.hdi.nativeExtensions.NativeAdsEvent;
+	//import com.hdi.nativeExtensions.NativeAds;
+	//import com.hdi.nativeExtensions.NativeAdsEvent;
 	import res.asset.ParticleAsset;
 	import res.ResMgr;
 	import screen.LoadingScreen;
@@ -47,16 +47,17 @@ package
 			var loadingScreen:LoadingScreen = Factory.getInstance(LoadingScreen);			
 			LayerMgr.getLayer(LayerMgr.LAYER_GAME).addChild(loadingScreen);
 			
-			NativeAds.dispatcher.addEventListener(NativeAdsEvent.AD_RECEIVED,onAdReceived);
-			NativeAds.showAd(0,Util.deviceHeight - 75,480,75);
+			//NativeAds.dispatcher.addEventListener(NativeAdsEvent.AD_RECEIVED,onAdReceived);
+			//NativeAds.showAd(0,Util.deviceHeight - 75,480,75);
 			
 			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);
+			Util.showBannerAd();
 		}
 		
-		private function onAdReceived(e:NativeAdsEvent):void 
-		{
-			
-		}
+		//private function onAdReceived(e:NativeAdsEvent):void 
+		//{
+			//
+		//}
 		
 	}
 

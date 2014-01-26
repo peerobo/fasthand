@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:83817be76416abfe76123854cd70d88f$ -->
+<TextureAtlas imagePath="numbers1-ld.png">
+    <SubTexture name="eight" x="59" y="94" width="17" height="21" frameX="-8" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="eighteen" x="93" y="25" width="27" height="21" frameX="-3" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="eleven" x="31" y="50" width="23" height="19" frameX="-4" frameY="-8" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="fifteen" x="2" y="48" width="27" height="21" frameX="-3" frameY="-8" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="five" x="60" y="48" width="17" height="21" frameX="-8" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="four" x="48" y="71" width="17" height="21" frameX="-7" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="fourteen" x="31" y="27" width="27" height="21" frameX="-3" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="nine" x="40" y="94" width="17" height="21" frameX="-8" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="nineteen" x="35" y="2" width="27" height="23" frameX="-3" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="one" x="78" y="94" width="11" height="21" frameX="-10" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="seven" x="79" y="48" width="15" height="21" frameX="-9" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="seventeen" x="2" y="71" width="25" height="21" frameX="-4" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="six" x="29" y="71" width="17" height="21" frameX="-8" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="sixteen" x="64" y="25" width="27" height="21" frameX="-3" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="ten" x="93" y="2" width="27" height="21" frameX="-3" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="thirteen" x="64" y="2" width="27" height="21" frameX="-3" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="three" x="21" y="94" width="17" height="21" frameX="-8" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twelve" x="2" y="25" width="27" height="21" frameX="-3" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="twenty" x="2" y="2" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="two" x="67" y="71" width="15" height="21" frameX="-9" frameY="-6" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="zero" x="2" y="94" width="17" height="21" frameX="-8" frameY="-6" frameWidth="33" frameHeight="33"/>
+</TextureAtlas>

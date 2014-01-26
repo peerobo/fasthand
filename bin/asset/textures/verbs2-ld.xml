@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:565cf2ab93e7470239f34a6e712a89d2$ -->
+<TextureAtlas imagePath="verbs2-ld.png">
+    <SubTexture name="clean teeth" x="296" y="380" width="50" height="70"/>
+    <SubTexture name="close the door" x="2" y="357" width="60" height="96"/>
+    <SubTexture name="do homework" x="136" y="353" width="97" height="81"/>
+    <SubTexture name="get dressed" x="2" y="257" width="72" height="98"/>
+    <SubTexture name="get to school" x="76" y="257" width="102" height="94"/>
+    <SubTexture name="get up" x="2" y="131" width="99" height="124"/>
+    <SubTexture name="go shopping" x="103" y="131" width="89" height="94"/>
+    <SubTexture name="have breakfast" x="388" y="2" width="97" height="61"/>
+    <SubTexture name="leave the house" x="2" y="2" width="103" height="127"/>
+    <SubTexture name="listen to music" x="2" y="455" width="53" height="49"/>
+    <SubTexture name="open a book" x="235" y="306" width="101" height="72"/>
+    <SubTexture name="play video games" x="136" y="436" width="93" height="74"/>
+    <SubTexture name="take a bus" x="296" y="452" width="90" height="57"/>
+    <SubTexture name="take a photo" x="388" y="65" width="73" height="62"/>
+    <SubTexture name="take a shower" x="231" y="436" width="63" height="73"/>
+    <SubTexture name="talk on the phone" x="180" y="227" width="93" height="77"/>
+    <SubTexture name="use a computer" x="275" y="2" width="81" height="68"/>
+    <SubTexture name="wake up" x="64" y="357" width="70" height="95"/>
+    <SubTexture name="wash hands" x="107" y="2" width="57" height="89"/>
+    <SubTexture name="wash your face" x="166" y="2" width="80" height="82"/>
+</TextureAtlas>

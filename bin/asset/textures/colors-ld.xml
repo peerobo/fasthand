@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:e178a101de0945aba5921d707cf24095$ -->
+<TextureAtlas imagePath="colors-ld.png">
+    <SubTexture name="black" x="72" y="177" width="33" height="33"/>
+    <SubTexture name="blue" x="37" y="212" width="33" height="33"/>
+    <SubTexture name="brown" x="37" y="177" width="33" height="33"/>
+    <SubTexture name="dark blue" x="2" y="213" width="33" height="33"/>
+    <SubTexture name="dark green" x="2" y="178" width="33" height="33"/>
+    <SubTexture name="dark red" x="72" y="142" width="33" height="33"/>
+    <SubTexture name="gold" x="2" y="143" width="33" height="33"/>
+    <SubTexture name="green" x="37" y="142" width="33" height="33"/>
+    <SubTexture name="grey" x="72" y="107" width="33" height="33"/>
+    <SubTexture name="light blue" x="2" y="108" width="33" height="33"/>
+    <SubTexture name="light green" x="37" y="107" width="33" height="33"/>
+    <SubTexture name="light red" x="72" y="72" width="33" height="33"/>
+    <SubTexture name="orange" x="2" y="73" width="33" height="33"/>
+    <SubTexture name="pink" x="37" y="72" width="33" height="33"/>
+    <SubTexture name="purple" x="73" y="37" width="33" height="33"/>
+    <SubTexture name="red" x="2" y="38" width="33" height="33"/>
+    <SubTexture name="silver" x="38" y="37" width="33" height="33"/>
+    <SubTexture name="violet" x="73" y="2" width="33" height="33"/>
+    <SubTexture name="white" x="2" y="2" width="34" height="34"/>
+    <SubTexture name="yellow" x="38" y="2" width="33" height="33"/>
+</TextureAtlas>

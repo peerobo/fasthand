@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:d4f9cdd938890fe444f2bbf23ae64963$ -->
+<TextureAtlas imagePath="kitchen-sd.png">
+    <SubTexture name="bath" x="347" y="889" width="188" height="101"/>
+    <SubTexture name="bottle" x="176" y="232" width="45" height="161"/>
+    <SubTexture name="bowl" x="77" y="418" width="130" height="77"/>
+    <SubTexture name="chopping board" x="562" y="89" width="173" height="51"/>
+    <SubTexture name="cleaver" x="223" y="232" width="112" height="141"/>
+    <SubTexture name="cloth" x="497" y="192" width="135" height="56"/>
+    <SubTexture name="cup" x="209" y="395" width="109" height="99"/>
+    <SubTexture name="faucet" x="173" y="497" width="181" height="151"/>
+    <SubTexture name="fork" x="281" y="105" width="126" height="95"/>
+    <SubTexture name="frying pan" x="409" y="105" width="151" height="85"/>
+    <SubTexture name="glass" x="271" y="738" width="101" height="149"/>
+    <SubTexture name="hairbrush" x="173" y="650" width="187" height="86"/>
+    <SubTexture name="jar" x="2" y="741" width="103" height="157"/>
+    <SubTexture name="jug" x="2" y="500" width="169" height="239"/>
+    <SubTexture name="kettle" x="356" y="489" width="127" height="139"/>
+    <SubTexture name="knife" x="191" y="898" width="154" height="116"/>
+    <SubTexture name="ladle" x="374" y="735" width="161" height="137"/>
+    <SubTexture name="mirror" x="77" y="232" width="97" height="184"/>
+    <SubTexture name="plate" x="337" y="295" width="159" height="60"/>
+    <SubTexture name="saucepan" x="362" y="630" width="139" height="103"/>
+    <SubTexture name="shower" x="2" y="2" width="277" height="228"/>
+    <SubTexture name="sink" x="2" y="900" width="187" height="120"/>
+    <SubTexture name="soap" x="281" y="2" width="157" height="101"/>
+    <SubTexture name="spatula" x="440" y="2" width="145" height="85"/>
+    <SubTexture name="spoon" x="337" y="202" width="158" height="91"/>
+    <SubTexture name="teapot" x="320" y="375" width="147" height="112"/>
+    <SubTexture name="toothbrush" x="587" y="2" width="55" height="50"/>
+    <SubTexture name="toothpaste" x="107" y="741" width="162" height="155"/>
+    <SubTexture name="towel" x="2" y="232" width="73" height="266"/>
+    <SubTexture name="tray" x="497" y="250" width="171" height="35"/>
+</TextureAtlas>

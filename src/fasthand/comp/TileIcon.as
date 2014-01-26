@@ -43,6 +43,7 @@ package fasthand.comp
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			var tex:Texture = resMgr.getTexture(Asset.getTAName(cat), name);
 			img.texture = tex;
+			img.scaleX = img.scaleY = 1;
 			img.readjustSize();
 			refreshImage();
 		}
