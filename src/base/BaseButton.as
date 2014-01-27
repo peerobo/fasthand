@@ -174,5 +174,24 @@ package base
 		{
 			shakeObj = null;
 		}
+		
+		public function get background():DisplayObject
+		{
+			return icons[0];
+		}
+		
+		public function set text(text:String):void
+		{
+			if (!label)
+			{
+				setLabel(BFConstructor.getTextField(background.width, background.height, text,BFConstructor.BANHMI));
+			}
+			else
+			{
+				label.width = background.width;
+				label.height = background.height;
+				label.text = text;
+			}
+		}
 	}
 }
