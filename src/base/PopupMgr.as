@@ -29,6 +29,7 @@ package base
 			root = layer;
 			quadBg = new Quad(Util.appWidth, Util.appHeight, 0x3F3F3F);
 			quadBg.alpha = 0.3;
+			quadBg.visible = false;
 			root.addChild(quadBg);
 			queue = [];
 			tween = new Tween(null, 0.75);

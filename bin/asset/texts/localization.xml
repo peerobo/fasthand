@@ -1,0 +1,12 @@
+<localization>
+	<vi>	
+		<welcome> Chào mừng các bạn\nđến với game</welcome>		
+	</vi>
+	<en>
+		<welcome>Welcome to the wonderful\nSuper Fasthand</welcome>		
+		<slow>Slow</slow>
+		<fast>Fast</fast>
+		<chooseCategory>Choose a Category</chooseCategory>
+		<currentMode>(Mode @mode)</currentMode>
+	</en>
+</localization>

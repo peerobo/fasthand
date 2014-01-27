@@ -24,7 +24,7 @@ package fasthand
 		private var gameRound:GameRound;		
 		private var countTime:Number;				
 		private var cat:String;
-		
+		public var difficult:Boolean;
 		public var currentPlayerScore:int;
 		public var seqs:Array;
 		public var isStartGame:Boolean;

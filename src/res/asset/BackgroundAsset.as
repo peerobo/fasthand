@@ -11,13 +11,11 @@ package res.asset
 	 */
 	public class BackgroundAsset 
 	{
-		public static const BG_HOUSE_STT:String = "bg_house_stt";
 		public static const BG_ITEM:String = "bg_item";
-		public static const BG_TITLE:String = "bg_title";
-		public static const BG_TITLE_BAR:String = "bg_title_bar";
-		public static const BG_WINDOW:String = "bg_window";
+		public static const BG_PROGRESSBAR:String = "bg_progressbar";
+		public static const BG_STRING_HOLDER:String = "bg_string_holder";
 		public static const BG_TILE:String = "bg_tile";
-		static public const BG_TILE_HEADER:String = "bg_tile_header";
+		public static const BG_WINDOW:String = "bg_window";				
 		
 		public function BackgroundAsset() 
 		{

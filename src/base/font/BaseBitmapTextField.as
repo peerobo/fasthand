@@ -24,6 +24,15 @@ package base.font
                                   fontSize, color, bold);
 		}
 		
+		public function reset():void
+		{
+			colors = null;
+			colorRanges = null;
+			autoSize = TextFieldAutoSize.NONE;
+			autoScale = false;
+			text = "";
+		}
+		
 		public function removeLines(num:int):void
 		{
 			var regExp:RegExp = /[^\r\n]+[\r\n]+/;

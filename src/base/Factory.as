@@ -1,6 +1,7 @@
 package base 
 {	
 	import flash.utils.Dictionary;
+	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	import starling.animation.IAnimatable;
 	import starling.core.Starling;
@@ -17,6 +18,9 @@ package base
 	public class Factory implements IAnimatable 
 	{
 		private var map:Object;	// "key" => { obj: Object, time: int}
+		private var pool:Object;	// "key" => [instance1, instance2,...]
+		private var objCreator:Object;	// "key" => Function
+		private var objResetor:Object;	// "key" => Function
 		private var mapPersistent:Object; // "key" => obj
 		private var touchDict:Dictionary = new Dictionary();	// touchObj => [f,p];
 		
@@ -27,13 +31,100 @@ package base
 		}
 		private static const DESTROYTIME:int = 5 * 60 * 1000;		
 		
+		/**
+		 * create/get object from commom pool
+		 * @param	C
+		 */
+		private function getObjectFromPool(C:Class):*
+		{
+			var key:String = getQualifiedClassName(C);
+			var obj:*= null;
+			var instances:Array;
+			if (!pool.hasOwnProperty(key))			
+				pool[key] = [];			
+			instances = pool[key];
+			if (instances.length > 0)
+			{
+				obj = instances[0];
+				instances.splice(0, 1);				
+			}
+			else
+			{
+				obj = createObjForPool(key);
+			}
+			return obj;
+		}
+		
+		private function createObjForPool(key:String):* 
+		{
+			if (objCreator.hasOwnProperty(key))
+			{
+				return objCreator[key].apply(this);
+			}
+			else
+			{
+				try {
+					var C:Class = getDefinitionByName(key) as Class;
+					return new C();
+				}catch (e:Error) {
+					return null;
+				}
+			}
+		}
+				
+		private function registerPoolCreator(C:Class, f:Function, r:Function = null):void
+		{
+			var key:String = getQualifiedClassName(C);
+			objCreator[key] = f;
+			if (r is Function)
+			{
+				objResetor[key] = r;
+			}
+		}
+		
+		private function toPool(obj:Object):void
+		{
+			var key:String = getQualifiedClassName(obj);
+			var instances:Array = pool[key];
+			if(instances)
+				instances.push(obj);			
+			if (objResetor.hasOwnProperty(key))
+			{								
+				objResetor[key].apply(this, [obj]);				
+			}
+		}
+		
+		public static function toPool(obj:Object):void
+		{
+			ins.toPool(obj);
+		}
+		
+		/**
+		 * register constructor and reset function
+		 * @param	C Class
+		 * @param	f constructor
+		 * @param	r reset function: reset(obj:Object):void
+		 */
+		public static function registerPoolCreator(C:Class, f:Function, r:Function = null):void
+		{
+			ins.registerPoolCreator(C, f, r);
+		}
+		
+		public static function getObjectFromPool(C:Class):*
+		{
+			return ins.getObjectFromPool(C);
+		}
+		
 		public function Factory() 
 		{			
 			Starling.juggler.add(this);
 			map = new Object();
+			pool = new Object();
 			mapPersistent = new Object();
+			objCreator = new Object();
+			objResetor = new Object();
 		}
-						
+		
 		public function getTmpInstance(C:Class):*
 		{
 			var key:String = getQualifiedClassName(C);

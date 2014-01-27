@@ -24,13 +24,13 @@ package base.font
 				for each (var charElement:XML in fontXml.chars.char)
 				{
 					var y:Number = parseFloat(charElement.attribute("y"));
-					charElement.@y = y*Starling.contentScaleFactor - 1;
+					charElement.@y = y*Starling.contentScaleFactor;
 					var x:Number = parseFloat(charElement.attribute("x"));
-					charElement.@x = x*Starling.contentScaleFactor - 1;
+					charElement.@x = x*Starling.contentScaleFactor;
 					var h:Number = parseFloat(charElement.attribute("height"));
-					charElement.@height = h*Starling.contentScaleFactor + 1;
+					charElement.@height = h*Starling.contentScaleFactor;
 					var w:Number = parseFloat(charElement.attribute("width"));
-					charElement.@width = w * Starling.contentScaleFactor + 1;
+					charElement.@width = w * Starling.contentScaleFactor;
 					var xoffset:Number = parseFloat(charElement.attribute("xoffset"));
 					charElement.@xoffset = xoffset * Starling.contentScaleFactor;
 					var yoffset:Number = parseFloat(charElement.attribute("yoffset"));
@@ -38,6 +38,10 @@ package base.font
 					var xadvance:Number = parseFloat(charElement.attribute("xadvance"));
 					charElement.@xadvance = xadvance * Starling.contentScaleFactor;					
 				}
+				var baseLine:Number = parseFloat(fontXml.common.attribute("base"));
+				fontXml.common.@base = baseline*Starling.contentScaleFactor;
+				var lineHeight:Number = parseFloat(fontXml.common.attribute("lineHeight"));				
+				fontXml.common.@lineHeight = lineHeight*Starling.contentScaleFactor;
 			}
 			
 			super(texture, fontXml);			

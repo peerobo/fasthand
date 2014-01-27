@@ -1,6 +1,8 @@
 package 
 {
 	//import com.hdi.nativeExtensions.NativeAds;
+	import base.BaseJsonGUI;
+	import base.LangUtil;
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
 	import flash.display.Sprite;
@@ -66,7 +68,9 @@ package
 			starling.stage.stageWidth = w;
 			starling.stage.stageHeight = h;				
 			starling.start();					
-			Asset.init();	
+			Asset.init();
+			LangUtil.loadXMLData();
+			BaseJsonGUI.loadCfg();			
 			Util.initAd();
 		}
 		

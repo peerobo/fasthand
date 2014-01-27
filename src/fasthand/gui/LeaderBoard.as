@@ -31,7 +31,7 @@ package fasthand.gui
 			img.height = 420
 			txtField = BFConstructor.getTextField(img.width, img.height - 60, "", BFConstructor.BANHMI);
 			txtField.y = 18;
-			var okBt:BaseButton = ButtonAsset.getBaseBt(ButtonAsset.BT_LIGHT_BROWN);			
+			var okBt:BaseButton = ButtonAsset.getBaseBt(ButtonAsset.BT_ORANGE);			
 			okBt.icons[0].width = 180;
 			okBt.icons[0].height = 87;
 			okBt.y = img.height - okBt.icons[0].height - 12;

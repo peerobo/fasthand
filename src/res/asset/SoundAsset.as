@@ -10,33 +10,23 @@ package res.asset
 	public class SoundAsset 
 	{
 		public static const FOLDER:String = "asset/sounds/";
-		public static const INVENTORY:String = "inventory/";
+		public static const GUI:String = "gui/";
 		public static const SKILL:String = "skill/";
 		public static const OBJECT:String = "object/";
 		
-		public static const CASTLE_DESTROYED:String = OBJECT + "castle_destroyed.mp3";
-		public static const CITY_MUSIC:String = "Main.mp3";
-		public static const CITY_LOST_MUSIC:String = "Main-bi-bat.mp3";
-		public static const BATTLE_MUSIC:String = "Battle.mp3";
-		public static const WIN_BATTLE_THEME:String = "win_battle_theme.mp3";
-		public static const LOSE_BATTLE_THEME:String = "lose_battle_theme.mp3";	
-		
-		//-----------> inventory
-		public static const ARMOR_SOUND:String = INVENTORY + "armor.mp3";
-		public static const GLOVES_SOUND:String = INVENTORY + "gloves.mp3";
-		public static const HELMET_SOUND:String = INVENTORY + "helmet.mp3";
-		public static const NECKLACE_SOUND:String = INVENTORY + "necklace.mp3";
-		public static const RING_SOUND:String = INVENTORY + "ring.mp3";
-		public static const SHIELD_SOUND:String = INVENTORY + "shield.mp3";
-		public static const SHOES_SOUND:String = INVENTORY + "shoes.mp3";
-		public static const WEAPON_SOUND:String = INVENTORY + "weapon.mp3";
+		public static const THEME_SONG:String = FOLDER + GUI + "theme.mp3";		
+		public static const SOUND_TIMEOUT:String = FOLDER + GUI + "timeout.mp3";		
+		public static const SOUND_END_GAME:String = FOLDER + GUI + "endgame.mp3";		
+		public static const SOUND_HIGH_SCORE:String = FOLDER + GUI + "highscore.mp3";		
+		public static const SOUND_CLICK:String = FOLDER + GUI + "click.mp3";		
 		
 		public static var currProgress:int;
 		private static var listSound:Object;
 		private static var currCat:String;
 		
 		public static function preload():void
-		{
+		{		
+			SoundManager.getSound(SOUND_TIMEOUT);
 			/*SoundManager.getSound(RESOURCE_COMPLETE);
 			SoundManager.getSound(RESOURCE_HOUSE_BUILT_COMPLETE);
 			SoundManager.getSound(RESOURCE_RUN);

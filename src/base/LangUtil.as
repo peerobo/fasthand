@@ -1,41 +1,55 @@
 package base 
 {
+	import flash.net.URLLoaderDataFormat;
+	import res.Asset;
+	import res.ResMgr;
 	/**
 	 * ...
 	 * @author ducnh
 	 */
 	public class LangUtil 
 	{
+		public static const XMLPATH:String = Asset.TEXT_FOLDER + "localization.xml";
+		
+		public static const LOCALIZE_VI:String = "vi";
+		public static const LOCALIZE_EN:String = "en";
+		public static var localize:String = LOCALIZE_EN;
+		
+		
 		public static var localizeData:Object = new Object();
 		
-		public static function init(xml:XML):void
+		public static function init(str:String):void
 		{
-			var x:XML = xml.child("VietNamese")[0];
-			var xList:XMLList = x.*;
-			var i:int;
-			for (i = 0; i < xList.length(); i++)
+			str = str.replace(/\\n/g,"\n");
+			var xml:XML = XML(str);
+			localizeData = {};
+			for each( var child:XML in xml.children())
 			{
-				var s:String = xList[i].children()[0];
-				if(s) {
-					s = s.replace("[sp]", " ");					
-					s = s.replace(/\\n/g,"\n");
-					s = s.replace(/\\t/g,"\t");
+				localizeData[child.name()] = { };
+				for each(var keyXML:XML in child.children())
+				{
+					localizeData[child.name()][keyXML.name()] = keyXML.text();					
 				}
-				localizeData[xList[i].name()] = s;
-			}
+			}						
 		}
 		
 		public static function getText(key:String):String
 		{
-			if (localizeData.hasOwnProperty(key))
+			if (localizeData[localize].hasOwnProperty(key))
 			{
-				return localizeData[key];
+				return localizeData[localize][key];
 			}else
 			{
 				return key;
 			}
 			
 		}				
+		
+		static public function loadXMLData():void 
+		{
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			resMgr.load(XMLPATH, URLLoaderDataFormat.TEXT, init);
+		}
 	}
 
 }

@@ -56,6 +56,13 @@ package res
 				continueLoad();
 		}
 		
+		/**
+		 * load dynamic content
+		 * @param	url url to load
+		 * @param	dataType URLLoaderDataFormat.xxx
+		 * @param	onComplete callback function with at least 1 param: f(loadedData:*):void
+		 * @param	onCompleteParam optional params, ex: f(loadedData:*,param1,param2):void
+		 */
 		public function load(url:String, dataType:String, onComplete:Function, onCompleteParam:Array=null):void
 		{
 			var len:int = waitList.length;

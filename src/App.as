@@ -2,15 +2,19 @@ package
 {	
 	import base.BFConstructor;
 	import base.Factory;
-	import base.LayerMgr;
-	//import com.hdi.nativeExtensions.NativeAds;
-	//import com.hdi.nativeExtensions.NativeAdsEvent;
+	import base.LayerMgr;	
 	import res.asset.ParticleAsset;
+	import res.asset.SoundAsset;
 	import res.ResMgr;
-	import screen.LoadingScreen;
+	import fasthand.screen.LoadingScreen;
 	import starling.core.Starling;
+	import starling.display.DisplayObject;
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.events.Touch;
+	import starling.events.TouchEvent;
+	import starling.events.TouchPhase;
 	import starling.text.TextField;
 	import starling.utils.HAlign;
 	import starling.utils.VAlign;	
@@ -28,7 +32,9 @@ package
 			super();
 			
 			addEventListener(Event.ADDED_TO_STAGE, onInit);
-		}
+			this.alpha = 0.9999;
+			Util.registerPool();
+		}				
 		
 		private function onInit(e:Event):void 
 		{
@@ -43,21 +49,20 @@ package
 			resMgr.start();
 			BFConstructor.init();
 			ParticleAsset.loadCfg();
-			
+			SoundAsset.preload();
 			var loadingScreen:LoadingScreen = Factory.getInstance(LoadingScreen);			
-			LayerMgr.getLayer(LayerMgr.LAYER_GAME).addChild(loadingScreen);
-			
-			//NativeAds.dispatcher.addEventListener(NativeAdsEvent.AD_RECEIVED,onAdReceived);
-			//NativeAds.showAd(0,Util.deviceHeight - 75,480,75);
-			
+			LayerMgr.getLayer(LayerMgr.LAYER_GAME).addChild(loadingScreen);									
 			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);
 			Util.showBannerAd();
+			
+			addEventListener(TouchEvent.TOUCH, onTouch);
 		}
 		
-		//private function onAdReceived(e:NativeAdsEvent):void 
-		//{
-			//
-		//}
+		private function onTouch(e:TouchEvent):void 
+		{
+			// debug displayobject
+			//trace(e.target, (e.target as DisplayObject).parent);
+		}
 		
 	}
 

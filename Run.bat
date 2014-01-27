@@ -16,7 +16,7 @@ set INTERPRETER=-interpreter
 
 set SCREEN_SIZE=HVGA
 set SCREEN_SIZE=NexusOne
-set SCREEN_SIZE=SamsungGalaxyTab
+::set SCREEN_SIZE=700x1350:700x1350
 
 :desktop-run
 echo.

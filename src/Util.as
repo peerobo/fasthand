@@ -1,14 +1,29 @@
 package
 {
+	import base.BaseButton;
+	import base.BFConstructor;
+	import base.Factory;
+	import base.font.BaseBitmapTextField;
+	import comp.TileImage;
+	import feathers.display.Scale3Image;
+	import feathers.display.Scale9Image;
+	import feathers.textures.Scale9Textures;
+	import flash.geom.Rectangle;
 	import flash.net.SharedObject;
 	import so.cuo.platform.admob.Admob;
 	import so.cuo.platform.admob.AdmobEvent;
 	import so.cuo.platform.admob.AdmobPosition;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
+	import starling.display.Image;
+	import starling.display.MovieClip;
+	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.filters.ColorMatrixFilter;
 	import starling.filters.FragmentFilter;
+	import starling.text.TextField;
+	import starling.text.TextFieldAutoSize;
+	import starling.textures.Texture;
 	
 	/**
 	 * ...
@@ -51,6 +66,12 @@ package
 		{
 			disp.x = Util.appWidth - disp.width >> 1;
 			disp.y = Util.appHeight - disp.height >> 1;
+		}
+		
+		public static function g_centerChild(p:DisplayObject, c:DisplayObject):void
+		{
+			c.x = p.width - c.width >> 1;
+			c.y = p.height - c.height >> 1;
 		}
 		
 		public static function initAd():void
@@ -119,6 +140,50 @@ package
 		{
 			var result:SharedObject = SharedObject.getLocal(App.APP_NAME + "_" + soName);
 			return result;
+		}
+		
+		public static function registerPool():void
+		{
+			Factory.registerPoolCreator(Image, function ():Image { 
+					var img:Image = new Image(Texture.empty(1, 1));
+					return img;
+				},
+				function(img:Image):void {
+					img.scaleX = img.scaleY = 1;				
+			});
+			
+			Factory.registerPoolCreator(MovieClip, function ():MovieClip {
+				var vc:Vector.<Texture> = new Vector.<Texture>();
+				vc.push(Texture.empty(1, 1));
+				var mc:MovieClip = new MovieClip(vc, 1);				
+				return mc;
+			});
+			
+			Factory.registerPoolCreator(BaseBitmapTextField, function():BaseBitmapTextField {
+					return new BaseBitmapTextField(1, 1, "");
+				},
+				function (txt:BaseBitmapTextField):void {
+					txt.reset();
+			});		
+
+			Factory.registerPoolCreator(BaseButton, function():BaseButton {
+					var baseBt:BaseButton = new BaseButton();
+					return baseBt;
+				},
+				function (bt:BaseButton):void {										
+					bt.destroy();					
+				}
+			);
+			
+			Factory.registerPoolCreator(Quad, function ():Quad {
+				return new Quad(1, 1);
+			});		
+			
+			Factory.registerPoolCreator(Scale9Image, function():Scale9Image {
+				var scale9Textures:Scale9Textures = new Scale9Textures(Texture.empty(1,1),new Rectangle(0,0,0,0));
+				var scale9Img:Scale9Image = new Scale9Image(scale9Textures);
+				return scale9Img;
+			});
 		}
 	
 	}

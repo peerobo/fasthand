@@ -2,6 +2,7 @@ package
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.system.System;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
@@ -26,6 +27,7 @@ package
 			tf.background = fillBackground;
 			tf.backgroundColor = backgroundColor;
 			tf.autoSize = TextFieldAutoSize.LEFT;
+			tf.mouseEnabled = false;
 			addChild(tf);
 			width = tf.textWidth;
 			height = tf.textHeight;
@@ -42,7 +44,8 @@ package
 				//trace(ticks / delta * 1000+" ticks:"+ticks+" delta:"+delta);
 				var fps:Number = ticks / delta * 1000;
 				var str:String = fps.toFixed(1) + " fps";
-				str += " - " + Starling.current.mSupport.drawCount;
+				str += " - " + Starling.current.mSupport.drawCount + " drw"; 
+				str += " - " + (System.totalMemory * 0.000000954).toFixed(2) + " MB";
 				tf.text = str
 				ticks = 0;
 				last = now;

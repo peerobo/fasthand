@@ -30,6 +30,7 @@ package base
 		private var downFilter:FragmentFilter;
 		private var params:Array;
 		private var shakeObj:ShakeObject;
+		public var gui:BaseJsonGUI;
 		
 		public function BaseButton()
 		{
@@ -44,14 +45,21 @@ package base
 		{
 			callbackFunc = null;
 			params = null;
-		}
-		
-		override public function dispose():void
-		{
-			destroy();
-			super.dispose();
-		}
-		
+			
+			for each(var disp:DisplayObject in icons)
+			{
+				Factory.toPool(disp);
+				disp.removeFromParent();
+			}									
+			icons = new Vector.<DisplayObject>();
+			if(label)
+			{	
+				Factory.toPool(label);
+				label.removeFromParent();
+			}
+			label = null;
+			filter = null;
+		}			
 		public function setCallbackFunc(func:Function, params:Array = null):void
 		{
 			this.params = params;

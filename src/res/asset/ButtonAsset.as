@@ -15,8 +15,12 @@ package res.asset
 	 */
 	public class ButtonAsset 
 	{
-		public static const BT_CYAN:String = "bt_cyan";
-		public static const BT_LIGHT_BROWN:String = "bt_light_brown";
+		public static const BT_BACK:String = "bt_back";
+		public static const BT_BACK_SMALL:String = "bt_back_small";
+		public static const BT_CLOSE:String = "bt_close";
+		public static const BT_ORANGE:String = "bt_orange";
+		public static const BT_PURPLE:String = "bt_purple";				
+		
 		public function ButtonAsset() 
 		{
 			
@@ -24,18 +28,13 @@ package res.asset
 		
 		public static function getBaseBt(...names):BaseButton
 		{
-			var bt:BaseButton = new BaseButton();
+			var bt:BaseButton = Factory.getObjectFromPool(BaseButton);
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			
 			for (var i:int = 0; i < names.length; i++) 
-			{
-				var tex:Texture = resMgr.getTexture(Asset.BASE_GUI + Asset.contentSuffix, names[i] as String);
-				var img:*
-				if (Asset.getRec(names[i]))
-					img = new Scale9Image(new Scale9Textures(tex, Asset.getRec(names[i])));
-				else
-					img = new Image(tex);
-				bt.addIcon(img as DisplayObject);
+			{				
+				var img:DisplayObject = Asset.getBaseImage(names[i]);				
+				bt.addIcon(img);
 			}
 			
 			return bt;
@@ -43,11 +42,13 @@ package res.asset
 		
 		public static function getBaseBtWithTexture(...texs):BaseButton
 		{
-			var bt:BaseButton = new BaseButton();
+			var bt:BaseButton = Factory.getObjectFromPool(BaseButton);
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			for (var i:int = 0; i < texs.length; i++) 
 			{
-				var img:Image = new Image(texs[i] as Texture);
+				var img:Image = Factory.getObjectFromPool(Image);
+				img.texture = texs[i] as Texture;
+				img.readjustSize();
 				bt.addIcon(img);
 			}			
 			return bt;
@@ -55,7 +56,7 @@ package res.asset
 		
 		public static function getBaseBtWithImage(...imgs):BaseButton
 		{
-			var bt:BaseButton = new BaseButton();
+			var bt:BaseButton = Factory.getObjectFromPool(BaseButton);
 			for (var i:int = 0; i < imgs.length; i++) 
 			{				
 				bt.addIcon(imgs[i]);

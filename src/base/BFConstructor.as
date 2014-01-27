@@ -31,7 +31,7 @@ package  base
 		
 		public function BFConstructor() 
 		{	
-		}				
+		}					
 		
 		public static function getTextImage(width:int,height:int,text:String,font:String,color:int=0xFFFFFF,hAlign:String="center",vAlign:String="center",autoscale:Boolean=false):Sprite
 		{
@@ -46,10 +46,16 @@ package  base
 		public static function getTextField(width:int, height:int, text:String,font:String, color:int = 0xFFFFFF, hAlign:String = "center", vAlign:String = "center", autoscale:Boolean = false):BaseBitmapTextField
 		{			
 			var bitmapFont:BitmapFont = TextField.getBitmapFont(font);			
-			var textField:BaseBitmapTextField = new BaseBitmapTextField(width, height, text, font, bitmapFont.size, color);
+			var textField:BaseBitmapTextField = Factory.getObjectFromPool(BaseBitmapTextField);
+			textField.width = width;
+			textField.height = height;
+			textField.fontName = font;
+			textField.fontSize = bitmapFont.size;
+			textField.color = color;
 			textField.hAlign = hAlign;
 			textField.vAlign = vAlign;			
-			textField.autoScale = autoscale;				
+			textField.autoScale = autoscale;	
+			textField.text = text;
 			return textField;
 		}
 		
@@ -86,6 +92,11 @@ package  base
 		{
 			var ins:BFConstructor = Factory.getTmpInstance(BFConstructor);
 			ins.xmls[name] = xml.copy();
+		}
+		
+		static public function getFontBySize(fontSize:int):String 
+		{
+			return BANHMI;
 		}
 		
 		/* INTERFACE starling.animation.IAnimatable */
