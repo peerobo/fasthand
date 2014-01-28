@@ -142,6 +142,27 @@ package
 			return result;
 		}
 		
+		public static function fit(disp:DisplayObject, fitObj:*):void
+		{
+			var rec:Rectangle;
+			if (fitObj is Rectangle)
+			{
+				rec = fitObj;
+			}
+			else if (fitObj is DisplayObject)
+			{
+				rec = fitObj.getBounds(fitObj);
+			}
+			disp.width = disp.width > rec.width ? rec.width : disp.width;
+			disp.scaleY =  disp.scaleX;
+			
+			disp.height = disp.height > rec.height ? rec.height : disp.height;
+			disp.scaleX =  disp.scaleY;
+			
+			disp.x = rec.x + (rec.width - disp.width >>1);
+			disp.y = rec.y + (rec.height - disp.height >>1);
+		}
+		
 		public static function registerPool():void
 		{
 			Factory.registerPoolCreator(Image, function ():Image { 

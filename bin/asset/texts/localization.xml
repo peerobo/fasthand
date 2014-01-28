@@ -8,5 +8,35 @@
 		<fast>Fast</fast>
 		<chooseCategory>Choose a Category</chooseCategory>
 		<currentMode>(Mode @mode)</currentMode>
+		<comingsoon>Coming\nSoon</comingsoon>
+		<adjectives>Adjectives</adjectives>,
+		<animalparts>Animal Parts</animalparts>
+		<animals1>Animals 1</animals1>
+		<animals2>Animals 2</animals2>
+		<body1>Body 1</body1>
+		<body2>Body 2</body2>
+		<city>City</city>
+		<clothes1>Clothes 1</clothes1>
+		<clothes2>Clothes 2</clothes2>
+		<colors>Colors</colors>
+		<computer>Computer</computer>
+		<food1>Food 1</food1>
+		<food2>Food 2</food2>
+		<furniture>Furniture</furniture>
+		<garden>Garden</garden>
+		<hospital>Hospital</hospital>
+		<jobs>Jobs</jobs>
+		<kitchen>Kitchen</kitchen>
+		<letters>Letters</letters>
+		<nature>Nature</nature>
+		<numbers1>Numbers 1</numbers1>
+		<numbers2>Numbers 2</numbers2>
+		<personal>Personal</personal>
+		<positions>Positions</positions>
+		<sports>Sports</sports>
+		<stationary>Stationary</stationary>
+		<transport>Transport</transport>
+		<verbs1>Verbs 1</verbs1>
+		<verbs2>Verbs 2</verbs2>
 	</en>
 </localization>

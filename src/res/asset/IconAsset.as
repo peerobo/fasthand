@@ -6,6 +6,7 @@ package res.asset
 	 */
 	public class IconAsset 
 	{
+		public static var PREFIX:String = "ico_";
 		public static var ICO_CLOCK:String = "ico_clock";
 		public static var ICO_LOGO:String = "ico_logo";
 		public static var ICO_NUMBER:String = "ico_number";

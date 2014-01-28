@@ -52,8 +52,7 @@ package
 			SoundAsset.preload();
 			var loadingScreen:LoadingScreen = Factory.getInstance(LoadingScreen);			
 			LayerMgr.getLayer(LayerMgr.LAYER_GAME).addChild(loadingScreen);									
-			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);
-			Util.showBannerAd();
+			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);			
 			
 			addEventListener(TouchEvent.TOUCH, onTouch);
 		}

@@ -1,5 +1,6 @@
 package fasthand 
 {
+	import flash.utils.describeType;
 	/**
 	 * ...
 	 * @author ndp
@@ -36,9 +37,26 @@ package fasthand
         public static var verbs2:String = "close the door;do homework;go shopping;listen to music;open a book;play video games;take a photo;talk on the phone;use a computer;wash hands;clean teeth;get dressed;get to school;get up;have breakfast;leave the house;take a bus;take a shower;wake up;wash your face;";
         public static var sports:String = "basketball;soccer;tennis;swimming;golf;table tennis;volley ball;chess;boxing;pool;cycling;baseball;cricket;bowling;poker;fishing;american football;rugby;hockey;wrestling;darts;diving;gymnastics;high jump;horse riding;javelin;long jump;pole vault;shooting;shot putt;";
 		
+		private static var listCat:Array;
+		
 		public function FasthandUtil() 
+		{			
+		}
+		
+		public static function getListCat():Array
 		{
-			
+			if (!listCat || listCat.length < 1)
+			{
+				listCat = [];
+				var xml:XML = describeType(FasthandUtil);				
+				for each(var item:XML in xml.variable)
+				{
+					listCat.push(item.@name.toString());
+				}
+				listCat.sort();
+			}	
+			trace(listCat);
+			return listCat;
 		}
 		
 	}

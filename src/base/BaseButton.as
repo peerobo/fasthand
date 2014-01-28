@@ -3,7 +3,9 @@ package base
 	import comp.ShakeObject;
 	import feathers.display.Scale9Image;
 	import feathers.textures.Scale9Textures;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -31,6 +33,7 @@ package base
 		private var params:Array;
 		private var shakeObj:ShakeObject;
 		public var gui:BaseJsonGUI;
+		private var anchor:Point;
 		
 		public function BaseButton()
 		{
@@ -70,7 +73,7 @@ package base
 		{
 			this.addEventListener(TouchEvent.TOUCH, onClick);
 		}
-		
+				
 		protected function onClick(e:TouchEvent):void
 		{
 			var touch:Touch = e.getTouch(this);
@@ -85,9 +88,13 @@ package base
 						if (!_isDisable)
 						{
 							this.filter = null;
-							if (callbackFunc != null)
+							var newAnchor:Point = new Point(touch.globalX,touch.globalY);
+							if (newAnchor.equals(anchor))
 							{
-								callbackFunc.apply(this, params);
+								if (callbackFunc != null)
+								{
+									callbackFunc.apply(this, params);
+								}
 							}
 						}
 						
@@ -96,6 +103,7 @@ package base
 						if (!_isDisable)
 						{
 							this.filter = downFilter;
+							anchor = new Point(touch.globalX,touch.globalY);
 						}
 						break;
 				}
