@@ -2,6 +2,7 @@ package
 {	
 	import base.BFConstructor;
 	import base.Factory;
+	import base.GlobalInput;
 	import base.LayerMgr;	
 	import res.asset.ParticleAsset;
 	import res.asset.SoundAsset;
@@ -44,7 +45,8 @@ package
 			
 			Util.root = this;
 			LayerMgr.init(this);
-			
+			var input:GlobalInput = Factory.getInstance(GlobalInput);
+			input.init();
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			resMgr.start();
 			BFConstructor.init();

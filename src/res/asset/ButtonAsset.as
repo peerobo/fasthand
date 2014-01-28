@@ -28,7 +28,7 @@ package res.asset
 		
 		public static function getBaseBt(...names):BaseButton
 		{
-			var bt:BaseButton = Factory.getObjectFromPool(BaseButton);
+			var bt:BaseButton = new BaseButton();
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			
 			for (var i:int = 0; i < names.length; i++) 

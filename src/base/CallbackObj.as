@@ -15,6 +15,11 @@ package base
 			
 		}
 		
+		public function execute():void
+		{
+			f.apply(this, p);
+		}
+		
 	}
 
 }

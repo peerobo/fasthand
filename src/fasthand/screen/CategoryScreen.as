@@ -2,8 +2,10 @@ package fasthand.screen
 {
 	import base.BaseButton;
 	import base.BFConstructor;
+	import base.CallbackObj;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import base.GlobalInput;
 	import base.LangUtil;
 	import base.LayerMgr;
 	import base.SoundManager;
@@ -26,6 +28,7 @@ package fasthand.screen
 		private var btBack:BaseButton;
 		private var title:BaseBitmapTextField;
 		private var catChooser:CategorySelector;
+		private var cb:CallbackObj;
 		
 		public function CategoryScreen() 
 		{
@@ -60,6 +63,17 @@ package fasthand.screen
 			title.add(parts[0], Color.SILVER);
 			title.add(logic.difficult ? LangUtil.getText("fast"):LangUtil.getText("slow"), logic.difficult ? Color.RED:Color.GREEN);
 			title.add(parts[1], Color.SILVER);
+			
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			cb = globalInput.registerSwipe(onSwipe);
+		}
+		
+		private function onSwipe(mode:int):void 
+		{
+			if (mode == GlobalInput.INPUT_SWIPE_LEFT)
+				catChooser.onBackPage();
+			else if (mode == GlobalInput.INPUT_SWIPE_RIGHT)
+				catChooser.onNextPage();
 		}
 		
 		private function onBackToMainScreen():void 
@@ -74,6 +88,9 @@ package fasthand.screen
 		override public function onRemoved(e:Event):void 
 		{		
 			catChooser.removeFromParent();
+			
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			globalInput.unregisterSwipe(cb);
 			super.onRemoved(e);			
 		}
 		

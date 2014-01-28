@@ -84,8 +84,7 @@ package fasthand.screen
 				p.addChild(mainScreen);							
 				this.removeFromParent();
 				
-				var tileBG:TileImage = Factory.getObjectFromPool(TileImage);
-				tileBG.touchable = false;
+				var tileBG:TileImage = Factory.getObjectFromPool(TileImage);				
 				tileBG.draw(Asset.getBaseTexture(BackgroundAsset.BG_TILE), Util.appWidth, Util.appHeight);
 				p.addChildAt(tileBG, 0);	
 			}

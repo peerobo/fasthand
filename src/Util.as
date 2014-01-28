@@ -170,7 +170,11 @@ package
 					return img;
 				},
 				function(img:Image):void {
-					img.scaleX = img.scaleY = 1;				
+					img.x = img.y = 0;
+					img.scaleX = img.scaleY = 1;
+					img.touchable = true;
+					img.visible = true;
+					img.filter = null;
 			});
 			
 			Factory.registerPoolCreator(MovieClip, function ():MovieClip {
@@ -187,23 +191,29 @@ package
 					txt.reset();
 			});		
 
-			Factory.registerPoolCreator(BaseButton, function():BaseButton {
-					var baseBt:BaseButton = new BaseButton();
-					return baseBt;
-				},
-				function (bt:BaseButton):void {										
-					bt.destroy();					
-				}
-			);
+			//Factory.registerPoolCreator(BaseButton, function():BaseButton {
+					//var baseBt:BaseButton = new BaseButton();
+					//return baseBt;
+				//},
+				//function (bt:BaseButton):void {										
+					//bt.destroy();					
+				//}
+			//);
 			
 			Factory.registerPoolCreator(Quad, function ():Quad {
 				return new Quad(1, 1);
-			});		
-			
+			});								
 			Factory.registerPoolCreator(Scale9Image, function():Scale9Image {
 				var scale9Textures:Scale9Textures = new Scale9Textures(Texture.empty(1,1),new Rectangle(0,0,0,0));
 				var scale9Img:Scale9Image = new Scale9Image(scale9Textures);
 				return scale9Img;
+				},
+				function(img:Scale9Image):void {
+					img.x = img.y = 0;
+					img.scaleX = img.scaleY = 1;
+					img.touchable = true;
+					img.visible = true;
+					img.filter = null;
 			});
 		}
 	

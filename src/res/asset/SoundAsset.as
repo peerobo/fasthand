@@ -26,36 +26,10 @@ package res.asset
 		
 		public static function preload():void
 		{		
-			SoundManager.getSound(SOUND_TIMEOUT);
-			/*SoundManager.getSound(RESOURCE_COMPLETE);
-			SoundManager.getSound(RESOURCE_HOUSE_BUILT_COMPLETE);
-			SoundManager.getSound(RESOURCE_RUN);
-			SoundManager.getSound(UNIT_COMPLETE);
-			SoundManager.getSound(UNIT_HOUSE_BUILT_COMPLETE);
-			SoundManager.getSound(UNIT_RUN);
-			SoundManager.getSound(GOLD);
-			SoundManager.getSound(GUI_OPEN);
-			SoundManager.getSound(UPGRADE_ITEM);
-			SoundManager.getSound(BUILD_HOUSE);
-			SoundManager.getSound(COLLECT_HOUSE);			
-			SoundManager.getSound(STAR_1);
-			SoundManager.getSound(STAR_2);
-			SoundManager.getSound(STAR_3);
-			SoundManager.getSound(STAR_4);
-			SoundManager.getSound(HERO_UNLOCK);
-			SoundManager.getSound(LVL_UP);
-			SoundManager.getSound(ARMOR_SOUND);
-			SoundManager.getSound(GLOVES_SOUND);
-			SoundManager.getSound(HELMET_SOUND);
-			SoundManager.getSound(NECKLACE_SOUND);
-			SoundManager.getSound(RING_SOUND);
-			SoundManager.getSound(SHIELD_SOUND);
-			SoundManager.getSound(SHOES_SOUND);
-			SoundManager.getSound(WEAPON_SOUND);
-			
-			SoundManager.getSound(CASTLE_DESTROYED);
-			SoundManager.getSound(WIN_BATTLE_THEME);
-			SoundManager.getSound(LOSE_BATTLE_THEME);*/
+			SoundManager.getSound(SOUND_CLICK);
+			SoundManager.getSound(SOUND_TIMEOUT);			
+			SoundManager.getSound(SOUND_END_GAME);
+			SoundManager.getSound(SOUND_HIGH_SCORE);
 			if (!listSound)
 				listSound = { };
 		}

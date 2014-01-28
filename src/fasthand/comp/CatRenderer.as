@@ -7,6 +7,7 @@ package fasthand.comp
 	import base.LangUtil;
 	import comp.LoopableSprite;
 	import flash.geom.Rectangle;
+	import flash.utils.getQualifiedClassName;
 	import res.Asset;
 	import res.asset.BackgroundAsset;
 	import res.asset.ButtonAsset;
@@ -39,7 +40,7 @@ package fasthand.comp
 		public function CatRenderer() 
 		{
 			super();			
-		}
+		}				
 		
 		override public function onAdded(e:Event):void 
 		{
@@ -49,9 +50,11 @@ package fasthand.comp
 			bt.background.width = 300;
 			bt.background.height = 276;
 			bt.x = 18;
+			bt.y = 0;
 			addChild(bt);
 			lockIcon = Asset.getBaseImage(IconAsset.ICO_LOCK);
 			lockIcon.y = 120;
+			lockIcon.x = 0;
 			lockIcon.touchable = false;
 			lockIcon.visible = isLocked;
 			addChild(lockIcon);
@@ -60,6 +63,15 @@ package fasthand.comp
 			title.y = 0;
 			addChild(title);
 			title.touchable = false;
+			
+			bt.setCallbackFunc(function(cat:CatRenderer):void { 
+				trace(cat.width, cat.title.text);
+				for (var i:int = 0; i < cat.numChildren; i++) 
+				{
+					var c:DisplayObject = cat.getChildAt(i);
+					trace("c:", c, getQualifiedClassName(c), c.width, c.height, c.x, c.y);
+				}
+			}, [this] );
 		}
 		
 		public function set isLock(value:Boolean):void

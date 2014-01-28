@@ -3,6 +3,7 @@ package fasthand.gui
 	import base.BaseButton;
 	import base.BaseJsonGUI;
 	import base.Factory;
+	import base.GlobalInput;
 	import base.LangUtil;
 	import fasthand.comp.CatRenderer;
 	import fasthand.FasthandUtil;
@@ -41,9 +42,11 @@ package fasthand.gui
 		
 		override public function onAdded(e:Event):void 
 		{
-			super.onAdded(e);
+			super.onAdded(e);			
+			sprNext.alpha = 0;
 			addChild(sprNext);
-			addChild(sprCurr);					
+			addChild(sprCurr);		
+			
 			
 			var len:int = rectPlace.length;			
 			for (var i:int = 0; i < len; i++) 
@@ -63,6 +66,7 @@ package fasthand.gui
 			backPageBt.setCallbackFunc(onBackPage);
 			nextPageBt.setCallbackFunc(onNextPage);			
 			updatePage(sprCurr, currentPage);
+			updateBtStates();
 		}
 		
 		public function updatePage(pageHolder:Sprite, page:int):void
@@ -83,21 +87,28 @@ package fasthand.gui
 		
 		override public function onRemoved(e:Event):void 
 		{
-			super.onRemoved(e);
-			
 			sprCurr.removeChildren();
 			sprNext.removeChildren();
+			super.onRemoved(e);						
 		}
 		
-		private function onNextPage():void 
-		{			
+		public function onNextPage():void 
+		{		
+			var maxPage:int = Math.round(FasthandUtil.getListCat().length / Constants.CAT_PER_PAGE);
+			if (currentPage == maxPage-1)			
+				return;
 			sprNext.x = Util.appWidth;
-			sprNext.y = 0;						
+			sprNext.y = 0;
+			addChild(sprNext);
 			currentPage++;
 			updateBtStates();
 			updatePage(sprNext, currentPage);
+						
 			Starling.juggler.tween(sprNext, 0.5, { x:0, alpha: 1 } );
-			Starling.juggler.tween(sprCurr, 0.5, { x:-Util.appWidth, alpha:0, onComplete: onScrollComplete } );
+			Starling.juggler.tween(sprCurr, 0.5, { x: -Util.appWidth, alpha:0, onComplete: onScrollComplete } );
+			
+			var input:GlobalInput = Factory.getInstance(GlobalInput );
+			input.disable = true;
 		}
 		
 		private function updateBtStates():void
@@ -107,10 +118,7 @@ package fasthand.gui
 			currentPage = currentPage >=maxPage ? maxPage-1:currentPage;
 			
 			backPageBt.isDisable = currentPage <= 0;
-			nextPageBt.isDisable = currentPage >= maxPage -1;
-			
-			sprCurr.touchable = false;
-			sprNext.touchable = false;
+			nextPageBt.isDisable = currentPage >= maxPage -1;			
 		}
 		
 		private function onScrollComplete():void 
@@ -118,19 +126,28 @@ package fasthand.gui
 			var spr:Sprite = sprCurr;
 			sprCurr = sprNext;
 			sprNext = spr;	
+						
+			sprNext.x = 0;
 			
-			sprCurr.touchable = true;
+			var input:GlobalInput = Factory.getInstance(GlobalInput );
+			input.disable = false;
 		}
 		
-		private function onBackPage():void 
+		public function onBackPage():void 
 		{
+			if (currentPage == 0)
+				return;
 			sprNext.x = -Util.appWidth;
 			sprNext.y = 0;
+			addChild(sprNext);
 			currentPage--;
 			updateBtStates();
 			updatePage(sprNext, currentPage);
+			
 			Starling.juggler.tween(sprNext, 0.5, { x:0, alpha: 1 } );
 			Starling.juggler.tween(sprCurr, 0.5, { x:Util.appWidth, alpha:0, onComplete: onScrollComplete } );
+			var input:GlobalInput = Factory.getInstance(GlobalInput );
+			input.disable = true;
 		}
 		
 	}

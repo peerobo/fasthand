@@ -1,5 +1,6 @@
 package base
 {
+	import comp.LoopableSprite;
 	import comp.ShakeObject;
 	import feathers.display.Scale9Image;
 	import feathers.textures.Scale9Textures;
@@ -9,6 +10,7 @@ package base
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.display.Sprite;
+	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
@@ -18,7 +20,7 @@ package base
 	import starling.text.TextField;
 	import starling.textures.Texture;
 	
-	public class BaseButton extends Sprite
+	public class BaseButton extends LoopableSprite
 	{
 		public var btnId:String = "";
 		public var icons:Vector.<DisplayObject> = new Vector.<DisplayObject>();
@@ -41,27 +43,24 @@ package base
 			initTouch();
 			hoverFilter = Util.getFilter(Util.HOVER_FILTER);
 			downFilter = Util.getFilter(Util.DOWN_FILTER);
-			disableFilter = Util.getFilter(Util.DISABLE_FILTER);
+			disableFilter = Util.getFilter(Util.DISABLE_FILTER);			
+		}
+		
+		override public function dispose():void 
+		{
+			destroy();
+		}
+		
+		override public function onRemoved(e:Event):void 
+		{
+			super.onRemoved(e);
+			destroy();
 		}
 		
 		public function destroy():void
 		{
 			callbackFunc = null;
-			params = null;
-			
-			for each(var disp:DisplayObject in icons)
-			{
-				Factory.toPool(disp);
-				disp.removeFromParent();
-			}									
-			icons = new Vector.<DisplayObject>();
-			if(label)
-			{	
-				Factory.toPool(label);
-				label.removeFromParent();
-			}
-			label = null;
-			filter = null;
+			params = null;			
 		}			
 		public function setCallbackFunc(func:Function, params:Array = null):void
 		{
@@ -89,7 +88,7 @@ package base
 						{
 							this.filter = null;
 							var newAnchor:Point = new Point(touch.globalX,touch.globalY);
-							if (newAnchor.equals(anchor))
+							if (newAnchor.subtract(anchor).length < GlobalInput.SWIPE_AMP)
 							{
 								if (callbackFunc != null)
 								{

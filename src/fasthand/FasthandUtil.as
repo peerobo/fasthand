@@ -54,8 +54,7 @@ package fasthand
 					listCat.push(item.@name.toString());
 				}
 				listCat.sort();
-			}	
-			trace(listCat);
+			}				
 			return listCat;
 		}
 		

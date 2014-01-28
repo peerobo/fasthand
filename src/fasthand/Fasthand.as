@@ -22,7 +22,8 @@ package fasthand
 	public class Fasthand implements IAnimatable
 	{
 		private var gameRound:GameRound;		
-		private var countTime:Number;				
+		private var interval:Number;				
+		private var roundTime:Number;
 		private var cat:String;
 		public var difficult:Boolean;
 		public var currentPlayerScore:int;
@@ -51,7 +52,7 @@ package fasthand
 		public function startARound():void
 		{
 			var i:int;
-			countTime = 0;
+			interval = 0;
 			var stringSeq:Array = (FasthandUtil[cat] as String).split(";");
 			
 			for (i = 0; i < stringSeq.length; i++) 
@@ -64,6 +65,7 @@ package fasthand
 			}
 			
 			var maxTile:int = Constants.TILE_PER_ROUND;
+			roundTime = difficult ? Constants.SEC_PER_ROUND_DIFFICULT : Constants.SEC_PER_ROUND;
 			var remove:int = stringSeq.length - maxTile;
 			for (i = 0; i < remove; i++) 
 			{
@@ -81,10 +83,11 @@ package fasthand
 		{
 			if (isStartGame)
 			{
-				countTime += time;
-				if (countTime >= 1)
+				interval += time;
+				if (interval >= 1)
 				{
-					countTime -= 1;
+					interval -= 1;
+					roundTime -= 1;
 					gameRound.decreaseScore();
 					if (gameRound.isOver)
 						gameOver();

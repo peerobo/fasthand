@@ -56,8 +56,10 @@ package res
 			var tex:Texture = resMgr.getTexture(Asset.BASE_GUI + Asset.contentSuffix, str);
 			if (getRec(str))
 			{				
-				var simg:Scale9Image = Factory.getObjectFromPool(Scale9Image);
-				simg.textures = new Scale9Textures(tex, getRec(str));
+				var simg:Scale9Image = Factory.getObjectFromPool(Scale9Image);				
+				//var simg:Scale9Image = new Scale9Image(new Scale9Textures(tex, getRec(str)));
+				simg.textures = new Scale9Textures(tex, getRec(str));				
+				simg.readjustSize();
 				simg.width = tex.width;
 				simg.height = tex.height;
 				return simg;

@@ -31,6 +31,10 @@ package base.font
 			autoSize = TextFieldAutoSize.NONE;
 			autoScale = false;
 			text = "";
+			x = y = 0;
+			scaleX = scaleY = 1;
+			visible = true;
+			touchable = true;
 		}
 		
 		public function removeLines(num:int):void
