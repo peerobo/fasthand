@@ -4,13 +4,21 @@ package fasthand
 	import base.BFConstructor;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import base.LangUtil;
 	import base.LayerMgr;
 	import base.PopupMgr;
+	import base.ScreenMgr;
+	import base.SoundManager;
 	import fasthand.gui.LeaderBoard;
+	import fasthand.gui.ScoreWindow;
 	import fasthand.logic.GameRound;
+	import fasthand.screen.CategoryScreen;
+	import fasthand.screen.GameScreen;
+	import flash.net.SharedObject;
 	import res.Asset;
 	import res.asset.BackgroundAsset;
 	import res.asset.ButtonAsset;
+	import res.asset.SoundAsset;
 	import starling.animation.IAnimatable;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
@@ -24,7 +32,7 @@ package fasthand
 		private var gameRound:GameRound;		
 		private var interval:Number;				
 		private var roundTime:Number;
-		private var cat:String;
+		public var cat:String;
 		public var difficult:Boolean;
 		public var currentPlayerScore:int;
 		public var seqs:Array;
@@ -32,17 +40,21 @@ package fasthand
 		public var roundNo:int;
 		
 		public var gameOverCallback:Function;
-		public var gameOverParams:Array;				
+		public var gameOverParams:Array;
+		
+		public var highscore:int;
 		
 		public function Fasthand() 
 		{
 			gameRound = new GameRound();
+			
+			var sharedObj:SharedObject = Util.getLocalData(Constants.APP_NAME);
+			highscore = sharedObj.data["highgscore"];
 		}
 		
-		public function startNewGame(cat:String):void
+		public function startNewGame():void
 		{
-			isStartGame = true;
-			this.cat = cat;
+			isStartGame = true;			
 			currentPlayerScore = 0;
 			roundNo = 1;
 			startARound();
@@ -53,16 +65,7 @@ package fasthand
 		{
 			var i:int;
 			interval = 0;
-			var stringSeq:Array = (FasthandUtil[cat] as String).split(";");
-			
-			for (i = 0; i < stringSeq.length; i++) 
-			{
-				if (stringSeq[i] == "")
-				{
-					stringSeq.splice(i, 1);
-					i--;
-				}
-			}
+			var stringSeq:Array = FasthandUtil.getListWords(cat).concat();
 			
 			var maxTile:int = Constants.TILE_PER_ROUND;
 			roundTime = difficult ? Constants.SEC_PER_ROUND_DIFFICULT : Constants.SEC_PER_ROUND;
@@ -72,9 +75,20 @@ package fasthand
 				var rnd:int = Math.random() * stringSeq.length;				
 				stringSeq.splice(rnd, 1);
 			}			
+			// shuffle
+			var shuffleArr:Array = [];
+			var len:int = stringSeq.length;
+			while(len > 0)
+			{				
+				var idx:int = Math.random() * len;
+				shuffleArr.push(stringSeq[idx]);
+				stringSeq.splice(idx, 1);
+				len-- ;
+			}
 			
-			seqs = stringSeq;
-			gameRound.reset(stringSeq);
+			seqs = shuffleArr;
+			gameRound.reset(shuffleArr);
+			SoundManager.playSound(SoundAsset.getName(cat, gameRound.mainWord));
 		}
 		
 		/* INTERFACE starling.animation.IAnimatable */
@@ -87,9 +101,8 @@ package fasthand
 				if (interval >= 1)
 				{
 					interval -= 1;
-					roundTime -= 1;
-					gameRound.decreaseScore();
-					if (gameRound.isOver)
+					roundTime -= 1;					
+					if (roundTime < 0)
 						gameOver();
 				}
 			}
@@ -97,15 +110,24 @@ package fasthand
 		
 		public function checkAdvanceRound(word:String):Boolean
 		{
-			var ret:Boolean = isStartGame && gameRound.checkWord(word);
+			var ret:Boolean = isStartGame && gameRound.checkWord(word);			
 			if (ret)
-			{
-				currentPlayerScore += gameRound.score;
+			{				
+				currentPlayerScore += roundTime / gameRoundTime * Constants.MAX_SCORE_PER_ROUND;
 				roundNo++;
 				if (roundNo > Constants.ROUND_PER_GAME)
+				{
 					gameOver();
+				}
 				else
-					startARound();
+				{
+					var gameScreen:GameScreen = Factory.getInstance(GameScreen);
+					gameScreen.preStartRound();
+				}
+			}			
+			else
+			{
+				SoundManager.playSound(SoundAsset.getName(cat, word));
 			}
 			return ret;
 		}
@@ -120,15 +142,31 @@ package fasthand
 			isStartGame = false;
 			Starling.juggler.remove(this);
 			
-			showLeaderboard();					
+			showScoreWindow();					
 		}
 		
-		private function showLeaderboard():void 
+		private function showScoreWindow():void 
 		{
-			var leaderboard:LeaderBoard = Factory.getInstance(LeaderBoard);			
-			leaderboard.callback = onCloseLeaderBoard;
-			leaderboard.setText("Ban dat duoc\n" + currentPlayerScore + "\n diem");
-			PopupMgr.addPopUp(leaderboard, true);						
+			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);
+			PopupMgr.addPopUp(scoreWnd, true);
+			scoreWnd.setTitle(LangUtil.getText(cat));
+			scoreWnd.setScore(currentPlayerScore, highscore);
+			
+			scoreWnd.closeCallback = onUserCloseWindow;
+		}
+		
+		private function onUserCloseWindow():void 
+		{
+			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);
+			if (!scoreWnd.isChangeSubject)
+			{
+				var gameScreen:GameScreen = Factory.getInstance(GameScreen);
+				gameScreen.preStartGame();
+			}
+			else
+			{
+				ScreenMgr.showScreen(CategoryScreen);
+			}				
 		}
 		
 		private function onCloseLeaderBoard():void 
@@ -140,10 +178,13 @@ package fasthand
 			}
 		}
 		
+		/**
+		 * time for each round
+		 */
 		public function get gameRoundTime():int
 		{
-			return gameRound.score;
-		}
+			return difficult ? Constants.SEC_PER_ROUND_DIFFICULT : Constants.SEC_PER_ROUND;
+		}				
 		
 	}
 

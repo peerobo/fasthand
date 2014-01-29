@@ -253,7 +253,7 @@ package base
 			var objW:int = obj["w"] ;
 			var objH:int = obj["h"] ;
 			var btn:BaseButton /*= new BaseButton()*/;
-			btn = Factory.getObjectFromPool(BaseButton);
+			btn = new BaseButton();
 			var disObj:DisplayObject;
 			var i:int;
 			// load elements

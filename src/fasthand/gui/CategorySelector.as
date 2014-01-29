@@ -2,10 +2,12 @@ package fasthand.gui
 {
 	import base.BaseButton;
 	import base.BaseJsonGUI;
+	import base.CallbackObj;
 	import base.Factory;
 	import base.GlobalInput;
 	import base.LangUtil;
 	import fasthand.comp.CatRenderer;
+	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;
 	import res.asset.IconAsset;
 	import starling.core.Starling;
@@ -32,6 +34,11 @@ package fasthand.gui
 		
 		public var currentPage:int;
 		
+		/**
+		 * a callback function: c(cat:String):void
+		 */
+		public var onSelectCategoryCallback:Function;
+		
 		public function CategorySelector() 
 		{
 			super("CategorySelector");	
@@ -49,24 +56,43 @@ package fasthand.gui
 			
 			
 			var len:int = rectPlace.length;			
+			var c:CallbackObj;
 			for (var i:int = 0; i < len; i++) 
 			{
 				var item:CatRenderer = new CatRenderer();
 				item.x = rectPlace[i].x;
 				item.y = rectPlace[i].y;
 				sprCurr.addChild(item);
-				item.name = "item" + i;
-				
+				item.name = "item" + i;	
+				c = Factory.getObjectFromPool(CallbackObj);
+				c.f = onSelectCat;
+				item.clickCallbackObj = c
 				item = new CatRenderer();
 				item.x = rectPlace[i].x;
 				item.y = rectPlace[i].y;
-				item.name = "item" + i;
+				item.name = "item" + i;				
 				sprNext.addChild(item);
+				c = Factory.getObjectFromPool(CallbackObj);
+				c.f = onSelectCat;
+				item.clickCallbackObj = c;
 			}			
 			backPageBt.setCallbackFunc(onBackPage);
 			nextPageBt.setCallbackFunc(onNextPage);			
 			updatePage(sprCurr, currentPage);
 			updateBtStates();
+		}
+		
+		private function onSelectCat(catRender:CatRenderer):void
+		{
+			if (catRender.isLock)
+			{
+				Util.showInAppPurchase();
+			}
+			else
+			{
+				if(onSelectCategoryCallback is Function)
+					onSelectCategoryCallback(catRender.cat);				
+			}
 		}
 		
 		public function updatePage(pageHolder:Sprite, page:int):void
@@ -78,9 +104,13 @@ package fasthand.gui
 			{				
 				var item:CatRenderer = pageHolder.getChildByName("item" + i) as CatRenderer;
 				if (listCat.length > idx + i)				
-					item.setIcon(IconAsset.PREFIX + listCat[idx + i],LangUtil.getText(listCat[idx + i]));
+				{
+					item.setIcon(IconAsset.PREFIX + listCat[idx + i],listCat[idx + i]);
+				}
 				else
+				{
 					item.setComingSoon();
+				}
 				item.isLock = idx + i >= Constants.CAT_FREE_NUM;
 			}
 		}
@@ -117,8 +147,8 @@ package fasthand.gui
 			currentPage = currentPage < 0 ? 0:currentPage;
 			currentPage = currentPage >=maxPage ? maxPage-1:currentPage;
 			
-			backPageBt.isDisable = currentPage <= 0;
-			nextPageBt.isDisable = currentPage >= maxPage -1;			
+			backPageBt.visible = currentPage > 0;
+			nextPageBt.visible = currentPage < maxPage -1;			
 		}
 		
 		private function onScrollComplete():void 

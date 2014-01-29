@@ -1,114 +1,93 @@
 package comp 
 {
+	import base.BFConstructor;
 	import base.Factory;
+	import base.font.BaseBitmapTextField;
 	import base.Graphics4Starling;
+	import base.LangUtil;
+	import res.Asset;
+	import res.asset.IconAsset;
 	import res.ResMgr;
 	import starling.animation.IAnimatable;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import flash.display.Graphics;
+	import starling.display.Image;
+	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.text.TextField;
 	import starling.text.TextFieldAutoSize;
+	import starling.textures.Texture;
+	import starling.utils.deg2rad;
 	
 	/**
 	 * ...
 	 * @author ndp
 	 */
 	public class LoadingIcon extends LoopableSprite
-	{
-		private var shape:DisplayObject;				
-		private var deegree:int;
-		private const RADIUS:int = 8;
-		private var W:int = 100;
-		private var status:TextField;
+	{	
+		//private var mc:MovieClip;
 		
-		public var progressString:String;
+		private var stars:Array;
 		
 		public function LoadingIcon() 
 		{
 			super();
-			interval = 0.033;
-			progressString = "";
-			W *= Starling.contentScaleFactor;
-			shape = Graphics4Starling.beginDrawing();
-			var graphics:Graphics = Graphics4Starling.getGraphicObject(shape);
-			graphics.beginFill(0x0, 0.5);
-			graphics.drawRect(0, 0, W, W);
-			Graphics4Starling.updateGraphics(shape);
-			addChild(shape);			
-			shape.y = 100;
-
-			status = new TextField(1, 60, "Loading", "Arial", 26, 0x0, true);	
-			status.autoSize = TextFieldAutoSize.HORIZONTAL;
-			addChild(status);	
+			interval = 0.033;			
 		}
-				
+		
+		override public function onAdded(e:Event):void 
+		{
+			super.onAdded(e);
+			
+			/*mc = Factory.getObjectFromPool(MovieClip);
+			for (var i:int = 0; i < mc.numFrames - 1; i++) 
+			{
+				mc.removeFrameAt(0);
+			}
+			var mvTexs:Vector.<Texture > = Asset.getBaseTextures(IconAsset.ICO_CLOCK);
+			for (var j:int = 0; j < mvTexs.length; j++) 
+			{
+				mc.addFrame(mvTexs[j]);
+				if (j == 0)
+				{
+					mc.texture = mvTexs[j];
+					mc.readjustSize();
+					mc.removeFrameAt(0);
+				}
+			}			
+			mc.loop = true;			
+			addChild(mc);
+			mc.play();*/
+			stars = [];
+			var loading:BaseBitmapTextField  = BFConstructor.getShortTextField(1, 1, LangUtil.getText("loading"), BFConstructor.BANHMI);
+			loading.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;			
+			addChild(loading);
+			var posY:int = loading.height + 6;
+			for (var i:int = 0; i < 3; i++) 
+			{
+				var star:DisplayObject = Asset.getBaseImage(IconAsset.ICO_STAR);
+				star.x = 80 * i + (star.width >> 1);
+				star.y = posY + (star.height >> 1);
+				star.pivotX = star.width >> 1;
+				star.pivotY = star.height >> 1;
+				star.alpha = 0.8;
+				addChild(star);
+				stars.push(star);
+			}			
+			loading.x = this.width - loading.width >> 1;
+		}
+		
 		override public function update(time:Number):void 
 		{
-			deegree += 2/Starling.contentScaleFactor;
-			if(deegree >= 360){
-				deegree = 0 + deegree - 360;
-			}
-			var graphics:Graphics = Graphics4Starling.getGraphicObject(shape);
-			graphics.clear();
-			var centerR:Number = W >> 1;
-			centerR -= RADIUS;
-			var origin:Number = W >> 1;
-			var rd:Number = Math.PI / 180 * deegree;
-			var cx:Number = centerR * Math.cos(rd);
-			var cy:Number = centerR * Math.sin(rd);
-			graphics.beginFill(0x414141,1);
-			graphics.drawCircle(origin + cx, origin + cy, RADIUS);
-			graphics.endFill();
-			rd = Math.PI / 180 * (deegree - 10);
-			cx = centerR * Math.cos(rd);
-			cy = centerR * Math.sin(rd);
-			graphics.beginFill(0x414141,1);
-			graphics.drawCircle(origin + cx, origin + cy, RADIUS - 2*Starling.contentScaleFactor);			
-			graphics.endFill();
-			rd = Math.PI / 180 * (deegree - 20);
-			cx = centerR * Math.cos(rd);
-			cy = centerR * Math.sin(rd);
-			graphics.beginFill(0x414141,1);
-			graphics.drawCircle(origin + cx, origin + cy, RADIUS - 4*Starling.contentScaleFactor);			
-			graphics.endFill();
-			Graphics4Starling.updateGraphics(shape);								
-			var str:String = "";
-			if (deegree < 60)
+			super.update(time);
+			
+			for (var i:int = 0; i < stars.length; i++) 
 			{
-				str = "Loading";
+				stars[i].rotation += deg2rad(10);
 			}
-			else if (deegree < 120)
-			{
-				str = "Loading.";
-			}
-			else if (deegree < 180)
-			{
-				str = "Loading..";
-			}
-			else if (deegree < 240)
-			{
-				str = "Loading...";
-			}
-			else if (deegree < 300)
-			{
-				str = "Loading....";
-			}
-			else if (deegree < 360)
-			{
-				str = "Loading.....";
-			}	
-			str += "\n" + progressString;
-			status.text = str;
 		}
-		
-		public function setTextColor(color:int):void
-		{
-			status.color = color;
-		}
-		
 	}
 
 }

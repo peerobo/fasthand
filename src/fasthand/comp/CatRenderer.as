@@ -2,6 +2,7 @@ package fasthand.comp
 {
 	import base.BaseButton;
 	import base.BFConstructor;
+	import base.CallbackObj;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import base.LangUtil;
@@ -27,15 +28,18 @@ package fasthand.comp
 	public class CatRenderer extends LoopableSprite 
 	{
 		private static const ICON_X:int = 42;
-		private static const ICON_Y:int = 48;
+		private static const ICON_Y:int = 60;
 		private static const ICON_W:int = 246;
-		private static const ICON_H:int = 216;			
+		private static const ICON_H:int = 186;			
 		private var lockIcon:DisplayObject;
 		private var isLocked:Boolean;
 		private var icon:DisplayObject;	
 		private var title:BaseBitmapTextField;
 		
 		static private const COLORS_RND:Array = [Color.PURPLE, Color.YELLOW, Color.OLIVE, Color.LIME];		
+		private var _cat:String;
+		
+		public var clickCallbackObj:CallbackObj;
 		
 		public function CatRenderer() 
 		{
@@ -58,20 +62,24 @@ package fasthand.comp
 			lockIcon.touchable = false;
 			lockIcon.visible = isLocked;
 			addChild(lockIcon);
+			//title = BFConstructor.getShortTextField(ICON_W, ICON_H, "", BFConstructor.BANHMI, COLORS_RND[int(Math.random()*COLORS_RND.length)], HAlign.CENTER, VAlign.TOP);
 			title = BFConstructor.getTextField(ICON_W, ICON_H, "", BFConstructor.BANHMI, COLORS_RND[int(Math.random()*COLORS_RND.length)], HAlign.CENTER, VAlign.TOP);
 			title.x = ICON_X;
 			title.y = 0;
 			addChild(title);
 			title.touchable = false;
 			
-			bt.setCallbackFunc(function(cat:CatRenderer):void { 
-				trace(cat.width, cat.title.text);
-				for (var i:int = 0; i < cat.numChildren; i++) 
-				{
-					var c:DisplayObject = cat.getChildAt(i);
-					trace("c:", c, getQualifiedClassName(c), c.width, c.height, c.x, c.y);
-				}
-			}, [this] );
+			bt.setCallbackFunc(onClick);			
+		}
+		
+		private function onClick():void
+		{
+			if (clickCallbackObj)
+			{
+				var p:Array = clickCallbackObj.p ? p.concat():[];
+				p.splice(0, 0, this);
+				clickCallbackObj.f.apply(this, p);
+			}
 		}
 		
 		public function set isLock(value:Boolean):void
@@ -88,6 +96,7 @@ package fasthand.comp
 		
 		public function setIcon(texName:String,name:String):void
 		{
+			_cat = name;
 			if (icon && icon.parent)
 			{
 				if (icon is BaseBitmapTextField)
@@ -108,9 +117,9 @@ package fasthand.comp
 				icon.y = ICON_Y;
 			}
 			icon.scaleX = icon.scaleY = 1;			
-			Util.fit(icon, new Rectangle(ICON_X, ICON_Y, ICON_W, ICON_H));	
+			Util.g_fit(icon, new Rectangle(ICON_X, ICON_Y, ICON_W, ICON_H));	
 			icon.touchable = false;
-			title.text = name;
+			title.text = LangUtil.getText(name);
 		}
 		
 		public function setComingSoon():void
@@ -127,6 +136,11 @@ package fasthand.comp
 			addChildAt(icon, 1);
 			icon.touchable = false;
 			title.text = "";
+		}
+		
+		public function get cat():String
+		{
+			return _cat;
 		}
 	}
 

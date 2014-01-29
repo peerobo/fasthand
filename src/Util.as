@@ -2,14 +2,18 @@ package
 {
 	import base.BaseButton;
 	import base.BFConstructor;
+	import base.CallbackObj;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import comp.TileImage;
 	import feathers.display.Scale3Image;
 	import feathers.display.Scale9Image;
 	import feathers.textures.Scale9Textures;
+	import flash.data.EncryptedLocalStore;
 	import flash.geom.Rectangle;
 	import flash.net.SharedObject;
+	import flash.system.Capabilities;
+	import flash.utils.ByteArray;
 	import so.cuo.platform.admob.Admob;
 	import so.cuo.platform.admob.AdmobEvent;
 	import so.cuo.platform.admob.AdmobPosition;
@@ -78,8 +82,8 @@ package
 		{
 			var admob:Admob = Admob.getInstance();
 			if (admob.supportDevice)
-			{
-				admob.setKeys("a152e1293565247");				
+			{				
+				admob.setKeys(Constants.AD_ID);				
 			}
 		}
 		
@@ -99,11 +103,19 @@ package
 		{
 			var admob:Admob = Admob.getInstance();
 			if (admob.supportDevice)
-			{
-				admob.setKeys("a152e1293565247");
+			{				
 				admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
 				admob.cacheInterstitial();
 			}
+		}
+		
+		public static function numberWithCommas(number:Number):String
+		{
+			var str:String = number.toString();
+			var pattern:RegExp = /(-?\d+)(\d{3})/;
+			while (pattern.test(str))
+				str = str.replace(pattern, "$1,$2");
+			return str;
 		}
 		
 		private static function onAdReceived(e:AdmobEvent):void
@@ -142,7 +154,7 @@ package
 			return result;
 		}
 		
-		public static function fit(disp:DisplayObject, fitObj:*):void
+		public static function g_fit(disp:DisplayObject, fitObj:*):void
 		{
 			var rec:Rectangle;
 			if (fitObj is Rectangle)
@@ -175,6 +187,9 @@ package
 					img.touchable = true;
 					img.visible = true;
 					img.filter = null;
+					img.pivotY = img.pivotX = 0;
+					img.rotation = 0;
+					img.alpha = 1;
 			});
 			
 			Factory.registerPoolCreator(MovieClip, function ():MovieClip {
@@ -190,6 +205,15 @@ package
 				function (txt:BaseBitmapTextField):void {
 					txt.reset();
 			});		
+			
+			Factory.registerPoolCreator(CallbackObj, function():CallbackObj { 
+					return new CallbackObj( null);
+				}, 
+				function(c:CallbackObj):void { 
+					c.f = null;
+					c.p = null;
+					c.optionalData = null;				
+			} );
 
 			//Factory.registerPoolCreator(BaseButton, function():BaseButton {
 					//var baseBt:BaseButton = new BaseButton();
@@ -216,7 +240,39 @@ package
 					img.filter = null;
 			});
 		}
+		
+		static public function showInAppPurchase():void 
+		{
+			
+		}
+		
+		static public function get isIOS():Boolean
+		{
+			return (Capabilities.manufacturer.indexOf("iOS") != -1);
+
+			//var isAndroid:Boolean = (Capabilities.manufacturer.indexOf("Android") != -1)
+			//
+		}		
 	
+		static public function setPrivateValue(key:String, value:String):void
+		{						
+			if(EncryptedLocalStore.isSupported)
+			{
+				var bytes:ByteArray = new ByteArray();
+				bytes.writeUTFBytes(value);
+				EncryptedLocalStore.setItem(key, bytes);
+			}
+		}
+		
+		static public function getPrivateKey(key:String):String
+		{
+			if (EncryptedLocalStore.isSupported)
+			{
+				var storedValue:ByteArray = EncryptedLocalStore.getItem(key);				
+				return storedValue ? storedValue.readUTFBytes(storedValue.length) : null;
+			}
+			return null;
+		}
 	}
 
 }

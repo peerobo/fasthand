@@ -22,7 +22,7 @@ package res.asset
 		
 		public static var currProgress:int;
 		private static var listSound:Object;
-		private static var currCat:String;
+		private static var currCat:String;				
 		
 		public static function preload():void
 		{		
@@ -47,7 +47,7 @@ package res.asset
 			var soundManager:SoundManager = Factory.getInstance(SoundManager);
 			for (var i:int = 0; i < list.length; i++) 
 			{
-				soundManager.queueSound(FOLDER + cat + "/" + list[i] + ".mp3",getName(cat,list[i]));
+				soundManager.queueSound(FOLDER + cat + "/" + list[i] + ".mp3", getName(cat,list[i]));
 			}
 			soundManager.loadAll(onDownloadDone);
 		}
@@ -57,8 +57,8 @@ package res.asset
 			currProgress = progress;
 			if (progress == 1)
 			{
-				listSound[currCat]
-				currCat = null;
+				listSound[currCat] = true;
+				currCat = null;				
 			}
 		}
 		

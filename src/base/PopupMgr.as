@@ -37,6 +37,12 @@ package base
 		
 		public static function addPopUp(disp:DisplayObject, withAnim:Boolean = false):void
 		{
+			var l:Sprite = LayerMgr.getLayer(LayerMgr.LAYER_GAME);
+			if (!l.isFlattened)
+			{
+				l.flatten();
+				l.touchable = false;
+			}
 			quadBg.visible = true;
 			if(!current)
 			{
@@ -87,6 +93,12 @@ package base
 			else if (queue.indexOf(current) > -1)
 			{
 				queue.splice(queue.indexOf(current), 1);
+			}
+			if (!current)
+			{
+				var l:Sprite = LayerMgr.getLayer(LayerMgr.LAYER_GAME);
+				l.unflatten();
+				l.touchable = true;
 			}
 		}
 		

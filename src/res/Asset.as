@@ -36,7 +36,7 @@ package res
 			return scaleRecs;
 		}
 		
-		static public function getBasicTextureURL():Array // png/atf, xml 
+		static public function getBasicTextureAtlURL():Array // png/atf, xml 
 		{
 			return [
 				ASSET_FOLDER + BASE_GUI + contentSuffix + ".atf", 
@@ -45,7 +45,9 @@ package res
 				]
 		}
 		
-		static public function getTextureURL(name:String):Array // png/atf, xml 
+		
+		
+		static public function getTextureAtlURL(name:String):Array // png/atf, xml 
 		{
 			return [ASSET_FOLDER + name + contentSuffix + ".atf", ASSET_FOLDER + name + contentSuffix + ".xml"]
 		}
@@ -57,6 +59,7 @@ package res
 			if (getRec(str))
 			{				
 				var simg:Scale9Image = Factory.getObjectFromPool(Scale9Image);				
+				//simg.useSeparateBatch = false;
 				//var simg:Scale9Image = new Scale9Image(new Scale9Textures(tex, getRec(str)));
 				simg.textures = new Scale9Textures(tex, getRec(str));				
 				simg.readjustSize();
@@ -78,6 +81,12 @@ package res
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			var tex:Texture = resMgr.getTexture(Asset.BASE_GUI + Asset.contentSuffix, str);
 			return tex;
+		}
+		
+		public static function getBaseTextures(str:String):Vector.<Texture>
+		{
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			return resMgr.getTextures(Asset.BASE_GUI + Asset.contentSuffix, str);			
 		}
 		
 		static public function init():void

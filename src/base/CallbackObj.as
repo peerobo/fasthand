@@ -10,14 +10,17 @@ package base
 		public var p:Array;
 		public var optionalData:Object;
 		
-		public function CallbackObj() 
+		public function CallbackObj(f:Function,p:Array=null,optionalData:Object=null) 
 		{
-			
+			this.f = f;
+			this.p = p;
+			this.optionalData = optionalData;
 		}
 		
 		public function execute():void
 		{
-			f.apply(this, p);
+			if(f is Function)
+				f.apply(this, p);
 		}
 		
 	}

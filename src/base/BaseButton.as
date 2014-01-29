@@ -123,6 +123,7 @@ package base
 				label.removeFromParent();
 			}
 			label = txt;
+			label.batchable = true;
 			addChild(label);
 		}
 		
@@ -199,7 +200,7 @@ package base
 		{
 			if (!label)
 			{
-				setLabel(BFConstructor.getTextField(background.width, background.height, text,BFConstructor.BANHMI));
+				setLabel(BFConstructor.getShortTextField(background.width, background.height, text,BFConstructor.BANHMI));
 			}
 			else
 			{

@@ -4,6 +4,7 @@ package
 	import base.Factory;
 	import base.GlobalInput;
 	import base.LayerMgr;	
+	import base.ScreenMgr;
 	import res.asset.ParticleAsset;
 	import res.asset.SoundAsset;
 	import res.ResMgr;
@@ -33,8 +34,7 @@ package
 			super();
 			
 			addEventListener(Event.ADDED_TO_STAGE, onInit);
-			this.alpha = 0.9999;
-			Util.registerPool();
+			this.alpha = 0.9999;			
 		}				
 		
 		private function onInit(e:Event):void 
@@ -52,8 +52,7 @@ package
 			BFConstructor.init();
 			ParticleAsset.loadCfg();
 			SoundAsset.preload();
-			var loadingScreen:LoadingScreen = Factory.getInstance(LoadingScreen);			
-			LayerMgr.getLayer(LayerMgr.LAYER_GAME).addChild(loadingScreen);									
+			ScreenMgr.showScreen(LoadingScreen);			
 			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);			
 			
 			addEventListener(TouchEvent.TOUCH, onTouch);

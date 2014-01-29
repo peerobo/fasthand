@@ -35,6 +35,7 @@ package base.font
 			scaleX = scaleY = 1;
 			visible = true;
 			touchable = true;
+			filter = null;			
 		}
 		
 		public function removeLines(num:int):void

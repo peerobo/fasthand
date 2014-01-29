@@ -38,9 +38,30 @@ package fasthand
         public static var sports:String = "basketball;soccer;tennis;swimming;golf;table tennis;volley ball;chess;boxing;pool;cycling;baseball;cricket;bowling;poker;fishing;american football;rugby;hockey;wrestling;darts;diving;gymnastics;high jump;horse riding;javelin;long jump;pole vault;shooting;shot putt;";
 		
 		private static var listCat:Array;
+		private static var listWords:Object;
 		
 		public function FasthandUtil() 
 		{			
+		}		
+		
+		public static function getListWords(cat:String):Array
+		{
+			if (!listWords)
+				listWords = {};
+			if (!listWords.hasOwnProperty(cat))
+			{
+				var arr:Array = FasthandUtil[cat].split(";");
+				for (var i:int = 0; i < arr.length; i++) 
+				{
+					if (arr[i] == "")
+					{
+						arr.splice(i, 1);
+						i--;
+					}
+				}
+				listWords[cat] = arr;
+			}
+			return listWords[cat];
 		}
 		
 		public static function getListCat():Array

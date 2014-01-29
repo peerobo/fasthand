@@ -1,6 +1,7 @@
 package res 
 {
 	import base.CallbackObj;
+	import base.Factory;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLLoader;
@@ -66,7 +67,7 @@ package res
 		public function load(url:String, dataType:String, onComplete:Function, onCompleteParam:Array=null):void
 		{
 			var len:int = waitList.length;
-			var item:CallbackObj = new CallbackObj();
+			var item:CallbackObj = Factory.getObjectFromPool(CallbackObj);
 			item.f = onComplete;
 			item.p = onCompleteParam;
 			item.optionalData = { url:url, dataType:dataType };				
@@ -93,7 +94,7 @@ package res
 		
 		public function start():void
 		{
-			assetMgr.enqueue(Asset.getBasicTextureURL());
+			assetMgr.enqueue(Asset.getBasicTextureAtlURL());
 			assetMgr.loadQueue(onAssetProgress);			
 		}
 		
@@ -107,6 +108,11 @@ package res
 			return assetMgr.getTextureAtlas(texAtl).getTexture(tex);
 		}
 		
+		public function getTextures(texAtl:String, tex:String):Vector.<Texture>
+		{
+			return assetMgr.getTextureAtlas(texAtl).getTextures(tex);
+		}
+		
 		public function getXML(name:String):XML
 		{
 			return assetMgr.getXml(name);
@@ -116,19 +122,27 @@ package res
 		 * load texture atlas
 		 * @param	name texture name
 		 * @param	onProgress function(progress:Number):void
+		 * @return can download Texture
 		 */
-		public function loadTextureAtlas(name:String,onProgress:Function):void
+		public function loadTextureAtlas(name:String, onProgress:Function):Boolean		
 		{			
 			if (assetMgr.getTextureAtlas(name + Asset.contentSuffix))
 			{
 				onProgress(1);
-				return;
+				return true;
 			}
 			// TODO: check if assetMgr is free or not
 			// code here
-			
-			assetMgr.enqueue(Asset.getTextureURL(name));
-			assetMgr.loadQueue(onProgress);
+			if (assetMgr.numQueuedAssets < 1)
+			{
+				assetMgr.enqueue(Asset.getTextureAtlURL(name));
+				assetMgr.loadQueue(onProgress);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		
 	}

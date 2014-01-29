@@ -332,6 +332,11 @@ package base
 			var localData:SharedObject = Util.getLocalData(Constants.SO_SOUND);
 			localData.data["muteMusic"] = _muteMusic;
 		}
+				
+		public static function get instance():SoundManager
+		{
+			return Factory.getInstance(SoundManager);
+		}
 		
 		public static function get soundVolume():int 
 		{	

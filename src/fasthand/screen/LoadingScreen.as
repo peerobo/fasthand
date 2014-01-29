@@ -3,6 +3,7 @@ package fasthand.screen
 	import base.Factory;
 	import base.Graphics4Starling;
 	import base.LangUtil;
+	import base.ScreenMgr;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.TileImage;
@@ -78,11 +79,9 @@ package fasthand.screen
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			if (resMgr.assetProgress == 1)
 			{
+				var p:DisplayObjectContainer = this.parent;
 				// bg of game				
-				var mainScreen:MainScreen = Factory.getInstance(MainScreen);
-				var p:DisplayObjectContainer = this.parent;				
-				p.addChild(mainScreen);							
-				this.removeFromParent();
+				ScreenMgr.showScreen(MainScreen);				
 				
 				var tileBG:TileImage = Factory.getObjectFromPool(TileImage);				
 				tileBG.draw(Asset.getBaseTexture(BackgroundAsset.BG_TILE), Util.appWidth, Util.appHeight);

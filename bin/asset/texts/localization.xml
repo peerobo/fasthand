@@ -3,7 +3,13 @@
 		<welcome> Chào mừng các bạn\nđến với game</welcome>		
 	</vi>
 	<en>
+		<loading>Loading</loading>
 		<welcome>Welcome to the wonderful\nSuper Fasthand</welcome>		
+		<changeSubject>Change Subject</changeSubject>
+		<again>Again</again>
+		<score>Score:</score>
+		<yourscore>You scored:</yourscore>
+		<yourbestscore>Your best score:</yourbestscore>
 		<slow>Slow</slow>
 		<fast>Fast</fast>
 		<chooseCategory>Choose a Category</chooseCategory>

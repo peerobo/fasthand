@@ -67,7 +67,8 @@ package
 			var starling:Starling = new Starling(App, stage,new Rectangle(0,0,sw,sh));
 			starling.stage.stageWidth = w;
 			starling.stage.stageHeight = h;				
-			starling.start();					
+			starling.start();	
+			Util.registerPool();
 			Asset.init();
 			LangUtil.loadXMLData();
 			BaseJsonGUI.loadCfg();			

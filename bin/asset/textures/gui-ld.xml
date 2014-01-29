@@ -1,95 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:112f2decd2b5a320aa2a4299182dcf38$ -->
+<!-- $TexturePacker:SmartUpdate:86b27053de1fb4e6f42f1ac574f6a8d1$ -->
 <TextureAtlas imagePath="gui-ld.png">
     <SubTexture name="banhmi" x="2" y="241" width="256" height="170"/>
-    <SubTexture name="bg_item" x="383" y="500" width="46" height="43"/>
-    <SubTexture name="bg_progressbar" x="349" y="267" width="111" height="12"/>
-    <SubTexture name="bg_string_holder" x="165" y="514" width="41" height="41"/>
-    <SubTexture name="bg_tile" x="349" y="281" width="100" height="100"/>
+    <SubTexture name="bg_item" x="398" y="535" width="46" height="43"/>
+    <SubTexture name="bg_progressbar" x="243" y="466" width="14" height="12"/>
+    <SubTexture name="bg_string_holder" x="114" y="503" width="41" height="41"/>
+    <SubTexture name="bg_tile" x="349" y="267" width="100" height="100"/>
     <SubTexture name="bg_window" x="2" y="2" width="350" height="237"/>
-    <SubTexture name="bt_back" x="334" y="528" width="45" height="44"/>
+    <SubTexture name="bt_back" x="446" y="572" width="45" height="44"/>
     <SubTexture name="bt_back_small" x="481" y="74" width="24" height="26"/>
-    <SubTexture name="bt_close" x="481" y="102" width="16" height="16"/>
+    <SubTexture name="bt_close" x="114" y="464" width="16" height="16"/>
     <SubTexture name="bt_orange" x="2" y="413" width="66" height="30"/>
     <SubTexture name="bt_purple" x="260" y="407" width="66" height="30"/>
-    <SubTexture name="ico_adjectives" x="335" y="464" width="46" height="62"/>
-    <SubTexture name="ico_animalparts" x="243" y="471" width="50" height="34"/>
+    <SubTexture name="ico_adjectives" x="449" y="508" width="46" height="62"/>
+    <SubTexture name="ico_animalparts" x="132" y="467" width="50" height="34"/>
     <SubTexture name="ico_animals1" x="2" y="445" width="55" height="52"/>
-    <SubTexture name="ico_animals2" x="337" y="383" width="72" height="79"/>
+    <SubTexture name="ico_animals2" x="337" y="369" width="72" height="79"/>
     <SubTexture name="ico_body1" x="354" y="2" width="125" height="119"/>
-    <SubTexture name="ico_body2" x="245" y="439" width="52" height="30"/>
+    <SubTexture name="ico_body2" x="260" y="439" width="52" height="30"/>
     <SubTexture name="ico_city" x="481" y="25" width="25" height="47"/>
-    <SubTexture name="ico_clock001" x="168" y="673" width="37" height="37"/>
-    <SubTexture name="ico_clock002" x="2" y="672" width="37" height="37"/>
-    <SubTexture name="ico_clock003" x="41" y="644" width="37" height="37"/>
-    <SubTexture name="ico_clock004" x="80" y="639" width="37" height="37"/>
-    <SubTexture name="ico_clock005" x="129" y="635" width="37" height="37"/>
-    <SubTexture name="ico_clock006" x="262" y="651" width="37" height="37"/>
-    <SubTexture name="ico_clock007" x="223" y="634" width="37" height="37"/>
-    <SubTexture name="ico_clock008" x="184" y="634" width="37" height="37"/>
-    <SubTexture name="ico_clock009" x="301" y="613" width="37" height="37"/>
-    <SubTexture name="ico_clock010" x="262" y="612" width="37" height="37"/>
-    <SubTexture name="ico_clock011" x="223" y="595" width="37" height="37"/>
-    <SubTexture name="ico_clock012" x="2" y="633" width="37" height="37"/>
-    <SubTexture name="ico_clock013" x="41" y="605" width="37" height="37"/>
-    <SubTexture name="ico_clock014" x="90" y="600" width="37" height="37"/>
-    <SubTexture name="ico_clock015" x="145" y="596" width="37" height="37"/>
-    <SubTexture name="ico_clock016" x="184" y="595" width="37" height="37"/>
-    <SubTexture name="ico_clock017" x="364" y="584" width="37" height="37"/>
-    <SubTexture name="ico_clock018" x="459" y="562" width="37" height="37"/>
-    <SubTexture name="ico_clock019" x="420" y="562" width="37" height="37"/>
-    <SubTexture name="ico_clock020" x="325" y="574" width="37" height="37"/>
-    <SubTexture name="ico_clock021" x="381" y="545" width="37" height="37"/>
-    <SubTexture name="ico_clock022" x="470" y="523" width="37" height="37"/>
-    <SubTexture name="ico_clock023" x="431" y="523" width="37" height="37"/>
-    <SubTexture name="ico_clock024" x="2" y="594" width="37" height="37"/>
-    <SubTexture name="ico_clock025" x="51" y="566" width="37" height="37"/>
-    <SubTexture name="ico_clock026" x="106" y="561" width="37" height="37"/>
-    <SubTexture name="ico_clock027" x="145" y="557" width="37" height="37"/>
-    <SubTexture name="ico_clock028" x="286" y="573" width="37" height="37"/>
-    <SubTexture name="ico_clock029" x="247" y="556" width="37" height="37"/>
-    <SubTexture name="ico_clock030" x="208" y="556" width="37" height="37"/>
-    <SubTexture name="ico_clock031" x="106" y="522" width="37" height="37"/>
-    <SubTexture name="ico_clock032" x="286" y="534" width="37" height="37"/>
-    <SubTexture name="ico_clock033" x="295" y="495" width="37" height="37"/>
-    <SubTexture name="ico_clock034" x="411" y="461" width="37" height="37"/>
-    <SubTexture name="ico_clock035" x="411" y="422" width="37" height="37"/>
-    <SubTexture name="ico_clock036" x="411" y="383" width="37" height="37"/>
-    <SubTexture name="ico_clock037" x="470" y="199" width="37" height="37"/>
-    <SubTexture name="ico_clothes1" x="2" y="538" width="47" height="54"/>
-    <SubTexture name="ico_clothes2" x="114" y="467" width="49" height="53"/>
+    <SubTexture name="ico_clock001" x="236" y="616" width="37" height="37"/>
+    <SubTexture name="ico_clock002" x="290" y="600" width="37" height="37"/>
+    <SubTexture name="ico_clock003" x="158" y="631" width="37" height="37"/>
+    <SubTexture name="ico_clock004" x="2" y="694" width="37" height="37"/>
+    <SubTexture name="ico_clock005" x="41" y="671" width="37" height="37"/>
+    <SubTexture name="ico_clock006" x="80" y="663" width="37" height="37"/>
+    <SubTexture name="ico_clock007" x="119" y="631" width="37" height="37"/>
+    <SubTexture name="ico_clock008" x="197" y="600" width="37" height="37"/>
+    <SubTexture name="ico_clock009" x="158" y="592" width="37" height="37"/>
+    <SubTexture name="ico_clock010" x="2" y="655" width="37" height="37"/>
+    <SubTexture name="ico_clock011" x="41" y="632" width="37" height="37"/>
+    <SubTexture name="ico_clock012" x="80" y="624" width="37" height="37"/>
+    <SubTexture name="ico_clock013" x="119" y="592" width="37" height="37"/>
+    <SubTexture name="ico_clock014" x="251" y="577" width="37" height="37"/>
+    <SubTexture name="ico_clock015" x="212" y="561" width="37" height="37"/>
+    <SubTexture name="ico_clock016" x="173" y="553" width="37" height="37"/>
+    <SubTexture name="ico_clock017" x="2" y="616" width="37" height="37"/>
+    <SubTexture name="ico_clock018" x="41" y="593" width="37" height="37"/>
+    <SubTexture name="ico_clock019" x="80" y="585" width="37" height="37"/>
+    <SubTexture name="ico_clock020" x="134" y="553" width="37" height="37"/>
+    <SubTexture name="ico_clock021" x="462" y="618" width="37" height="37"/>
+    <SubTexture name="ico_clock022" x="423" y="618" width="37" height="37"/>
+    <SubTexture name="ico_clock023" x="384" y="580" width="37" height="37"/>
+    <SubTexture name="ico_clock024" x="345" y="561" width="37" height="37"/>
+    <SubTexture name="ico_clock025" x="306" y="561" width="37" height="37"/>
+    <SubTexture name="ico_clock026" x="235" y="522" width="37" height="37"/>
+    <SubTexture name="ico_clock027" x="196" y="514" width="37" height="37"/>
+    <SubTexture name="ico_clock028" x="2" y="577" width="37" height="37"/>
+    <SubTexture name="ico_clock029" x="41" y="554" width="37" height="37"/>
+    <SubTexture name="ico_clock030" x="95" y="546" width="37" height="37"/>
+    <SubTexture name="ico_clock031" x="157" y="514" width="37" height="37"/>
+    <SubTexture name="ico_clock032" x="2" y="538" width="37" height="37"/>
+    <SubTexture name="ico_clock033" x="56" y="515" width="37" height="37"/>
+    <SubTexture name="ico_clock034" x="411" y="447" width="37" height="37"/>
+    <SubTexture name="ico_clock035" x="411" y="408" width="37" height="37"/>
+    <SubTexture name="ico_clock036" x="411" y="369" width="37" height="37"/>
+    <SubTexture name="ico_clock037" x="470" y="184" width="37" height="37"/>
+    <SubTexture name="ico_clothes1" x="329" y="505" width="47" height="54"/>
+    <SubTexture name="ico_clothes2" x="335" y="450" width="49" height="53"/>
     <SubTexture name="ico_colors" x="189" y="413" width="54" height="51"/>
-    <SubTexture name="ico_computer" x="119" y="674" width="37" height="29"/>
+    <SubTexture name="ico_computer" x="197" y="639" width="37" height="29"/>
     <SubTexture name="ico_fast" x="260" y="241" width="87" height="69"/>
-    <SubTexture name="ico_food1" x="243" y="507" width="41" height="47"/>
-    <SubTexture name="ico_food2" x="469" y="238" width="41" height="54"/>
-    <SubTexture name="ico_furniture" x="450" y="411" width="60" height="56"/>
-    <SubTexture name="ico_garden" x="451" y="294" width="59" height="54"/>
-    <SubTexture name="ico_hospital" x="56" y="515" width="48" height="49"/>
-    <SubTexture name="ico_jobs" x="470" y="144" width="40" height="53"/>
+    <SubTexture name="ico_food1" x="406" y="486" width="41" height="47"/>
+    <SubTexture name="ico_food2" x="469" y="223" width="41" height="54"/>
+    <SubTexture name="ico_furniture" x="450" y="396" width="60" height="56"/>
+    <SubTexture name="ico_garden" x="451" y="279" width="59" height="54"/>
+    <SubTexture name="ico_hospital" x="259" y="471" width="48" height="49"/>
+    <SubTexture name="ico_jobs" x="470" y="129" width="40" height="53"/>
     <SubTexture name="ico_kitchen" x="260" y="362" width="75" height="43"/>
     <SubTexture name="ico_letters" x="189" y="466" width="52" height="22"/>
     <SubTexture name="ico_lock" x="354" y="212" width="113" height="53"/>
-    <SubTexture name="ico_logo" x="165" y="490" width="43" height="22"/>
-    <SubTexture name="ico_nature" x="450" y="469" width="56" height="52"/>
-    <SubTexture name="ico_number0" x="499" y="117" width="11" height="12"/>
-    <SubTexture name="ico_number1" x="493" y="120" width="4" height="12"/>
-    <SubTexture name="ico_number2" x="451" y="281" width="10" height="11"/>
-    <SubTexture name="ico_number3" x="338" y="326" width="8" height="11"/>
-    <SubTexture name="ico_number4" x="338" y="312" width="9" height="12"/>
-    <SubTexture name="ico_number5" x="499" y="131" width="10" height="11"/>
-    <SubTexture name="ico_number6" x="470" y="123" width="9" height="13"/>
-    <SubTexture name="ico_number7" x="481" y="120" width="10" height="12"/>
-    <SubTexture name="ico_number8" x="499" y="102" width="11" height="13"/>
-    <SubTexture name="ico_number9" x="338" y="339" width="7" height="12"/>
+    <SubTexture name="ico_logo" x="184" y="490" width="43" height="22"/>
+    <SubTexture name="ico_nature" x="450" y="454" width="56" height="52"/>
+    <SubTexture name="ico_number00" x="386" y="450" width="19" height="25"/>
+    <SubTexture name="ico_number01" x="245" y="413" width="13" height="25"/>
+    <SubTexture name="ico_number02" x="378" y="531" width="18" height="25"/>
+    <SubTexture name="ico_number03" x="309" y="520" width="18" height="25"/>
+    <SubTexture name="ico_number04" x="314" y="466" width="19" height="25"/>
+    <SubTexture name="ico_number05" x="309" y="493" width="18" height="25"/>
+    <SubTexture name="ico_number06" x="314" y="439" width="19" height="25"/>
+    <SubTexture name="ico_number07" x="386" y="504" width="18" height="25"/>
+    <SubTexture name="ico_number08" x="481" y="102" width="19" height="25"/>
+    <SubTexture name="ico_number09" x="386" y="477" width="18" height="25"/>
+    <SubTexture name="ico_number10" x="502" y="102" width="8" height="12"/>
     <SubTexture name="ico_numbers1" x="481" y="2" width="27" height="21" frameX="-3" frameY="-7" frameWidth="33" frameHeight="33"/>
-    <SubTexture name="ico_numbers2" x="210" y="490" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
+    <SubTexture name="ico_numbers2" x="274" y="522" width="31" height="21" frameX="-1" frameY="-7" frameWidth="33" frameHeight="33"/>
     <SubTexture name="ico_personal" x="70" y="413" width="61" height="49"/>
-    <SubTexture name="ico_positions" x="299" y="439" width="34" height="54"/>
+    <SubTexture name="ico_positions" x="329" y="600" width="34" height="54"/>
     <SubTexture name="ico_slow" x="354" y="123" width="114" height="87"/>
-    <SubTexture name="ico_sports" x="451" y="350" width="56" height="59"/>
-    <SubTexture name="ico_star" x="210" y="513" width="30" height="30"/>
+    <SubTexture name="ico_sports" x="451" y="335" width="56" height="59"/>
+    <SubTexture name="ico_star" x="274" y="545" width="30" height="30"/>
     <SubTexture name="ico_stationary" x="133" y="413" width="54" height="52"/>
     <SubTexture name="ico_transport" x="260" y="312" width="76" height="48"/>
     <SubTexture name="ico_verbs1" x="2" y="499" width="52" height="37"/>

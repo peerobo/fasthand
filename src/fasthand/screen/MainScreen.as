@@ -5,6 +5,7 @@ package fasthand.screen
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import base.LayerMgr;
+	import base.ScreenMgr;
 	import base.SoundManager;
 	import comp.LoopableSprite;
 	import comp.TileImage;	
@@ -49,9 +50,7 @@ package fasthand.screen
 			var fastHand:Fasthand = Factory.getInstance(Fasthand);
 			fastHand.difficult = isFast;
 			
-			var catScrn:CategoryScreen = Factory.getInstance(CategoryScreen);
-			LayerMgr.getLayer(LayerMgr.LAYER_GAME).addChild(catScrn);
-			this.removeFromParent();
+			ScreenMgr.showScreen(CategoryScreen);			
 		}
 		
 		override public function onRemoved(e:Event):void 
