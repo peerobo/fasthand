@@ -17,7 +17,7 @@ package
 	import flash.utils.ByteArray;
 	import so.cuo.platform.admob.Admob;
 	import so.cuo.platform.admob.AdmobEvent;
-	import so.cuo.platform.admob.AdmobPosition;	
+	import so.cuo.platform.admob.AdmobPosition;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -41,6 +41,33 @@ package
 		public static const DOWN_FILTER:int = 2;
 		
 		public static var root:Sprite;
+		
+		public static function apk():void
+		{
+			/*var apkExpansionFiles:APKExpansionFiles = new APKExpansionFiles();
+			apkExpansionFiles.addEventListener(APKCompleteEvent.APK_COMPLETE, onComplete);
+			var BASE64_PUBLIC_KEY:String = "your_public_key";
+			var outputDir:String = "/Android/data"; // the outpout folder
+			var mainVersion:String = "1000023"; // the version of the APK that the file was uploaded
+			var mainSize:String = "18682320"; // the length of the file in bytes
+			var mainUnzip:Boolean = true; // unzip the file
+			//var patchVersion:String=”1000024″; // the version of the APK that the file was uploaded
+			//var patchSize:String=”14923834″; // the length of the file in bytes
+			//var patchUnzip:Boolean=true; // unzip the file
+			apkExpansionFiles.expansionFilesDelivered(BASE64_PUBLIC_KEY, mainVersion, mainSize, mainUnzip, outputDir); // only main obb file
+			//apkExpansionFiles.expansionFilesDelivered(BASE64_PUBLIC_KEY, mainVersion, mainSize, mainUnzip, outputDir, patchVersion, patchSize, patchUnzip); // main and patch obb files
+			
+			function onComplete(e:APKCompleteEvent):void
+			{
+				var conteneurImage:Loader = new Loader();
+				//var getExternalStorageDirectory:String = e.params.getExternalStorageDirectory; // the shared storage space
+				var file:File = new File(e.params.outputDirMain + "myImage.jpg"); // the outpout Main folder
+				//var file:File = new File(e.params.outputDirPatch+”myImage.jpg”);    // the outpout Patch folder
+				var image:URLRequest = new URLRequest(file.url);
+				conteneurImage.load(image);
+				this.addChild(conteneurImage);
+			}*/
+		}
 		
 		public static function getFilter(type:int):FragmentFilter
 		{
@@ -83,15 +110,15 @@ package
 		{
 			var admob:Admob = Admob.getInstance();
 			if (admob.supportDevice)
-			{				
-				admob.setKeys(Constants.AD_ID);				
+			{
+				admob.setKeys(Constants.AD_ID);
 			}
 		}
 		
 		public static function showBannerAd():void
 		{
 			var admob:Admob = Admob.getInstance();
-			admob.showBanner(Admob.BANNER, AdmobPosition.BOTTOM_CENTER);//show banner with relation position
+			admob.showBanner(Admob.BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position
 			if (isDesktop)
 				AdEmulator.showBannerAd();
 		}
@@ -113,9 +140,9 @@ package
 			//Chartboost.getInstance().showMoreAppPage();
 			var admob:Admob = Admob.getInstance();
 			if (admob.supportDevice)
-			{				
+			{
 				admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
-				admob.cacheInterstitial();				
+				admob.cacheInterstitial();
 			}
 			if (isDesktop)
 				AdEmulator.showFullscreenAd();
@@ -178,22 +205,23 @@ package
 				rec = fitObj.getBounds(fitObj);
 			}
 			disp.width = disp.width > rec.width ? rec.width : disp.width;
-			disp.scaleY =  disp.scaleX;
+			disp.scaleY = disp.scaleX;
 			
 			disp.height = disp.height > rec.height ? rec.height : disp.height;
-			disp.scaleX =  disp.scaleY;
+			disp.scaleX = disp.scaleY;
 			
-			disp.x = rec.x + (rec.width - disp.width >>1);
-			disp.y = rec.y + (rec.height - disp.height >>1);
+			disp.x = rec.x + (rec.width - disp.width >> 1);
+			disp.y = rec.y + (rec.height - disp.height >> 1);
 		}
 		
 		public static function registerPool():void
 		{
-			Factory.registerPoolCreator(Image, function ():Image { 
+			Factory.registerPoolCreator(Image, function():Image
+				{
 					var img:Image = new Image(Texture.empty(1, 1));
 					return img;
-				},
-				function(img:Image):void {
+				}, function(img:Image):void
+				{
 					img.x = img.y = 0;
 					img.scaleX = img.scaleY = 1;
 					img.touchable = true;
@@ -202,49 +230,54 @@ package
 					img.pivotY = img.pivotX = 0;
 					img.rotation = 0;
 					img.alpha = 1;
-			});
+				});
 			
-			Factory.registerPoolCreator(MovieClip, function ():MovieClip {
-				var vc:Vector.<Texture> = new Vector.<Texture>();
-				vc.push(Texture.empty(1, 1));
-				var mc:MovieClip = new MovieClip(vc, 1);				
-				return mc;
-			});
+			Factory.registerPoolCreator(MovieClip, function():MovieClip
+				{
+					var vc:Vector.<Texture> = new Vector.<Texture>();
+					vc.push(Texture.empty(1, 1));
+					var mc:MovieClip = new MovieClip(vc, 1);
+					return mc;
+				});
 			
-			Factory.registerPoolCreator(BaseBitmapTextField, function():BaseBitmapTextField {
+			Factory.registerPoolCreator(BaseBitmapTextField, function():BaseBitmapTextField
+				{
 					return new BaseBitmapTextField(1, 1, "");
-				},
-				function (txt:BaseBitmapTextField):void {
+				}, function(txt:BaseBitmapTextField):void
+				{
 					txt.reset();
-			});		
+				});
 			
-			Factory.registerPoolCreator(CallbackObj, function():CallbackObj { 
-					return new CallbackObj( null);
-				}, 
-				function(c:CallbackObj):void { 
+			Factory.registerPoolCreator(CallbackObj, function():CallbackObj
+				{
+					return new CallbackObj(null);
+				}, function(c:CallbackObj):void
+				{
 					c.f = null;
 					c.p = null;
-					c.optionalData = null;				
-			} );
-
+					c.optionalData = null;
+				});
+			
 			//Factory.registerPoolCreator(BaseButton, function():BaseButton {
-					//var baseBt:BaseButton = new BaseButton();
-					//return baseBt;
-				//},
-				//function (bt:BaseButton):void {										
-					//bt.destroy();					
-				//}
+			//var baseBt:BaseButton = new BaseButton();
+			//return baseBt;
+			//},
+			//function (bt:BaseButton):void {										
+			//bt.destroy();					
+			//}
 			//);
 			
-			Factory.registerPoolCreator(Quad, function ():Quad {
-				return new Quad(1, 1);
-			});								
-			Factory.registerPoolCreator(Scale9Image, function():Scale9Image {
-				var scale9Textures:Scale9Textures = new Scale9Textures(Texture.empty(1,1),new Rectangle(0,0,0,0));
-				var scale9Img:Scale9Image = new Scale9Image(scale9Textures);
-				return scale9Img;
-				},
-				function(img:Scale9Image):void {
+			Factory.registerPoolCreator(Quad, function():Quad
+				{
+					return new Quad(1, 1);
+				});
+			Factory.registerPoolCreator(Scale9Image, function():Scale9Image
+				{
+					var scale9Textures:Scale9Textures = new Scale9Textures(Texture.empty(1, 1), new Rectangle(0, 0, 0, 0));
+					var scale9Img:Scale9Image = new Scale9Image(scale9Textures);
+					return scale9Img;
+				}, function(img:Scale9Image):void
+				{
 					img.x = img.y = 0;
 					img.scaleX = img.scaleY = 1;
 					img.touchable = true;
@@ -253,36 +286,36 @@ package
 					img.pivotY = img.pivotX = 0;
 					img.rotation = 0;
 					img.alpha = 1;
-			});
+				});
 		}
 		
-		static public function showInAppPurchase():void 
+		static public function showInAppPurchase():void
 		{
-			
+		
 		}
 		
 		static public function get isIOS():Boolean
 		{
 			return (Capabilities.manufacturer.indexOf("iOS") != -1);
-		}		
+		}
 		
 		static public function get isAndroid():Boolean
 		{
 			return (Capabilities.manufacturer.indexOf("Android") != -1);
-		}		
+		}
 		
 		static public function get isDesktop():Boolean
 		{
 			return (Capabilities.os.indexOf("Windows ") != 1);
 		}
-	
+		
 		static public function setPrivateValue(key:String, value:String):void
-		{						
-			if(EncryptedLocalStore.isSupported)
+		{
+			if (EncryptedLocalStore.isSupported)
 			{
 				var bytes:ByteArray = new ByteArray();
 				bytes.writeUTFBytes(value);
-				EncryptedLocalStore.setItem(Constants.APP_NAME + "_" +key, bytes);
+				EncryptedLocalStore.setItem(Constants.APP_NAME + "_" + key, bytes);
 			}
 		}
 		
@@ -290,7 +323,7 @@ package
 		{
 			if (EncryptedLocalStore.isSupported)
 			{
-				var storedValue:ByteArray = EncryptedLocalStore.getItem(Constants.APP_NAME + "_" + key);				
+				var storedValue:ByteArray = EncryptedLocalStore.getItem(Constants.APP_NAME + "_" + key);
 				return storedValue ? storedValue.readUTFBytes(storedValue.length) : null;
 			}
 			return null;

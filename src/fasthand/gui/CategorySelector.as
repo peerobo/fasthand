@@ -9,6 +9,7 @@ package fasthand.gui
 	import fasthand.comp.CatRenderer;
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;
+	import flash.geom.Rectangle;
 	import res.asset.IconAsset;
 	import starling.core.Starling;
 	import starling.display.QuadBatch;
@@ -27,6 +28,7 @@ package fasthand.gui
 		public var nextPageBt:BaseButton;
 		
 		public var rectPlace:Array; // rectangle
+		public var rectIcon:Rectangle;
 		
 		public var bg:Sprite;
 		public var contentHolder:Sprite;
@@ -63,6 +65,7 @@ package fasthand.gui
 				item.x = rectPlace[i].x;
 				item.y = rectPlace[i].y;
 				sprCurr.addChild(item);
+				item.align(rectPlace[i],rectIcon);
 				item.name = "item" + i;	
 				c = Factory.getObjectFromPool(CallbackObj);
 				c.f = onSelectCat;
@@ -72,6 +75,7 @@ package fasthand.gui
 				item.y = rectPlace[i].y;
 				item.name = "item" + i;				
 				sprNext.addChild(item);
+				item.align(rectPlace[i],rectIcon);
 				c = Factory.getObjectFromPool(CallbackObj);
 				c.f = onSelectCat;
 				item.clickCallbackObj = c;

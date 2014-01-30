@@ -38,6 +38,7 @@ package fasthand.comp
 		
 		static private const COLORS_RND:Array = [Color.WHITE, 0xFFFF80, 0xFF80FF, 0x8282FF, 0x00FF80, 0xFF8000];		
 		private var _cat:String;
+		private var bt:BaseButton;
 		
 		public var clickCallbackObj:CallbackObj;
 		
@@ -50,7 +51,7 @@ package fasthand.comp
 		{
 			super.onAdded(e);
 						
-			var bt:BaseButton = ButtonAsset.getBaseBt(BackgroundAsset.BG_ITEM);
+			bt = ButtonAsset.getBaseBt(BackgroundAsset.BG_ITEM);
 			bt.background.width = 324;
 			bt.background.height = 276;
 			bt.x = 18;
@@ -69,6 +70,14 @@ package fasthand.comp
 			title.touchable = false;
 			
 			bt.setCallbackFunc(onClick);			
+		}
+		
+		public function align(rectBt:Rectangle,lockRect:Rectangle):void
+		{
+			bt.background.width = rect.width;
+			bt.background.height = rect.height;
+			lockIcon.x = lockRect.x;
+			lockIcon.y = lockRect.y;
 		}
 		
 		private function onClick():void
