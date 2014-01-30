@@ -4,12 +4,15 @@ package fasthand.gui
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import base.GlobalInput;
+	import base.SoundManager;
 	import comp.SpriteNumber;
 	import fasthand.comp.TileRenderer;
 	import fasthand.Fasthand;
 	import flash.geom.Rectangle;
+	import flash.media.SoundChannel;
 	import res.Asset;
 	import res.asset.IconAsset;
+	import res.asset.SoundAsset;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
@@ -34,6 +37,7 @@ package fasthand.gui
 		public var rectScore:Rectangle;
 		public var onAnimateComplete:Function;
 		public var onSelectWord:Function;
+		private var timeoutSound:SoundChannel;
 		
 		public function GameBoard() 
 		{
@@ -83,14 +87,22 @@ package fasthand.gui
 		{
 			timeProgressbar.width = timeProgressbarBg.width;
 			time = maxTime;
+			if (timeoutSound)
+				timeoutSound.stop();
+			timeoutSound = null
 		}
 		
 		override public function update(time:Number):void 
 		{
 			super.update(time);
-			if (isAnimatedTime)
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			if (isAnimatedTime && logic.isStartGame)
 			{
 				this.time -= time;
+				if (this.time <= 3 && !timeoutSound)
+				{
+					timeoutSound = SoundManager.playSound(SoundAsset.SOUND_TIMEOUT);					
+				}								
 				var p:Number = this.time / maxTime;
 				p = p > 1 ? 1 : (p < 0 ? 0 : p);
 				var w:int = timeProgressbarBg.width * p;
@@ -103,8 +115,7 @@ package fasthand.gui
 					timeProgressbar.alpha = 1;
 				}
 				timeProgressbar.width = w;
-			}
-			var logic:Fasthand = Factory.getInstance(Fasthand);
+			}			
 			scoreBoard.text = Util.numberWithCommas(logic.currentPlayerScore);
 		}
 		
@@ -122,6 +133,8 @@ package fasthand.gui
 				else
 					Starling.juggler.tween(item, 0.5, { scaleX:1, scaleY:1 } );
 			}
+			if (timeoutSound)
+				timeoutSound.stop();
 		}
 		
 		public function setIcons(seqs:Array):void 
@@ -154,6 +167,8 @@ package fasthand.gui
 				var item:TileRenderer = getChildByName("tile" + i) as TileRenderer;
 				item.reset();
 			}
+			if (timeoutSound)
+				timeoutSound.stop();
 		}
 		
 	}

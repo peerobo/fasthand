@@ -22,11 +22,11 @@ package  base
 	 * @author ndp
 	 */
 	public class BFConstructor implements IAnimatable
-	{
-		public static const BANHMI_ASSET:String = "banhmi.xml";				
+	{		
 		public static const BANHMI:String = "banhmi";			
+		public static const ARIAL:String = "arial";			
 		
-		private const listFont:Array = [BANHMI];
+		public static const LIST_FONTS:Array = [BANHMI,ARIAL];
 		private var xmls:Object = { };
 		
 		public function BFConstructor() 
@@ -96,7 +96,10 @@ package  base
 		
 		static public function getFontBySize(fontSize:int):String 
 		{
-			return BANHMI;
+			if(fontSize >=54)
+				return BANHMI;
+			else
+				return ARIAL;
 		}
 		
 		/* INTERFACE starling.animation.IAnimatable */
@@ -106,7 +109,7 @@ package  base
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			if (resMgr.assetProgress == 1)
 			{				
-				for each (var name:String in listFont) 
+				for each (var name:String in LIST_FONTS) 
 				{
 					var xml:XML = this.xmls[name];
 					var fontTex:Texture = Asset.getBaseTexture(name);

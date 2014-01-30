@@ -11,7 +11,7 @@ package
 		public static const APP_NAME:String = "com.fc.FastHandEnglish";
 		public static const SEC_PER_ROUND:int = 60;
 		public static const SEC_PER_ROUND_DIFFICULT:int = 15;
-		public static const MAX_SCORE_PER_ROUND:int = 100;
+		public static const MAX_SCORE_PER_ROUND:int = 1000;
 		public static const ROUND_PER_GAME:int = 10;
 		public static const TILE_PER_ROUND:int = 10;
 		public static const CAT_PER_PAGE:int = 6;		

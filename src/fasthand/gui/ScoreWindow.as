@@ -46,6 +46,9 @@ package fasthand.gui
 		
 		override public function onAdded(e:Event):void 
 		{
+			addChild(particleSys);			
+			particleSys.y = 288;
+			
 			super.onAdded(e);
 			
 			subjectTitleTxt.batchable = true;
@@ -58,9 +61,8 @@ package fasthand.gui
 			closeBt.setCallbackFunc(onCategoryBt);
 			changeSubjectBt.setCallbackFunc(onCategoryBt);		
 			
-			addChild(particleSys);
-			particleSys.x = width >> 1;			
-			particleSys.y = 60;
+			particleSys.x = width >> 1;
+			
 			SoundManager.playSound(SoundAsset.SOUND_END_GAME);
 		}
 		

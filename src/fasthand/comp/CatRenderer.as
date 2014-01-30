@@ -36,7 +36,7 @@ package fasthand.comp
 		private var icon:DisplayObject;	
 		private var title:BaseBitmapTextField;
 		
-		static private const COLORS_RND:Array = [Color.PURPLE, Color.YELLOW, Color.OLIVE, Color.LIME];		
+		static private const COLORS_RND:Array = [Color.WHITE, 0xFFFF80, 0xFF80FF, 0x8282FF, 0x00FF80, 0xFF8000];		
 		private var _cat:String;
 		
 		public var clickCallbackObj:CallbackObj;
@@ -51,7 +51,7 @@ package fasthand.comp
 			super.onAdded(e);
 						
 			var bt:BaseButton = ButtonAsset.getBaseBt(BackgroundAsset.BG_ITEM);
-			bt.background.width = 300;
+			bt.background.width = 324;
 			bt.background.height = 276;
 			bt.x = 18;
 			bt.y = 0;
@@ -61,9 +61,8 @@ package fasthand.comp
 			lockIcon.x = 0;
 			lockIcon.touchable = false;
 			lockIcon.visible = isLocked;
-			addChild(lockIcon);
-			//title = BFConstructor.getShortTextField(ICON_W, ICON_H, "", BFConstructor.BANHMI, COLORS_RND[int(Math.random()*COLORS_RND.length)], HAlign.CENTER, VAlign.TOP);
-			title = BFConstructor.getTextField(ICON_W, ICON_H, "", BFConstructor.BANHMI, COLORS_RND[int(Math.random()*COLORS_RND.length)], HAlign.CENTER, VAlign.TOP);
+			addChild(lockIcon);			
+			title = BFConstructor.getTextField(bt.background.width - 48, ICON_H, "", BFConstructor.ARIAL, COLORS_RND[int(Math.random()*COLORS_RND.length)], HAlign.CENTER, VAlign.TOP);
 			title.x = ICON_X;
 			title.y = 0;
 			addChild(title);
@@ -135,7 +134,7 @@ package fasthand.comp
 				Factory.toPool(icon);
 				icon = null;
 			}
-			icon = BFConstructor.getTextField(ICON_W, ICON_H, LangUtil.getText("comingsoon"), BFConstructor.BANHMI,0xFFFFFF,HAlign.CENTER,VAlign.TOP);			
+			icon = BFConstructor.getTextField(ICON_W, ICON_H, LangUtil.getText("comingsoon"), BFConstructor.ARIAL,0xFFFFFF,HAlign.CENTER,VAlign.TOP);			
 			icon.x = ICON_X;
 			icon.y = ICON_Y;
 			addChildAt(icon, 1);

@@ -23,7 +23,7 @@ package comp
 		{
 			var colors:Array = [Color.AQUA, Color.BLUE, Color.GREEN, Color.NAVY];
 			var color:int = colors[int(Math.random()*colors.length)];
-			var quad:Quad = new Quad(320 * Starling.contentScaleFactor, 50 * Starling.contentScaleFactor, color);
+			var quad:Quad = new Quad(320 / Starling.contentScaleFactor, 50 / Starling.contentScaleFactor, color);
 			LayerMgr.getLayer(LayerMgr.LAYER_TOOLTIP).addChild(quad);
 			Util.g_centerScreen(quad);
 			quad.y = Util.appHeight - quad.height;

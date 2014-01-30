@@ -90,18 +90,17 @@ package fasthand.screen
 			btBack.y = 18;
 			
 			var str:String = " " + LangUtil.getText("currentMode");
-			title = BFConstructor.getTextField(Util.appWidth, 1, "", BFConstructor.BANHMI,Color.WHITE);
-			title.autoSize = TextFieldAutoSize.VERTICAL;
+			title = BFConstructor.getTextField(Util.appWidth, btBack.height, "", BFConstructor.ARIAL,Color.YELLOW);			
 			title.touchable = false;
 			addChild(title);
-			title.y = 0;
+			title.y = btBack.y;
 			
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			title.text = LangUtil.getText("chooseCategory");
 			var parts:Array = str.split("@mode");
-			title.add(parts[0], Color.SILVER);
-			title.add(logic.difficult ? LangUtil.getText("fast"):LangUtil.getText("slow"), logic.difficult ? Color.RED:Color.GREEN);
-			title.add(parts[1], Color.SILVER);
+			title.add(parts[0], 0xEBEBEB);
+			title.add(logic.difficult ? LangUtil.getText("fast"):LangUtil.getText("slow"), logic.difficult ? 0xFF8080:0x00FF80);
+			title.add(parts[1], 0xEBEBEB);
 			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			cb = globalInput.registerSwipe(onSwipe);

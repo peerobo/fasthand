@@ -5,6 +5,7 @@ package comp
 	import starling.display.QuadBatch;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
+	import starling.textures.TextureSmoothing;
 	
 	/**
 	 * ...
@@ -35,6 +36,7 @@ package comp
 			var oYImg:Image = new Image(oYTex);
 			var oXYImg:Image = new Image(oXYTex);			
 			var img:Image = new Image(tex);					
+			img.smoothing = TextureSmoothing.NONE;
 			for (var i:int = 0; i < fillX; i++) 
 			{
 				for (var j:int = 0; j < fillY; j++) 

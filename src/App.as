@@ -5,6 +5,7 @@ package
 	import base.GlobalInput;
 	import base.LayerMgr;	
 	import base.ScreenMgr;
+	import flash.display.Stage;
 	import res.asset.ParticleAsset;
 	import res.asset.SoundAsset;
 	import res.ResMgr;
@@ -55,7 +56,7 @@ package
 			ScreenMgr.showScreen(LoadingScreen);			
 			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);			
 			
-			addEventListener(TouchEvent.TOUCH, onTouch);
+			addEventListener(TouchEvent.TOUCH, onTouch);						
 		}
 		
 		private function onTouch(e:TouchEvent):void 

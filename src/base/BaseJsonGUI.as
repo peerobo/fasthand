@@ -377,13 +377,7 @@ package base
 			var text:String = "text";			
 			var fontName:String = "";								
 			fontName = BFConstructor.getFontBySize(fontSize);			
-			var txt:BaseBitmapTextField = Factory.getObjectFromPool(BaseBitmapTextField);
-			txt.width = objW;
-			txt.height = objH;
-			txt.fontName = fontName;
-			txt.color = fontColor;
-			txt.text = text;
-			txt.fontSize = BFConstructor.getNativeSize(fontName);						
+			var txt:BaseBitmapTextField = BFConstructor.getTextField(objW, objH, text, fontName, fontColor);
 			txt.scaleX = objSX;			
 			txt.scaleY = objSY;
 			txt.x = objX;

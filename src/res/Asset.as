@@ -38,11 +38,11 @@ package res
 		
 		static public function getBasicTextureAtlURL():Array // png/atf, xml 
 		{
-			return [
-				ASSET_FOLDER + BASE_GUI + contentSuffix + ".png", 
-				ASSET_FOLDER + BASE_GUI + contentSuffix + ".xml",
-				TEXT_FOLDER + BFConstructor.BANHMI_ASSET
-				]
+			var list:Array = [ASSET_FOLDER + BASE_GUI + contentSuffix + ".atf", 
+					ASSET_FOLDER + BASE_GUI + contentSuffix + ".xml"];
+			for each(var s:String in BFConstructor.LIST_FONTS)
+				list.push(TEXT_FOLDER + s + ".xml");
+			return list;
 		}
 		
 		
@@ -69,7 +69,7 @@ package res
 			}
 			else
 			{
-				var img:Image = Factory.getObjectFromPool(Image);
+				var img:Image = Factory.getObjectFromPool(Image);				
 				img.texture = tex;
 				img.readjustSize();
 				return img;

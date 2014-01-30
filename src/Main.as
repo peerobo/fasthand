@@ -5,7 +5,9 @@ package
 	import base.Factory;
 	import base.LangUtil;
 	import fasthand.Fasthand;
+	import flash.data.EncryptedLocalStore;
 	import flash.desktop.NativeApplication;
+	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -24,6 +26,7 @@ package
 	 * ...
 	 * @author ndp
 	 */
+	[SWF(frameRate="60",backgroundColor="0xFFFFFF")]
 	public class Main extends Sprite 
 	{		
 		
@@ -38,8 +41,7 @@ package
 			
 			// entry point
 			
-			// new to AIR? please read *carefully* the readme.txt files!
-			
+			// new to AIR? please read *carefully* the readme.txt files!			
 			startStarlingFramework();				
 		}
 		
@@ -49,14 +51,31 @@ package
 			var sh:int = stage.fullScreenHeight;
 			
 			var maxSize:int = sw < sh ? sh : sw;
+			var minSize:int = sw < sh ? sw : sh;
 			var w:int;
 			var h:int;
-			if (maxSize <= 480)
+			/*if (maxSize < 640)
 			{
 				w = sw*3;
 				h = sh*3;
 			}
 			else if (maxSize < 1280)
+			{
+				w = sw*3/2;
+				h = sh*3/2;
+			}
+			else
+			{
+				w = sw;
+				h = sh;
+			}*/
+			
+			if (minSize <=480)
+			{
+				w = sw*3;
+				h = sh*3;
+			}
+			else if (minSize <= 960)
 			{
 				w = sw*3/2;
 				h = sh*3/2;
@@ -75,7 +94,13 @@ package
 			Asset.init();
 			LangUtil.loadXMLData();
 			BaseJsonGUI.loadCfg();			
-			Util.initAd();
+			Util.initAd();	
+			
+			if(Util.isDesktop)
+			{
+				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + "highscore");
+				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + "highscoreDiff");
+			}
 		}
 		
 		private function onAdReceived(event:AdmobEvent):void 

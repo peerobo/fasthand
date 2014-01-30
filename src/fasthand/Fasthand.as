@@ -8,8 +8,7 @@ package fasthand
 	import base.LayerMgr;
 	import base.PopupMgr;
 	import base.ScreenMgr;
-	import base.SoundManager;
-	import fasthand.gui.LeaderBoard;
+	import base.SoundManager;	
 	import fasthand.gui.ScoreWindow;
 	import fasthand.logic.GameRound;
 	import fasthand.screen.CategoryScreen;
@@ -44,9 +43,7 @@ package fasthand
 		public var gameOverParams:Array;
 		
 		public var highscore:int;
-		public var hightscoreDifficult:int;
-		
-		private var timeoutSound:SoundChannel;
+		public var hightscoreDifficult:int;				
 		
 		public function Fasthand() 
 		{
@@ -103,18 +100,10 @@ package fasthand
 		{
 			if (isStartGame)
 			{
-				interval += time;
-				if (interval >= 1)
-				{
-					interval -= 1;
-					roundTime -= 1;	
-					if (roundTime <= 3 && !timeoutSound)
-					{
-						timeoutSound = SoundManager.playSound(SoundAsset.SOUND_TIMEOUT);
-					}
-					if (roundTime < 0)
-						gameOver();
-				}
+				roundTime -= time;	
+				
+				if (roundTime < 0)
+					gameOver();				
 			}
 		}
 		
@@ -132,12 +121,7 @@ package fasthand
 				else
 				{
 					var gameScreen:GameScreen = Factory.getInstance(GameScreen);
-					gameScreen.preStartRound();
-					if(timeoutSound)
-					{
-						timeoutSound.stop()
-						timeoutSound = null;
-					}
+					gameScreen.preStartRound();					
 				}
 			}			
 			else
@@ -155,12 +139,7 @@ package fasthand
 		public function gameOver(noScoreWnd:Boolean = false):void 
 		{
 			isStartGame = false;
-			Starling.juggler.remove(this);
-			if(timeoutSound)
-			{
-				timeoutSound.stop()
-				timeoutSound = null;
-			}
+			Starling.juggler.remove(this);			
 			var gameScreen:GameScreen = Factory.getInstance(GameScreen);
 			gameScreen.endGame();
 			if(!noScoreWnd)

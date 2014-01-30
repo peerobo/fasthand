@@ -1,61 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:e7dd63d86b4a2b2c8cf14a267836f09e$ -->
+<!-- $TexturePacker:SmartUpdate:e1e16cbc441c2a80d48e410662efa992$ -->
 <TextureAtlas imagePath="gui-sd.png">
-    <SubTexture name="banhmi" x="2" y="479" width="510" height="339" frameX="0" frameY="-1" frameWidth="512" frameHeight="341"/>
-    <SubTexture name="bg_item" x="651" y="888" width="100" height="92"/>
-    <SubTexture name="bg_progressbar" x="845" y="789" width="27" height="23"/>
-    <SubTexture name="bg_string_holder" x="934" y="504" width="82" height="81"/>
-    <SubTexture name="bg_tile" x="690" y="523" width="200" height="203"/>
+    <SubTexture name="arial" x="2" y="888" width="510" height="351" frameX="-1" frameY="-1" frameWidth="512" frameHeight="353"/>
+    <SubTexture name="banhmi" x="2" y="479" width="510" height="407" frameX="-1" frameY="-1" frameWidth="512" frameHeight="409"/>
+    <SubTexture name="bg_item" x="922" y="993" width="100" height="92"/>
+    <SubTexture name="bg_progressbar" x="669" y="654" width="27" height="23"/>
+    <SubTexture name="bg_string_holder" x="722" y="1236" width="82" height="81"/>
+    <SubTexture name="bg_tile" x="705" y="2" width="267" height="211"/>
+    <SubTexture name="bg_tile_welcome" x="614" y="1251" width="80" height="80"/>
     <SubTexture name="bg_window" x="2" y="2" width="701" height="475"/>
-    <SubTexture name="bt_back" x="932" y="587" width="89" height="88"/>
-    <SubTexture name="bt_back_small" x="601" y="866" width="48" height="52"/>
-    <SubTexture name="bt_close" x="812" y="789" width="31" height="32"/>
-    <SubTexture name="bt_orange" x="2" y="820" width="131" height="59"/>
+    <SubTexture name="bt_back" x="837" y="1188" width="89" height="88"/>
+    <SubTexture name="bt_back_small" x="974" y="2" width="48" height="52"/>
+    <SubTexture name="bt_close" x="669" y="620" width="31" height="32"/>
+    <SubTexture name="bt_orange" x="514" y="866" width="131" height="59"/>
     <SubTexture name="bt_purple" x="514" y="805" width="131" height="59"/>
-    <SubTexture name="ico_adjectives" x="931" y="677" width="91" height="125"/>
-    <SubTexture name="ico_animalparts" x="487" y="971" width="100" height="67"/>
-    <SubTexture name="ico_animals1" x="2" y="996" width="110" height="105"/>
-    <SubTexture name="ico_animals2" x="667" y="728" width="143" height="158"/>
-    <SubTexture name="ico_body1" x="705" y="2" width="251" height="237"/>
-    <SubTexture name="ico_body2" x="114" y="1041" width="103" height="60"/>
-    <SubTexture name="ico_city" x="958" y="152" width="49" height="95"/>
-    <SubTexture name="ico_clothes1" x="927" y="804" width="93" height="108"/>
-    <SubTexture name="ico_clothes2" x="790" y="941" width="98" height="107"/>
-    <SubTexture name="ico_colors" x="491" y="866" width="108" height="103"/>
-    <SubTexture name="ico_computer" x="812" y="728" width="74" height="59"/>
+    <SubTexture name="ico_adjectives" x="931" y="655" width="91" height="125"/>
+    <SubTexture name="ico_animalparts" x="620" y="1182" width="100" height="67"/>
+    <SubTexture name="ico_animals1" x="810" y="962" width="110" height="105"/>
+    <SubTexture name="ico_animals2" x="667" y="736" width="143" height="158"/>
+    <SubTexture name="ico_body1" x="705" y="215" width="251" height="237"/>
+    <SubTexture name="ico_body2" x="732" y="1174" width="103" height="60"/>
+    <SubTexture name="ico_city" x="958" y="414" width="49" height="95"/>
+    <SubTexture name="ico_clothes1" x="925" y="883" width="93" height="108"/>
+    <SubTexture name="ico_clothes2" x="514" y="1196" width="98" height="107"/>
+    <SubTexture name="ico_colors" x="796" y="1069" width="108" height="103"/>
+    <SubTexture name="ico_computer" x="696" y="1319" width="74" height="59"/>
     <SubTexture name="ico_fast" x="514" y="479" width="174" height="139"/>
-    <SubTexture name="ico_food1" x="936" y="296" width="83" height="95"/>
-    <SubTexture name="ico_food2" x="936" y="393" width="82" height="109"/>
-    <SubTexture name="ico_furniture" x="2" y="881" width="121" height="113"/>
-    <SubTexture name="ico_garden" x="259" y="820" width="119" height="107"/>
-    <SubTexture name="ico_hospital" x="926" y="914" width="96" height="99"/>
-    <SubTexture name="ico_jobs" x="890" y="1015" width="79" height="106"/>
+    <SubTexture name="ico_food1" x="936" y="558" width="83" height="95"/>
+    <SubTexture name="ico_food2" x="928" y="1188" width="82" height="109"/>
+    <SubTexture name="ico_furniture" x="514" y="927" width="121" height="113"/>
+    <SubTexture name="ico_garden" x="637" y="997" width="119" height="107"/>
+    <SubTexture name="ico_hospital" x="926" y="782" width="96" height="99"/>
+    <SubTexture name="ico_jobs" x="806" y="1278" width="79" height="106"/>
     <SubTexture name="ico_kitchen" x="514" y="718" width="151" height="85"/>
-    <SubTexture name="ico_letters" x="238" y="1005" width="104" height="45"/>
-    <SubTexture name="ico_lock" x="705" y="416" width="227" height="105"/>
-    <SubTexture name="ico_logo" x="936" y="249" width="86" height="45"/>
-    <SubTexture name="ico_nature" x="812" y="835" width="112" height="104"/>
-    <SubTexture name="ico_number00" x="892" y="575" width="38" height="50"/>
-    <SubTexture name="ico_number01" x="345" y="929" width="25" height="50"/>
-    <SubTexture name="ico_number02" x="753" y="888" width="36" height="50"/>
-    <SubTexture name="ico_number03" x="601" y="920" width="37" height="50"/>
-    <SubTexture name="ico_number04" x="892" y="523" width="39" height="50"/>
-    <SubTexture name="ico_number05" x="888" y="783" width="37" height="50"/>
-    <SubTexture name="ico_number06" x="888" y="731" width="37" height="50"/>
-    <SubTexture name="ico_number07" x="753" y="940" width="35" height="50"/>
-    <SubTexture name="ico_number08" x="892" y="679" width="37" height="50"/>
-    <SubTexture name="ico_number09" x="892" y="627" width="37" height="50"/>
-    <SubTexture name="ico_number10" x="669" y="620" width="17" height="24"/>
-    <SubTexture name="ico_numbers1" x="958" y="109" width="53" height="41" frameX="-8" frameY="-14" frameWidth="67" frameHeight="67"/>
-    <SubTexture name="ico_numbers2" x="958" y="2" width="61" height="43" frameX="-3" frameY="-13" frameWidth="67" frameHeight="67"/>
-    <SubTexture name="ico_personal" x="135" y="820" width="122" height="99"/>
-    <SubTexture name="ico_positions" x="344" y="1028" width="69" height="109"/>
-    <SubTexture name="ico_slow" x="705" y="241" width="229" height="173"/>
-    <SubTexture name="ico_sports" x="125" y="921" width="111" height="118"/>
-    <SubTexture name="ico_star" x="958" y="47" width="60" height="60"/>
-    <SubTexture name="ico_stationary" x="380" y="820" width="109" height="105"/>
+    <SubTexture name="ico_letters" x="514" y="1149" width="104" height="45"/>
+    <SubTexture name="ico_lock" x="702" y="629" width="227" height="105"/>
+    <SubTexture name="ico_logo" x="936" y="511" width="86" height="45"/>
+    <SubTexture name="ico_nature" x="812" y="736" width="112" height="104"/>
+    <SubTexture name="ico_number00" x="974" y="108" width="38" height="50"/>
+    <SubTexture name="ico_number01" x="669" y="679" width="25" height="50"/>
+    <SubTexture name="ico_number02" x="758" y="1052" width="36" height="50"/>
+    <SubTexture name="ico_number03" x="758" y="1000" width="37" height="50"/>
+    <SubTexture name="ico_number04" x="974" y="56" width="39" height="50"/>
+    <SubTexture name="ico_number05" x="771" y="948" width="37" height="50"/>
+    <SubTexture name="ico_number06" x="771" y="896" width="37" height="50"/>
+    <SubTexture name="ico_number07" x="758" y="1104" width="35" height="50"/>
+    <SubTexture name="ico_number08" x="974" y="212" width="37" height="50"/>
+    <SubTexture name="ico_number09" x="974" y="160" width="37" height="50"/>
+    <SubTexture name="ico_number10" x="936" y="454" width="17" height="24"/>
+    <SubTexture name="ico_numbers1" x="958" y="371" width="53" height="41" frameX="-8" frameY="-14" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="ico_numbers2" x="958" y="264" width="61" height="43" frameX="-3" frameY="-13" frameWidth="67" frameHeight="67"/>
+    <SubTexture name="ico_personal" x="647" y="896" width="122" height="99"/>
+    <SubTexture name="ico_positions" x="887" y="1299" width="69" height="109"/>
+    <SubTexture name="ico_slow" x="705" y="454" width="229" height="173"/>
+    <SubTexture name="ico_sports" x="812" y="842" width="111" height="118"/>
+    <SubTexture name="ico_star" x="958" y="309" width="60" height="60"/>
+    <SubTexture name="ico_stationary" x="514" y="1042" width="109" height="105"/>
     <SubTexture name="ico_transport" x="514" y="620" width="153" height="96"/>
-    <SubTexture name="ico_verbs1" x="238" y="929" width="105" height="74"/>
-    <SubTexture name="ico_verbs2" x="380" y="927" width="105" height="99"/>
+    <SubTexture name="ico_verbs1" x="625" y="1106" width="105" height="74"/>
+    <SubTexture name="ico_verbs2" x="906" y="1087" width="105" height="99"/>
 </TextureAtlas>
