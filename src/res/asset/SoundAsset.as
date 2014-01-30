@@ -10,9 +10,7 @@ package res.asset
 	public class SoundAsset 
 	{
 		public static const FOLDER:String = "asset/sounds/";
-		public static const GUI:String = "gui/";
-		public static const SKILL:String = "skill/";
-		public static const OBJECT:String = "object/";
+		public static const GUI:String = "gui/";		
 		
 		public static const THEME_SONG:String = FOLDER + GUI + "theme.mp3";		
 		public static const SOUND_TIMEOUT:String = FOLDER + GUI + "timeout.mp3";		
@@ -40,6 +38,11 @@ package res.asset
 			{
 				listSound = { };
 				currCat = null;
+			}
+			if (listSound[cat])
+			{
+				onDownloadDone(1);
+				return;
 			}
 			listSound[cat] = false;
 			currCat = cat;

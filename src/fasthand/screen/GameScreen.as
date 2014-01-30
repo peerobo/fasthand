@@ -69,7 +69,12 @@ package fasthand.screen
 		
 		private function onBackToCategoryScreen():void 
 		{
+			gameboard.resetTimeCount();
+			gameboard.isAnimatedTime = false;
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			logic.gameOver(true);
 			ScreenMgr.showScreen(CategoryScreen);
+			SoundManager.playSound(SoundAsset.SOUND_CLICK);
 		}
 		
 		public function preStartGame():void
@@ -114,6 +119,12 @@ package fasthand.screen
 			
 			SoundManager.instance.muteMusic = false;
 			Util.hideBannerAd();
+		}
+		
+		public function endGame():void
+		{
+			if (gameboard)
+				gameboard.reset();
 		}
 		
 	}

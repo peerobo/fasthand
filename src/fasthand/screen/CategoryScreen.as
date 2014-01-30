@@ -73,7 +73,7 @@ package fasthand.screen
 		private function moveToGameScreen():void
 		{
 			PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
-			ScreenMgr.showScreen(GameScreen);	
+			ScreenMgr.showScreen(GameScreen);				
 		}
 		
 		override public function onAdded(e:Event):void 

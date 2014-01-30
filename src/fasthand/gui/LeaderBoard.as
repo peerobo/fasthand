@@ -5,12 +5,14 @@ package fasthand.gui
 	import base.font.BaseBitmapTextField;
 	import base.LayerMgr;
 	import base.PopupMgr;
+	import base.SoundManager;
 	import comp.LoopableSprite;
 	import res.Asset;
 	import res.asset.BackgroundAsset;
 	import res.asset.ButtonAsset;
 	import res.asset.IconAsset;
 	import res.asset.ParticleAsset;
+	import res.asset.SoundAsset;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 	import starling.extensions.PDParticleSystem;
@@ -65,7 +67,8 @@ package fasthand.gui
 		{
 			super.onAdded(e);
 			LayerMgr.getLayer(LayerMgr.LAYER_GAME).flatten();
-			particleSys.start(5);			
+			particleSys.start(5);
+			SoundManager.playSound(SoundAsset.SOUND_END_GAME);
 		}
 		
 		override public function advanceTime(time:Number):void 

@@ -5,7 +5,6 @@ package fasthand.gui
 	import base.font.BaseBitmapTextField;
 	import base.GlobalInput;
 	import comp.SpriteNumber;
-	import fasthand.comp.TileIcon;
 	import fasthand.comp.TileRenderer;
 	import fasthand.Fasthand;
 	import flash.geom.Rectangle;
@@ -64,7 +63,7 @@ package fasthand.gui
 				item.y += item.height >> 1;
 			}
 			
-			wordTxt.color = Color.GREEN;
+			wordTxt.color = Color.LIME;
 			
 			scoreBoard = Factory.getObjectFromPool(SpriteNumber);
 			scoreBoard.init(Asset.getBaseTextures(IconAsset.ICO_NUMBER));
@@ -137,7 +136,8 @@ package fasthand.gui
 		
 		public function setWord(word2Find:String):void 
 		{
-			wordTxt.text = word2Find;
+			var str:String = word2Find.substr(0,1).toUpperCase() + word2Find.substr(1);
+			wordTxt.text = str;
 		}
 		
 		private function animatedDone():void 
@@ -146,7 +146,16 @@ package fasthand.gui
 			input.disable = false;
 			onAnimateComplete();
 		}
-				
+			
+		public function reset():void
+		{
+			for (var i:int = 0; i < rectTile.length; i++) 
+			{
+				var item:TileRenderer = getChildByName("tile" + i) as TileRenderer;
+				item.reset();
+			}
+		}
+		
 	}
 
 }

@@ -5,6 +5,7 @@ package
 	import base.CallbackObj;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import comp.AdEmulator;
 	import comp.TileImage;
 	import feathers.display.Scale3Image;
 	import feathers.display.Scale9Image;
@@ -16,7 +17,7 @@ package
 	import flash.utils.ByteArray;
 	import so.cuo.platform.admob.Admob;
 	import so.cuo.platform.admob.AdmobEvent;
-	import so.cuo.platform.admob.AdmobPosition;
+	import so.cuo.platform.admob.AdmobPosition;	
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -90,23 +91,34 @@ package
 		public static function showBannerAd():void
 		{
 			var admob:Admob = Admob.getInstance();
-			admob.showBanner(Admob.BANNER, AdmobPosition.BOTTOM_CENTER);//show banner with relation position			
+			admob.showBanner(Admob.BANNER, AdmobPosition.BOTTOM_CENTER);//show banner with relation position
+			if (isDesktop)
+				AdEmulator.showBannerAd();
 		}
 		
 		public static function hideBannerAd():void
 		{
 			var admob:Admob = Admob.getInstance();
 			admob.hideBanner();
+			if (isDesktop)
+				AdEmulator.hideAd();
 		}
 		
 		public static function showFullScreenAd():void
 		{
+			//Chartboost.getInstance().setInterstitialKeys("4f7b433509b602538043000002", "dd2d41b69ac01b80f44443f5b6cf06096d457f82bd");// app id and sign id created in chartboost.com site
+			// then show chartboost Interstitial
+			//Chartboost.getInstance().showInterstitial(); 
+			//or show chartboost more app page
+			//Chartboost.getInstance().showMoreAppPage();
 			var admob:Admob = Admob.getInstance();
 			if (admob.supportDevice)
 			{				
 				admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
-				admob.cacheInterstitial();
+				admob.cacheInterstitial();				
 			}
+			if (isDesktop)
+				AdEmulator.showFullscreenAd();
 		}
 		
 		public static function numberWithCommas(number:Number):String
@@ -238,6 +250,9 @@ package
 					img.touchable = true;
 					img.visible = true;
 					img.filter = null;
+					img.pivotY = img.pivotX = 0;
+					img.rotation = 0;
+					img.alpha = 1;
 			});
 		}
 		
@@ -249,10 +264,17 @@ package
 		static public function get isIOS():Boolean
 		{
 			return (Capabilities.manufacturer.indexOf("iOS") != -1);
-
-			//var isAndroid:Boolean = (Capabilities.manufacturer.indexOf("Android") != -1)
-			//
 		}		
+		
+		static public function get isAndroid():Boolean
+		{
+			return (Capabilities.manufacturer.indexOf("Android") != -1);
+		}		
+		
+		static public function get isDesktop():Boolean
+		{
+			return (Capabilities.os.indexOf("Windows ") != 1);
+		}
 	
 		static public function setPrivateValue(key:String, value:String):void
 		{						
@@ -260,7 +282,7 @@ package
 			{
 				var bytes:ByteArray = new ByteArray();
 				bytes.writeUTFBytes(value);
-				EncryptedLocalStore.setItem(key, bytes);
+				EncryptedLocalStore.setItem(Constants.APP_NAME + "_" +key, bytes);
 			}
 		}
 		
@@ -268,7 +290,7 @@ package
 		{
 			if (EncryptedLocalStore.isSupported)
 			{
-				var storedValue:ByteArray = EncryptedLocalStore.getItem(key);				
+				var storedValue:ByteArray = EncryptedLocalStore.getItem(Constants.APP_NAME + "_" + key);				
 				return storedValue ? storedValue.readUTFBytes(storedValue.length) : null;
 			}
 			return null;

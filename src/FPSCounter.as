@@ -46,6 +46,7 @@ package
 				var str:String = fps.toFixed(1) + " fps";
 				str += " - " + Starling.current.mSupport.drawCount + " drw"; 
 				str += " - " + (System.totalMemory * 0.000000954).toFixed(2) + " MB";
+				str += " - " + Starling.current.nativeStage.fullScreenWidth + "x" + Starling.current.nativeStage.fullScreenHeight;
 				tf.text = str
 				ticks = 0;
 				last = now;

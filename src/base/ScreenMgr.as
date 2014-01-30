@@ -20,9 +20,9 @@ package base
 			var scr:DisplayObject = Factory.getInstance(c) as DisplayObject;			
 			if (currScr == scr)
 				return;
-			LayerMgr.getLayer(LayerMgr.LAYER_GAME).addChild(scr);
 			if (currScr)
 				currScr.removeFromParent();
+			LayerMgr.getLayer(LayerMgr.LAYER_GAME).addChild(scr);			
 			currScr = scr;
 		}
 		

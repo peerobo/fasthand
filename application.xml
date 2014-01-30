@@ -19,21 +19,25 @@
 	</manifestAdditions>
   </android>
   <iPhone>
-    <InfoAdditions><![CDATA[<key>UIStatusBarStyle</key>
-<string>UIStatusBarStyleBlackOpaque</string>
-<key>UIRequiresPersistentWiFi</key>
-<string>NO</string>
-<key>UIPrerenderedIcon</key>
-<true />
-<key>UIApplicationExitsOnSuspend</key>
-<true />
-<key>UIDeviceFamily</key>
-<array>
-	<!-- iPhone support -->
-	<string>1</string>
-	<!-- iPad support -->
-	<!--<string>2</string>-->
-</array>]]></InfoAdditions>
+    <InfoAdditions>
+		<![CDATA[
+			<key>UIStatusBarStyle</key>
+			<string>UIStatusBarStyleBlackOpaque</string>
+			<key>UIRequiresPersistentWiFi</key>
+			<string>NO</string>
+			<key>UIPrerenderedIcon</key>
+			<true />
+			<key>UIApplicationExitsOnSuspend</key>
+			<true />
+			<key>UIDeviceFamily</key>
+			<array>
+				<!-- iPhone support -->
+				<string>1</string>
+				<!-- iPad support -->
+				<!--<string>2</string>-->
+			</array>
+		]]>
+	</InfoAdditions>
     <requestedDisplayResolution>high</requestedDisplayResolution>
   </iPhone>
   <initialWindow>
@@ -79,7 +83,7 @@
 	Android manifest documentation:
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
-  <!--<extensions>
+  <extensions>
     <extensionID>so.cuo.platform.admob</extensionID>
-  </extensions>-->
+  </extensions>
 </application>

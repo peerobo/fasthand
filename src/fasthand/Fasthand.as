@@ -14,6 +14,7 @@ package fasthand
 	import fasthand.logic.GameRound;
 	import fasthand.screen.CategoryScreen;
 	import fasthand.screen.GameScreen;
+	import flash.media.SoundChannel;
 	import flash.net.SharedObject;
 	import res.Asset;
 	import res.asset.BackgroundAsset;
@@ -43,13 +44,18 @@ package fasthand
 		public var gameOverParams:Array;
 		
 		public var highscore:int;
+		public var hightscoreDifficult:int;
+		
+		private var timeoutSound:SoundChannel;
 		
 		public function Fasthand() 
 		{
 			gameRound = new GameRound();
-			
-			var sharedObj:SharedObject = Util.getLocalData(Constants.APP_NAME);
-			highscore = sharedObj.data["highgscore"];
+						
+			var tmp:String = Util.getPrivateKey("highscore");
+			highscore = tmp ?  parseInt(tmp) :  0;
+			tmp = Util.getPrivateKey("highscoreDiff");
+			hightscoreDifficult = tmp ?  parseInt(tmp) : 0;			
 		}
 		
 		public function startNewGame():void
@@ -101,7 +107,11 @@ package fasthand
 				if (interval >= 1)
 				{
 					interval -= 1;
-					roundTime -= 1;					
+					roundTime -= 1;	
+					if (roundTime <= 3 && !timeoutSound)
+					{
+						timeoutSound = SoundManager.playSound(SoundAsset.SOUND_TIMEOUT);
+					}
 					if (roundTime < 0)
 						gameOver();
 				}
@@ -112,9 +122,9 @@ package fasthand
 		{
 			var ret:Boolean = isStartGame && gameRound.checkWord(word);			
 			if (ret)
-			{				
+			{								
 				currentPlayerScore += roundTime / gameRoundTime * Constants.MAX_SCORE_PER_ROUND;
-				roundNo++;
+				roundNo++;				
 				if (roundNo > Constants.ROUND_PER_GAME)
 				{
 					gameOver();
@@ -123,6 +133,11 @@ package fasthand
 				{
 					var gameScreen:GameScreen = Factory.getInstance(GameScreen);
 					gameScreen.preStartRound();
+					if(timeoutSound)
+					{
+						timeoutSound.stop()
+						timeoutSound = null;
+					}
 				}
 			}			
 			else
@@ -137,12 +152,23 @@ package fasthand
 			return gameRound.mainWord;
 		}
 		
-		private function gameOver():void 
+		public function gameOver(noScoreWnd:Boolean = false):void 
 		{
 			isStartGame = false;
 			Starling.juggler.remove(this);
-			
-			showScoreWindow();					
+			if(timeoutSound)
+			{
+				timeoutSound.stop()
+				timeoutSound = null;
+			}
+			var gameScreen:GameScreen = Factory.getInstance(GameScreen);
+			gameScreen.endGame();
+			if(!noScoreWnd)
+				showScoreWindow();		
+			if(!difficult)
+				highscore = currentPlayerScore > highscore ? currentPlayerScore : highscore;
+			else
+				hightscoreDifficult = currentPlayerScore > hightscoreDifficult ? currentPlayerScore : hightscoreDifficult;										
 		}
 		
 		private function showScoreWindow():void 
@@ -150,7 +176,7 @@ package fasthand
 			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);
 			PopupMgr.addPopUp(scoreWnd, true);
 			scoreWnd.setTitle(LangUtil.getText(cat));
-			scoreWnd.setScore(currentPlayerScore, highscore);
+			scoreWnd.setScore(currentPlayerScore, difficult ? hightscoreDifficult : highscore);
 			
 			scoreWnd.closeCallback = onUserCloseWindow;
 		}
@@ -170,8 +196,7 @@ package fasthand
 		}
 		
 		private function onCloseLeaderBoard():void 
-		{
-			
+		{			
 			if (gameOverCallback is Function)
 			{
 				gameOverCallback.apply(this, gameOverParams);

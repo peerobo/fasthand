@@ -2,13 +2,16 @@ package
 {
 	//import com.hdi.nativeExtensions.NativeAds;
 	import base.BaseJsonGUI;
+	import base.Factory;
 	import base.LangUtil;
+	import fasthand.Fasthand;
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.geom.Rectangle;
+	import flash.net.SharedObject;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
 	import res.Asset;
@@ -53,7 +56,7 @@ package
 				w = sw*3;
 				h = sh*3;
 			}
-			else if (maxSize <= 1280)
+			else if (maxSize < 1280)
 			{
 				w = sw*3/2;
 				h = sh*3/2;
@@ -80,11 +83,17 @@ package
 			if(event.type==AdmobEvent.onBannerReceive){
 				trace(event.data.width,event.data.height);
 			}
-
 		}
 		
 		private function deactivate(e:Event):void 
 		{
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			if(logic.highscore > 0 || logic.hightscoreDifficult > 0)
+			{
+				Util.setPrivateValue("highscore", logic.highscore.toString());
+				Util.setPrivateValue("highscoreDiff", logic.hightscoreDifficult.toString());				
+			}						
+			
 			// make sure the app behaves well (or exits) when in background
 			NativeApplication.nativeApplication.exit();
 			//NativeAds.deactivateAd();

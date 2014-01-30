@@ -79,6 +79,11 @@ package fasthand.comp
 				var p:Array = clickCallbackObj.p ? p.concat():[];
 				p.splice(0, 0, this);
 				clickCallbackObj.f.apply(this, p);
+				for (var i:int = 0; i < this.numChildren; i++) 
+				{
+					var c:DisplayObject = getChildAt(i);
+					trace(getQualifiedClassName(c), c.visible, c.x, c.y);
+				}
 			}
 		}
 		

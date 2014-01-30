@@ -28,7 +28,7 @@ package base
 		{
 			root = layer;
 			quadBg = new Quad(Util.appWidth, Util.appHeight, 0x3F3F3F);
-			quadBg.alpha = 0.3;
+			quadBg.alpha = 0.8;
 			quadBg.visible = false;
 			root.addChild(quadBg);
 			queue = [];
@@ -53,9 +53,7 @@ package base
 				{
 					Starling.juggler.tween(disp, 0.75, { x:disp.x, y:disp.y, scaleX:1, scaleY:1, transition:Transitions.EASE_IN_OUT_BOUNCE } );					
 					disp.scaleX = disp.scaleY = 0.1;
-					centerDisp(disp);
-					
-					
+					centerDisp(disp);										
 				}
 			}
 			else

@@ -6,12 +6,16 @@ package fasthand.gui
 	import base.font.BaseBitmapTextField;
 	import base.LangUtil;
 	import base.PopupMgr;
+	import base.SoundManager;
 	import comp.SpriteNumber;
 	import fasthand.screen.MainScreen;
 	import flash.geom.Rectangle;
 	import res.Asset;
 	import res.asset.IconAsset;
+	import res.asset.ParticleAsset;
+	import res.asset.SoundAsset;
 	import starling.events.Event;
+	import starling.extensions.PDParticleSystem;
 	import starling.utils.Color;
 	
 	/**
@@ -28,6 +32,7 @@ package fasthand.gui
 		public var scoreRect:Rectangle;
 		
 		private var scoreSpr:SpriteNumber;
+		private var particleSys:PDParticleSystem;
 		
 		public var closeCallback:Function;
 		public var isChangeSubject:Boolean;
@@ -36,6 +41,7 @@ package fasthand.gui
 		{
 			super("ScoreWindow");
 			
+			particleSys = ParticleAsset.getUniqueParticleSys(ParticleAsset.PARTICLE_STAR_COMPLETE, Asset.getBaseTexture(IconAsset.ICO_STAR));						
 		}
 		
 		override public function onAdded(e:Event):void 
@@ -50,7 +56,12 @@ package fasthand.gui
 			
 			againBt.setCallbackFunc(onAgainBt);
 			closeBt.setCallbackFunc(onCategoryBt);
-			changeSubjectBt.setCallbackFunc(onCategoryBt);						
+			changeSubjectBt.setCallbackFunc(onCategoryBt);		
+			
+			addChild(particleSys);
+			particleSys.x = width >> 1;			
+			particleSys.y = 60;
+			SoundManager.playSound(SoundAsset.SOUND_END_GAME);
 		}
 		
 		private function onCategoryBt():void 
@@ -74,6 +85,13 @@ package fasthand.gui
 			subjectTitleTxt.text = subject;
 		}
 		
+		override public function onRemoved(e:Event):void 
+		{
+			particleSys.stop();
+			particleSys.removeFromParent();
+			super.onRemoved(e);
+		}
+		
 		public function setScore(score:int, scoreBest:int):void
 		{
 			scoreSpr.text = Util.numberWithCommas(score);
@@ -81,6 +99,18 @@ package fasthand.gui
 			bestScoreTxt.setContentColor(Color.WHITE, Color.YELLOW);
 			
 			Util.g_fit(scoreSpr, scoreRect);
+			if (score > scoreBest)
+			{
+				SoundManager.playSound(SoundAsset.SOUND_HIGH_SCORE);
+				particleSys.start(5);
+			}
+		}
+		
+		override public function update(time:Number):void 
+		{
+			super.update(time);
+			
+			particleSys.advanceTime(time);
 		}
 		
 	}
