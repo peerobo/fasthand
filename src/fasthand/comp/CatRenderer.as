@@ -17,6 +17,7 @@ package fasthand.comp
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.filters.ColorMatrixFilter;
 	import starling.utils.Color;
 	import starling.utils.HAlign;
 	import starling.utils.VAlign;
@@ -27,10 +28,10 @@ package fasthand.comp
 	 */
 	public class CatRenderer extends LoopableSprite 
 	{
-		private static const ICON_X:int = 42;
-		private static const ICON_Y:int = 60;
-		private static const ICON_W:int = 246;
-		private static const ICON_H:int = 186;			
+		private static const ICON_X:int = 12;
+		private static const ICON_Y:int = 120;
+		private static var ICON_W:int;
+		private static var ICON_H:int;			
 		private var lockIcon:DisplayObject;
 		private var isLocked:Boolean;
 		private var icon:DisplayObject;	
@@ -39,32 +40,28 @@ package fasthand.comp
 		static private const COLORS_RND:Array = [Color.WHITE, 0xFFFF80, 0xFF80FF, 0x8282FF, 0x00FF80, 0xFF8000];		
 		private var _cat:String;
 		private var bt:BaseButton;
-		
+		private var colorMF:ColorMatrixFilter;
 		public var clickCallbackObj:CallbackObj;
 		
 		public function CatRenderer() 
 		{
-			super();			
+			super();	
+			colorMF = new ColorMatrixFilter();
 		}				
 		
 		override public function onAdded(e:Event):void 
 		{
 			super.onAdded(e);
 						
-			bt = ButtonAsset.getBaseBt(BackgroundAsset.BG_ITEM);
-			bt.background.width = 324;
-			bt.background.height = 276;
+			bt = ButtonAsset.getBaseBt(BackgroundAsset.BG_ITEM);			
 			bt.x = 18;
 			bt.y = 0;
 			addChild(bt);
 			lockIcon = Asset.getBaseImage(IconAsset.ICO_LOCK);
-			lockIcon.y = 120;
-			lockIcon.x = 0;
 			lockIcon.touchable = false;
 			lockIcon.visible = isLocked;
 			addChild(lockIcon);			
-			title = BFConstructor.getTextField(bt.background.width - 48, ICON_H, "", BFConstructor.ARIAL, COLORS_RND[int(Math.random()*COLORS_RND.length)], HAlign.CENTER, VAlign.TOP);
-			title.x = ICON_X;
+			title = BFConstructor.getTextField(bt.background.width - 12, ICON_H, "", BFConstructor.ARIAL, Color.WHITE, HAlign.CENTER, VAlign.TOP);			
 			title.y = 0;
 			addChild(title);
 			title.touchable = false;
@@ -74,10 +71,16 @@ package fasthand.comp
 		
 		public function align(rectBt:Rectangle,lockRect:Rectangle):void
 		{
-			bt.background.width = rect.width;
-			bt.background.height = rect.height;
+			bt.background.width = rectBt.width;
+			bt.background.height = rectBt.height;
 			lockIcon.x = lockRect.x;
 			lockIcon.y = lockRect.y;
+			ICON_W = rectBt.width - ICON_X * 2;			
+			ICON_H = rectBt.height - ICON_Y - 24;
+			title.width = ICON_W;
+			title.height = ICON_H;
+			title.x = ICON_X + 12;
+			title.y = 36;			
 		}
 		
 		private function onClick():void
@@ -154,6 +157,42 @@ package fasthand.comp
 		public function get cat():String
 		{
 			return _cat;
+		}
+		
+		public function adjustColorIdx(idx:int):void
+		{	
+			switch(idx)
+			{
+				case 1:
+					colorMF.adjustHue( -7 / 180);
+					colorMF.adjustSaturation(1);
+					bt.colorFilter = colorMF;
+				break;
+				case 2:
+					colorMF.adjustHue(119 / 180);
+					bt.colorFilter = colorMF;
+				break;
+				case 3:
+					colorMF.adjustHue( -87 / 180);
+					colorMF.adjustSaturation(1);
+					colorMF.adjustBrightness(0.37);
+					bt.colorFilter = colorMF;
+				break;
+				case 4:
+					colorMF.adjustHue(16 / 180);
+					colorMF.adjustSaturation( -0.4);
+					colorMF.adjustBrightness( -0.32);
+					bt.colorFilter = colorMF;
+				break;
+				case 5:
+					colorMF.adjustHue( -64 / 180);
+					colorMF.adjustSaturation(0.29);
+					colorMF.adjustBrightness(0.31);
+					bt.colorFilter = colorMF;
+				break;
+			}
+			
+			
 		}
 	}
 

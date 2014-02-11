@@ -35,10 +35,7 @@ package fasthand.screen
 		
 		override public function onAdded(e:Event):void 
 		{
-			super.onAdded(e);						
-			var tileImage:TileImage = Factory.getObjectFromPool(TileImage);
-			tileImage.draw(Asset.getBaseTexture(BackgroundAsset.BG_TILE_WELCOME), Util.appWidth, Util.appHeight);
-			addChild(tileImage);
+			super.onAdded(e);									
 			
 			addChild(mainScreen);
 			Util.g_centerScreen(mainScreen);

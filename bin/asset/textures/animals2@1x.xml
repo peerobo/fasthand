@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:c08a505338d59c1fc0721a95a6a58787$ -->
+<TextureAtlas imagePath="animals2@1x.png">
+    <SubTexture name="ant" x="332" y="152" width="54" height="59"/>
+    <SubTexture name="badger" x="301" y="224" width="84" height="60"/>
+    <SubTexture name="bee" x="249" y="225" width="50" height="61"/>
+    <SubTexture name="beetle" x="2" y="120" width="86" height="87"/>
+    <SubTexture name="buffalo" x="165" y="225" width="82" height="61"/>
+    <SubTexture name="bull" x="2" y="2" width="111" height="67"/>
+    <SubTexture name="camel" x="259" y="159" width="71" height="63"/>
+    <SubTexture name="caterpillar" x="89" y="225" width="74" height="62"/>
+    <SubTexture name="deer" x="2" y="209" width="85" height="78"/>
+    <SubTexture name="dinosaur" x="2" y="394" width="48" height="89"/>
+    <SubTexture name="dolphin" x="437" y="41" width="51" height="36"/>
+    <SubTexture name="donkey" x="213" y="2" width="88" height="87"/>
+    <SubTexture name="eagle" x="135" y="289" width="72" height="81"/>
+    <SubTexture name="fly" x="295" y="288" width="72" height="76"/>
+    <SubTexture name="goldfish" x="381" y="39" width="53" height="33"/>
+    <SubTexture name="gorilla" x="269" y="369" width="64" height="79"/>
+    <SubTexture name="grasshopper" x="177" y="460" width="81" height="44"/>
+    <SubTexture name="hedgehog" x="341" y="91" width="84" height="56"/>
+    <SubTexture name="hippo" x="260" y="455" width="84" height="53"/>
+    <SubTexture name="kangaroo" x="93" y="79" width="88" height="77"/>
+    <SubTexture name="kitten" x="341" y="2" width="44" height="28"/>
+    <SubTexture name="koala" x="369" y="286" width="66" height="74"/>
+    <SubTexture name="lamb" x="213" y="91" width="67" height="66"/>
+    <SubTexture name="lizard" x="335" y="366" width="71" height="75"/>
+    <SubTexture name="monster" x="113" y="376" width="84" height="82"/>
+    <SubTexture name="octopus" x="52" y="394" width="59" height="87"/>
+    <SubTexture name="ostrich" x="2" y="289" width="50" height="103"/>
+    <SubTexture name="parrot" x="183" y="79" width="28" height="81"/>
+    <SubTexture name="peacock" x="209" y="288" width="84" height="79"/>
+    <SubTexture name="puppy" x="388" y="2" width="47" height="35"/>
+    <SubTexture name="rhino" x="2" y="71" width="89" height="47"/>
+    <SubTexture name="seal" x="54" y="289" width="79" height="85"/>
+    <SubTexture name="skunk" x="178" y="162" width="79" height="61"/>
+    <SubTexture name="slug" x="437" y="2" width="72" height="37"/>
+    <SubTexture name="snail" x="282" y="91" width="57" height="59"/>
+    <SubTexture name="squirrel" x="199" y="372" width="68" height="81"/>
+    <SubTexture name="swan" x="113" y="460" width="62" height="46"/>
+    <SubTexture name="turtle" x="90" y="158" width="86" height="65"/>
+    <SubTexture name="worm" x="303" y="32" width="76" height="57"/>
+    <SubTexture name="zebra" x="115" y="2" width="96" height="75"/>
+</TextureAtlas>

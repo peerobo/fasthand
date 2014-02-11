@@ -5,7 +5,10 @@ package
 	import base.CallbackObj;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import base.PopupMgr;
+	import com.freshplanet.ane.AirDeviceId;
 	import comp.AdEmulator;
+	import comp.LoadingIcon;
 	import comp.TileImage;
 	import feathers.display.Scale3Image;
 	import feathers.display.Scale9Image;
@@ -94,6 +97,11 @@ package
 		
 		}
 		
+		public static function get deviceID():String
+		{
+			return AirDeviceId.getInstance().getID(Constants.APP_NAME);
+		}
+		
 		public static function g_centerScreen(disp:DisplayObject):void
 		{
 			disp.x = Util.appWidth - disp.width >> 1;
@@ -118,7 +126,7 @@ package
 		public static function showBannerAd():void
 		{
 			var admob:Admob = Admob.getInstance();
-			admob.showBanner(Admob.BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position
+			admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
 			if (isDesktop)
 				AdEmulator.showBannerAd();
 		}
@@ -143,6 +151,7 @@ package
 			{
 				admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
 				admob.cacheInterstitial();
+				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
 			}
 			if (isDesktop)
 				AdEmulator.showFullscreenAd();
@@ -164,6 +173,7 @@ package
 			{
 				admob.showInterstitial();
 				admob.removeEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
+				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 			}
 		}
 		
@@ -296,17 +306,19 @@ package
 		
 		static public function get isIOS():Boolean
 		{
-			return (Capabilities.manufacturer.indexOf("iOS") != -1);
+			//return (Capabilities.manufacturer.indexOf("iOS") != -1);
+			return AirDeviceId.getInstance().isOnIOS;
 		}
 		
 		static public function get isAndroid():Boolean
 		{
-			return (Capabilities.manufacturer.indexOf("Android") != -1);
+			//return (Capabilities.manufacturer.indexOf("Android") != -1);
+			return AirDeviceId.getInstance().isOnAndroid;
 		}
 		
 		static public function get isDesktop():Boolean
 		{
-			return (Capabilities.os.indexOf("Windows ") != 1);
+			return (Capabilities.os.indexOf("Windows ") != -1);
 		}
 		
 		static public function setPrivateValue(key:String, value:String):void

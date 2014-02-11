@@ -14,9 +14,6 @@ package res.asset
 		public static const BG_ITEM:String = "bg_item";
 		public static const BG_PROGRESSBAR:String = "bg_progressbar";
 		public static const BG_STRING_HOLDER:String = "bg_string_holder";
-		public static const BG_TILE:String = "bg_tile";
-		public static const BG_TILE_WELCOME:String = "bg_tile_welcome";
-		public static const BG_WINDOW:String = "bg_window";				
 		
 		public function BackgroundAsset() 
 		{

@@ -91,12 +91,17 @@ package res
 		
 		static public function init():void
 		{
-			if (Starling.contentScaleFactor < 0.4)			
-				contentSuffix = "-ld";			
-			else if (Starling.contentScaleFactor < 0.7)
-				contentSuffix = "-sd";
+			var scale:int = int(Starling.contentScaleFactor * 1000)
+			if (scale <= 250)
+				contentSuffix = "@1x";
+			else if (scale <= 375)
+				contentSuffix = "@1.5x";
+			else if (scale <= 500)
+				contentSuffix = "@2x";
+			else if (scale <= 750)			
+				contentSuffix = "@3x";			
 			else
-				contentSuffix = "-hd";
+				contentSuffix = "@4x";
 			scaleRecs = { };
 		}
 		

@@ -28,9 +28,9 @@ package base.font
 					var x:Number = parseFloat(charElement.attribute("x"));
 					charElement.@x = x*Starling.contentScaleFactor;
 					var h:Number = parseFloat(charElement.attribute("height"));
-					charElement.@height = h*Starling.contentScaleFactor;
+					charElement.@height = Math.ceil(h*Starling.contentScaleFactor);
 					var w:Number = parseFloat(charElement.attribute("width"));
-					charElement.@width = w * Starling.contentScaleFactor;
+					charElement.@width = Math.ceil(w * Starling.contentScaleFactor);
 					var xoffset:Number = parseFloat(charElement.attribute("xoffset"));
 					charElement.@xoffset = xoffset * Starling.contentScaleFactor;
 					var yoffset:Number = parseFloat(charElement.attribute("yoffset"));

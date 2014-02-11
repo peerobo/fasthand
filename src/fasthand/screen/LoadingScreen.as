@@ -81,11 +81,7 @@ package fasthand.screen
 			{
 				var p:DisplayObjectContainer = this.parent;
 				// bg of game				
-				ScreenMgr.showScreen(MainScreen);				
-				
-				var tileBG:TileImage = Factory.getObjectFromPool(TileImage);				
-				tileBG.draw(Asset.getBaseTexture(BackgroundAsset.BG_TILE), Util.appWidth, Util.appHeight);
-				p.addChildAt(tileBG, 0);	
+				ScreenMgr.showScreen(CategoryScreen);								
 			}
 		}
 		

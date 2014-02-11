@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:496d7b7ee9f90a956903a5fb4b97259e$ -->
+<TextureAtlas imagePath="animalparts@1.5x.png">
+    <SubTexture name="beak" x="2" y="156" width="117" height="72"/>
+    <SubTexture name="claw" x="226" y="2" width="24" height="47"/>
+    <SubTexture name="feather" x="82" y="230" width="41" height="101"/>
+    <SubTexture name="fin" x="2" y="73" width="137" height="81"/>
+    <SubTexture name="horn" x="2" y="2" width="141" height="69"/>
+    <SubTexture name="paw" x="79" y="333" width="68" height="135"/>
+    <SubTexture name="tail" x="141" y="121" width="111" height="114"/>
+    <SubTexture name="trunk" x="2" y="311" width="75" height="120"/>
+    <SubTexture name="tusk" x="145" y="2" width="79" height="117"/>
+    <SubTexture name="wings" x="2" y="230" width="78" height="79"/>
+</TextureAtlas>

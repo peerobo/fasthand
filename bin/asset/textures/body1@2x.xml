@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:7db1ad9b351a979848e8cf31fcb47fcf$ -->
+<TextureAtlas imagePath="body1@2x.png">
+    <SubTexture name="arm" x="2" y="2" width="188" height="178"/>
+    <SubTexture name="beard" x="157" y="552" width="121" height="178"/>
+    <SubTexture name="belly" x="168" y="308" width="156" height="242"/>
+    <SubTexture name="bottom" x="192" y="2" width="172" height="135"/>
+    <SubTexture name="chin" x="2" y="801" width="104" height="140"/>
+    <SubTexture name="ear" x="195" y="732" width="75" height="123"/>
+    <SubTexture name="eye" x="2" y="943" width="120" height="52"/>
+    <SubTexture name="finger" x="453" y="334" width="36" height="121"/>
+    <SubTexture name="foot" x="192" y="139" width="168" height="167"/>
+    <SubTexture name="hair" x="2" y="660" width="121" height="139"/>
+    <SubTexture name="hand" x="2" y="464" width="153" height="194"/>
+    <SubTexture name="head" x="280" y="706" width="106" height="114"/>
+    <SubTexture name="leg" x="326" y="470" width="121" height="234"/>
+    <SubTexture name="mouth" x="362" y="199" width="135" height="47"/>
+    <SubTexture name="neck" x="326" y="334" width="125" height="134"/>
+    <SubTexture name="nose" x="108" y="801" width="85" height="128"/>
+    <SubTexture name="teeth" x="362" y="248" width="128" height="84"/>
+    <SubTexture name="thumb" x="366" y="2" width="135" height="195"/>
+    <SubTexture name="toe" x="2" y="182" width="164" height="154"/>
+    <SubTexture name="tongue" x="2" y="338" width="156" height="124"/>
+</TextureAtlas>

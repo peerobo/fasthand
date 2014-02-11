@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:edec43a1a9222d56f4d8915ec487147f$ -->
+<TextureAtlas imagePath="adjectives@1.5x.png">
+    <SubTexture name="big" x="206" y="152" width="37" height="38"/>
+    <SubTexture name="cold" x="135" y="152" width="69" height="68"/>
+    <SubTexture name="fast" x="2" y="38" width="135" height="34"/>
+    <SubTexture name="fat" x="2" y="130" width="69" height="112"/>
+    <SubTexture name="happy" x="73" y="146" width="60" height="70"/>
+    <SubTexture name="heavy" x="73" y="218" width="56" height="60"/>
+    <SubTexture name="hot" x="131" y="222" width="68" height="65"/>
+    <SubTexture name="light" x="219" y="2" width="26" height="24"/>
+    <SubTexture name="long" x="2" y="2" width="137" height="34"/>
+    <SubTexture name="new" x="201" y="285" width="51" height="60"/>
+    <SubTexture name="old" x="201" y="222" width="51" height="61"/>
+    <SubTexture name="sad" x="78" y="74" width="60" height="70"/>
+    <SubTexture name="short" x="141" y="2" width="76" height="148" frameX="-76" frameY="-65" frameWidth="218" frameHeight="218"/>
+    <SubTexture name="slow" x="2" y="74" width="74" height="54"/>
+    <SubTexture name="small" x="219" y="138" width="20" height="8" frameX="-10" frameY="-14" frameWidth="38" frameHeight="38"/>
+    <SubTexture name="tall" x="2" y="244" width="67" height="258"/>
+    <SubTexture name="thin" x="219" y="28" width="24" height="108"/>
+    <SubTexture name="young" x="71" y="280" width="55" height="66"/>
+</TextureAtlas>

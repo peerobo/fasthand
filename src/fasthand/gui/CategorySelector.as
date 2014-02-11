@@ -23,9 +23,7 @@ package fasthand.gui
 	public class CategorySelector extends BaseJsonGUI 
 	{
 		private var sprCurr:Sprite;
-		private var sprNext:Sprite;
-		public var backPageBt:BaseButton;
-		public var nextPageBt:BaseButton;
+		private var sprNext:Sprite;		
 		
 		public var rectPlace:Array; // rectangle
 		public var rectIcon:Rectangle;
@@ -68,8 +66,9 @@ package fasthand.gui
 				item.align(rectPlace[i],rectIcon);
 				item.name = "item" + i;	
 				c = Factory.getObjectFromPool(CallbackObj);
-				c.f = onSelectCat;
-				item.clickCallbackObj = c
+				c.f = onSelectCat;				
+				item.clickCallbackObj = c;
+				item.adjustColorIdx(i);
 				item = new CatRenderer();
 				item.x = rectPlace[i].x;
 				item.y = rectPlace[i].y;
@@ -79,9 +78,10 @@ package fasthand.gui
 				c = Factory.getObjectFromPool(CallbackObj);
 				c.f = onSelectCat;
 				item.clickCallbackObj = c;
+				item.adjustColorIdx(i);
 			}			
-			backPageBt.setCallbackFunc(onBackPage);
-			nextPageBt.setCallbackFunc(onNextPage);			
+			//backPageBt.setCallbackFunc(onBackPage);
+			//nextPageBt.setCallbackFunc(onNextPage);			
 			updatePage(sprCurr, currentPage);
 			updateBtStates();
 		}
@@ -151,8 +151,8 @@ package fasthand.gui
 			currentPage = currentPage < 0 ? 0:currentPage;
 			currentPage = currentPage >=maxPage ? maxPage-1:currentPage;
 			
-			backPageBt.visible = currentPage > 0;
-			nextPageBt.visible = currentPage < maxPage -1;			
+			//backPageBt.visible = currentPage > 0;
+			//nextPageBt.visible = currentPage < maxPage -1;			
 		}
 		
 		private function onScrollComplete():void 

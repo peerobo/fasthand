@@ -57,8 +57,7 @@ package fasthand.gui
 			scoreSpr.init(Asset.getBaseTextures(IconAsset.ICO_NUMBER));
 			addChild(scoreSpr);
 			
-			againBt.setCallbackFunc(onAgainBt);
-			closeBt.setCallbackFunc(onCategoryBt);
+			againBt.setCallbackFunc(onAgainBt);			
 			changeSubjectBt.setCallbackFunc(onCategoryBt);		
 			
 			particleSys.x = width >> 1;

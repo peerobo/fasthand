@@ -9,6 +9,7 @@ package fasthand
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;	
+	import comp.HighscoreDB;
 	import fasthand.gui.ScoreWindow;
 	import fasthand.logic.GameRound;
 	import fasthand.screen.CategoryScreen;
@@ -48,11 +49,19 @@ package fasthand
 		public function Fasthand() 
 		{
 			gameRound = new GameRound();
-						
-			var tmp:String = Util.getPrivateKey("highscore");
-			highscore = tmp ?  parseInt(tmp) :  0;
-			tmp = Util.getPrivateKey("highscoreDiff");
-			hightscoreDifficult = tmp ?  parseInt(tmp) : 0;			
+			initHighscore();
+			
+		}
+		
+		private function initHighscore():void 
+		{
+			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			for each (var s:String in FasthandUtil.getListCat())
+			{
+				highscoreDB.registerType(Constants.HIGHSCORE_FAST_PREFIX + s);
+				highscoreDB.registerType(Constants.HIGHSCORE_SLOW_PREFIX + s);
+			}						
+			highscoreDB.loadHighscore();			
 		}
 		
 		public function startNewGame():void

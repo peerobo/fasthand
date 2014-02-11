@@ -24,7 +24,7 @@ package fasthand.gui
 	 */
 	public class GameBoard extends BaseJsonGUI 
 	{
-		private var scoreBoard:SpriteNumber;
+		//private var scoreBoard:SpriteNumber;
 		public var wordTxt:BaseBitmapTextField;
 		public var rectTile:Array;
 		public var timeProgressbar:DisplayObject;
@@ -33,8 +33,7 @@ package fasthand.gui
 		
 		public var maxTime:Number;
 		public var time:Number;
-		public var isAnimatedTime:Boolean;
-		public var rectScore:Rectangle;
+		public var isAnimatedTime:Boolean;		
 		public var onAnimateComplete:Function;
 		public var onSelectWord:Function;
 		private var timeoutSound:SoundChannel;
@@ -65,16 +64,14 @@ package fasthand.gui
 				item.pivotY = item.height >> 1;
 				item.x += item.width >> 1;
 				item.y += item.height >> 1;
-			}
+			}					
 			
-			wordTxt.color = Color.LIME;
-			
-			scoreBoard = Factory.getObjectFromPool(SpriteNumber);
+			/*scoreBoard = Factory.getObjectFromPool(SpriteNumber);
 			scoreBoard.init(Asset.getBaseTextures(IconAsset.ICO_NUMBER));
 			scoreBoard.text = "0";
 			scoreBoard.x = rectScore.x;
 			scoreBoard.y = rectScore.y;
-			addChildAt(scoreBoard, 0);			
+			addChildAt(scoreBoard, 0);	*/		
 		}
 		
 		private function onItemClick(item:TileRenderer):void 
@@ -116,7 +113,7 @@ package fasthand.gui
 				}
 				timeProgressbar.width = w;
 			}			
-			scoreBoard.text = Util.numberWithCommas(logic.currentPlayerScore);
+			//scoreBoard.text = Util.numberWithCommas(logic.currentPlayerScore);
 		}
 		
 		public function animate():void 

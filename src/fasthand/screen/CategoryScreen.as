@@ -11,6 +11,7 @@ package fasthand.screen
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;
+	import comp.FlatSwitchButton;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import fasthand.Fasthand;
@@ -29,14 +30,15 @@ package fasthand.screen
 	 * @author ndp
 	 */
 	public class CategoryScreen extends LoopableSprite 
-	{
-		private var btBack:BaseButton;
+	{		
 		private var title:BaseBitmapTextField;
 		private var catChooser:CategorySelector;
 		private var cb:CallbackObj;
 		
 		private var waitTime2ShowAd:int;
 		private var wait4Sound:Boolean;
+		private var switchDiff:FlatSwitchButton;
+		private const COLOR_RND:Array = [0xFF0000,0xFF8080,0x0080FF,0xFFFF80,0x8000FF,0xFF8000,0x8000FF,0x408080,0x80FF00];
 		
 		public function CategoryScreen() 
 		{
@@ -81,26 +83,27 @@ package fasthand.screen
 			super.onAdded(e);
 												
 			addChild(catChooser);
-			Util.g_centerScreen(catChooser);
-			
-			btBack = ButtonAsset.getBaseBt(ButtonAsset.BT_BACK);
-			btBack.setCallbackFunc(onBackToMainScreen);
-			addChild(btBack);
-			btBack.x = 30;
-			btBack.y = 18;
-			
-			var str:String = " " + LangUtil.getText("currentMode");
-			title = BFConstructor.getTextField(Util.appWidth, btBack.height, "", BFConstructor.ARIAL,Color.YELLOW);			
+			Util.g_centerScreen(catChooser);			
+						
+			title = BFConstructor.getTextField(Util.appWidth, 1, "", BFConstructor.BANHMI, Color.YELLOW);			
+			title.autoSize = TextFieldAutoSize.VERTICAL;
 			title.touchable = false;
 			addChild(title);
-			title.y = btBack.y;
+			title.y = 30;
 			
 			var logic:Fasthand = Factory.getInstance(Fasthand);
-			title.text = LangUtil.getText("chooseCategory");
-			var parts:Array = str.split("@mode");
-			title.add(parts[0], 0xEBEBEB);
-			title.add(logic.difficult ? LangUtil.getText("fast"):LangUtil.getText("slow"), logic.difficult ? 0xFF8080:0x00FF80);
-			title.add(parts[1], 0xEBEBEB);
+			title.text = LangUtil.getText("welcome");		
+			var len:int = title.text.length;
+			title.colors = [];
+			title.colorRanges = [];
+			var len1:int = COLOR_RND.length;
+			for (var i:int = 0; i < len; i++) 
+			{
+				var cIDx:int = Math.random() * len1;
+				var c:int = COLOR_RND[cIDx];
+				title.colors.push(c);
+				title.colorRanges.push(i + 1);
+			}
 			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			cb = globalInput.registerSwipe(onSwipe);
@@ -111,6 +114,19 @@ package fasthand.screen
 				Util.showFullScreenAd();
 				waitTime2ShowAd = Constants.AD_FULL_WAITTIME;
 			}
+			
+			switchDiff = new FlatSwitchButton();
+			switchDiff.init(LangUtil.getText("fast"), LangUtil.getText("slow"), ButtonAsset.BT_BLUE, ButtonAsset.BT_DARK_GRAY,onSwitchDiff);
+			switchDiff.value = logic.difficult;
+			addChild(switchDiff );
+			switchDiff.y = title.y;
+			switchDiff.x = Util.appWidth - 36 - switchDiff.width;			
+		}
+		
+		private function onSwitchDiff(isDiff:Boolean):void 
+		{
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			logic.difficult = isDiff;
 		}
 		
 		private function onSwipe(mode:int):void 
@@ -131,7 +147,7 @@ package fasthand.screen
 		override public function onRemoved(e:Event):void 
 		{		
 			catChooser.removeFromParent();
-			
+			switchDiff.destroy();
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			globalInput.unregisterSwipe(cb);
 			super.onRemoved(e);			

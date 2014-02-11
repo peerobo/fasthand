@@ -96,7 +96,7 @@ package  base
 		
 		static public function getFontBySize(fontSize:int):String 
 		{
-			if(fontSize >=54)
+			if(fontSize >=100)
 				return BANHMI;
 			else
 				return ARIAL;

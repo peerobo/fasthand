@@ -37,6 +37,9 @@ package comp
 			var oXYImg:Image = new Image(oXYTex);			
 			var img:Image = new Image(tex);					
 			img.smoothing = TextureSmoothing.NONE;
+			oXYImg.smoothing = TextureSmoothing.NONE;
+			oYImg.smoothing = TextureSmoothing.NONE;
+			oXImg.smoothing = TextureSmoothing.NONE;
 			for (var i:int = 0; i < fillX; i++) 
 			{
 				for (var j:int = 0; j < fillY; j++) 

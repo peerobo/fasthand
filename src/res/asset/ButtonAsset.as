@@ -15,11 +15,9 @@ package res.asset
 	 */
 	public class ButtonAsset 
 	{
-		public static const BT_BACK:String = "bt_back";
-		public static const BT_BACK_SMALL:String = "bt_back_small";
-		public static const BT_CLOSE:String = "bt_close";
-		public static const BT_ORANGE:String = "bt_orange";
-		public static const BT_PURPLE:String = "bt_purple";				
+		public static const BT_BACK:String = "bt_back";		
+		public static const BT_BLUE:String = "bt_blue";		
+		public static const BT_DARK_GRAY:String = "bt_dark_gray";		
 		
 		public function ButtonAsset() 
 		{

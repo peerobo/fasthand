@@ -4,6 +4,7 @@ package
 	import base.BaseJsonGUI;
 	import base.Factory;
 	import base.LangUtil;
+	import comp.HighscoreDB;
 	import fasthand.Fasthand;
 	import flash.data.EncryptedLocalStore;
 	import flash.desktop.NativeApplication;
@@ -26,7 +27,7 @@ package
 	 * ...
 	 * @author ndp
 	 */
-	[SWF(frameRate="60",backgroundColor="0xFFFFFF")]
+	[SWF(frameRate="60",backgroundColor="0x0")]
 	public class Main extends Sprite 
 	{		
 		
@@ -54,31 +55,46 @@ package
 			var minSize:int = sw < sh ? sw : sh;
 			var w:int;
 			var h:int;
-			/*if (maxSize < 640)
-			{
-				w = sw*3;
-				h = sh*3;
-			}
-			else if (maxSize < 1280)
-			{
-				w = sw*3/2;
-				h = sh*3/2;
-			}
-			else
-			{
-				w = sw;
-				h = sh;
-			}*/
+			//if (maxSize < 640)
+			//{
+				//w = sw*3;
+				//h = sh*3;
+			//}
+			//else if (maxSize < 1920)
+			//{
+				//w = sw*3/2;
+				//h = sh*3/2;
+			//}
+			//else if (maxSize < 1920)
+			//{
+				//w = sw*3/2;
+				//h = sh*3/2;
+			//}
+			//else
+			//{
+				//w = sw;
+				//h = sh;
+			//}
 			
-			if (minSize <=480)
+			if (minSize <=320)
 			{
-				w = sw*3;
-				h = sh*3;
+				w = sw/0.25;
+				h = sh/0.25;
 			}
-			else if (minSize <= 960)
+			else if (minSize <= 480)
 			{
-				w = sw*3/2;
-				h = sh*3/2;
+				w = sw/0.375;
+				h = sh/0.375;
+			}
+			else if (minSize <= 800)
+			{
+				w = sw/0.5;
+				h = sh/0.5;
+			}
+			else if (minSize <= 1080)
+			{
+				w = sw/0.75;
+				h = sh/0.75;
 			}
 			else
 			{
@@ -112,12 +128,8 @@ package
 		
 		private function deactivate(e:Event):void 
 		{
-			var logic:Fasthand = Factory.getInstance(Fasthand);
-			if(logic.highscore > 0 || logic.hightscoreDifficult > 0)
-			{
-				Util.setPrivateValue("highscore", logic.highscore.toString());
-				Util.setPrivateValue("highscoreDiff", logic.hightscoreDifficult.toString());				
-			}						
+			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			highscoreDB.saveHighscore();			
 			
 			// make sure the app behaves well (or exits) when in background
 			NativeApplication.nativeApplication.exit();

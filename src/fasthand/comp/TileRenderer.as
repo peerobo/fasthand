@@ -2,14 +2,18 @@ package fasthand.comp
 {
 	import base.BaseButton;
 	import base.Factory;
-	import comp.LoopableSprite;
+	import base.LayerMgr;
+	import comp.LoopableSprite;	
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import res.Asset;
 	import res.asset.BackgroundAsset;
 	import res.asset.ButtonAsset;
 	import res.ResMgr;
+	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
+	import starling.filters.ColorMatrixFilter;
 	import starling.textures.Texture;
 	
 	/**
@@ -38,12 +42,16 @@ package fasthand.comp
 			baseButton = ButtonAsset.getBaseBt(BackgroundAsset.BG_ITEM);
 			addChild(baseButton);
 			baseButton.setCallbackFunc(onTouch);
+			var cMF:ColorMatrixFilter = new ColorMatrixFilter();
+			cMF.adjustHue(115/180);
+			baseButton.colorFilter = cMF;
 			
 			img = Factory.getObjectFromPool(Image);
 			img.texture = Texture.empty(1, 1);
 			img.readjustSize();
 			img.touchable = false;
-			addChild(img);
+			LayerMgr.getLayer(LayerMgr.LAYER_EFFECT).addChild(img);
+			//addChild(img);
 		}
 		
 		private function onTouch():void 
@@ -51,22 +59,31 @@ package fasthand.comp
 			touchCallback(this);
 		}
 		
-		public function setWord(cat:String, word:String):void
+		public function setWord(cat:String, word:String):DisplayObject
 		{
 			this.word = word;
 			this.cat = cat;
 			
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			var tex:Texture = resMgr.getTexture(Asset.getTAName(cat), word);
-			img.texture = tex;
-			img.scaleX = img.scaleY = 1;
+			img.texture = tex;			
 			img.readjustSize();
+			img.scaleX = img.scaleY = 1;
 			refreshImage();
+			return img;
 		}
+		
+		override public function onRemoved(e:Event):void 
+		{
+			img.removeFromParent();
+			super.onRemoved(e);
+		}
+		
 		
 		private function refreshImage():void 
 		{
-			var rec:Rectangle = new Rectangle(6, 6, baseButton.width - 12, baseButton.height - 12);
+			var pt:Point = this.localToGlobal(new Point(0, 0));
+			var rec:Rectangle = new Rectangle(6 + pt.x, 6 + pt.y, baseButton.width - 12, baseButton.height - 12);
 			Util.g_fit(img, rec);
 		}
 		

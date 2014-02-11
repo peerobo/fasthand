@@ -36,6 +36,7 @@ package base
 		private var shakeObj:ShakeObject;
 		public var gui:BaseJsonGUI;
 		private var anchor:Point;
+		private var cMF:ColorMatrixFilter;
 		
 		public function BaseButton()
 		{
@@ -110,9 +111,9 @@ package base
 			else
 			{
 				if (!isTab)
-					this.filter = !_isDisable ? null : disableFilter;
+					this.filter = !_isDisable ? cMF: disableFilter;
 				else
-					this.filter = !_isDisable ? (isSelected ? downFilter : null) : disableFilter;
+					this.filter = !_isDisable ? (isSelected ? downFilter : cMF) : disableFilter;
 			}
 		}
 		
@@ -145,6 +146,16 @@ package base
 				filter = value ? downFilter : (isDisable ? disableFilter : null);
 			else
 				this.filter = _isDisable ? disableFilter : null;
+		}
+		
+		public function set colorFilter(colorFilter:ColorMatrixFilter):void
+		{
+			cMF = colorFilter;
+			this.filter = cMF;
+			var colorMF:ColorMatrixFilter = hoverFilter as ColorMatrixFilter;
+			colorMF.concat(cMF.matrix);
+			colorMF = downFilter as ColorMatrixFilter;
+			colorMF.concat(cMF.matrix);			
 		}
 		
 		public function get isTab():Boolean
