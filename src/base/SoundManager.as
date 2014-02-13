@@ -48,10 +48,10 @@ package base
 		 * @param	isThemeMusic only one song can play at a time and loop infinitely (int.MAX_VALUE time)
 		 * @param	loopCount time playing
 		 */
-		public static function playSound(soundName:String, isThemeMusic:Boolean = false, loopCount:int = 0,volume:Number = 1):SoundChannel
+		public static function playSound(soundName:String, isThemeMusic:Boolean = false, loopCount:int = 0, volume:Number = 1, startTime:Number = 0):SoundChannel		
 		{
 			var soundManager:SoundManager = Factory.getInstance(SoundManager);
-			return soundManager.playSound(soundName, isThemeMusic, loopCount, volume);
+			return soundManager.playSound(soundName, isThemeMusic, loopCount, volume, startTime);
 		}
 		
 		public static function playSoundWithDelay(soundName:String, isThemeMusic:Boolean = false, loopCount:int = 0,delay:Number =0):void
@@ -111,7 +111,7 @@ package base
 		 * @param	isThemeMusic only one song can play at a time and loop infinitely (int.MAX_VALUE time)
 		 * @param	loopCount time playing
 		 */
-		public function playSound(url:String, isThemeMusic:Boolean = false, loopCount:int = 0,volume:Number = 1):SoundChannel
+		public function playSound(url:String, isThemeMusic:Boolean = false, loopCount:int = 0, volume:Number = 1, startTime:Number = 0):SoundChannel		
 		{
 			var sndName:String;
 			sndName = url;
@@ -123,13 +123,13 @@ package base
 			var sndCh:SoundChannel = null;
 			if (isThemeMusic)
 			{
-				sndCh = _assetMgr.playSound(sndName, 0, int.MAX_VALUE, soundTranform);
+				sndCh = _assetMgr.playSound(sndName, startTime, int.MAX_VALUE, soundTranform);
 				if (_muteMusic && sndCh)
 					sndCh.stop();
 			}
 			else
 			{
-				sndCh = _assetMgr.playSound(sndName, 0, loopCount, soundTranform);
+				sndCh = _assetMgr.playSound(sndName, startTime, loopCount, soundTranform);
 			}
 			if (sndCh != null) // sound loaded
 			{

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:1a8db3771cc7242980f6e07f89826a63$ -->
+<TextureAtlas imagePath="categoryscreen@1.5x.png">
+    <SubTexture name="categoryscreen" x="2" y="2" width="960" height="600"/>
+</TextureAtlas>

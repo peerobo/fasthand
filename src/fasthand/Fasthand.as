@@ -43,14 +43,14 @@ package fasthand
 		public var gameOverCallback:Function;
 		public var gameOverParams:Array;
 		
-		public var highscore:int;
-		public var hightscoreDifficult:int;				
+		public var highscore:int;			
+		private var _pause:Boolean;
 		
 		public function Fasthand() 
 		{
 			gameRound = new GameRound();
 			initHighscore();
-			
+			_pause = false;
 		}
 		
 		private function initHighscore():void 
@@ -58,8 +58,7 @@ package fasthand
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
 			for each (var s:String in FasthandUtil.getListCat())
 			{
-				highscoreDB.registerType(Constants.HIGHSCORE_FAST_PREFIX + s);
-				highscoreDB.registerType(Constants.HIGHSCORE_SLOW_PREFIX + s);
+				highscoreDB.registerType(s);				
 			}						
 			highscoreDB.loadHighscore();			
 		}
@@ -80,7 +79,7 @@ package fasthand
 			var stringSeq:Array = FasthandUtil.getListWords(cat).concat();
 			
 			var maxTile:int = Constants.TILE_PER_ROUND;
-			roundTime = difficult ? Constants.SEC_PER_ROUND_DIFFICULT : Constants.SEC_PER_ROUND;
+			roundTime = GAME_ROUND_TIME;
 			var remove:int = stringSeq.length - maxTile;
 			for (i = 0; i < remove; i++) 
 			{
@@ -116,12 +115,17 @@ package fasthand
 			}
 		}
 		
+		public function get remainingRoundScore():int
+		{
+			return (roundTime / GAME_ROUND_TIME * Constants.MAX_SCORE_PER_ROUND) / (difficult ? 1 : 2);
+		}
+		
 		public function checkAdvanceRound(word:String):Boolean
 		{
 			var ret:Boolean = isStartGame && gameRound.checkWord(word);			
 			if (ret)
 			{								
-				currentPlayerScore += roundTime / gameRoundTime * Constants.MAX_SCORE_PER_ROUND;
+				currentPlayerScore += remainingRoundScore;
 				roundNo++;				
 				if (roundNo > Constants.ROUND_PER_GAME)
 				{
@@ -136,8 +140,14 @@ package fasthand
 			else
 			{
 				SoundManager.playSound(SoundAsset.getName(cat, word));
+				penalty();
 			}
 			return ret;
+		}
+		
+		private function penalty():void 
+		{
+			roundTime -= Constants.PENALTY_TIME;
 		}
 		
 		public function get word2Find():String
@@ -147,16 +157,19 @@ package fasthand
 		
 		public function gameOver(noScoreWnd:Boolean = false):void 
 		{
+			var hScoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			var hScoreType:String = cat;
+			highscore = hScoreDB.getHighscore(hScoreType);
+			
 			isStartGame = false;
 			Starling.juggler.remove(this);			
 			var gameScreen:GameScreen = Factory.getInstance(GameScreen);
 			gameScreen.endGame();
 			if(!noScoreWnd)
 				showScoreWindow();		
-			if(!difficult)
-				highscore = currentPlayerScore > highscore ? currentPlayerScore : highscore;
-			else
-				hightscoreDifficult = currentPlayerScore > hightscoreDifficult ? currentPlayerScore : hightscoreDifficult;										
+			
+			highscore = currentPlayerScore > highscore ? currentPlayerScore : highscore;			
+			hScoreDB.setHighscore(hScoreType, highscore);
 		}
 		
 		private function showScoreWindow():void 
@@ -164,7 +177,7 @@ package fasthand
 			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);
 			PopupMgr.addPopUp(scoreWnd, true);
 			scoreWnd.setTitle(LangUtil.getText(cat));
-			scoreWnd.setScore(currentPlayerScore, difficult ? hightscoreDifficult : highscore);
+			scoreWnd.setScore(currentPlayerScore, highscore, 0);
 			
 			scoreWnd.closeCallback = onUserCloseWindow;
 		}
@@ -194,10 +207,31 @@ package fasthand
 		/**
 		 * time for each round
 		 */
-		public function get gameRoundTime():int
+		public function get GAME_ROUND_TIME():int
 		{
 			return difficult ? Constants.SEC_PER_ROUND_DIFFICULT : Constants.SEC_PER_ROUND;
 		}				
+		
+		public function get pause():Boolean 
+		{
+			return _pause;
+		}
+		
+		public function set pause(value:Boolean):void 
+		{
+			if(_pause !=value)
+			{
+				_pause = value;				
+				if (value)
+				{				
+					Starling.juggler.remove(this);					
+				}
+				else
+				{
+					Starling.juggler.add(this);					
+				}
+			}
+		}
 		
 	}
 

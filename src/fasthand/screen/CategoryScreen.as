@@ -21,6 +21,8 @@ package fasthand.screen
 	import res.asset.ButtonAsset;
 	import res.asset.SoundAsset;
 	import res.ResMgr;
+	import starling.display.DisplayObject;
+	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.text.TextFieldAutoSize;
 	import starling.utils.Color;
@@ -38,11 +40,12 @@ package fasthand.screen
 		private var waitTime2ShowAd:int;
 		private var wait4Sound:Boolean;
 		private var switchDiff:FlatSwitchButton;
-		private const COLOR_RND:Array = [0xFF0000,0xFF8080,0x0080FF,0xFFFF80,0x8000FF,0xFF8000,0x8000FF,0x408080,0x80FF00];
+		private const COLOR_RND:Array = [0xF9F900, 0xFFFF06, 0xFFFF11, 0xFFFF1A, 0xFFFF20, 0xFFFF28, 0xFFFF2D, 0xFFFF3C, 0xFFFF42, 0xFFFF48, 0xFFFF4F, 0xFFFF53, 0xFFFF59, 0xFFFF5E, 0xFFFF64, 0xFFFF6A, 0xFFFF6F];		
 		
 		public function CategoryScreen() 
 		{
 			super();	
+			SoundManager.playSound(SoundAsset.THEME_SONG, true, 0, 0.7);
 			catChooser = new CategorySelector();
 			catChooser.onSelectCategoryCallback = selectCategory;
 			waitTime2ShowAd = Constants.AD_FULL_WAITTIME;
@@ -51,6 +54,11 @@ package fasthand.screen
 		private function selectCategory(cat:String):void 
 		{			
 			var logic:Fasthand = Factory.getInstance(Fasthand);
+			if (cat != logic.cat)
+			{
+				var resMgr:ResMgr = Factory.getInstance(ResMgr);
+				resMgr.removeTextureAtlas(logic.cat);
+			}
 			logic.cat = cat;
 			PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
 			loadContent(cat);	
@@ -81,7 +89,11 @@ package fasthand.screen
 		override public function onAdded(e:Event):void 
 		{
 			super.onAdded(e);
-												
+			
+			var disp:DisplayObject = Asset.getImage(Asset.WALL_CATEGORY, Asset.WALL_CATEGORY);
+			addChild(disp);
+			Util.g_centerScreen(disp);
+			
 			addChild(catChooser);
 			Util.g_centerScreen(catChooser);			
 						
@@ -99,8 +111,9 @@ package fasthand.screen
 			var len1:int = COLOR_RND.length;
 			for (var i:int = 0; i < len; i++) 
 			{
-				var cIDx:int = Math.random() * len1;
-				var c:int = COLOR_RND[cIDx];
+				//var cIDx:int = Math.random() * len1;
+				//var c:int = COLOR_RND[cIDx];
+				var c:int = COLOR_RND[i];
 				title.colors.push(c);
 				title.colorRanges.push(i + 1);
 			}
@@ -121,6 +134,20 @@ package fasthand.screen
 			addChild(switchDiff );
 			switchDiff.y = title.y;
 			switchDiff.x = Util.appWidth - 36 - switchDiff.width;			
+			
+			var rateBt:BaseButton = ButtonAsset.getBaseBt(ButtonAsset.BT_BLUE);
+			rateBt.background.width = 288;
+			rateBt.background.height = 120;
+			rateBt.setText(LangUtil.getText("rate"),true);
+			rateBt.setCallbackFunc(onRateMe);
+			addChild(rateBt);
+			rateBt.y = title.y;
+			rateBt.x = 30;						
+		}
+		
+		private function onRateMe():void 
+		{
+			SoundManager.playSound(SoundAsset.SOUND_CLICK);
 		}
 		
 		private function onSwitchDiff(isDiff:Boolean):void 
@@ -135,14 +162,7 @@ package fasthand.screen
 				catChooser.onBackPage();
 			else if (mode == GlobalInput.INPUT_SWIPE_RIGHT)
 				catChooser.onNextPage();
-		}
-		
-		private function onBackToMainScreen():void 
-		{			
-			ScreenMgr.showScreen(MainScreen);
-			
-			SoundManager.playSound(SoundAsset.SOUND_CLICK);
-		}
+		}				
 		
 		override public function onRemoved(e:Event):void 
 		{		

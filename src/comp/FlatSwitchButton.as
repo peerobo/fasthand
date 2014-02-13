@@ -1,5 +1,6 @@
 package comp 
 {
+	import base.BaseButton;
 	import base.BFConstructor;
 	import base.Factory;
 	import flash.desktop.NativeProcessStartupInfo;
@@ -19,7 +20,7 @@ package comp
 	{
 		private var _value:Boolean;
 		private var onClicked:Function;	// param: FlatSwitchButton.value
-		private const PADDNG:int = 24;
+		private const PADDNG:int = BaseButton.PADDNG;
 		
 		public function FlatSwitchButton() 
 		{
@@ -30,12 +31,12 @@ package comp
 		public function init(trueDesc:String, falseDesc:String, backgroundTexture:String, selectedTexture:String, onClicked:Function):void		
 		{
 			this.onClicked = onClicked;
-			var trueTxt:TextField = BFConstructor.getShortTextField(1, 1, trueDesc, BFConstructor.ARIAL, Color.YELLOW);
+			var trueTxt:TextField = BFConstructor.getShortTextField(1, 1, trueDesc, BFConstructor.ARIAL, 0xFFFF80);
 			trueTxt.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
 			trueTxt.name = "true";
 			trueTxt.touchable = false;
 			addChild(trueTxt);
-			var falseTxt:TextField = BFConstructor.getShortTextField(1, 1, falseDesc, BFConstructor.ARIAL, Color.YELLOW);
+			var falseTxt:TextField = BFConstructor.getShortTextField(1, 1, falseDesc, BFConstructor.ARIAL, 0xFFFF80);
 			falseTxt.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
 			falseTxt.name = "false";
 			falseTxt.touchable = false;

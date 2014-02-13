@@ -2,8 +2,10 @@ package fasthand.screen
 {
 	import base.BaseButton;
 	import base.BFConstructor;
+	import base.EffectMgr;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import base.GlobalInput;
 	import base.LangUtil;
 	import base.LayerMgr;
 	import base.PopupMgr;
@@ -12,15 +14,21 @@ package fasthand.screen
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.SpriteNumber;
+	import fasthand.comp.PauseDialog;
 	import fasthand.Fasthand;
 	import fasthand.gui.GameBoard;
 	import fasthand.gui.ScoreWindow;
+	import flash.geom.Point;
+	import flash.ui.GameInput;
 	import res.Asset;
 	import res.asset.ButtonAsset;
 	import res.asset.IconAsset;
 	import res.asset.SoundAsset;
+	import starling.display.DisplayObject;
 	import starling.events.Event;
 	import starling.text.TextFieldAutoSize;
+	import starling.utils.Color;
+	import starling.utils.HAlign;
 	
 	/**
 	 * ...
@@ -30,6 +38,8 @@ package fasthand.screen
 	{
 		private var gameboard:GameBoard;
 		private var scoreBoard:SpriteNumber;
+		private var scoreTxt:BaseBitmapTextField;
+		private var timeDisableInput:Number;
 		
 		public function GameScreen() 
 		{
@@ -41,15 +51,35 @@ package fasthand.screen
 		{
 			super.onAdded(e);
 			
-			SoundManager.instance.muteMusic = true;
+			var disp:DisplayObject = Asset.getImage(Asset.WALL_GAME, Asset.WALL_GAME);
+			addChildAt(disp,0);
+			Util.g_centerScreen(disp);
+			
+			SoundManager.instance.muteMusic = true;						
 			
 			var backBt:BaseButton = ButtonAsset.getBaseBt(ButtonAsset.BT_BACK);			
-			backBt.setCallbackFunc(onBackToCategoryScreen);
+			backBt.setCallbackFunc(onBackBt);
 			addChild(backBt);
 			backBt.x = 30;
 			backBt.y = 18;						
 			
-			addChildAt(gameboard,0);
+			var pauseBt:BaseButton = ButtonAsset.getBaseBt(ButtonAsset.BT_PAUSE);			
+			pauseBt.setCallbackFunc(onPause);
+			addChild(pauseBt);
+			pauseBt.x = backBt.x + backBt.width + 12;
+			pauseBt.y = backBt.y;		
+			
+			scoreTxt = BFConstructor.getShortTextField(1, pauseBt.height, "score: " + Constants.MAX_SCORE_PER_ROUND * Constants.ROUND_PER_GAME, BFConstructor.ARIAL, Color.RED);
+			scoreTxt.autoSize = TextFieldAutoSize.HORIZONTAL;
+			var w:int = scoreTxt.width;
+			scoreTxt.autoSize = TextFieldAutoSize.NONE;
+			scoreTxt.width = w;
+			scoreTxt.hAlign = HAlign.RIGHT;			
+			scoreTxt.x = Util.appWidth - scoreTxt.width - backBt.x;
+			scoreTxt.y = pauseBt.y;
+			addChild(scoreTxt);
+			
+			addChildAt(gameboard,1);
 			Util.g_centerScreen(gameboard);
 			gameboard.onSelectWord = validateWord;			
 			
@@ -57,25 +87,63 @@ package fasthand.screen
 			preStartGame();
 		}
 		
-		private function validateWord(word:String):void 
+		private function onPause():void 
 		{
+			SoundManager.playSound(SoundAsset.SOUND_CLICK);
+			var pauseDlg:PauseDialog = Factory.getInstance(PauseDialog);
+			pauseDlg.callbackUnPaused = resume;
+			PopupMgr.addPopUp(pauseDlg);
+			
+			pause();
+		}
+		
+		private function validateWord(word:String, item:DisplayObject):void 
+		{
+			var globalIpt:GlobalInput = Factory.getInstance(GlobalInput);
+			globalIpt.disable = true;
+			timeDisableInput = Constants.DISABLE_INPUT_EACH_TOUCH;			
+			
 			var logic:Fasthand = Factory.getInstance(Fasthand);
-			if (logic.checkAdvanceRound(word))
-			{
+			var score:int = logic.remainingRoundScore;
+			if (logic.checkAdvanceRound(word))	// right word
+			{					
 				gameboard.isAnimatedTime = false;
-				gameboard.resetTimeCount();
+				gameboard.resetTimeCount();				
+				
+				var touchPos:Point = item.localToGlobal(new Point(item.width>>1, item.height>>1));
+				EffectMgr.floatTextMessageEffect("+" + score.toString(), touchPos);
+			}
+			else	// wrong word
+			{
+				gameboard.animateWrongWord(item);				
 			}
 		}
 		
-		private function onBackToCategoryScreen():void 
+		private function onBackBt():void 
 		{
-			gameboard.resetTimeCount();
-			gameboard.isAnimatedTime = false;
-			var logic:Fasthand = Factory.getInstance(Fasthand);
-			logic.gameOver(true);
-			ScreenMgr.showScreen(CategoryScreen);
+			Util.g_showConfirm(LangUtil.getText("confirmQuit"), onConfirmQuit);
+			pause();
+			
 			SoundManager.playSound(SoundAsset.SOUND_CLICK);
 		}
+		
+		private function onConfirmQuit(isQuit:Boolean):void 
+		{
+			if (isQuit)
+			{
+				gameboard.resetTimeCount();
+				gameboard.isAnimatedTime = false;
+				var logic:Fasthand = Factory.getInstance(Fasthand);
+				logic.gameOver(true);
+				ScreenMgr.showScreen(CategoryScreen);				
+			}
+			else
+			{
+				resume();
+			}
+		}
+		
+		
 		
 		public function preStartGame():void
 		{
@@ -94,7 +162,7 @@ package fasthand.screen
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			logic.startNewGame();
 			
-			gameboard.maxTime = logic.gameRoundTime;
+			gameboard.maxTime = logic.GAME_ROUND_TIME;
 			gameboard.resetTimeCount();
 			gameboard.isAnimatedTime = true;
 			gameboard.setIcons(logic.seqs);
@@ -106,7 +174,7 @@ package fasthand.screen
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			logic.startARound();
 			
-			gameboard.maxTime = logic.gameRoundTime;
+			gameboard.maxTime = logic.GAME_ROUND_TIME;
 			gameboard.resetTimeCount();
 			gameboard.isAnimatedTime = true;
 			gameboard.setIcons(logic.seqs);
@@ -127,6 +195,39 @@ package fasthand.screen
 				gameboard.reset();
 		}
 		
+		public function pause():void 
+		{
+			LayerMgr.getLayer(LayerMgr.LAYER_GAME).flatten();
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			logic.pause = true;
+			
+			gameboard.pause();
+		}
+		
+		public function resume():void 
+		{
+			LayerMgr.getLayer(LayerMgr.LAYER_GAME).flatten();
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			logic.pause = true;
+			
+			gameboard.resume();
+		}
+		
+		override public function update(time:Number):void 
+		{
+			super.update(time);
+			if (timeDisableInput > 0)
+			{
+				timeDisableInput -= time;
+				if (timeDisableInput <= 0)
+				{
+					var globalInpt:GlobalInput = Factory.getInstance(GlobalInput);
+					globalInpt.disable = false;
+				}
+			}
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			scoreTxt.text =LangUtil.getText("score") + " " + logic.currentPlayerScore.toString();
+		}
 	}
 
 }

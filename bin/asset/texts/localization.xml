@@ -5,11 +5,15 @@
 	<en>
 		<loading>Loading</loading>
 		<welcome>Fast Hand English</welcome>		
+		<rate>Rate</rate>	
+		<paused>Game is paused!</paused>
+		<confirmQuit>Do you really want to quit?</confirmQuit>
 		<changeSubject>Change Subject</changeSubject>
+		<purchaseAsk>Unlock NOW all @num subjects and remove ads for only @price$</purchaseAsk>
+		<purchaseRestore>Restore purchase!</purchaseRestore>
 		<again>Again</again>
-		<score>Score:</score>
-		<yourscore>You scored:</yourscore>
-		<yourbestscore>Your best score:</yourbestscore>
+		<score>Score: </score>
+		<result>Score: @score\nBest: @best\nSubject played: @subject</result>
 		<slow>Slow</slow>
 		<fast>Fast</fast>
 		<chooseCategory>Choose a Category</chooseCategory>

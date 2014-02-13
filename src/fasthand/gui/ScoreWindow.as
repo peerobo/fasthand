@@ -8,7 +8,7 @@ package fasthand.gui
 	import base.PopupMgr;
 	import base.SoundManager;
 	import comp.SpriteNumber;
-	import fasthand.screen.MainScreen;
+	import fasthand.FasthandUtil;	
 	import flash.geom.Rectangle;
 	import res.Asset;
 	import res.asset.IconAsset;
@@ -25,13 +25,12 @@ package fasthand.gui
 	public class ScoreWindow extends BaseJsonGUI 
 	{
 		public var subjectTitleTxt:BaseBitmapTextField;
-		public var bestScoreTxt:BaseBitmapTextField;
-		public var closeBt:BaseButton;
+		public var contentTxt:BaseBitmapTextField;
+		public var scoreBt:BaseButton;
 		public var againBt:BaseButton;
 		public var changeSubjectBt:BaseButton;
 		public var scoreRect:Rectangle;
-		
-		private var scoreSpr:SpriteNumber;
+				
 		private var particleSys:PDParticleSystem;
 		
 		public var closeCallback:Function;
@@ -46,23 +45,26 @@ package fasthand.gui
 		
 		override public function onAdded(e:Event):void 
 		{
-			addChild(particleSys);			
-			particleSys.y = 288;
+			
 			
 			super.onAdded(e);
 			
-			subjectTitleTxt.batchable = true;
-			
-			scoreSpr = Factory.getObjectFromPool(SpriteNumber);
-			scoreSpr.init(Asset.getBaseTextures(IconAsset.ICO_NUMBER));
-			addChild(scoreSpr);
+			subjectTitleTxt.batchable = true;					
 			
 			againBt.setCallbackFunc(onAgainBt);			
 			changeSubjectBt.setCallbackFunc(onCategoryBt);		
+			scoreBt.setCallbackFunc(onScoreBt);
 			
+			addChild(particleSys);			
+			particleSys.y = 0;
 			particleSys.x = width >> 1;
 			
 			SoundManager.playSound(SoundAsset.SOUND_END_GAME);
+		}
+		
+		private function onScoreBt():void 
+		{
+			
 		}
 		
 		private function onCategoryBt():void 
@@ -93,13 +95,15 @@ package fasthand.gui
 			super.onRemoved(e);
 		}
 		
-		public function setScore(score:int, scoreBest:int):void
+		public function setScore(score:int, scoreBest:int, subjectPlayed:int):void		
 		{
-			scoreSpr.text = Util.numberWithCommas(score);
-			bestScoreTxt.setContent(LangUtil.getText("yourbestscore") + " ", Util.numberWithCommas(scoreBest));
-			bestScoreTxt.setContentColor(Color.WHITE, Color.YELLOW);
+			var str:String = LangUtil.getText("result");
+			contentTxt.text = str;
+			var strs2Replace:Array = ["@score", "@best", "@subject"];
+			var strs2ReplaceWith:Array = [score.toString(), scoreBest.toString(), subjectPlayed.toString() + "/" + FasthandUtil.getListCat().length];
+			var colors:Array = [0x00FF40, Color.YELLOW, 0xFF8080];
+			Util.g_replaceAndColorUp(contentTxt, strs2Replace, strs2ReplaceWith, colors );
 			
-			Util.g_fit(scoreSpr, scoreRect);
 			if (score > scoreBest)
 			{
 				SoundManager.playSound(SoundAsset.SOUND_HIGH_SCORE);

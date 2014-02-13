@@ -18,10 +18,9 @@ package
 		public static const CAT_FREE_NUM:int = 6;
 		static public const AD_ID:String = "a152e1293565247";
 		static public const AD_FULL_WAITTIME:int = 4;
-		
-		static public const HIGHSCORE_SLOW_PREFIX:String = "slow_";
-		static public const HIGHSCORE_FAST_PREFIX:String = "fast_";
-		
+		static public const PRICE_GAME:Number = 2.99;		
+		static public const DISABLE_INPUT_EACH_TOUCH:Number = 1;
+		static public const PENALTY_TIME:int = 1;
 		public function Constants() 
 		{
 			

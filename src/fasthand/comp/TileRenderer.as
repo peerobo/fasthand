@@ -31,8 +31,7 @@ package fasthand.comp
 		
 		public function TileRenderer() 
 		{
-			super();
-			
+			super();			
 		}	
 		
 		override public function onAdded(e:Event):void 

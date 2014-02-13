@@ -21,7 +21,7 @@ package comp
 			}
 		}
 		
-		public function getHighscore(type:String):String
+		public function getHighscore(type:String):int
 		{
 			return highscoreMap[type];
 		}

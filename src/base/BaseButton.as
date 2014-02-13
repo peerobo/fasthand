@@ -1,5 +1,6 @@
 package base
 {
+	import base.font.BaseBitmapTextField;
 	import comp.LoopableSprite;
 	import comp.ShakeObject;
 	import feathers.display.Scale9Image;
@@ -18,10 +19,13 @@ package base
 	import starling.filters.ColorMatrixFilter;
 	import starling.filters.FragmentFilter;
 	import starling.text.TextField;
+	import starling.text.TextFieldAutoSize;
 	import starling.textures.Texture;
+	import starling.utils.Color;
 	
 	public class BaseButton extends LoopableSprite
 	{
+		public static const PADDNG:int = 24;
 		public var btnId:String = "";
 		public var icons:Vector.<DisplayObject> = new Vector.<DisplayObject>();
 		public var label:TextField;
@@ -43,7 +47,7 @@ package base
 			super();
 			initTouch();
 			hoverFilter = Util.getFilter(Util.HOVER_FILTER);
-			downFilter = Util.getFilter(Util.DOWN_FILTER);
+			downFilter = Util.getFilter(Util.isDesktop ? Util.DOWN_FILTER : Util.HOVER_FILTER);
 			disableFilter = Util.getFilter(Util.DISABLE_FILTER);			
 		}
 		
@@ -61,7 +65,11 @@ package base
 		public function destroy():void
 		{
 			callbackFunc = null;
-			params = null;			
+			params = null;	
+			cMF = null;
+			hoverFilter = null;
+			disableFilter = null;
+			downFilter = null;
 		}			
 		public function setCallbackFunc(func:Function, params:Array = null):void
 		{
@@ -87,7 +95,7 @@ package base
 					case TouchPhase.ENDED: 
 						if (!_isDisable)
 						{
-							this.filter = null;
+							this.filter = cMF;
 							var newAnchor:Point = new Point(touch.globalX,touch.globalY);
 							if (newAnchor.subtract(anchor).length < GlobalInput.SWIPE_AMP)
 							{
@@ -207,17 +215,55 @@ package base
 			return icons[0];
 		}
 		
-		public function set text(text:String):void
+		public function setText(text:String, autoSizeBt:Boolean = false):void
 		{
 			if (!label)
 			{
-				setLabel(BFConstructor.getShortTextField(background.width, background.height, text,BFConstructor.BANHMI));
+				if (autoSizeBt)
+				{
+					var l:BaseBitmapTextField = BFConstructor.getShortTextField(1, 1, text, BFConstructor.ARIAL, 0xFFFF80);
+					l.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+					background.width = l.width+PADDNG;
+					background.height = l.height + PADDNG;
+					setLabel(l);
+					
+				}
+				else
+				{
+					setLabel(BFConstructor.getShortTextField(background.width, background.height, text, BFConstructor.ARIAL, 0xFFFF80));				
+				}
+				
 			}
 			else
 			{
-				label.width = background.width;
-				label.height = background.height;
-				label.text = text;
+				if (autoSizeBt)
+				{
+					label.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+					label.text = text;
+					background.width = label.width+PADDNG;
+					background.height = label.height + PADDNG;					
+				}
+				else
+				{
+					label.autoSize = TextFieldAutoSize.NONE;
+					
+					label.width = background.width;
+					label.height = background.height;
+					label.text = text;
+				}
+				
+			}
+			
+			if (autoSizeBt)
+			{
+				
+				label.x = PADDNG >> 1;
+				label.y = PADDNG >> 1;
+			}
+			else
+			{				
+				label.x = 0;
+				label.y = 0;
 			}
 		}
 	}

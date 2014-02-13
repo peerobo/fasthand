@@ -12,10 +12,10 @@ package base
 		private static var layers:Array;
 		
 		private static const NUM_LAYERS:int = 4;
-		public static const LAYER_GAME:int = 0;
-		public static const LAYER_DIALOG:int = 1;				
-		public static const LAYER_EFFECT:int = 2;				
-		public static const LAYER_TOOLTIP:int = 3;				
+		public static const LAYER_GAME:int = 0;					
+		public static const LAYER_EFFECT:int = 1;				
+		public static const LAYER_TOOLTIP:int = 2;
+		public static const LAYER_DIALOG:int = 3;
 		
 		public function LayerMgr() 
 		{

@@ -35,8 +35,10 @@ package
 		{
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
-			stage.addEventListener(Event.DEACTIVATE, deactivate);
-			
+			//stage.addEventListener(Event.DEACTIVATE, deactivate);
+			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onAppExit);
+			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onAppActivate);
+			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			
@@ -44,6 +46,29 @@ package
 			
 			// new to AIR? please read *carefully* the readme.txt files!			
 			startStarlingFramework();				
+		}
+		
+		private function onAppDeactivate(e:Event):void 
+		{
+			if (Util.isDesktop)
+				return;
+			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			highscoreDB.saveHighscore();			
+			
+			Starling.current.stop(true);
+			// make sure the app behaves well (or exits) when in background
+			NativeApplication.nativeApplication.exit();
+			//NativeAds.deactivateAd();
+		}
+		
+		private function onAppActivate(e:Event):void 
+		{
+			Starling.current.start();
+		}
+		
+		private function onAppExit(e:Event):void 
+		{
+			
 		}
 		
 		private function startStarlingFramework():void 
@@ -102,9 +127,14 @@ package
 				h = sh;
 			}
 			
+			if(Util.isAndroid)
+				Starling.handleLostContext = true;
+			else
+				Starling.handleLostContext = false;
+			
 			var starling:Starling = new Starling(App, stage,new Rectangle(0,0,sw,sh));
 			starling.stage.stageWidth = w;
-			starling.stage.stageHeight = h;				
+			starling.stage.stageHeight = h;					
 			starling.start();	
 			Util.registerPool();
 			Asset.init();
@@ -116,6 +146,7 @@ package
 			{
 				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + "highscore");
 				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + "highscoreDiff");
+				
 			}
 		}
 		
@@ -126,15 +157,6 @@ package
 			}
 		}
 		
-		private function deactivate(e:Event):void 
-		{
-			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
-			highscoreDB.saveHighscore();			
-			
-			// make sure the app behaves well (or exits) when in background
-			NativeApplication.nativeApplication.exit();
-			//NativeAds.deactivateAd();
-		}
 		
 	}
 	

@@ -10,6 +10,8 @@ package
 	import comp.AdEmulator;
 	import comp.LoadingIcon;
 	import comp.TileImage;
+	import fasthand.gui.ConfirmDlg;
+	import fasthand.gui.PurchaseDlg;
 	import feathers.display.Scale3Image;
 	import feathers.display.Scale9Image;
 	import feathers.textures.Scale9Textures;
@@ -108,6 +110,33 @@ package
 			disp.y = Util.appHeight - disp.height >> 1;
 		}
 		
+		public static function g_replaceAndColorUp(textField:BaseBitmapTextField, strs2Replace:Array, strs2ReplaceWith:Array, colorup:Array = null):void		
+		{
+			var str:String = textField.text;
+			if (colorup)
+			{
+				textField.colorRanges = [];
+				textField.colors = [];
+			}
+			var len:int = strs2Replace.length;
+			var regexp:RegExp;
+			for (var i:int = 0; i < len; i++) 
+			{
+				regexp = new RegExp(strs2Replace[i]);
+				var res:Array = regexp.exec(str);
+				if (res)
+				{
+					str = str.replace(res[0], strs2ReplaceWith[i]);
+					if (colorup)
+					{
+						textField.colors.push(null, colorup[i]);
+						textField.colorRanges.push(res.index, res.index + strs2ReplaceWith[i].length);
+					}
+				}
+			}
+			textField.text = str;
+		}
+		
 		public static function g_centerChild(p:DisplayObject, c:DisplayObject):void
 		{
 			c.x = p.width - c.width >> 1;
@@ -121,6 +150,14 @@ package
 			{
 				admob.setKeys(Constants.AD_ID);
 			}
+		}
+		
+		public static function g_showConfirm(msg:String, callbackFunc:Function):void
+		{
+			var confirmDlg:ConfirmDlg = Factory.getInstance(ConfirmDlg);
+			confirmDlg.text = msg;
+			confirmDlg.callback = callbackFunc;
+			PopupMgr.addPopUp(confirmDlg);
 		}
 		
 		public static function showBannerAd():void
@@ -151,7 +188,7 @@ package
 			{
 				admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
 				admob.cacheInterstitial();
-				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+				//PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
 			}
 			if (isDesktop)
 				AdEmulator.showFullscreenAd();
@@ -173,7 +210,7 @@ package
 			{
 				admob.showInterstitial();
 				admob.removeEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
-				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+				//PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 			}
 		}
 		
@@ -301,7 +338,8 @@ package
 		
 		static public function showInAppPurchase():void
 		{
-		
+			var purchaseDlg:PurchaseDlg = Factory.getInstance(PurchaseDlg);
+			PopupMgr.addPopUp(purchaseDlg);
 		}
 		
 		static public function get isIOS():Boolean

@@ -145,6 +145,11 @@ package res
 			}
 		}
 		
+		public function removeTextureAtlas(name:String):void
+		{
+			assetMgr.removeTextureAtlas(name + Asset.contentSuffix,true);
+		}
+		
 	}
 
 }

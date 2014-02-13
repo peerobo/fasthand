@@ -61,7 +61,8 @@ package fasthand.comp
 			lockIcon.touchable = false;
 			lockIcon.visible = isLocked;
 			addChild(lockIcon);			
-			title = BFConstructor.getTextField(bt.background.width - 12, ICON_H, "", BFConstructor.ARIAL, Color.WHITE, HAlign.CENTER, VAlign.TOP);			
+			title = BFConstructor.getTextField((bt.background.width - 12) * 2, ICON_H * 2, "", BFConstructor.ARIAL, Color.WHITE, HAlign.CENTER, VAlign.TOP);			
+			title.scaleX = title.scaleY = 0.7;
 			title.y = 0;
 			addChild(title);
 			title.touchable = false;
@@ -77,8 +78,8 @@ package fasthand.comp
 			lockIcon.y = lockRect.y;
 			ICON_W = rectBt.width - ICON_X * 2;			
 			ICON_H = rectBt.height - ICON_Y - 24;
-			title.width = ICON_W;
-			title.height = ICON_H;
+			title.width = ICON_W/0.7;
+			title.height = ICON_H/0.7;
 			title.x = ICON_X + 12;
 			title.y = 36;			
 		}
@@ -92,8 +93,7 @@ package fasthand.comp
 				clickCallbackObj.f.apply(this, p);
 				for (var i:int = 0; i < this.numChildren; i++) 
 				{
-					var c:DisplayObject = getChildAt(i);
-					trace(getQualifiedClassName(c), c.visible, c.x, c.y);
+					var c:DisplayObject = getChildAt(i);					
 				}
 			}
 		}
@@ -146,7 +146,8 @@ package fasthand.comp
 				Factory.toPool(icon);
 				icon = null;
 			}
-			icon = BFConstructor.getTextField(ICON_W, ICON_H, LangUtil.getText("comingsoon"), BFConstructor.ARIAL,0xFFFFFF,HAlign.CENTER,VAlign.TOP);			
+			icon = BFConstructor.getTextField(ICON_W / 0.7, ICON_H / 0.7, LangUtil.getText("comingsoon"), BFConstructor.ARIAL, 0xFFFFFF, HAlign.CENTER, VAlign.TOP);			
+			icon.scaleX = icon.scaleY = 0.7;
 			icon.x = ICON_X;
 			icon.y = ICON_Y;
 			addChildAt(icon, 1);
@@ -161,38 +162,42 @@ package fasthand.comp
 		
 		public function adjustColorIdx(idx:int):void
 		{	
+			editColorFilterByIdx(idx, colorMF);
+			bt.colorFilter = colorMF;				
+		}
+		
+		public static function editColorFilterByIdx(idx:int, colorFilter:ColorMatrixFilter):void
+		{
 			switch(idx)
 			{
 				case 1:
-					colorMF.adjustHue( -7 / 180);
-					colorMF.adjustSaturation(1);
-					bt.colorFilter = colorMF;
+					colorFilter.adjustHue( -7 / 180);
+					colorFilter.adjustSaturation(1);					
 				break;
 				case 2:
-					colorMF.adjustHue(119 / 180);
-					bt.colorFilter = colorMF;
+					colorFilter.adjustHue(119 / 180);					
 				break;
 				case 3:
-					colorMF.adjustHue( -87 / 180);
-					colorMF.adjustSaturation(1);
-					colorMF.adjustBrightness(0.37);
-					bt.colorFilter = colorMF;
+					colorFilter.adjustHue( -87 / 180);
+					colorFilter.adjustSaturation(1);
+					colorFilter.adjustBrightness(0.37);					
 				break;
 				case 4:
-					colorMF.adjustHue(16 / 180);
-					colorMF.adjustSaturation( -0.4);
-					colorMF.adjustBrightness( -0.32);
-					bt.colorFilter = colorMF;
+					colorFilter.adjustHue(16 / 180);
+					colorFilter.adjustSaturation( -0.4);
+					colorFilter.adjustBrightness( -0.32);					
 				break;
 				case 5:
-					colorMF.adjustHue( -64 / 180);
-					colorMF.adjustSaturation(0.29);
-					colorMF.adjustBrightness(0.31);
-					bt.colorFilter = colorMF;
+					colorFilter.adjustHue( -64 / 180);
+					colorFilter.adjustSaturation(0.29);
+					colorFilter.adjustBrightness(0.31);					
 				break;
+				default:
+					colorFilter.adjustBrightness(0);
+					colorFilter.adjustContrast(0);
+					colorFilter.adjustHue(0);
+					colorFilter.adjustSaturation(0);
 			}
-			
-			
 		}
 	}
 

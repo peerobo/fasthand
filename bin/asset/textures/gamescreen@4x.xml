@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:a5b7d0c73df2497aa49ae21197de9bb3$ -->
+<TextureAtlas imagePath="gamescreen@4x.png">
+    <SubTexture name="gamescreen" x="2" y="2" width="2560" height="1600"/>
+</TextureAtlas>

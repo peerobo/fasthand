@@ -23,6 +23,10 @@ package res
 		
 		public static const BASE_GUI:String = "gui";		
 		
+		public static const WALL_CATEGORY:String = "categoryscreen";
+		public static const WALL_GAME:String = "gamescreen";
+		public static const WALL_LIST:Array = [WALL_CATEGORY, WALL_GAME];		
+		
 		public static var contentSuffix:String;
 		static private var scaleRecs:Object;
 		
@@ -40,8 +44,13 @@ package res
 		{
 			var list:Array = [ASSET_FOLDER + BASE_GUI + contentSuffix + ".atf", 
 					ASSET_FOLDER + BASE_GUI + contentSuffix + ".xml"];
+					
 			for each(var s:String in BFConstructor.LIST_FONTS)
 				list.push(TEXT_FOLDER + s + ".xml");
+				
+			for each(s in WALL_LIST)
+				list.push(ASSET_FOLDER + s + Asset.contentSuffix +  ".atf", ASSET_FOLDER + s + Asset.contentSuffix + ".xml");
+				
 			return list;
 		}
 		
@@ -50,6 +59,30 @@ package res
 		static public function getTextureAtlURL(name:String):Array // png/atf, xml 
 		{
 			return [ASSET_FOLDER + name + contentSuffix + ".atf", ASSET_FOLDER + name + contentSuffix + ".xml"]
+		}
+		
+		public static function getImage(texAtl:String,str:String):DisplayObject
+		{
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			var tex:Texture = resMgr.getTexture(texAtl + Asset.contentSuffix, str);
+			if (getRec(str))
+			{				
+				var simg:Scale9Image = Factory.getObjectFromPool(Scale9Image);				
+				//simg.useSeparateBatch = false;
+				//var simg:Scale9Image = new Scale9Image(new Scale9Textures(tex, getRec(str)));
+				simg.textures = new Scale9Textures(tex, getRec(str));				
+				simg.readjustSize();
+				simg.width = tex.width;
+				simg.height = tex.height;
+				return simg;
+			}
+			else
+			{
+				var img:Image = Factory.getObjectFromPool(Image);				
+				img.texture = tex;
+				img.readjustSize();
+				return img;
+			}
 		}
 		
 		public static function getBaseImage(str:String):DisplayObject

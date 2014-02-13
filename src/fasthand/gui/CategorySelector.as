@@ -6,15 +6,21 @@ package fasthand.gui
 	import base.Factory;
 	import base.GlobalInput;
 	import base.LangUtil;
+	import base.SoundManager;
 	import fasthand.comp.CatRenderer;
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;
 	import flash.geom.Rectangle;
+	import res.Asset;
+	import res.asset.BackgroundAsset;
 	import res.asset.IconAsset;
+	import res.asset.SoundAsset;
 	import starling.core.Starling;
+	import starling.display.DisplayObject;
 	import starling.display.QuadBatch;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.filters.ColorMatrixFilter;
 	
 	/**
 	 * ...
@@ -34,6 +40,9 @@ package fasthand.gui
 		
 		public var currentPage:int;
 		
+		private var backCatIndicator:Sprite;
+		private var nextCatIndicator:Sprite;
+		
 		/**
 		 * a callback function: c(cat:String):void
 		 */
@@ -44,7 +53,8 @@ package fasthand.gui
 			super("CategorySelector");	
 			sprCurr = new Sprite();
 			sprNext = new Sprite();
-			currentPage = 0;			
+			currentPage = 0;	
+			initNextBackIndicator();
 		}
 		
 		override public function onAdded(e:Event):void 
@@ -81,13 +91,62 @@ package fasthand.gui
 				item.adjustColorIdx(i);
 			}			
 			//backPageBt.setCallbackFunc(onBackPage);
-			//nextPageBt.setCallbackFunc(onNextPage);			
+			//nextPageBt.setCallbackFunc(onNextPage);	
+			parent.addChild(backCatIndicator);
+			parent.addChild(nextCatIndicator);
+			
 			updatePage(sprCurr, currentPage);
 			updateBtStates();
 		}
 		
+		private function initNextBackIndicator():void 
+		{
+			backCatIndicator = new Sprite();
+			var image:DisplayObject = Asset.getBaseImage(BackgroundAsset.BG_ITEM);
+			image.height = 330;
+			image.width = 156;
+			var filter:ColorMatrixFilter = new ColorMatrixFilter();
+			CatRenderer.editColorFilterByIdx(2,filter);			
+			image.filter = filter;
+			filter.cache();
+			backCatIndicator.addChild(image);
+			image = Asset.getBaseImage(BackgroundAsset.BG_ITEM);
+			image.height = 330;
+			image.width = 156;	
+			image.y = 426;
+			filter = new ColorMatrixFilter();
+			CatRenderer.editColorFilterByIdx(5,filter);			
+			image.filter = filter;
+			filter.cache();
+			backCatIndicator.addChild(image);
+			backCatIndicator.y = Util.appHeight - backCatIndicator.height >> 1;
+			backCatIndicator.x = -image.width / 3;
+			
+			nextCatIndicator = new Sprite();
+			image = Asset.getBaseImage(BackgroundAsset.BG_ITEM);
+			image.height = 330;
+			image.width = 156;			
+			filter = new ColorMatrixFilter();
+			CatRenderer.editColorFilterByIdx(0,filter);			
+			image.filter = filter;
+			filter.cache();
+			nextCatIndicator.addChild(image);
+			image = Asset.getBaseImage(BackgroundAsset.BG_ITEM);
+			image.height = 330;
+			image.width = 156;
+			image.y = 426;	
+			filter = new ColorMatrixFilter();
+			CatRenderer.editColorFilterByIdx(3,filter);			
+			image.filter = filter;
+			filter.cache();
+			nextCatIndicator.addChild(image);
+			nextCatIndicator.y = Util.appHeight - nextCatIndicator.height >> 1;
+			nextCatIndicator.x = Util.appWidth - image.width*2/3;
+		}
+		
 		private function onSelectCat(catRender:CatRenderer):void
 		{
+			SoundManager.playSound(SoundAsset.SOUND_CLICK);
 			if (catRender.isLock)
 			{
 				Util.showInAppPurchase();
@@ -121,21 +180,24 @@ package fasthand.gui
 		
 		override public function onRemoved(e:Event):void 
 		{
+			nextCatIndicator.removeFromParent();
+			backCatIndicator.removeFromParent();
 			sprCurr.removeChildren();
 			sprNext.removeChildren();
 			super.onRemoved(e);						
 		}
 		
 		public function onNextPage():void 
-		{		
+		{					
 			var maxPage:int = Math.round(FasthandUtil.getListCat().length / Constants.CAT_PER_PAGE);
 			if (currentPage == maxPage-1)			
 				return;
+			nextCatIndicator.visible = false;
+			backCatIndicator.visible = false;
 			sprNext.x = Util.appWidth;
 			sprNext.y = 0;
 			addChild(sprNext);
 			currentPage++;
-			updateBtStates();
 			updatePage(sprNext, currentPage);
 						
 			Starling.juggler.tween(sprNext, 0.5, { x:0, alpha: 1 } );
@@ -151,12 +213,14 @@ package fasthand.gui
 			currentPage = currentPage < 0 ? 0:currentPage;
 			currentPage = currentPage >=maxPage ? maxPage-1:currentPage;
 			
-			//backPageBt.visible = currentPage > 0;
-			//nextPageBt.visible = currentPage < maxPage -1;			
+			backCatIndicator.visible = currentPage > 0;
+			nextCatIndicator.visible = currentPage < maxPage -1;			
 		}
 		
 		private function onScrollComplete():void 
 		{
+			updateBtStates();
+			
 			var spr:Sprite = sprCurr;
 			sprCurr = sprNext;
 			sprNext = spr;	
@@ -168,14 +232,16 @@ package fasthand.gui
 		}
 		
 		public function onBackPage():void 
-		{
+		{			
 			if (currentPage == 0)
 				return;
+			nextCatIndicator.visible = false;
+			backCatIndicator.visible = false;
 			sprNext.x = -Util.appWidth;
 			sprNext.y = 0;
 			addChild(sprNext);
 			currentPage--;
-			updateBtStates();
+			//updateBtStates();
 			updatePage(sprNext, currentPage);
 			
 			Starling.juggler.tween(sprNext, 0.5, { x:0, alpha: 1 } );

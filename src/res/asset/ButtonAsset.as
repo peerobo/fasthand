@@ -16,7 +16,10 @@ package res.asset
 	public class ButtonAsset 
 	{
 		public static const BT_BACK:String = "bt_back";		
+		public static const BT_PAUSE:String = "bt_pause";		
+		public static const BT_PLAY_AGAIN:String = "bt_play_again";		
 		public static const BT_BLUE:String = "bt_blue";		
+		public static const BT_TEAL:String = "bt_teal";		
 		public static const BT_DARK_GRAY:String = "bt_dark_gray";		
 		
 		public function ButtonAsset() 
@@ -40,7 +43,7 @@ package res.asset
 		
 		public static function getBaseBtWithTexture(...texs):BaseButton
 		{
-			var bt:BaseButton = Factory.getObjectFromPool(BaseButton);
+			var bt:BaseButton = new BaseButton();
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			for (var i:int = 0; i < texs.length; i++) 
 			{
@@ -54,7 +57,7 @@ package res.asset
 		
 		public static function getBaseBtWithImage(...imgs):BaseButton
 		{
-			var bt:BaseButton = Factory.getObjectFromPool(BaseButton);
+			var bt:BaseButton = new BaseButton();
 			for (var i:int = 0; i < imgs.length; i++) 
 			{				
 				bt.addIcon(imgs[i]);

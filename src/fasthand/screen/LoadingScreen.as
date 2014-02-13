@@ -31,9 +31,8 @@ package fasthand.screen
 	 * @author ndp
 	 */
 	public class LoadingScreen extends LoopableSprite 
-	{				
-
-		[Embed(source="../../../res/asset/gui/ico_logo.atf", mimeType="application/octet-stream")]
+	{						
+		[Embed(source="../../../res/ico_logo.atf", mimeType="application/octet-stream")]
 		public static const CompressedData:Class;
 		
 		private var t:Tween;
@@ -51,20 +50,16 @@ package fasthand.screen
 			addChild(quad);
 			
 			var data:ByteArray = new CompressedData() as ByteArray;			
-			var tex:Texture = Texture.fromAtfData(data,Starling.contentScaleFactor);			
-			var logo:Sprite = new Sprite();
+			var tex:Texture = Texture.fromAtfData(data, 1 / Starling.contentScaleFactor);
+			
 			img = Factory.getObjectFromPool(Image);
 			img.texture = tex;
 			img.readjustSize();
-			logo.addChild(img);
-			var loading:TextField = new TextField(1, 1, "Loading...", "Arial", 32/Starling.contentScaleFactor, 0xFFFFFF, true);			
-			loading.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
-			loading.y = 100 / Starling.contentScaleFactor;
-			logo.addChild(loading);
-			addChild(logo);			
-			Util.g_centerScreen(logo);
-			logo.x += 100;
-			t = new Tween(logo, 1);
+			addChild(img);			
+			
+			Util.g_centerScreen(img);
+			
+			t = new Tween(img, 1);
 			t.repeatCount = 0;
 			t.reverse = true;
 			t.fadeTo(0.3);
@@ -87,7 +82,6 @@ package fasthand.screen
 		
 		override public function onRemoved(e:Event):void 
 		{
-			super.onRemoved(e);					
 			img.texture.dispose();
 			img.removeFromParent();
 			quad.removeFromParent();
@@ -97,6 +91,8 @@ package fasthand.screen
 			t = null;
 			img = null;
 			quad = null;
+			
+			super.onRemoved(e);								
 		}
 	}
 
