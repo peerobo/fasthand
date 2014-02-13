@@ -20,6 +20,7 @@ package
 	import flash.net.SharedObject;
 	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
+	import flash.net.URLRequest;
 	import so.cuo.platform.admob.Admob;
 	import so.cuo.platform.admob.AdmobEvent;
 	import so.cuo.platform.admob.AdmobPosition;
@@ -97,6 +98,12 @@ package
 		public function Util()
 		{
 		
+		}
+		
+		public static function rateMe():void
+		{
+			if(isIOS)
+				navigateToURL(new URLRequest("itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id="+594482571));
 		}
 		
 		public static function get deviceID():String
