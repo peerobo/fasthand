@@ -70,8 +70,8 @@ package base
 		public function SoundManager()
 		{
 			_assetMgr = new AssetManager();
-			_assetMgr.verbose = true;
-			soundVolume = 50;
+			_assetMgr.verbose = false;
+			soundVolume = 100;
 		}			
 		
 		public function queueSound(url:String,name:String):void

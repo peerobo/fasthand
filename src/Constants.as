@@ -10,7 +10,7 @@ package
 		public static const CONTENT_VER:String = "";
 		public static const APP_NAME:String = "com.fc.FastHandEnglish";
 		public static const SEC_PER_ROUND:int = 30;
-		public static const SEC_PER_ROUND_DIFFICULT:int = 15;
+		public static const SEC_PER_ROUND_DIFFICULT:int = 10;
 		public static const MAX_SCORE_PER_ROUND:int = 10;
 		public static const ROUND_PER_GAME:int = 10;
 		public static const TILE_PER_ROUND:int = 10;
@@ -20,7 +20,8 @@ package
 		static public const AD_FULL_WAITTIME:int = 4;
 		static public const PRICE_GAME:Number = 2.99;		
 		static public const DISABLE_INPUT_EACH_TOUCH:Number = 1;
-		static public const PENALTY_TIME:int = 1;
+		static public const PENALTY_TIME:int = 1;		
+		static public const SUBJECT_STR:String = "sub";
 		public function Constants() 
 		{
 			

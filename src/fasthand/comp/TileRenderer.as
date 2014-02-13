@@ -89,17 +89,19 @@ package fasthand.comp
 		override public function set width(value:Number):void 
 		{
 			baseButton.background.width = value;
+			flatten();
 		} 
 				
 		override public function set height(value:Number):void 
 		{
-			baseButton.background.height = value;
+			baseButton.background.height = value;			
 		}
 		
 		public function reset():void
 		{
 			img.texture = Texture.empty(1, 1);
 			img.readjustSize();
+			alpha = 1;			
 		}
 		
 	}

@@ -29,6 +29,8 @@ package
 	public class App extends Sprite 
 	{
 		public static const APP_NAME:String = "fasthand";
+		public static var APP_ID_IPHONE:String = "594482571";
+		public static var APP_ID_ANDROID:String = "com.chillingo.deadahead.rowgplay";
 		
 		public function App() 
 		{

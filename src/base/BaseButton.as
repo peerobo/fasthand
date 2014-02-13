@@ -221,7 +221,7 @@ package base
 			{
 				if (autoSizeBt)
 				{
-					var l:BaseBitmapTextField = BFConstructor.getShortTextField(1, 1, text, BFConstructor.ARIAL, 0xFFFF80);
+					var l:BaseBitmapTextField = BFConstructor.getTextField(1, 1, text, BFConstructor.ARIAL, 0xFFFF80);
 					l.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
 					background.width = l.width+PADDNG;
 					background.height = l.height + PADDNG;
@@ -230,7 +230,7 @@ package base
 				}
 				else
 				{
-					setLabel(BFConstructor.getShortTextField(background.width, background.height, text, BFConstructor.ARIAL, 0xFFFF80));				
+					setLabel(BFConstructor.getTextField(background.width, background.height, text, BFConstructor.ARIAL, 0xFFFF80));				
 				}
 				
 			}

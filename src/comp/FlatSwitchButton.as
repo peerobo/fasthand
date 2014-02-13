@@ -31,12 +31,12 @@ package comp
 		public function init(trueDesc:String, falseDesc:String, backgroundTexture:String, selectedTexture:String, onClicked:Function):void		
 		{
 			this.onClicked = onClicked;
-			var trueTxt:TextField = BFConstructor.getShortTextField(1, 1, trueDesc, BFConstructor.ARIAL, 0xFFFF80);
+			var trueTxt:TextField = BFConstructor.getTextField(1, 1, trueDesc, BFConstructor.ARIAL, 0xFFFF80);
 			trueTxt.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
 			trueTxt.name = "true";
 			trueTxt.touchable = false;
 			addChild(trueTxt);
-			var falseTxt:TextField = BFConstructor.getShortTextField(1, 1, falseDesc, BFConstructor.ARIAL, 0xFFFF80);
+			var falseTxt:TextField = BFConstructor.getTextField(1, 1, falseDesc, BFConstructor.ARIAL, 0xFFFF80);
 			falseTxt.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
 			falseTxt.name = "false";
 			falseTxt.touchable = false;

@@ -17,6 +17,7 @@ package
 	import feathers.textures.Scale9Textures;
 	import flash.data.EncryptedLocalStore;
 	import flash.geom.Rectangle;
+	import flash.net.navigateToURL;
 	import flash.net.SharedObject;
 	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
@@ -103,7 +104,9 @@ package
 		public static function rateMe():void
 		{
 			if(isIOS)
-				navigateToURL(new URLRequest("itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id="+594482571));
+				navigateToURL(new URLRequest("itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=" + App.APP_ID_IPHONE));
+			else if (isAndroid)
+				navigateToURL(new URLRequest("market://details?id=" + App.APP_ID_ANDROID));
 		}
 		
 		public static function get deviceID():String

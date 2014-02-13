@@ -27,7 +27,7 @@ package base
 		public static function init(layer:Sprite):void
 		{
 			root = layer;
-			quadBg = new Quad(Util.appWidth, Util.appHeight, 0x3F3F3F);
+			quadBg = new Quad(Util.appWidth, Util.appHeight, 0x0);
 			quadBg.alpha = 0.8;
 			quadBg.visible = false;
 			root.addChild(quadBg);

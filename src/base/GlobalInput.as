@@ -21,7 +21,7 @@ package base
 		
 		private var swipeCallbacks:Array;	// callback object
 		
-		public static const SWIPE_AMP:int = 44;
+		public static const SWIPE_AMP:int = 136;
 		
 		public function GlobalInput() 
 		{			

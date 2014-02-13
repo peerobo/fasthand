@@ -45,6 +45,7 @@ package fasthand.screen
 		{
 			super();
 			gameboard = new GameBoard();
+			//gameboard.visible = false;
 		}
 		
 		override public function onAdded(e:Event):void 
@@ -69,7 +70,7 @@ package fasthand.screen
 			pauseBt.x = backBt.x + backBt.width + 12;
 			pauseBt.y = backBt.y;		
 			
-			scoreTxt = BFConstructor.getShortTextField(1, pauseBt.height, "score: " + Constants.MAX_SCORE_PER_ROUND * Constants.ROUND_PER_GAME, BFConstructor.ARIAL, Color.RED);
+			scoreTxt = BFConstructor.getTextField(1, pauseBt.height, "score: " + Constants.MAX_SCORE_PER_ROUND * Constants.ROUND_PER_GAME, BFConstructor.ARIAL, Color.RED);
 			scoreTxt.autoSize = TextFieldAutoSize.HORIZONTAL;
 			var w:int = scoreTxt.width;
 			scoreTxt.autoSize = TextFieldAutoSize.NONE;
@@ -208,7 +209,7 @@ package fasthand.screen
 		{
 			LayerMgr.getLayer(LayerMgr.LAYER_GAME).flatten();
 			var logic:Fasthand = Factory.getInstance(Fasthand);
-			logic.pause = true;
+			logic.pause = false;
 			
 			gameboard.resume();
 		}

@@ -14,10 +14,12 @@ package fasthand.screen
 	import comp.FlatSwitchButton;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
+	import comp.PageFooter;
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;
 	import fasthand.gui.CategorySelector;
 	import res.Asset;
+	import res.asset.BackgroundAsset;
 	import res.asset.ButtonAsset;
 	import res.asset.SoundAsset;
 	import res.ResMgr;
@@ -41,6 +43,7 @@ package fasthand.screen
 		private var wait4Sound:Boolean;
 		private var switchDiff:FlatSwitchButton;
 		private const COLOR_RND:Array = [0xF9F900, 0xFFFF06, 0xFFFF11, 0xFFFF1A, 0xFFFF20, 0xFFFF28, 0xFFFF2D, 0xFFFF3C, 0xFFFF42, 0xFFFF48, 0xFFFF4F, 0xFFFF53, 0xFFFF59, 0xFFFF5E, 0xFFFF64, 0xFFFF6A, 0xFFFF6F];		
+		private var pageFooter:PageFooter;
 		
 		public function CategoryScreen() 
 		{
@@ -48,7 +51,7 @@ package fasthand.screen
 			SoundManager.playSound(SoundAsset.THEME_SONG, true, 0, 0.7);
 			catChooser = new CategorySelector();
 			catChooser.onSelectCategoryCallback = selectCategory;
-			waitTime2ShowAd = Constants.AD_FULL_WAITTIME;
+			waitTime2ShowAd = Constants.AD_FULL_WAITTIME;			
 		}
 		
 		private function selectCategory(cat:String):void 
@@ -95,6 +98,7 @@ package fasthand.screen
 			Util.g_centerScreen(disp);
 			
 			addChild(catChooser);
+			//catChooser.visible = false;
 			Util.g_centerScreen(catChooser);			
 						
 			title = BFConstructor.getTextField(Util.appWidth, 1, "", BFConstructor.BANHMI, Color.YELLOW);			
@@ -142,12 +146,13 @@ package fasthand.screen
 			rateBt.setCallbackFunc(onRateMe);
 			addChild(rateBt);
 			rateBt.y = title.y;
-			rateBt.x = 30;						
+			rateBt.x = 30;									
 		}
 		
 		private function onRateMe():void 
 		{
 			SoundManager.playSound(SoundAsset.SOUND_CLICK);
+			Util.rateMe();
 		}
 		
 		private function onSwitchDiff(isDiff:Boolean):void 
@@ -165,11 +170,12 @@ package fasthand.screen
 		}				
 		
 		override public function onRemoved(e:Event):void 
-		{		
+		{				
 			catChooser.removeFromParent();
 			switchDiff.destroy();
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			globalInput.unregisterSwipe(cb);
+			
 			super.onRemoved(e);			
 		}
 		

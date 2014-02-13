@@ -7,6 +7,7 @@ package fasthand.gui
 	import base.GlobalInput;
 	import base.LangUtil;
 	import base.SoundManager;
+	import comp.PageFooter;
 	import fasthand.comp.CatRenderer;
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;
@@ -17,6 +18,7 @@ package fasthand.gui
 	import res.asset.SoundAsset;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
+	import starling.display.Image;
 	import starling.display.QuadBatch;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -42,6 +44,7 @@ package fasthand.gui
 		
 		private var backCatIndicator:Sprite;
 		private var nextCatIndicator:Sprite;
+		private var pageFooter:PageFooter;
 		
 		/**
 		 * a callback function: c(cat:String):void
@@ -55,6 +58,8 @@ package fasthand.gui
 			sprNext = new Sprite();
 			currentPage = 0;	
 			initNextBackIndicator();
+			pageFooter = new PageFooter();
+			pageFooter.initTexture(Asset.getBaseImage(BackgroundAsset.BG_SQUARE) as Image, Asset.getBaseImage(BackgroundAsset.BG_SQUARE_ALPHA) as Image);
 		}
 		
 		override public function onAdded(e:Event):void 
@@ -94,9 +99,9 @@ package fasthand.gui
 			//nextPageBt.setCallbackFunc(onNextPage);	
 			parent.addChild(backCatIndicator);
 			parent.addChild(nextCatIndicator);
-			
+			updatePageFooter();
 			updatePage(sprCurr, currentPage);
-			updateBtStates();
+			updateBtStates();						
 		}
 		
 		private function initNextBackIndicator():void 
@@ -175,15 +180,29 @@ package fasthand.gui
 					item.setComingSoon();
 				}
 				item.isLock = idx + i >= Constants.CAT_FREE_NUM;
-			}
+			}			
 		}
+		
+		private function updatePageFooter():void
+		{
+			pageFooter.removeFromParent();
+			var maxPage:int = Math.round(FasthandUtil.getListCat().length / Constants.CAT_PER_PAGE);
+			pageFooter.setState(currentPage, maxPage);
+			pageFooter.y = this.height + 72;
+			addChild(pageFooter);
+			pageFooter.x = this.width - pageFooter.width >> 1;
+			
+		}
+		
 		
 		override public function onRemoved(e:Event):void 
 		{
+			pageFooter.removeFromParent();
 			nextCatIndicator.removeFromParent();
 			backCatIndicator.removeFromParent();
 			sprCurr.removeChildren();
 			sprNext.removeChildren();
+			
 			super.onRemoved(e);						
 		}
 		
@@ -192,12 +211,13 @@ package fasthand.gui
 			var maxPage:int = Math.round(FasthandUtil.getListCat().length / Constants.CAT_PER_PAGE);
 			if (currentPage == maxPage-1)			
 				return;
+			currentPage++;
+			updatePageFooter();
 			nextCatIndicator.visible = false;
 			backCatIndicator.visible = false;
 			sprNext.x = Util.appWidth;
 			sprNext.y = 0;
-			addChild(sprNext);
-			currentPage++;
+			addChild(sprNext);			
 			updatePage(sprNext, currentPage);
 						
 			Starling.juggler.tween(sprNext, 0.5, { x:0, alpha: 1 } );
@@ -234,14 +254,14 @@ package fasthand.gui
 		public function onBackPage():void 
 		{			
 			if (currentPage == 0)
-				return;
+				return;			
+			currentPage--;
+			updatePageFooter();
 			nextCatIndicator.visible = false;
 			backCatIndicator.visible = false;
 			sprNext.x = -Util.appWidth;
 			sprNext.y = 0;
-			addChild(sprNext);
-			currentPage--;
-			//updateBtStates();
+			addChild(sprNext);			
 			updatePage(sprNext, currentPage);
 			
 			Starling.juggler.tween(sprNext, 0.5, { x:0, alpha: 1 } );

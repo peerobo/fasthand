@@ -67,7 +67,8 @@ package fasthand.comp
 			addChild(title);
 			title.touchable = false;
 			
-			bt.setCallbackFunc(onClick);			
+			bt.setCallbackFunc(onClick);	
+			flatten();
 		}
 		
 		public function align(rectBt:Rectangle,lockRect:Rectangle):void
@@ -81,7 +82,7 @@ package fasthand.comp
 			title.width = ICON_W/0.7;
 			title.height = ICON_H/0.7;
 			title.x = ICON_X + 12;
-			title.y = 36;			
+			title.y = 36;					
 		}
 		
 		private function onClick():void
@@ -136,6 +137,7 @@ package fasthand.comp
 			Util.g_fit(icon, new Rectangle(ICON_X, ICON_Y, ICON_W, ICON_H));	
 			icon.touchable = false;
 			title.text = LangUtil.getText(name);
+			flatten();
 		}
 		
 		public function setComingSoon():void
@@ -153,6 +155,7 @@ package fasthand.comp
 			addChildAt(icon, 1);
 			icon.touchable = false;
 			title.text = "";
+			flatten();
 		}
 		
 		public function get cat():String

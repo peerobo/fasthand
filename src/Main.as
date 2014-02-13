@@ -18,6 +18,7 @@ package
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
 	import res.Asset;
+	import res.ResMgr;
 	import so.cuo.platform.admob.Admob;
 	import so.cuo.platform.admob.AdmobEvent;
 	import so.cuo.platform.admob.AdmobPosition;
@@ -41,12 +42,12 @@ package
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
-			
+        
 			// entry point
 			
 			// new to AIR? please read *carefully* the readme.txt files!			
 			startStarlingFramework();				
-		}
+		}			
 		
 		private function onAppDeactivate(e:Event):void 
 		{
@@ -127,10 +128,10 @@ package
 				h = sh;
 			}
 			
-			if(Util.isAndroid)
-				Starling.handleLostContext = true;
-			else
-				Starling.handleLostContext = false;
+			//if(Util.isAndroid)
+				//Starling.handleLostContext = true;
+			//else
+				//Starling.handleLostContext = false;
 			
 			var starling:Starling = new Starling(App, stage,new Rectangle(0,0,sw,sh));
 			starling.stage.stageWidth = w;
@@ -144,8 +145,7 @@ package
 			
 			if(Util.isDesktop)
 			{
-				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + "highscore");
-				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + "highscoreDiff");
+				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + Constants.SUBJECT_STR);				
 				
 			}
 		}

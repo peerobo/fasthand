@@ -6,6 +6,7 @@ package comp
 	import base.Graphics4Starling;
 	import base.LangUtil;
 	import res.Asset;
+	import res.asset.BackgroundAsset;
 	import res.asset.IconAsset;
 	import res.ResMgr;
 	import starling.animation.IAnimatable;
@@ -16,6 +17,7 @@ package comp
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.filters.ColorMatrixFilter;
 	import starling.text.TextField;
 	import starling.text.TextFieldAutoSize;
 	import starling.textures.Texture;
@@ -30,38 +32,38 @@ package comp
 		//private var mc:MovieClip;
 		
 		private var stars:Array;
+		private var pageFooter:PageFooter;
+		private var currentProgress:int;
+		static private const NUM_LOADING:Number = 4;
 		
 		public function LoadingIcon() 
 		{
 			super();
-			interval = 0.033;			
+			interval = 0.4;		
+			pageFooter = new PageFooter();
+			var img:Image = Asset.getBaseImage(BackgroundAsset.BG_SQUARE) as Image;
+			var c:ColorMatrixFilter = new ColorMatrixFilter();
+			c.adjustBrightness(0.3);
+			c.adjustHue(0.5);	
+			pageFooter.initTexture(img, Asset.getBaseImage(BackgroundAsset.BG_SQUARE_ALPHA) as Image,72);
+			pageFooter.filter = c;
+			currentProgress = 0;
+		}
+		
+		override public function onRemoved(e:Event):void 
+		{
+			pageFooter.removeFromParent();
+			super.onRemoved(e);
 		}
 		
 		override public function onAdded(e:Event):void 
 		{
 			super.onAdded(e);
 			
-			/*mc = Factory.getObjectFromPool(MovieClip);
-			for (var i:int = 0; i < mc.numFrames - 1; i++) 
-			{
-				mc.removeFrameAt(0);
-			}
-			var mvTexs:Vector.<Texture > = Asset.getBaseTextures(IconAsset.ICO_CLOCK);
-			for (var j:int = 0; j < mvTexs.length; j++) 
-			{
-				mc.addFrame(mvTexs[j]);
-				if (j == 0)
-				{
-					mc.texture = mvTexs[j];
-					mc.readjustSize();
-					mc.removeFrameAt(0);
-				}
-			}			
-			mc.loop = true;			
-			addChild(mc);
-			mc.play();*/
-			stars = [];
-			var loading:BaseBitmapTextField  = BFConstructor.getShortTextField(1, 1, LangUtil.getText("loading"), BFConstructor.BANHMI);
+			pageFooter.setState(currentProgress, NUM_LOADING);
+			addChild(pageFooter);
+			/*stars = [];
+			var loading:BaseBitmapTextField  = BFConstructor.getTextField(1, 1, LangUtil.getText("loading"), BFConstructor.BANHMI);
 			loading.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;			
 			addChild(loading);
 			var posY:int = loading.height + 6;
@@ -76,17 +78,16 @@ package comp
 				addChild(star);
 				stars.push(star);
 			}			
-			loading.x = this.width - loading.width >> 1;
-		}
+			loading.x = this.width - loading.width >> 1;*/
+		}				
 		
 		override public function update(time:Number):void 
 		{
 			super.update(time);
 			
-			for (var i:int = 0; i < stars.length; i++) 
-			{
-				stars[i].rotation += deg2rad(10);
-			}
+			pageFooter.setState(currentProgress, NUM_LOADING);
+			currentProgress++;
+			currentProgress = currentProgress >= NUM_LOADING?0:currentProgress;
 		}
 	}
 

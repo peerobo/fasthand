@@ -33,7 +33,7 @@ package fasthand
 		private var gameRound:GameRound;		
 		private var interval:Number;				
 		private var roundTime:Number;
-		public var cat:String;
+		private var _cat:String;
 		public var difficult:Boolean;
 		public var currentPlayerScore:int;
 		public var seqs:Array;
@@ -59,8 +59,8 @@ package fasthand
 			for each (var s:String in FasthandUtil.getListCat())
 			{
 				highscoreDB.registerType(s);				
-			}						
-			highscoreDB.loadHighscore();			
+			}									
+			highscoreDB.loadHighscore();
 		}
 		
 		public function startNewGame():void
@@ -97,9 +97,13 @@ package fasthand
 				len-- ;
 			}
 			
-			seqs = shuffleArr;
+			seqs = shuffleArr;			
+			var prevWord:String = word2Find;			
 			gameRound.reset(shuffleArr);
-			SoundManager.playSound(SoundAsset.getName(cat, gameRound.mainWord));
+			while (prevWord == word2Find)
+				gameRound.reset(shuffleArr);
+			
+			SoundManager.playSound(SoundAsset.getName(cat, word2Find));
 		}
 		
 		/* INTERFACE starling.animation.IAnimatable */
@@ -117,7 +121,7 @@ package fasthand
 		
 		public function get remainingRoundScore():int
 		{
-			return (roundTime / GAME_ROUND_TIME * Constants.MAX_SCORE_PER_ROUND) / (difficult ? 1 : 2);
+			return (roundTime / GAME_ROUND_TIME * Constants.MAX_SCORE_PER_ROUND) / (difficult ? 1 : 2) + 1;
 		}
 		
 		public function checkAdvanceRound(word:String):Boolean
@@ -160,26 +164,34 @@ package fasthand
 			var hScoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
 			var hScoreType:String = cat;
 			highscore = hScoreDB.getHighscore(hScoreType);
-			
+			highscore = currentPlayerScore > highscore ? currentPlayerScore : highscore;			
 			isStartGame = false;
 			Starling.juggler.remove(this);			
 			var gameScreen:GameScreen = Factory.getInstance(GameScreen);
 			gameScreen.endGame();
 			if(!noScoreWnd)
-				showScoreWindow();		
+				showScoreWindow();			
 			
-			highscore = currentPlayerScore > highscore ? currentPlayerScore : highscore;			
 			hScoreDB.setHighscore(hScoreType, highscore);
 		}
 		
 		private function showScoreWindow():void 
 		{
+			var hScoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			
 			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);
 			PopupMgr.addPopUp(scoreWnd, true);
 			scoreWnd.setTitle(LangUtil.getText(cat));
-			scoreWnd.setScore(currentPlayerScore, highscore, 0);
+			scoreWnd.setScore(currentPlayerScore, highscore, getPlayedSubjectNum());
 			
 			scoreWnd.closeCallback = onUserCloseWindow;
+		}
+		
+		private function getPlayedSubjectNum():int
+		{
+			var str:String = Util.getPrivateKey(Constants.SUBJECT_STR);
+			var arr:Array = str.split(";");
+			return arr.length;
 		}
 		
 		private function onUserCloseWindow():void 
@@ -231,6 +243,29 @@ package fasthand
 					Starling.juggler.add(this);					
 				}
 			}
+		}
+		
+		public function get cat():String 
+		{
+			return _cat;
+		}
+		
+		public function set cat(value:String):void 
+		{
+			_cat = value;
+			var str:String = Util.getPrivateKey(Constants.SUBJECT_STR);
+			str = str == null ? "":str;			
+			var arr:Array = str.split(";");
+			for (var i:int = 0; i < arr.length; i++) 
+			{
+				if (arr[i] == "")
+					arr.splice(i, 1);
+				if (_cat == arr[i])
+					return;
+			}
+			arr.push(cat);
+			str = arr.length > 1 ? arr.join(";"):arr[0];
+			Util.setPrivateValue(Constants.SUBJECT_STR, str);
 		}
 		
 	}

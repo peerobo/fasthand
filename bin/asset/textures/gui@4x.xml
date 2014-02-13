@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:46d18103bbb34ca80180e869fa4fbb28$ -->
+<!-- $TexturePacker:SmartUpdate:73abe6298366c3a1cb93cfda761a5483$ -->
 <TextureAtlas imagePath="gui@4x.png">
     <SubTexture name="arial" x="768" y="2" width="762" height="479" frameX="-1" frameY="-2" frameWidth="768" frameHeight="483"/>
     <SubTexture name="banhmi" x="2" y="2" width="764" height="704" frameX="-1" frameY="-2" frameWidth="768" frameHeight="708"/>

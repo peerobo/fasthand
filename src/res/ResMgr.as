@@ -1,12 +1,16 @@
 package res 
 {
+	import air.net.URLMonitor;
 	import base.CallbackObj;
 	import base.Factory;
+	import flash.desktop.NativeApplication;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
+	import flash.events.StatusEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
+	import flash.utils.getTimer;
 	import starling.core.Starling;
 	import starling.textures.Texture;
 	import starling.utils.AssetManager;
@@ -22,12 +26,13 @@ package res
 		// dynamic loading
 		private var urlLoader:URLLoader;
 		private var urlRequest:URLRequest;
-		private var waitList:Array;	// CallbackObj
+		private var waitList:Array;	// CallbackObj		
+		private var monitor:URLMonitor;
 		
 		public function ResMgr() 
 		{
 			assetMgr = new AssetManager(Starling.contentScaleFactor);			
-			assetMgr.verbose = true;
+			assetMgr.verbose = false;
 			
 			// for dynamic loading
 			urlLoader = new URLLoader();			
@@ -35,7 +40,26 @@ package res
 			urlLoader.addEventListener(IOErrorEvent.IO_ERROR, onLoadItemError);
 			urlRequest = new URLRequest();
 			
-			waitList = [];
+			waitList = [];		
+			checkInternet();
+			NativeApplication.nativeApplication.addEventListener(Event.NETWORK_CHANGE, onNetworkChange);
+		}
+		
+		private function onNetworkChange(e:Event):void 
+		{
+			checkInternet();
+		}
+		
+		public function checkInternet():void
+		{
+			monitor = new URLMonitor(new URLRequest("http://www.yahoo.com"));		
+			monitor.addEventListener(StatusEvent.STATUS, onMonitor);
+			monitor.start();
+		}
+		
+		private function onMonitor(e:StatusEvent):void 
+		{
+			trace("internet available:", monitor.available,getTimer());
 		}
 		
 		private function onLoadedItem(e:Event):void 

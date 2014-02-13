@@ -55,7 +55,7 @@ package fasthand.gui
 			changeSubjectBt.setCallbackFunc(onCategoryBt);		
 			scoreBt.setCallbackFunc(onScoreBt);
 			
-			addChild(particleSys);			
+			addChildAt(particleSys,1);
 			particleSys.y = 0;
 			particleSys.x = width >> 1;
 			
