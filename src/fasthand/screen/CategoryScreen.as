@@ -28,6 +28,7 @@ package fasthand.screen
 	import starling.events.Event;
 	import starling.text.TextFieldAutoSize;
 	import starling.utils.Color;
+	import starling.utils.deg2rad;
 	
 	/**
 	 * ...
@@ -107,6 +108,13 @@ package fasthand.screen
 			addChild(title);
 			title.y = 30;
 			
+			var text:BaseBitmapTextField = BFConstructor.getTextField(1, 1, "FULL", BFConstructor.BANHMI);
+			text.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+			text.x = (Util.appWidth >> 1) + 380;
+			text.y = title.y + 100;
+			text.scaleX = text.scaleY = 0.5;		
+			addChild(text);
+			
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			title.text = LangUtil.getText("welcome");		
 			var len:int = title.text.length;
@@ -115,8 +123,6 @@ package fasthand.screen
 			var len1:int = COLOR_RND.length;
 			for (var i:int = 0; i < len; i++) 
 			{
-				//var cIDx:int = Math.random() * len1;
-				//var c:int = COLOR_RND[cIDx];
 				var c:int = COLOR_RND[i];
 				title.colors.push(c);
 				title.colorRanges.push(i + 1);
@@ -152,7 +158,7 @@ package fasthand.screen
 		private function onRateMe():void 
 		{
 			SoundManager.playSound(SoundAsset.SOUND_CLICK);
-			Util.rateMe();
+			Util.rateMe();					
 		}
 		
 		private function onSwitchDiff(isDiff:Boolean):void 

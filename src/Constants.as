@@ -12,7 +12,7 @@ package
 		public static const SEC_PER_ROUND:int = 30;
 		public static const SEC_PER_ROUND_DIFFICULT:int = 10;
 		public static const MAX_SCORE_PER_ROUND:int = 10;
-		public static const ROUND_PER_GAME:int = 10;
+		public static const ROUND_PER_GAME:int = 1;
 		public static const TILE_PER_ROUND:int = 10;
 		public static const CAT_PER_PAGE:int = 6;		
 		public static const CAT_FREE_NUM:int = 6;
@@ -22,6 +22,9 @@ package
 		static public const DISABLE_INPUT_EACH_TOUCH:Number = 1;
 		static public const PENALTY_TIME:int = 1;		
 		static public const SUBJECT_STR:String = "sub";
+		static public const IN_APP_PURCHASE_ID:String = "com.fc.FastHandEnglish.FullApp";
+		static public const SHORT_LINK:String = "http://t.co/M4mfSY8zR4";
+		static public const HIGHSCORE_ITUNE_PRE:String = "cat";
 		public function Constants() 
 		{
 			

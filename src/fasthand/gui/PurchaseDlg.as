@@ -3,7 +3,8 @@ package fasthand.gui
 	import base.BaseButton;
 	import base.BaseJsonGUI;
 	import base.font.BaseBitmapTextField;
-	import base.PopupMgr;
+	import base.InAppPurchase;
+	import base.PopupMgr;	
 	import fasthand.FasthandUtil;
 	import starling.events.Event;
 	
@@ -36,6 +37,8 @@ package fasthand.gui
 			noBt.setCallbackFunc(onCancel);
 			yesBt.setCallbackFunc(onYes);
 			purchaseBt.setCallbackFunc(onRestorePurchase);
+			
+			yesBt.isDisable = !InAppPurchase.canPurchase;
 		}
 		
 		private function onRestorePurchase():void 

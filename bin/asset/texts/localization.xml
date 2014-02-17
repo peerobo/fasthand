@@ -4,8 +4,11 @@
 	</vi>
 	<en>
 		<loading>Loading</loading>
+		<shareMsg>Beat me on @cat if you dare at @url.</shareMsg>
+		<shareUnavailable>Please login @type account in System setting!</shareUnavailable>
 		<welcome>Fast Hand English</welcome>		
 		<rate>Rate</rate>	
+		<share>Share on:</share>
 		<paused>Game is paused!</paused>
 		<confirmQuit>Do you really want to quit?</confirmQuit>
 		<changeSubject>Change Subject</changeSubject>

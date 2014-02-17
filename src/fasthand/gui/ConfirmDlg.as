@@ -37,7 +37,7 @@ package fasthand.gui
 		{
 			callback(value);
 			PopupMgr.removePopup(this);
-		}				
+		}
 	}
 
 }

@@ -72,7 +72,7 @@ package comp
 		{
 			Factory.removeMouseClickCallback(this);
 			for (var i:int = 0; i < numChildren; i++) 
-			{
+			{ 
 				Factory.toPool(getChildAt(i));
 			}
 			removeChildren();
@@ -87,7 +87,7 @@ package comp
 		{
 			_value = value;
 			
-			var txt:TextField = (value ? getChildByName("true"):getChildByName("false")) as TextField;
+			var txt:TextField = (!value ? getChildByName("true"):getChildByName("false")) as TextField;
 			var selectedBG:DisplayObject = getChildByName("selected");
 			selectedBG.x = txt.x - PADDNG/2;			
 			selectedBG.width = txt.width + PADDNG;

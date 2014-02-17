@@ -5,8 +5,20 @@ package
 	import base.CallbackObj;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import base.GlobalInput;
+	import base.LangUtil;
 	import base.PopupMgr;
+	import com.adobe.ane.social.SocialServiceType;
+	import com.adobe.ane.social.SocialUI;
 	import com.freshplanet.ane.AirDeviceId;
+	import fasthand.gui.InfoDlg;
+	import flash.display.BitmapData;
+	import flash.display3D.Context3D;
+	import flash.events.ErrorEvent;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import starling.core.RenderSupport;
+	
 	import comp.AdEmulator;
 	import comp.LoadingIcon;
 	import comp.TileImage;
@@ -47,34 +59,7 @@ package
 		public static const DISABLE_FILTER:int = 1;
 		public static const DOWN_FILTER:int = 2;
 		
-		public static var root:Sprite;
-		
-		public static function apk():void
-		{
-			/*var apkExpansionFiles:APKExpansionFiles = new APKExpansionFiles();
-			apkExpansionFiles.addEventListener(APKCompleteEvent.APK_COMPLETE, onComplete);
-			var BASE64_PUBLIC_KEY:String = "your_public_key";
-			var outputDir:String = "/Android/data"; // the outpout folder
-			var mainVersion:String = "1000023"; // the version of the APK that the file was uploaded
-			var mainSize:String = "18682320"; // the length of the file in bytes
-			var mainUnzip:Boolean = true; // unzip the file
-			//var patchVersion:String=”1000024″; // the version of the APK that the file was uploaded
-			//var patchSize:String=”14923834″; // the length of the file in bytes
-			//var patchUnzip:Boolean=true; // unzip the file
-			apkExpansionFiles.expansionFilesDelivered(BASE64_PUBLIC_KEY, mainVersion, mainSize, mainUnzip, outputDir); // only main obb file
-			//apkExpansionFiles.expansionFilesDelivered(BASE64_PUBLIC_KEY, mainVersion, mainSize, mainUnzip, outputDir, patchVersion, patchSize, patchUnzip); // main and patch obb files
-			
-			function onComplete(e:APKCompleteEvent):void
-			{
-				var conteneurImage:Loader = new Loader();
-				//var getExternalStorageDirectory:String = e.params.getExternalStorageDirectory; // the shared storage space
-				var file:File = new File(e.params.outputDirMain + "myImage.jpg"); // the outpout Main folder
-				//var file:File = new File(e.params.outputDirPatch+”myImage.jpg”);    // the outpout Patch folder
-				var image:URLRequest = new URLRequest(file.url);
-				conteneurImage.load(image);
-				this.addChild(conteneurImage);
-			}*/
-		}
+		public static var root:Sprite;				
 		
 		public static function getFilter(type:int):FragmentFilter
 		{
@@ -99,14 +84,54 @@ package
 		public function Util()
 		{
 		
+		}		
+		
+		public static function shareOnIOS(type:String,msg:String,image:BitmapData):void
+		{
+			if(SocialUI.isSupported)
+			{
+				var sUI:SocialUI = new SocialUI(type);
+				sUI.setMessage(msg);
+				sUI.addImage(image);
+				sUI.addEventListener(Event.COMPLETE,onShareIOSDone);
+				sUI.addEventListener(ErrorEvent.ERROR,onShareIOSDone);
+				sUI.addEventListener(Event.CANCEL,onShareIOSDone);
+				sUI.launch();								
+			}
+			else
+			{
+				var str:String = LangUtil.getText("shareUnavailable");
+				str = Util.replaceStr(str, ["@type"], [type == SocialServiceType.FACEBOOK ? "Facebook":"Twitter"]);
+				var infoDlg:InfoDlg = Factory.getInstance(InfoDlg);
+				infoDlg.text = str;
+				PopupMgr.addPopUp(infoDlg);
+			}
+		}
+		
+		private static function onShareIOSDone(e:Event):void 
+		{
+			switch (e.type) 
+			{
+				case Event.COMPLETE:
+					
+				break;
+				case Event.CANCEL:
+					
+				break;
+				case ErrorEvent.ERROR:
+					
+				break;
+				default:
+			}
+			var ed:EventDispatcher = e.currentTarget as EventDispatcher;
+			ed.removeEventListener(Event.COMPLETE,onShareIOSDone);
+			ed.removeEventListener(ErrorEvent.ERROR,onShareIOSDone);
+			ed.removeEventListener(Event.CANCEL,onShareIOSDone);			
 		}
 		
 		public static function rateMe():void
-		{
-			if(isIOS)
-				navigateToURL(new URLRequest("itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=" + App.APP_ID_IPHONE));
-			else if (isAndroid)
-				navigateToURL(new URLRequest("market://details?id=" + App.APP_ID_ANDROID));
+		{			
+			navigateToURL(new URLRequest(Constants.SHORT_LINK));
 		}
 		
 		public static function get deviceID():String
@@ -145,6 +170,22 @@ package
 				}
 			}
 			textField.text = str;
+		}
+		
+		public static function replaceStr(str:String, strs2Replace:Array, strs2ReplaceWith:Array):String		
+		{
+			var len:int = strs2Replace.length;
+			var regexp:RegExp;
+			for (var i:int = 0; i < len; i++) 
+			{
+				regexp = new RegExp(strs2Replace[i]);
+				var res:Array = regexp.exec(str);
+				if (res)
+				{
+					str = str.replace(res[0], strs2ReplaceWith[i]);				
+				}
+			}
+			return  str;
 		}
 		
 		public static function g_centerChild(p:DisplayObject, c:DisplayObject):void
@@ -387,6 +428,13 @@ package
 				return storedValue ? storedValue.readUTFBytes(storedValue.length) : null;
 			}
 			return null;
+		}				
+		
+		static public function g_takeSnapshot():BitmapData
+		{
+			var image:BitmapData = new BitmapData(Util.deviceWidth, Util.deviceHeight, true, 0xFFFFFFFF);
+			Starling.current.stage.drawToBitmapData(image);
+			return image;
 		}
 	}
 

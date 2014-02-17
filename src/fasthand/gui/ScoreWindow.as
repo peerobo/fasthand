@@ -7,13 +7,20 @@ package fasthand.gui
 	import base.LangUtil;
 	import base.PopupMgr;
 	import base.SoundManager;
+	import com.adobe.ane.social.SocialServiceType;
+	import com.adobe.ane.social.SocialUI;
+	import comp.HighscoreDB;
 	import comp.SpriteNumber;
+	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;	
+	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
 	import res.Asset;
 	import res.asset.IconAsset;
 	import res.asset.ParticleAsset;
 	import res.asset.SoundAsset;
+	import starling.core.Starling;
+	import starling.display.DisplayObject;
 	import starling.events.Event;
 	import starling.extensions.PDParticleSystem;
 	import starling.utils.Color;
@@ -30,11 +37,14 @@ package fasthand.gui
 		public var againBt:BaseButton;
 		public var changeSubjectBt:BaseButton;
 		public var scoreRect:Rectangle;
-				
+		public var twitterBt:DisplayObject;
+		public var facebookBt:DisplayObject;
 		private var particleSys:PDParticleSystem;
+		private var _cat:String;
 		
 		public var closeCallback:Function;
 		public var isChangeSubject:Boolean;
+		public var celebrate:Boolean;
 		
 		public function ScoreWindow() 
 		{
@@ -55,16 +65,49 @@ package fasthand.gui
 			changeSubjectBt.setCallbackFunc(onCategoryBt);		
 			scoreBt.setCallbackFunc(onScoreBt);
 			
+			Factory.addMouseClickCallback(twitterBt, onTwitter);
+			Factory.addMouseClickCallback(facebookBt, onFacebook);
+			
 			addChildAt(particleSys,1);
 			particleSys.y = 0;
 			particleSys.x = width >> 1;
 			
-			SoundManager.playSound(SoundAsset.SOUND_END_GAME);
+			SoundManager.playSound(SoundAsset.SOUND_END_GAME);			
+		}
+		
+		private function shareOnIOS(type:String):void
+		{				
+			var text:String = LangUtil.getText("shareMsg");
+			text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);								
+			
+			Util.shareOnIOS(type, text, Util.g_takeSnapshot());
+		}
+		
+		private function onFacebook():void 
+		{
+			if(Util.isIOS)
+			{
+				shareOnIOS(SocialServiceType.FACEBOOK);
+			}
+		}
+		
+		private function onTwitter():void 
+		{
+			if(Util.isIOS)
+			{
+				shareOnIOS(SocialServiceType.TWITTER);
+			}
 		}
 		
 		private function onScoreBt():void 
 		{
-			
+			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			var cat:String = logic.cat;
+			if(Util.isIOS)
+			{				
+				highscoreDB.showGameCenterHighScore(cat);
+			}
 		}
 		
 		private function onCategoryBt():void 
@@ -80,12 +123,13 @@ package fasthand.gui
 			PopupMgr.removePopup(this);			
 			isChangeSubject = false;
 			closeCallback();
-			closeCallback  = null;
+			closeCallback  = null;			
 		}
 		
 		public function setTitle(subject:String):void
 		{
-			subjectTitleTxt.text = subject;
+			_cat = subject;
+			subjectTitleTxt.text = LangUtil.getText(subject);
 		}
 		
 		override public function onRemoved(e:Event):void 
@@ -104,7 +148,7 @@ package fasthand.gui
 			var colors:Array = [0x00FF40, Color.YELLOW, 0xFF8080];
 			Util.g_replaceAndColorUp(contentTxt, strs2Replace, strs2ReplaceWith, colors );
 			
-			if (score > scoreBest)
+			if (celebrate)
 			{
 				SoundManager.playSound(SoundAsset.SOUND_HIGH_SCORE);
 				particleSys.start(5);

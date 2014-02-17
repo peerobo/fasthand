@@ -3,6 +3,7 @@ package
 	//import com.hdi.nativeExtensions.NativeAds;
 	import base.BaseJsonGUI;
 	import base.Factory;
+	import base.InAppPurchase;
 	import base.LangUtil;
 	import comp.HighscoreDB;
 	import fasthand.Fasthand;
@@ -43,9 +44,9 @@ package
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
         
-			// entry point
-			
+			// entry point			
 			// new to AIR? please read *carefully* the readme.txt files!			
+			InAppPurchase.initInAppPurchase();
 			startStarlingFramework();				
 		}			
 		

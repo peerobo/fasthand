@@ -5,11 +5,12 @@ package
 	import base.GlobalInput;
 	import base.LayerMgr;	
 	import base.ScreenMgr;
+	import comp.HighscoreDB;
 	import flash.display.Stage;
 	import res.asset.ParticleAsset;
 	import res.asset.SoundAsset;
 	import res.ResMgr;
-	import fasthand.screen.LoadingScreen;
+	import fasthand.screen.LoadingScreen;	
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -29,7 +30,7 @@ package
 	public class App extends Sprite 
 	{
 		public static const APP_NAME:String = "fasthand";
-		public static var APP_ID_IPHONE:String = "594482571";
+		public static var APP_ID_IPHONE:String = "820843454";
 		public static var APP_ID_ANDROID:String = "com.chillingo.deadahead.rowgplay";
 		
 		public function App() 
@@ -44,8 +45,10 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onInit);
 			
-			Starling.current.nativeOverlay.addChild(new FPSCounter(0, 0, 0xFFFFFF, true, 0x0));
-			
+			//Starling.current.nativeOverlay.addChild(new FPSCounter(0, 0, 0xFFFFFF, true, 0x0));
+			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			if(Util.isIOS)
+				highscoreDB.initGameCenter();
 			Util.root = this;
 			LayerMgr.init(this);
 			var input:GlobalInput = Factory.getInstance(GlobalInput);
@@ -58,7 +61,7 @@ package
 			ScreenMgr.showScreen(LoadingScreen);			
 			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);			
 			
-			addEventListener(TouchEvent.TOUCH, onTouch);						
+			addEventListener(TouchEvent.TOUCH, onTouch);									
 		}
 		
 		private function onTouch(e:TouchEvent):void 

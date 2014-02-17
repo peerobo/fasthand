@@ -1,6 +1,8 @@
 package base 
 {
 	import flash.geom.Point;
+	import starling.animation.IAnimatable;
+	import starling.core.Starling;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
@@ -8,7 +10,7 @@ package base
 	 * ...
 	 * @author ndp
 	 */
-	public class GlobalInput 
+	public class GlobalInput implements IAnimatable
 	{
 		public static const INPUT_SWIPE_LEFT:int = 0;
 		public static const INPUT_SWIPE_RIGHT:int = 1;
@@ -18,18 +20,41 @@ package base
 		private var anchorPt:Point;
 		private var directPt:Point;
 		private var checkSwipe:Boolean;
-		
+		private var disableTimeout:int;
 		private var swipeCallbacks:Array;	// callback object
 		
 		public static const SWIPE_AMP:int = 136;
 		
 		public function GlobalInput() 
-		{			
+		{
+			disableTimeout = -1;
+			Starling.juggler.add(this);
+		}
+		
+		public function advanceTime(time:Number):void 
+		{
+			super.advanceTime(time);
+			if (disableTimeout > 0)
+			{
+				disableTimeout -= time;
+				if (disableTimeout <= 0)
+					disable = false;
+			}
+		}
+		
+		public function setDisableTimeout(timeout:int):void
+		{
+			this.disableTimeout = timeout;
+			disable = true;
 		}
 		
 		public function set disable(bool:Boolean):void
 		{
 			Util.root.touchable = !bool;
+			if (!bool)
+			{
+				disableTimeout = -1;
+			}
 		}
 		
 		public function init():void

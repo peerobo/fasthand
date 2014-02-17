@@ -178,10 +178,11 @@ package fasthand
 		private function showScoreWindow():void 
 		{
 			var hScoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
-			
-			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);
+			var hScoreType:String = cat;
+			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);			
 			PopupMgr.addPopUp(scoreWnd, true);
-			scoreWnd.setTitle(LangUtil.getText(cat));
+			scoreWnd.setTitle(cat);			
+			scoreWnd.celebrate = hScoreDB.getHighscore(hScoreType) < highscore;
 			scoreWnd.setScore(currentPlayerScore, highscore, getPlayedSubjectNum());
 			
 			scoreWnd.closeCallback = onUserCloseWindow;
