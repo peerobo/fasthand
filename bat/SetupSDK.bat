@@ -1,7 +1,7 @@
 :user_configuration
 
 :: Path to Flex SDK
-set FLEX_SDK=D:\dev\sdk
+set FLEX_SDK=D:\dev\ApacheFlex\sdk
 set AUTO_INSTALL_IOS=yes
 
 :: Path to Android SDK

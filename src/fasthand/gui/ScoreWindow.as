@@ -4,17 +4,21 @@ package fasthand.gui
 	import base.BaseJsonGUI;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import base.GlobalInput;
 	import base.LangUtil;
 	import base.PopupMgr;
+	import base.ScreenMgr;
 	import base.SoundManager;
-	import com.adobe.ane.social.SocialServiceType;
-	import com.adobe.ane.social.SocialUI;
+	/*import com.adobe.ane.social.SocialServiceType;
+	import com.adobe.ane.social.SocialUI;*/
 	import comp.HighscoreDB;
 	import comp.SpriteNumber;
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;	
+	import fasthand.screen.CategoryScreen;
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
+	import flash.ui.Keyboard;
 	import res.Asset;
 	import res.asset.IconAsset;
 	import res.asset.ParticleAsset;
@@ -41,6 +45,7 @@ package fasthand.gui
 		public var facebookBt:DisplayObject;
 		private var particleSys:PDParticleSystem;
 		private var _cat:String;
+		private var prevF:Function;
 		
 		public var closeCallback:Function;
 		public var isChangeSubject:Boolean;
@@ -72,7 +77,16 @@ package fasthand.gui
 			particleSys.y = 0;
 			particleSys.x = width >> 1;
 			
-			SoundManager.playSound(SoundAsset.SOUND_END_GAME);			
+			SoundManager.playSound(SoundAsset.SOUND_END_GAME);	
+			
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			prevF = globalInput.getCurrentKeyHandler(Keyboard.BACK);
+			globalInput.registerKey(Keyboard.BACK, onBackBt);
+		}
+		
+		private function onBackBt():void 
+		{
+			ScreenMgr.showScreen(CategoryScreen);
 		}
 		
 		private function shareOnIOS(type:String):void
@@ -85,18 +99,18 @@ package fasthand.gui
 		
 		private function onFacebook():void 
 		{
-			if(Util.isIOS)
+			/*if(Util.isIOS)
 			{
 				shareOnIOS(SocialServiceType.FACEBOOK);
-			}
+			}*/
 		}
 		
 		private function onTwitter():void 
 		{
-			if(Util.isIOS)
+			/*if(Util.isIOS)
 			{
 				shareOnIOS(SocialServiceType.TWITTER);
-			}
+			}*/
 		}
 		
 		private function onScoreBt():void 
@@ -123,7 +137,9 @@ package fasthand.gui
 			PopupMgr.removePopup(this);			
 			isChangeSubject = false;
 			closeCallback();
-			closeCallback  = null;			
+			closeCallback  = null;		
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);			
+			globalInput.registerKey(Keyboard.BACK, prevF);
 		}
 		
 		public function setTitle(subject:String):void

@@ -2,9 +2,9 @@ package comp
 {
 	import base.Factory;
 	import base.GlobalInput;
-	import com.adobe.ane.gameCenter.GameCenterAuthenticationEvent;
+/*	import com.adobe.ane.gameCenter.GameCenterAuthenticationEvent;
 	import com.adobe.ane.gameCenter.GameCenterController;
-	import com.adobe.ane.gameCenter.GameCenterLeaderboardEvent;
+	import com.adobe.ane.gameCenter.GameCenterLeaderboardEvent;*/
 	/**
 	 * ...
 	 * @author ndp
@@ -14,48 +14,30 @@ package comp
 		private var highscoreMap:Object;
 		
 		// game center only
-		private var gcController:GameCenterController;		
-		private var gameCenterLogged:Boolean;
+		//private var gcController:GameCenterController;		
+		//private var gameCenterLogged:Boolean;
 		private var validCats:Array;
 		
 		public function initGameCenter():void
 		{
-			if (GameCenterController.isSupported)
-			{
-				gcController = new GameCenterController();
+			//if (GameCenterController.isSupported)
+			//{
+				/*gcController = new GameCenterController();
 				//Authenticate 
 				gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_NOT_AUTHENTICATED, gameCenterAuthenticatedFailed);				
 				gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_AUTHENTICATION_CHANGED, gameCenterAuthenticatedChanged);				
 				//Leadership
 				gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_VIEW_FINISHED, leaderBoardViewClose);
 				gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_CATEGORIES_LOADED, leaderboardeCategoriesLoaded);				
-				gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_CATEGORIES_FAILED, leaderboardeCategoriesFailed);
-				//Achievements
-				/*gcController.addEventListener(GameCenterAchievementEvent.ACHIEVEMENTS_VIEW_FINISHED,achViewFinished);
-				gcController.addEventListener(GameCenterAchievementEvent.ACHIEVEMENTS_LOADED,achLoaded);
-				gcController.addEventListener(GameCenterAchievementEvent.ACHIEVEMENTS_FAILED,achFailed);
-				gcController.addEventListener(GameCenterAchievementEvent.SUBMIT_ACHIEVEMENT_SUCCEEDED,achSubmittedSuccess);
-				gcController.addEventListener(GameCenterAchievementEvent.SUBMIT_ACHIEVEMENT_FAILED,achSubmitFailed);
-				gcController.addEventListener(GameCenterAchievementEvent.RESET_ACHIEVEMENTS_SUCCEEDED,resetSuccess);
-				gcController.addEventListener(GameCenterAchievementEvent.RESET_ACHIEVEMENTS_FAILED,resetUnsuccess);
-				//FriendReuest
-				gcController.addEventListener(GameCenterFriendEvent.FRIEND_REQUEST_VIEW_FINISHED,friendRequestViewFinished);
-				gcController.addEventListener(GameCenterFriendEvent.FRIEND_LIST_LOADED,friendListLoaded);
-				gcController.addEventListener(GameCenterFriendEvent.FRIEND_LIST_FAILED,friendListFailed);
-				//scores
-				gcController.addEventListener(GameCenterLeaderboardEvent.SUBMIT_SCORE_SUCCEEDED,submitScoreSucceed);
-				gcController.addEventListener(GameCenterLeaderboardEvent.SUBMIT_SCORE_FAILED,submitScoreFailed);
-				gcController.addEventListener(GameCenterLeaderboardEvent.SCORES_LOADED,requestedScoresLoaded);
-				gcController.addEventListener(GameCenterLeaderboardEvent.SCORES_FAILED,requestedScoresFailed);
-				*/				
-				if (!gcController.authenticated) {
-					gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_AUTHENTICATED, gameCenterAuthenticated);
-					gcController.authenticate();
-				}
-			}
+				gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_CATEGORIES_FAILED, leaderboardeCategoriesFailed);		*/		
+				//if (!gcController.authenticated) {
+					//gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_AUTHENTICATED, gameCenterAuthenticated);
+					//gcController.authenticate();
+				//}
+			//}
 		}
 		
-		private function leaderBoardViewClose(e:GameCenterLeaderboardEvent):void 
+		/*private function leaderBoardViewClose(e:GameCenterLeaderboardEvent):void 
 		{
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			globalInput.disable = false;
@@ -89,7 +71,7 @@ package comp
 			{
 				gcController.requestLeaderboardCategories();
 			}
-		}
+		}*/
 		
 		public function HighscoreDB() 
 		{
@@ -112,12 +94,12 @@ package comp
 		public function setHighscore(type:String, value:int):void
 		{
 			highscoreMap[type ] = value;
-			if (Util.isIOS && gameCenterLogged && validCats)
+			/*if (Util.isIOS && gameCenterLogged && validCats)
 			{
 				var catName:String = Constants.HIGHSCORE_ITUNE_PRE + type.substr(0, 1).toUpperCase() + type.substr(1);
 				if(validCats.indexOf(catName) > -1)
 					gcController.submitScore(value, catName);				
-			}
+			}*/
 		}
 		
 		public function saveHighscore():void
@@ -141,7 +123,7 @@ package comp
 		
 		public function showGameCenterHighScore(cat:String):void 
 		{
-			if (gcController && gameCenterLogged && validCats)
+			/*if (gcController && gameCenterLogged && validCats)
 			{
 				var catName:String = Constants.HIGHSCORE_ITUNE_PRE + cat.substr(0, 1).toUpperCase() + cat.substr(1);
 				if(validCats.indexOf(catName) > -1)
@@ -151,7 +133,7 @@ package comp
 					globalInput.disable = true;
 					Util.hideBannerAd();
 				}
-			}
+			}*/
 		}
 		
 	}

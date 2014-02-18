@@ -16,10 +16,10 @@ package fasthand.screen
 	import comp.SpriteNumber;
 	import fasthand.comp.PauseDialog;
 	import fasthand.Fasthand;
-	import fasthand.gui.GameBoard;
-	import fasthand.gui.ScoreWindow;
+	import fasthand.gui.GameBoard;	
 	import flash.geom.Point;
 	import flash.ui.GameInput;
+	import flash.ui.Keyboard;
 	import res.Asset;
 	import res.asset.ButtonAsset;
 	import res.asset.IconAsset;
@@ -86,6 +86,9 @@ package fasthand.screen
 			
 			Util.showBannerAd();
 			preStartGame();
+			
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			globalInput.registerKey(Keyboard.BACK, onBackBt);
 		}
 		
 		private function onPause():void 

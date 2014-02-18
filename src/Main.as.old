@@ -2,7 +2,7 @@ package
 {	
 	import base.BaseJsonGUI;
 	import base.Factory;
-	import base.IAP;
+	import base.InAppPurchase;
 	import base.LangUtil;
 	import comp.HighscoreDB;
 	import fasthand.Fasthand;
@@ -45,7 +45,7 @@ package
         
 			// entry point			
 			// new to AIR? please read *carefully* the readme.txt files!						
-			startStarlingFramework();
+			startStarlingFramework();				
 		}			
 		
 		private function onAppDeactivate(e:Event):void 

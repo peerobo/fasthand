@@ -10,8 +10,13 @@
 		<![CDATA[<manifest android:installLocation="auto">
 			<uses-sdk android:targetSdkVersion="11"/>
 			<uses-sdk android:minSdkVersion="8"/>
+			<uses-permission android:name="com.android.vending.BILLING" />
 			<uses-permission android:name="android.permission.INTERNET"/>
 			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>			
+			<application android:enabled="true">
+				<activity android:name="com.google.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/> 
+				<activity android:name="com.pozirk.payment.BillingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />
+			</application>
 		</manifest>]]>
 	</manifestAdditions>
   </android>
@@ -83,8 +88,10 @@
   <extensions>
     <extensionID>so.cuo.platform.admob</extensionID>
     <extensionID>com.freshplanet.ane.AirDeviceId</extensionID>
+	<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
 	<!-- IOS -->
-	<extensionID>com.adobe.ane.gameCenter</extensionID>
+	<!--<extensionID>com.adobe.ane.gameCenter</extensionID>
 	<extensionID>com.adobe.ane.social</extensionID>
+	<extensionID>com.fc.StoreKitExt</extensionID>-->
   </extensions>
 </application>

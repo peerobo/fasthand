@@ -2,8 +2,10 @@ package fasthand.gui
 {
 	import base.BaseButton;
 	import base.BaseJsonGUI;
+	import base.Factory;
 	import base.font.BaseBitmapTextField;
-	import base.InAppPurchase;
+	import base.IAP;
+	import base.LangUtil;
 	import base.PopupMgr;	
 	import fasthand.FasthandUtil;
 	import starling.events.Event;
@@ -38,19 +40,34 @@ package fasthand.gui
 			yesBt.setCallbackFunc(onYes);
 			purchaseBt.setCallbackFunc(onRestorePurchase);
 			
-			yesBt.isDisable = !InAppPurchase.canPurchase;
+			var iap:IAP = Factory.getInstance(IAP);
+			yesBt.isDisable = !iap.canPurchase;
 		}
 		
 		private function onRestorePurchase():void 
 		{
-			
+			var iap:IAP = Factory.getInstance(IAP);
+			iap.restorePurchases(onTransactionComplete);
+		}
+		
+		private function onTransactionComplete():void 
+		{
+			var iap:IAP = Factory.getInstance(IAP);
+			if (iap.checkBought(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : ""))
+			{
+				PopupMgr.removePopup(this);
+				var infoD:InfoDlg = Factory.getInstance(InfoDlg);
+				infoD.text = LangUtil.getText("IAPComplete");
+				PopupMgr.addPopUp(infoD);
+			}
 		}
 		
 		private function onYes():void 
 		{
-			
+			var iap:IAP = Factory.getInstance(IAP);
+			iap.makePurchase(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : Constants.ANDROID_PRODUCT_IDS[0], onTransactionComplete);
 		}
-		
+			
 		private function onCancel():void 
 		{
 			PopupMgr.removePopup(this);

@@ -22,9 +22,11 @@ package
 		static public const DISABLE_INPUT_EACH_TOUCH:Number = 1;
 		static public const PENALTY_TIME:int = 1;		
 		static public const SUBJECT_STR:String = "sub";
-		static public const IN_APP_PURCHASE_ID:String = "com.fc.FastHandEnglish.FullApp";
+		static public const IOS_PRODUCT_IDS:Array = ["com.fc.FastHandEnglish.FullApp"];
+		static public const ANDROID_PRODUCT_IDS:Array = ["com.fc.fasthandenglish.fullapp"];
 		static public const SHORT_LINK:String = "http://t.co/M4mfSY8zR4";
 		static public const HIGHSCORE_ITUNE_PRE:String = "cat";
+		static public const ANDROID_LICENSING:String = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3ICIrt5ShGXvRFI3AI2cUYrGl+1XHj4JS44jV/T+fkDFkpd54J4nGZ0Wr9sTmsAAfrTrmjcXf+7/XGFYpQvk97QWoO6QLF3lII581ATlVl8VccRa+WDy8fO9q1Zt0c/k3P0K5QdJNtA5RjURbmjpgS54zcD8NQx+jl8g8HGntXG37Uo0DwHkYwNidKcyFRyWTk+9pdAmJZ8HZ/Hm/17xFrTRnpCpd79Z14+nOOKqqKZAHP8l7n8MMuhhWOE0PNVhDI5IOv7RohE4fhoB5WIXrvNJYGD95XYRXS79CwQy8LNWaEepMO5DiQOuqZhToNqPX2X6tu5qQuxVUlso+j5alwIDAQAB";
 		public function Constants() 
 		{
 			

@@ -8,8 +8,8 @@ package
 	import base.GlobalInput;
 	import base.LangUtil;
 	import base.PopupMgr;
-	import com.adobe.ane.social.SocialServiceType;
-	import com.adobe.ane.social.SocialUI;
+	/*import com.adobe.ane.social.SocialServiceType;
+	import com.adobe.ane.social.SocialUI;*/
 	import com.freshplanet.ane.AirDeviceId;
 	import fasthand.gui.InfoDlg;
 	import flash.display.BitmapData;
@@ -17,8 +17,7 @@ package
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import starling.core.RenderSupport;
-	
+	import starling.core.RenderSupport;	
 	import comp.AdEmulator;
 	import comp.LoadingIcon;
 	import comp.TileImage;
@@ -88,7 +87,7 @@ package
 		
 		public static function shareOnIOS(type:String,msg:String,image:BitmapData):void
 		{
-			if(SocialUI.isSupported)
+			/*if(SocialUI.isSupported)
 			{
 				var sUI:SocialUI = new SocialUI(type);
 				sUI.setMessage(msg);
@@ -96,7 +95,9 @@ package
 				sUI.addEventListener(Event.COMPLETE,onShareIOSDone);
 				sUI.addEventListener(ErrorEvent.ERROR,onShareIOSDone);
 				sUI.addEventListener(Event.CANCEL,onShareIOSDone);
-				sUI.launch();								
+				sUI.launch();
+				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+				globalInput.setDisableTimeout(3);
 			}
 			else
 			{
@@ -105,7 +106,7 @@ package
 				var infoDlg:InfoDlg = Factory.getInstance(InfoDlg);
 				infoDlg.text = str;
 				PopupMgr.addPopUp(infoDlg);
-			}
+			}*/
 		}
 		
 		private static function onShareIOSDone(e:Event):void 

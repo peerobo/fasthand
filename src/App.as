@@ -2,7 +2,8 @@ package
 {	
 	import base.BFConstructor;
 	import base.Factory;
-	import base.GlobalInput;
+	import base.GlobalInput;	
+	import base.IAP;
 	import base.LayerMgr;	
 	import base.ScreenMgr;
 	import comp.HighscoreDB;
@@ -49,6 +50,8 @@ package
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
 			if(Util.isIOS)
 				highscoreDB.initGameCenter();
+			var iap:IAP = Factory.getInstance(IAP);
+			iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);
 			Util.root = this;
 			LayerMgr.init(this);
 			var input:GlobalInput = Factory.getInstance(GlobalInput);

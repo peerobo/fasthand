@@ -1,5 +1,6 @@
 package base 
 {
+	import flash.events.KeyboardEvent;
 	import flash.geom.Point;
 	import starling.animation.IAnimatable;
 	import starling.core.Starling;
@@ -21,19 +22,45 @@ package base
 		private var directPt:Point;
 		private var checkSwipe:Boolean;
 		private var disableTimeout:int;
-		private var swipeCallbacks:Array;	// callback object
+		private var swipeCallbacks:Array;	// callback object		
+		private var keyMap:Object;
 		
 		public static const SWIPE_AMP:int = 136;
 		
 		public function GlobalInput() 
 		{
 			disableTimeout = -1;
+			keyMap = { };
 			Starling.juggler.add(this);
+			Starling.current.nativeStage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		}
+		
+		public function registerKey(keyCode:uint, f:Function):void
+		{
+			keyMap[keyCode.toString()] = f;
+		}
+		
+		public function getCurrentKeyHandler(keyCode:uint):Function
+		{
+			return keyMap[keyCode.toString()];
+		}
+		
+		private function onKeyUp(e:KeyboardEvent):void 
+		{
+			e.preventDefault();
+			for (var key:String in keyMap) 
+			{
+				if (key == e.keyCode.toString())
+				{
+					var f:Function = keyMap[key];
+					f.apply(this);
+					break;
+				}
+			}			
 		}
 		
 		public function advanceTime(time:Number):void 
-		{
-			super.advanceTime(time);
+		{			
 			if (disableTimeout > 0)
 			{
 				disableTimeout -= time;
@@ -42,6 +69,10 @@ package base
 			}
 		}
 		
+		/**
+		 * temporary disable input in seconds
+		 * @param	timeout
+		 */
 		public function setDisableTimeout(timeout:int):void
 		{
 			this.disableTimeout = timeout;

@@ -6,6 +6,7 @@ package fasthand.screen
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import base.GlobalInput;
+	import base.IAP;
 	import base.LangUtil;
 	import base.LayerMgr;
 	import base.PopupMgr;
@@ -18,6 +19,9 @@ package fasthand.screen
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;
 	import fasthand.gui.CategorySelector;
+	import fasthand.gui.ConfirmDlg;
+	import flash.desktop.NativeApplication;
+	import flash.ui.Keyboard;
 	import res.Asset;
 	import res.asset.BackgroundAsset;
 	import res.asset.ButtonAsset;
@@ -52,7 +56,7 @@ package fasthand.screen
 			SoundManager.playSound(SoundAsset.THEME_SONG, true, 0, 0.7);
 			catChooser = new CategorySelector();
 			catChooser.onSelectCategoryCallback = selectCategory;
-			waitTime2ShowAd = Constants.AD_FULL_WAITTIME;			
+			waitTime2ShowAd = Constants.AD_FULL_WAITTIME;							
 		}
 		
 		private function selectCategory(cat:String):void 
@@ -130,6 +134,8 @@ package fasthand.screen
 			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			cb = globalInput.registerSwipe(onSwipe);
+			if(Util.isAndroid)
+				globalInput.registerKey(Keyboard.BACK, onBackAndroidBt);
 			
 			waitTime2ShowAd--;
 			if (waitTime2ShowAd == 0)
@@ -152,7 +158,25 @@ package fasthand.screen
 			rateBt.setCallbackFunc(onRateMe);
 			addChild(rateBt);
 			rateBt.y = title.y;
-			rateBt.x = 30;									
+			rateBt.x = 30;								
+		}
+		
+		private function onBackAndroidBt():void 
+		{
+			if (Util.isAndroid)
+			{
+				var cDlg:ConfirmDlg = Factory.getInstance(ConfirmDlg);
+				cDlg.text = LangUtil.getText("onExit");
+				cDlg.callback = onConfirmExit;
+				PopupMgr.addPopUp(cDlg);
+				NativeApplication.nativeApplication.exit();
+			}
+		}
+		
+		private function onConfirmExit(isYes:Boolean):void 
+		{			
+			if (isYes)
+				NativeApplication.nativeApplication.exit();		
 		}
 		
 		private function onRateMe():void 
