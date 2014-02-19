@@ -10,7 +10,6 @@ package res.asset
 	import res.Asset;
 	import res.ResMgr;
 	import starling.extensions.ParticleSystem;
-	
 	import starling.extensions.PDParticleSystem;
 	import starling.textures.Texture;
 

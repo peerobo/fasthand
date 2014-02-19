@@ -44,8 +44,7 @@ package res
 		private var extraURLLoader:URLLoader;
 		private var extraURLRequest:URLRequest;
 		public var extraCurrentByte:uint;
-		public var extraCurrentByte2Load:uint;
-		public var extraCurrentSaveDirectory:String;
+		public var extraCurrentByte2Load:uint;	
 		public var extraCurrentProgressStr:String;
 		
 		public function ResMgr() 
@@ -222,15 +221,14 @@ package res
 		 * @param	assetList
 		 * @param	onComplete function():void
 		 * @param	onAdvanceFunction function(idx:int):void
-		 * @param	onProgressFunction function(progress,idx):void
 		 */ 		
 		public function getExtraContent(assetList:Array = null, onComplete:Function = null, onAdvanceFunction:Function = null):void
 		{
 			//onComplete();
 			//onAdvanceFunction(idx:int);
-			//onProgressFunction(progress:Number, idx:int);
 			if(assetList)
-			{	extraContentList = assetList.concat();
+			{	
+				extraContentList = assetList.concat();
 				extraOnCompleteFunc = onComplete;
 				extraOnAdvanceFunction = onAdvanceFunction;				
 				extraCurrentIdx = 0;
@@ -238,16 +236,16 @@ package res
 
 			while (checkCacheDirectoryForFiles([extraContentList[extraCurrentIdx]]))
 			{				
-				onAdvanceFunction(extraCurrentIdx);
+				extraOnAdvanceFunction(extraCurrentIdx);
 				extraCurrentIdx++;
 				if (extraCurrentIdx == extraContentList.length)
 				{
 					extraCurrentIdx = -1;
-					onComplete();
+					extraOnCompleteFunc();
 					return;
 				}
 			}
-			onAdvanceFunction(extraCurrentIdx);
+			extraOnAdvanceFunction(extraCurrentIdx);
 			downloadExtraContent();			
 		}
 		
@@ -260,12 +258,23 @@ package res
 		public function checkCacheDirectoryForFiles(urls:Array):Boolean
 		{
 			var check:Boolean = true;
+			var regexp:RegExp = /\/(([^\/]+)\.\w+$)/;
 			for (var i:int = 0; i < urls.length; i++) 
 			{
-				var entryFile:File = File.cacheDirectory.resolvePath(urls[i]);				
-				check &&= entryFile.exists;
-				if (!check)
+				var result:Array = regexp.exec(urls[i]);
+				if (result)
+				{
+					result[2] = result[2].replace(/@\dx/, "");
+					var entryFile:File = File.cacheDirectory.resolvePath(result[2] + "/"+result[1]);
+					check &&= entryFile.exists;
+					if (!check)
+						break;
+				}
+				else
+				{
+					check &&= false;
 					break;
+				}
 			}
 			return check;
 		}
@@ -274,7 +283,9 @@ package res
 		{
 			var byteArray:ByteArray = extraURLLoader.data;
 			var fileName:String = extraURLRequest.url;
-			if (fileName.indexOf("zip"))
+			var directory:String;
+			extraCurrentByte = extraCurrentByte2Load;
+			if (fileName.indexOf(".zip") > -1)
 			{
 				extraCurrentProgressStr = "Extracting sounds...";
 				extractZip();
@@ -282,22 +293,66 @@ package res
 			else
 			{
 				extraCurrentProgressStr = "Saving...";
-				// save file to cache folder
-				var regexp:RegExp = /\/(\w*\.\w+)/;
-				var result:Array = regexp.exec(fileName);
-				if (result)
-					fileName = result[1];
-				var file:File = File.cacheDirectory.resolvePath(extraCurrentSaveDirectory + fileName);
+				// save file to cache folder				
+				var file:File = File.cacheDirectory.resolvePath(url2cache(fileName));
 				var fr:FileStream = new FileStream();
 				fr.open(file, FileMode.WRITE);
 				fr.writeBytes(byteArray);
 				fr.close();				
-			}												
+			}				
+			extraCurrentIdx++;
+			if (extraCurrentIdx == extraContentList.length)
+			{
+				extraCurrentIdx = -1;
+				extraOnCompleteFunc();
+				return;
+			}
 			getExtraContent();
 		}
 		
-		private function extractZip():void 
+		private function url2cache(url:String):String
 		{
+			var file:File;
+			var fileName:String = url;
+			var directory:String;
+			var regexp:RegExp;
+			if (url.indexOf(".zip") > -1)
+			{
+				regexp = /\/(([^\/]+)\.\w+$)/;
+			}
+			else
+			{
+				regexp = /\/((\w*)@\dx\.\w+)/g;
+			}	
+			var result:Array = regexp.exec(fileName);		
+			if (result)
+			{
+				fileName = result[1];
+				directory = result[2];
+			}
+			var retStr:String = "";
+			if (url.indexOf(".zip") > -1)
+			{
+				retStr = directory;
+			}
+			else
+			{
+				retStr = directory + "/" + fileName;
+			}
+			
+			return retStr;
+		}
+		
+		private function extractZip():void 
+		{			
+			var fr:FileStream;
+			var directory:String = url2cache(extraURLRequest.url);
+			// mark as downloaded
+			fr = new FileStream();
+			var file:File = File.cacheDirectory.resolvePath(directory + "/" + directory + ".zip");
+			fr.open(file, FileMode.WRITE);
+			fr.writeBytes(new ByteArray());
+			fr.close();
 			var zip:Zip = new Zip();
 			zip.loadBytes(extraURLLoader.data);
 			var count:int = zip.getFileCount();
@@ -305,8 +360,8 @@ package res
 			{
 				var zipFile:ZipFile = zip.getFileAt(i);
 				
-				var file:File = File.cacheDirectory.resolvePath(extraCurrentSaveDirectory + zipFile.filename);
-				var fr:FileStream = new FileStream();
+				file = File.cacheDirectory.resolvePath(directory + "/" + zipFile.filename);
+				fr = new FileStream();
 				fr.open(file, FileMode.WRITE);
 				fr.writeBytes(zipFile.content);
 				fr.close();				
@@ -325,8 +380,7 @@ package res
 		{
 			extraCurrentProgressStr = "Downloading...";
 			extraCurrentByte2Load = extraURLLoader.bytesTotal;
-			extraCurrentByte = extraURLLoader.bytesLoaded;
-			trace(extraCurrentProgressStr);
+			extraCurrentByte = extraURLLoader.bytesLoaded;			
 		}
 		
 		private function onExtraIOError(e:IOErrorEvent):void 

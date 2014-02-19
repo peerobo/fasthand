@@ -172,18 +172,18 @@ package fasthand.screen
 			rateBt.x = 30;		
 						
 			// test download
-			var downloadDLC:DLCDlg = Factory.getInstance(DLCDlg);
-			PopupMgr.addPopUp(downloadDLC);
-			var resMgr:ResMgr = Factory.getInstance(ResMgr);
-			var arr:Array = new Array();
-			arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[6]));
-			arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[7]));
-			arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[8]));
-			arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[9]));
-			resMgr.getExtraContent(arr,
-				function():void{downloadDLC.msg = "complete!"},
-				function(idx:int):void{downloadDLC.msg = ""}	
-			);
+			//var downloadDLC:DLCDlg = Factory.getInstance(DLCDlg);
+			//PopupMgr.addPopUp(downloadDLC);
+			//var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			//var arr:Array = new Array();
+			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[6]));
+			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[7]));
+			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[8]));
+			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[9]));
+			//resMgr.getExtraContent(arr,
+				//function():void{downloadDLC.msg = "complete!"},
+				//function(idx:int):void{downloadDLC.msg = ""}	
+			//);
 			
 		}
 		
@@ -246,6 +246,11 @@ package fasthand.screen
 					wait4Sound = false;
 				}
 			}
+		}
+		
+		public function refresh():void 
+		{
+			catChooser.refresh();
 		}
 		
 	}

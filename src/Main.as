@@ -40,10 +40,14 @@ package
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);			
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
-			
+			//EncryptedLocalStore.reset();
 			// entry point			
 			// new to AIR? please read *carefully* the readme.txt files!						
 			startStarlingFramework();
+			if (Capabilities.cpuArchitecture == "ARM") 
+			{
+				NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
+			}
 		}			
 	
 		private function onAppDeactivate(e:Event):void 
@@ -51,22 +55,17 @@ package
 			if (Util.isDesktop)
 				return;
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
-			highscoreDB.saveHighscore();			
+			highscoreDB.saveHighscore();		
 			
 			Starling.current.stop(true);
 			// make sure the app behaves well (or exits) when in background			
-			NativeApplication.nativeApplication.exit();
+			//NativeApplication.nativeApplication.exit();
 			//NativeAds.deactivateAd();
 		}
 		
 		private function onAppActivate(e:Event):void 
 		{
 			Starling.current.start();
-			
-			if (Capabilities.cpuArchitecture == "ARM") 
-			{
-				NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
-			}
 		}
 		
 		private function onAppExit(e:Event):void 

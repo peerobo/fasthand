@@ -48,14 +48,19 @@ package
 			
 			var fps:FPSCounter = new FPSCounter(0, 0, 0xFFFFFF, true, 0x0);
 			//Starling.current.nativeOverlay.addChild(fps);
-			
+			try
+			{
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);			
 			if(Util.isIOS)
 				highscoreDB.initGameCenter();
 			FPSCounter.log("iap");
 			var iap:IAP = Factory.getInstance(IAP);
 			iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
-			
+			}
+			catch (err:Error)
+			{
+				FPSCounter.log(err.message);
+			}
 			Util.root = this;
 			LayerMgr.init(this);
 			var input:GlobalInput = Factory.getInstance(GlobalInput);

@@ -270,6 +270,11 @@ package fasthand.gui
 			input.disable = true;
 		}
 		
+		public function refresh():void 
+		{
+			updatePage(sprCurr, currentPage);
+		}
+		
 	}
 
 }

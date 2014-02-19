@@ -31,7 +31,7 @@ package fasthand.gui
 			super.update(time);
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
 			
-			progressTxt.text = msg + "\n" + int((resMgr.extraCurrentByte / 1024)*1000)/1000 + "kb / " + int((resMgr.extraCurrentByte2Load / 1024)*1000)/1000 + "kb" + "\n" + resMgr.extraCurrentProgressStr;
+			progressTxt.text = msg + "\n" + int((resMgr.extraCurrentByte / 1024) * 1000) / 1000 + "KB / " + int((resMgr.extraCurrentByte2Load / 1024) * 1000) / 1000 + "KB";
 			progress = resMgr.extraCurrentByte / resMgr.extraCurrentByte2Load;
 			var w:int = timeProgressbarBg.width * progress;
 			if (w < rectPBMin.width)

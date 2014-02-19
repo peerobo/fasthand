@@ -4,6 +4,7 @@
 	</vi>
 	<en>
 		<loading>Loading</loading>
+		<extraContentLoad>Category: @cat (@idxCat/@totalCat)\nFile: (@idxFile/@totalFile)</extraContentLoad>
 		<downloadExtraContent>Downloading require content</downloadExtraContent>
 		<shareMsg>Beat me on @cat if you dare at @url.</shareMsg>
 		<shareUnavailable>Please login @type account in System setting!</shareUnavailable>
