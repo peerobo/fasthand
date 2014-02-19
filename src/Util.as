@@ -6,10 +6,11 @@ package
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import base.GlobalInput;
+	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;
-	/*import com.adobe.ane.social.SocialServiceType;
-	import com.adobe.ane.social.SocialUI;*/
+	import com.adobe.ane.social.SocialServiceType;
+	import com.adobe.ane.social.SocialUI;
 	import com.freshplanet.ane.AirDeviceId;
 	import fasthand.gui.InfoDlg;
 	import flash.display.BitmapData;
@@ -83,11 +84,18 @@ package
 		public function Util()
 		{
 		
-		}		
+		}	
+		
+		public static function get isFullApp():Boolean
+		{
+			var iap:IAP = Factory.getInstance(IAP);
+			var ret:Boolean = Util.isIOS ? iap.checkBought(Constants.IOS_PRODUCT_IDS[0]) : false;
+			return ret;
+		}
 		
 		public static function shareOnIOS(type:String,msg:String,image:BitmapData):void
 		{
-			/*if(SocialUI.isSupported)
+			if(SocialUI.isSupported)
 			{
 				var sUI:SocialUI = new SocialUI(type);
 				sUI.setMessage(msg);
@@ -106,7 +114,7 @@ package
 				var infoDlg:InfoDlg = Factory.getInstance(InfoDlg);
 				infoDlg.text = str;
 				PopupMgr.addPopUp(infoDlg);
-			}*/
+			}
 		}
 		
 		private static function onShareIOSDone(e:Event):void 

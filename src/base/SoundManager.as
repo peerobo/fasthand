@@ -1,8 +1,10 @@
 package base
 {	
 	import flash.events.Event;
+	import flash.media.AudioPlaybackMode;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
+	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
 	import flash.net.SharedObject;
 	import flash.net.URLLoader;
@@ -72,6 +74,7 @@ package base
 			_assetMgr = new AssetManager();
 			_assetMgr.verbose = false;
 			soundVolume = 100;
+			SoundMixer.audioPlaybackMode = AudioPlaybackMode.AMBIENT;
 		}			
 		
 		public function queueSound(url:String,name:String):void

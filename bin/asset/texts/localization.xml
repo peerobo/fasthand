@@ -4,10 +4,13 @@
 	</vi>
 	<en>
 		<loading>Loading</loading>
+		<downloadExtraContent>Downloading require content</downloadExtraContent>
 		<shareMsg>Beat me on @cat if you dare at @url.</shareMsg>
 		<shareUnavailable>Please login @type account in System setting!</shareUnavailable>
 		<enableInAppPurchaseIOS>Your In-App Purchases feature has been disable. To enable, go to Settings > General > Restrictions.</enableInAppPurchaseIOS>
-		<IAPComplete>Thank you for purchase full app. You need internet connection to download remaining contents. Accept to start downloading...</IAPComplete>
+		<IAPComplete>Thank you for purchasing our full app. You need internet connection to download remaining contents. Accept to start downloading...</IAPComplete>
+		<gamecenterdisable>Please enable game center!</gamecenterdisable>
+		<googleplaydisable>Please enable google play service!</googleplaydisable>
 		<welcome>Fast Hand English</welcome>		
 		<onExit>Do you really want to exit? (The app will miss you)</onExit>
 		<rate>Rate</rate>	

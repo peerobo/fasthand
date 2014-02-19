@@ -25,7 +25,9 @@ package res
 		
 		public static const WALL_CATEGORY:String = "categoryscreen";
 		public static const WALL_GAME:String = "gamescreen";
-		public static const WALL_LIST:Array = [WALL_CATEGORY, WALL_GAME];		
+		public static const WALL_LIST:Array = [WALL_CATEGORY, WALL_GAME];	
+		
+		static public const URL_EXTRA_RES:String = "http://firecheetah.com/mobile/fasthandres/";
 		
 		public static var contentSuffix:String;
 		static private var scaleRecs:Object;
@@ -165,6 +167,15 @@ package res
 		public static function getTAName(cat:String):String
 		{
 			return cat + contentSuffix;
+		}
+		
+		public static function getExtraContent(cat:String):Array
+		{
+			var urls:Array = [];
+			urls.push(URL_EXTRA_RES + cat + "/" + cat + contentSuffix + ".atf");
+			urls.push(URL_EXTRA_RES + cat + "/" + cat + contentSuffix + ".xml");
+			urls.push(URL_EXTRA_RES + cat + "/" + cat + ".zip");
+			return urls;
 		}
 	}
 

@@ -179,7 +179,7 @@ package fasthand.gui
 				{
 					item.setComingSoon();
 				}
-				item.isLock = idx + i >= Constants.CAT_FREE_NUM;
+				item.isLock = !Util.isFullApp ? (idx + i >= Constants.CAT_FREE_NUM) : false;
 			}			
 		}
 		

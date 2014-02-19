@@ -46,18 +46,22 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onInit);
 			
-			//Starling.current.nativeOverlay.addChild(new FPSCounter(0, 0, 0xFFFFFF, true, 0x0));
-			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			var fps:FPSCounter = new FPSCounter(0, 0, 0xFFFFFF, true, 0x0);
+			//Starling.current.nativeOverlay.addChild(fps);
+			
+			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);			
 			if(Util.isIOS)
 				highscoreDB.initGameCenter();
+			FPSCounter.log("iap");
 			var iap:IAP = Factory.getInstance(IAP);
-			iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);
+			iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
+			
 			Util.root = this;
 			LayerMgr.init(this);
 			var input:GlobalInput = Factory.getInstance(GlobalInput);
 			input.init();
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
-			resMgr.start();
+			resMgr.start();			
 			BFConstructor.init();
 			ParticleAsset.loadCfg();
 			SoundAsset.preload();

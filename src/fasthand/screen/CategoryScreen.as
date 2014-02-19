@@ -13,6 +13,7 @@ package fasthand.screen
 	import base.ScreenMgr;
 	import base.SoundManager;
 	import comp.FlatSwitchButton;
+	import comp.HighscoreDB;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.PageFooter;
@@ -20,11 +21,14 @@ package fasthand.screen
 	import fasthand.FasthandUtil;
 	import fasthand.gui.CategorySelector;
 	import fasthand.gui.ConfirmDlg;
+	import fasthand.gui.DLCDlg;
+	import fasthand.gui.InfoDlg;
 	import flash.desktop.NativeApplication;
 	import flash.ui.Keyboard;
 	import res.Asset;
 	import res.asset.BackgroundAsset;
 	import res.asset.ButtonAsset;
+	import res.asset.IconAsset;
 	import res.asset.SoundAsset;
 	import res.ResMgr;
 	import starling.display.DisplayObject;
@@ -49,6 +53,7 @@ package fasthand.screen
 		private var switchDiff:FlatSwitchButton;
 		private const COLOR_RND:Array = [0xF9F900, 0xFFFF06, 0xFFFF11, 0xFFFF1A, 0xFFFF20, 0xFFFF28, 0xFFFF2D, 0xFFFF3C, 0xFFFF42, 0xFFFF48, 0xFFFF4F, 0xFFFF53, 0xFFFF59, 0xFFFF5E, 0xFFFF64, 0xFFFF6A, 0xFFFF6F];		
 		private var pageFooter:PageFooter;
+		private var isRemindGC:Boolean;
 		
 		public function CategoryScreen() 
 		{
@@ -111,13 +116,19 @@ package fasthand.screen
 			title.touchable = false;
 			addChild(title);
 			title.y = 30;
-			
+			/*
 			var text:BaseBitmapTextField = BFConstructor.getTextField(1, 1, "FULL", BFConstructor.BANHMI);
 			text.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
 			text.x = (Util.appWidth >> 1) + 380;
 			text.y = title.y + 100;
 			text.scaleX = text.scaleY = 0.5;		
-			addChild(text);
+			//if(Util.isFullApp)
+				addChild(text);	
+			
+			var icon:DisplayObject = Asset.getBaseImage(IconAsset.ICO_RIBBON);
+			icon.x = 450;
+			icon.y = 42;
+			addChild(icon);*/
 			
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			title.text = LangUtil.getText("welcome");		
@@ -158,7 +169,22 @@ package fasthand.screen
 			rateBt.setCallbackFunc(onRateMe);
 			addChild(rateBt);
 			rateBt.y = title.y;
-			rateBt.x = 30;								
+			rateBt.x = 30;		
+						
+			// test download
+			var downloadDLC:DLCDlg = Factory.getInstance(DLCDlg);
+			PopupMgr.addPopUp(downloadDLC);
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			var arr:Array = new Array();
+			arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[6]));
+			arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[7]));
+			arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[8]));
+			arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[9]));
+			resMgr.getExtraContent(arr,
+				function():void{downloadDLC.msg = "complete!"},
+				function(idx:int):void{downloadDLC.msg = ""}	
+			);
+			
 		}
 		
 		private function onBackAndroidBt():void 

@@ -9,8 +9,7 @@ package fasthand.gui
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;
-	/*import com.adobe.ane.social.SocialServiceType;
-	import com.adobe.ane.social.SocialUI;*/
+	import com.adobe.ane.social.SocialServiceType;	
 	import comp.HighscoreDB;
 	import comp.SpriteNumber;
 	import fasthand.Fasthand;
@@ -99,29 +98,34 @@ package fasthand.gui
 		
 		private function onFacebook():void 
 		{
-			/*if(Util.isIOS)
+			if(Util.isIOS)
 			{
 				shareOnIOS(SocialServiceType.FACEBOOK);
-			}*/
+			}
 		}
 		
 		private function onTwitter():void 
 		{
-			/*if(Util.isIOS)
+			if(Util.isIOS)
 			{
 				shareOnIOS(SocialServiceType.TWITTER);
-			}*/
+			}
 		}
 		
 		private function onScoreBt():void 
 		{
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
 			var logic:Fasthand = Factory.getInstance(Fasthand);
-			var cat:String = logic.cat;
+			var cat:String = logic.cat;			
 			if(Util.isIOS)
-			{				
+			{			
 				highscoreDB.showGameCenterHighScore(cat);
 			}
+		}
+		
+		private function openSelfAgain():void 
+		{			
+			PopupMgr.addPopUp(this);
 		}
 		
 		private function onCategoryBt():void 

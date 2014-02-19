@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:ad19f5f9f28a37ed6279180e3b10f37c$ -->
+<!-- $TexturePacker:SmartUpdate:3e6ee0af744a517ef547c2b1591c1227$ -->
 <TextureAtlas imagePath="gui@1x.png">
     <SubTexture name="arial" x="196" y="2" width="192" height="121"/>
     <SubTexture name="banhmi" x="2" y="2" width="192" height="177"/>
     <SubTexture name="bg_item" x="306" y="288" width="38" height="41"/>
     <SubTexture name="bg_progressbar" x="52" y="220" width="10" height="9"/>
     <SubTexture name="bg_square" x="471" y="93" width="7" height="7"/>
-    <SubTexture name="bg_square_alpha" x="169" y="181" width="13" height="13"/>
+    <SubTexture name="bg_square_alpha" x="99" y="235" width="13" height="13"/>
     <SubTexture name="bg_string_holder" x="65" y="181" width="52" height="52"/>
     <SubTexture name="bt_back" x="99" y="270" width="34" height="34"/>
     <SubTexture name="bt_blue" x="386" y="214" width="62" height="38"/>
@@ -46,6 +46,7 @@
     <SubTexture name="ico_numbers2" x="486" y="27" width="23" height="17" frameX="-1" frameY="-4" frameWidth="25" frameHeight="25"/>
     <SubTexture name="ico_personal" x="119" y="231" width="46" height="37"/>
     <SubTexture name="ico_positions" x="358" y="191" width="26" height="41"/>
+    <SubTexture name="ico_ribbon" x="169" y="181" width="16" height="23"/>
     <SubTexture name="ico_sports" x="264" y="206" width="42" height="44"/>
     <SubTexture name="ico_star" x="486" y="2" width="23" height="23"/>
     <SubTexture name="ico_stationary" x="308" y="247" width="41" height="39"/>

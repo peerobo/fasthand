@@ -183,6 +183,7 @@ package fasthand.gui
 			for (var i:int = 0; i < rectTile.length; i++) 
 			{
 				var item:TileRenderer = getChildByName("tile" + i) as TileRenderer;
+				item.touchable = true;
 				item.reset();
 				item.flatten();
 			}
@@ -198,6 +199,7 @@ package fasthand.gui
 			var item:TileRenderer = disp as TileRenderer;
 			item.reset();
 			item.flatten();
+			item.touchable = false;
 			Starling.juggler.tween(item, 0.5, { alpha:0, onComplete: onAnimatedWrongWordDone } );
 			
 			this.time -= Constants.PENALTY_TIME;
@@ -220,7 +222,7 @@ package fasthand.gui
 		{
 			var input:GlobalInput = Factory.getInstance(GlobalInput);
 			input.disable = false;
-			shakeObj.stopShake();
+			shakeObj.stopShake();			
 		}
 		
 		public function pause():void 

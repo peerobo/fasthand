@@ -8,6 +8,7 @@ package
 	import fasthand.Fasthand;
 	import flash.data.EncryptedLocalStore;
 	import flash.desktop.NativeApplication;
+	import flash.desktop.SystemIdleMode;
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.display.Sprite;
@@ -15,13 +16,10 @@ package
 	import flash.display.StageScaleMode;
 	import flash.geom.Rectangle;
 	import flash.net.SharedObject;
+	import flash.system.Capabilities;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
-	import res.Asset;
-	import res.ResMgr;
-	import so.cuo.platform.admob.Admob;
-	import so.cuo.platform.admob.AdmobEvent;
-	import so.cuo.platform.admob.AdmobPosition;
+	import res.Asset;		
 	import starling.core.Starling;
 	
 	/**
@@ -39,15 +37,15 @@ package
 			//stage.addEventListener(Event.DEACTIVATE, deactivate);
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onAppExit);
 			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onAppActivate);
-			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);
+			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);			
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
-        
+			
 			// entry point			
 			// new to AIR? please read *carefully* the readme.txt files!						
 			startStarlingFramework();
 		}			
-		
+	
 		private function onAppDeactivate(e:Event):void 
 		{
 			if (Util.isDesktop)
@@ -56,7 +54,7 @@ package
 			highscoreDB.saveHighscore();			
 			
 			Starling.current.stop(true);
-			// make sure the app behaves well (or exits) when in background
+			// make sure the app behaves well (or exits) when in background			
 			NativeApplication.nativeApplication.exit();
 			//NativeAds.deactivateAd();
 		}
@@ -64,6 +62,11 @@ package
 		private function onAppActivate(e:Event):void 
 		{
 			Starling.current.start();
+			
+			if (Capabilities.cpuArchitecture == "ARM") 
+			{
+				NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
+			}
 		}
 		
 		private function onAppExit(e:Event):void 
@@ -147,19 +150,9 @@ package
 			
 			if(Util.isDesktop)
 			{
-				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + Constants.SUBJECT_STR);				
-				
+				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + Constants.SUBJECT_STR);								
 			}
-		}
-		
-		private function onAdReceived(event:AdmobEvent):void 
-		{
-			if(event.type==AdmobEvent.onBannerReceive){
-				trace(event.data.width,event.data.height);
-			}
-		}
-		
-		
+		}					
 	}
 	
 }

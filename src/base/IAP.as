@@ -1,8 +1,8 @@
 package base 
 {		
-	//import com.fc.ProductDetail;
-	//import com.fc.StoreKitEvent;
-	//import com.fc.StoreKitExt;
+	import com.fc.ProductDetail;
+	import com.fc.StoreKitEvent;
+	import com.fc.StoreKitExt;
 	import com.pozirk.payment.android.InAppPurchase;
 	import com.pozirk.payment.android.InAppPurchaseDetails;
 	import com.pozirk.payment.android.InAppPurchaseEvent;
@@ -20,12 +20,12 @@ package base
 	 */
 	public class IAP 
 	{
-		private var iOSiap:Object;
-		//private var iOSiap:StoreKitExt;
+		//private var iOSiap:Object;
+		private var iOSiap:StoreKitExt;
 		private var iosRequestInfoInProgress:Boolean;
 		private var iosRestoreInProgress:Boolean;
-		private var iosProductList:Vector.<Object>;
-		//private var iosProductList:Vector.<ProductDetail>;
+		//private var iosProductList:Vector.<Object>;
+		private var iosProductList:Vector.<ProductDetail>;
 		private var iosReceiptList:Vector.<String>;	
 		private const IOS_RECEIPT_PRE:String = "iosPre";	
 		
@@ -36,10 +36,7 @@ package base
 		private var onRestoreComplete:Function;
 		
 		public function IAP() 
-		{
-			//iOSiap = StoreKitExt.instance;	
-			iOSiap = {};	
-			androidIAP = new InAppPurchase();			
+		{								
 		}
 		
 		public function get canPurchase():Boolean
@@ -47,15 +44,15 @@ package base
 			var ret:Boolean = false;
 			if(Util.isIOS)
 			{
-				//ret = iOSiap.canMakePurchase();
-				//if (!ret)
-				//{				
-					//
-					//var infoD:InfoDlg = Factory.getInstance(InfoDlg);
-					//infoD.text = LangUtil.getText("enableInAppPurchaseIOS");
-					//infoD.callback = null;
-					//PopupMgr.addPopUp(infoD);
-				//}
+				ret = iOSiap.canMakePurchase();
+				if (!ret)
+				{				
+					
+					var infoD:InfoDlg = Factory.getInstance(InfoDlg);
+					infoD.text = LangUtil.getText("enableInAppPurchaseIOS");
+					infoD.callback = null;
+					PopupMgr.addPopUp(infoD);
+				}
 			}			
 			return ret;
 		}
@@ -68,18 +65,20 @@ package base
 		{
 			if (Util.isIOS)
 			{
-				//iOSiap.initExtension();
-				//loadIOSReceiptList();
-				//iOSiap.addEventListener(StoreKitEvent.PRODUCT_DATA_AVAILABLE, onIOSProductInfoDone);
-				//iOSiap.addEventListener(StoreKitEvent.RECEIPT_DATA_AVAILABLE, onIOSTransactionDone);
-				//if (canPurchase)
-				//{
-					//iosRequestInfoInProgress = true;
-					//iOSiap.requestProductData(Constants.IOS_PRODUCT_IDS);					
-				//}
+				iOSiap = StoreKitExt.instance;	
+				iOSiap.initExtension();
+				loadIOSReceiptList();
+				iOSiap.addEventListener(StoreKitEvent.PRODUCT_DATA_AVAILABLE, onIOSProductInfoDone);
+				iOSiap.addEventListener(StoreKitEvent.RECEIPT_DATA_AVAILABLE, onIOSTransactionDone);
+				if (canPurchase)
+				{
+					iosRequestInfoInProgress = true;
+					iOSiap.requestProductData(Constants.IOS_PRODUCT_IDS);					
+				}
 			}
 			else if(Util.isAndroid)
-			{				
+			{			
+				androidIAP = new InAppPurchase();			
 				androidIAP.init(param);
 				androidIAP.addEventListener(InAppPurchaseEvent.INIT_SUCCESS, onAndroidInitSuccess);
 				androidIAP.addEventListener(InAppPurchaseEvent.INIT_ERROR, onAndroidInitError);
@@ -128,24 +127,24 @@ package base
 		public function makePurchase(productID:String, onPurchaseCallback:Function):void
 		{
 			this.onPurchaseComplete = onPurchaseCallback;
-			//if (Util.isIOS)
-			//{
-				//if (iosRequestInfoInProgress)
-				//{
-					//Starling.juggler.delayCall(makePurchase, 1);
-					//return;
-				//}
-				//var pIdx:int = 0;
-				//for (var i:int = 0; i < iosProductList.length; i++) 
-				//{
-					//if (productID == iosProductList[i].productID)
-					//{
-						//pIdx = i;
-						//break;
-					//}
-				//}
-				//iOSiap.makePayment(pIdx);
-			//}
+			if (Util.isIOS)
+			{
+				if (iosRequestInfoInProgress)
+				{
+					Starling.juggler.delayCall(makePurchase, 1);
+					return;
+				}
+				var pIdx:int = 0;
+				for (var i:int = 0; i < iosProductList.length; i++) 
+				{
+					if (productID == iosProductList[i].productID)
+					{
+						pIdx = i;
+						break;
+					}
+				}
+				iOSiap.makePayment(pIdx);
+			}
 			if (Util.isAndroid)
 			{				
 				androidIAP.purchase(productID, InAppPurchaseDetails.TYPE_INAPP);
@@ -153,44 +152,46 @@ package base
 			}
 		}
 		
-		private function onIOSTransactionDone(e:Event):void 
-		//private function onIOSTransactionDone(e:StoreKitEvent):void 
+		//private function onIOSTransactionDone(e:Event):void 
+		private function onIOSTransactionDone(e:StoreKitEvent):void 
 		{
-			//iosReceiptList = iOSiap.getReceptListAfterTransaction();
-			//saveIOSReceiptsList();
-			//if (iosRequestInfoInProgress)
-			//{
-				//iosRestoreInProgress = false;				
-				//onRestoreComplete();
-			//}
-			//else
-			//{
-				//onPurchaseComplete();
-			//}
+			iosReceiptList = iOSiap.getReceptListAfterTransaction();
+			saveIOSReceiptsList();
+			if (iosRestoreInProgress)
+			{
+				iosRestoreInProgress = false;				
+				if(onRestoreComplete is Function)
+					onRestoreComplete();
+			}
+			else
+			{
+				if(onPurchaseComplete is Function)
+					onPurchaseComplete();
+			}
 		}
 		
 		private function saveIOSReceiptsList():void
 		{
-			//var count:int = iosReceiptList.length;
-			//Util.setPrivateValue(IOS_RECEIPT_PRE + "count", count.toString());
-			//for (var i:int = 0; i < count; i++) 
-			//{
-				//Util.setPrivateValue(IOS_RECEIPT_PRE + "receipt" + i, iosReceiptList[i]);
-			//}
+			var count:int = iosReceiptList.length;
+			Util.setPrivateValue(IOS_RECEIPT_PRE + "count", count.toString());
+			for (var i:int = 0; i < count; i++) 
+			{
+				Util.setPrivateValue(IOS_RECEIPT_PRE + "receipt" + i, iosReceiptList[i]);
+			}
 		}
 		
 		private function loadIOSReceiptList():void
 		{			
-			//var countStr:String = Util.getPrivateKey(IOS_RECEIPT_PRE + "count");		
-			//var count:int = parseInt(countStr);
-			//
-			//if (isNaN(count))
-				//count = 0;
-			//iosReceiptList = new Vector.<String>();				
-			//for (var i:int = 0; i < count; i++) 
-			//{
-				//iosReceiptList[i] = Util.getPrivateKey(IOS_RECEIPT_PRE + "receipt" + i);
-			//}
+			var countStr:String = Util.getPrivateKey(IOS_RECEIPT_PRE + "count");		
+			var count:int = parseInt(countStr);
+			
+			if (isNaN(count))
+				count = 0;
+			iosReceiptList = new Vector.<String>();				
+			for (var i:int = 0; i < count; i++) 
+			{
+				iosReceiptList[i] = Util.getPrivateKey(IOS_RECEIPT_PRE + "receipt" + i);				
+			}
 			
 		}
 		
@@ -198,13 +199,13 @@ package base
 		{
 			if (Util.isIOS)
 			{
-				//for (var i:int = 0; i < iosReceiptList.length; i++) 
-				//{
-					//if (iOSiap.hasBought(iosReceiptList[i]) == productID)
-					//{
-						//return true;
-					//}
-				//}
+				for (var i:int = 0; i < iosReceiptList.length; i++) 
+				{
+					if (iOSiap.hasBought(iosReceiptList[i]) == productID)
+					{
+						return true;
+					}
+				}
 			}
 			return false;
 		}
@@ -212,19 +213,19 @@ package base
 		public function restorePurchases(onRestoreComplete:Function):void
 		{			
 			this.onRestoreComplete = onRestoreComplete;
-			//if(Util.isIOS)
-			//{
-				//iOSiap.restoreProducts();
-				//iosRestoreInProgress = true;
-			//}
+			if(Util.isIOS)
+			{
+				iOSiap.restoreProducts();
+				iosRestoreInProgress = true;
+			}
 			
 		}
 		
-		//private function onIOSProductInfoDone(e:StoreKitEvent):void 
-		private function onIOSProductInfoDone(e:Event):void 
+		private function onIOSProductInfoDone(e:StoreKitEvent):void 
+		//private function onIOSProductInfoDone(e:Event):void 
 		{
-			//iosProductList = iOSiap.getProductsAfterRequestData();
-			//iosRequestInfoInProgress = false;			
+			iosProductList = iOSiap.getProductsAfterRequestData();
+			iosRequestInfoInProgress = false;			
 		}
 	}
 
