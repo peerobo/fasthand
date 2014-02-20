@@ -2,6 +2,7 @@ package
 {	
 	import base.BaseJsonGUI;
 	import base.Factory;
+	import base.GameSave;
 	import base.IAP;
 	import base.LangUtil;
 	import comp.HighscoreDB;
@@ -43,6 +44,8 @@ package
 			//EncryptedLocalStore.reset();
 			// entry point			
 			// new to AIR? please read *carefully* the readme.txt files!						
+			var gameState:GameSave = Factory.getInstance(GameSave);
+			gameState.loadState();
 			startStarlingFramework();
 			if (Capabilities.cpuArchitecture == "ARM") 
 			{
@@ -52,10 +55,15 @@ package
 	
 		private function onAppDeactivate(e:Event):void 
 		{
+			var gameState:GameSave = Factory.getInstance(GameSave);
+			gameState.saveState();
 			if (Util.isDesktop)
 				return;
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
 			highscoreDB.saveHighscore();		
+			
+			var gameState:GameSave = Factory.getInstance(GameSave);
+			gameState.saveState();
 			
 			Starling.current.stop(true);
 			// make sure the app behaves well (or exits) when in background			

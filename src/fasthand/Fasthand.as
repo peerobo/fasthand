@@ -4,6 +4,7 @@ package fasthand
 	import base.BFConstructor;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import base.GameSave;
 	import base.LangUtil;
 	import base.LayerMgr;
 	import base.PopupMgr;
@@ -45,12 +46,22 @@ package fasthand
 		
 		public var highscore:int;			
 		private var _pause:Boolean;
+		private var resumeData:Object;
 		
 		public function Fasthand() 
 		{
 			gameRound = new GameRound();
 			initHighscore();
 			_pause = false;
+			
+			var gameState:GameSave = Factory.getInstance(GameSave);
+			gameState.registerValidate(validateGameState);
+		}
+		
+		private function validateGameState():void
+		{
+			var gameState:GameSave = Factory.getInstance(GameSave);
+			
 		}
 		
 		private function initHighscore():void 
@@ -64,11 +75,21 @@ package fasthand
 		}
 		
 		public function startNewGame():void
-		{
-			isStartGame = true;			
-			currentPlayerScore = 0;
-			roundNo = 1;
-			startARound();
+		{			
+			if (resumeData)
+			{
+				isStartGame = true;
+				currentPlayerScore = resumeData.score;
+				roundNo = resumeData.round;
+				startARound();
+			}
+			else
+			{
+				isStartGame = true;			
+				currentPlayerScore = 0;
+				roundNo = 1;
+				startARound();
+			}
 			Starling.juggler.add(this);
 		}
 		
@@ -102,7 +123,13 @@ package fasthand
 			gameRound.reset(shuffleArr);
 			while (prevWord == word2Find)
 				gameRound.reset(shuffleArr);
-			
+			if (resumeData)
+			{
+				gameRound.mainWord = resumeData.word;
+				roundTime = resumeData.time;
+				shuffleArr = seqs = resumeData.words;
+				resumeData = null;
+			}
 			SoundManager.playSound(SoundAsset.getName(cat, word2Find));
 		}
 		
@@ -173,6 +200,18 @@ package fasthand
 				showScoreWindow();			
 			
 			hScoreDB.setHighscore(hScoreType, highscore);
+		}
+		
+		public function initFromData(cat:int, round:int, score:int, time:int, word:String, words:Array):void 
+		{
+			resumeData = {
+				cat: cat,
+				round:round,
+				score:score,
+				time:time,
+				word:word,
+				words:words
+			}			
 		}
 		
 		private function showScoreWindow():void 

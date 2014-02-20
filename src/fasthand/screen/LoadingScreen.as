@@ -1,12 +1,14 @@
 package fasthand.screen 
 {	
 	import base.Factory;
+	import base.GameSave;
 	import base.Graphics4Starling;
 	import base.LangUtil;
 	import base.ScreenMgr;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.TileImage;
+	import fasthand.Fasthand;
 	import flash.display.Bitmap;
 	import flash.display.Graphics;
 	import flash.utils.ByteArray;
@@ -76,7 +78,25 @@ package fasthand.screen
 			{
 				var p:DisplayObjectContainer = this.parent;
 				// bg of game				
-				ScreenMgr.showScreen(CategoryScreen);								
+				validateGameState();				
+			}
+		}
+		
+		private function validateGameState():void 
+		{
+			var gameState:GameSave = Factory.getInstance(GameSave);
+			var data:Object = gameState.data;
+			switch(gameState.state)
+			{
+				case GameSave.STATE_APP_LAUNCH:
+					ScreenMgr.showScreen(CategoryScreen);
+				break;
+				case GameSave.STATE_APP_INGAME:
+					var catScreen:CategoryScreen = Factory.getInstance(CategoryScreen);
+					catScreen.selectCategory(data.cat);					
+					var logic:Fasthand = Factory.getInstance(Fasthand);
+					logic.initFromData(data.cat, data.round, data.score, data.time, data.word, data.words);
+				break;
 			}
 		}
 		
