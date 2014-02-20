@@ -69,10 +69,11 @@ package fasthand.screen
 		public function selectCategory(cat:String):void
 		{
 			var logic:Fasthand = Factory.getInstance(Fasthand);
-			if (cat != logic.cat)
+			if (cat != logic.cat && logic.cat != null )
 			{
 				var resMgr:ResMgr = Factory.getInstance(ResMgr);
 				resMgr.removeTextureAtlas(logic.cat);
+				SoundAsset.unload(logic.cat, FasthandUtil.getListWords(logic.cat));
 			}
 			logic.cat = cat;
 			isExternalContent = FasthandUtil.getListCat().indexOf(cat) >= 6;

@@ -50,7 +50,7 @@ package res
 		public function ResMgr() 
 		{
 			assetMgr = new AssetManager(Starling.contentScaleFactor);			
-			assetMgr.verbose = true;
+			assetMgr.verbose = false;
 			
 			// for dynamic loading
 			urlLoader = new URLLoader();			

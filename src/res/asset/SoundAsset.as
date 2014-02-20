@@ -59,6 +59,15 @@ package res.asset
 			soundManager.loadAll(onDownloadDone);
 		}
 		
+		public static function unload(cat:String, list:Array):void
+		{			
+			var soundManager:SoundManager = SoundManager.instance;			
+			for (var i:int = 0; i < list.length; i++) 
+			{				
+				soundManager.removeSound(getName(cat, list[i]));				
+			}			
+		}
+		
 		static private function onDownloadDone(progress:Number):void 
 		{
 			currProgress = progress;

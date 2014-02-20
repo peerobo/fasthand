@@ -34,6 +34,7 @@ package base
 		
 		private var onPurchaseComplete:Function;
 		private var onRestoreComplete:Function;
+		public var purchasingProductID:String;
 		
 		public function IAP() 
 		{								
@@ -126,6 +127,7 @@ package base
 		
 		public function makePurchase(productID:String, onPurchaseCallback:Function):void
 		{
+			this.purchasingProductID = productID;
 			this.onPurchaseComplete = onPurchaseCallback;
 			if (Util.isIOS)
 			{
@@ -155,25 +157,26 @@ package base
 		//private function onIOSTransactionDone(e:Event):void 
 		private function onIOSTransactionDone(e:StoreKitEvent = null):void 
 		{
-			try{
-			FPSCounter.log("transaction ok" );
-			iosReceiptList = iOSiap.getReceptListAfterTransaction();
-			saveIOSReceiptsList();
-			
-			iosRestoreInProgress = false;				
-			if(onRestoreComplete is Function)
-			{
-				FPSCounter.log("restore callback");
-				onRestoreComplete();
-				onRestoreComplete = null;
-			}
-			
-			if(onPurchaseComplete is Function)
-			{
-				FPSCounter.log("purchase callback");
-				onPurchaseComplete();
-				onPurchaseComplete = null;
-			}
+			try {
+				purchasingProductID = ""
+				FPSCounter.log("transaction ok" );
+				iosReceiptList = iOSiap.getReceptListAfterTransaction();
+				saveIOSReceiptsList();
+				
+				iosRestoreInProgress = false;				
+				if(onRestoreComplete is Function)
+				{
+					FPSCounter.log("restore callback");
+					onRestoreComplete();
+					onRestoreComplete = null;
+				}
+				
+				if(onPurchaseComplete is Function)
+				{
+					FPSCounter.log("purchase callback");
+					onPurchaseComplete();
+					onPurchaseComplete = null;
+				}
 			}
 			catch (e:Error)
 			{

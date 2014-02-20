@@ -77,6 +77,7 @@
     <image144x144>icons/icon_144.png</image144x144>
     <image152x152>icons/icon_152.png</image152x152>
     <image512x512>icons/icon_512.png</image512x512>
+    <image1024x1024>icons/icon_1024.png</image1024x1024>
   </icon>
   <!-- 
 	AIR options:
@@ -91,7 +92,7 @@
 	Android manifest documentation:
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
-  <extensions>
+  <!--<extensions>
     <extensionID>so.cuo.platform.admob</extensionID>
     <extensionID>com.chartboost.plugin.air</extensionID>
 
@@ -102,5 +103,5 @@
 	<extensionID>com.adobe.ane.gameCenter</extensionID>
 	<extensionID>com.adobe.ane.social</extensionID>
 	<extensionID>com.fc.StoreKitExt</extensionID>
-  </extensions>
+  </extensions>-->
 </application>

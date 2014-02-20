@@ -101,7 +101,8 @@ package fasthand.comp
 		{
 			img.texture = Texture.empty(1, 1);
 			img.readjustSize();
-			alpha = 1;			
+			alpha = 1;		
+			touchable = true;
 		}
 		
 	}

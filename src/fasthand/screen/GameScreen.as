@@ -91,7 +91,7 @@ package fasthand.screen
 			globalInput.registerKey(Keyboard.BACK, onBackBt);
 		}
 		
-		private function onPause():void 
+		public function onPause():void 
 		{
 			SoundManager.playSound(SoundAsset.SOUND_CLICK);
 			var pauseDlg:PauseDialog = Factory.getInstance(PauseDialog);

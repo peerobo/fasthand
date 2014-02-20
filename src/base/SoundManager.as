@@ -42,6 +42,11 @@ package base
 		{
 			var soundManager:SoundManager = Factory.getInstance(SoundManager);
 			return soundManager.getSound(soundName);
+		}			
+		
+		public function removeSound(name:String):void
+		{
+			_assetMgr.removeSound(name);
 		}
 		
 		/**
@@ -72,7 +77,7 @@ package base
 		public function SoundManager()
 		{
 			_assetMgr = new AssetManager();
-			_assetMgr.verbose = true;
+			_assetMgr.verbose = false;
 			soundVolume = 100;
 			SoundMixer.audioPlaybackMode = AudioPlaybackMode.AMBIENT;
 		}			

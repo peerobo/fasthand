@@ -172,6 +172,7 @@ package fasthand.gui
 			for (var i:int = 0; i < len; i++) 
 			{				
 				var item:CatRenderer = pageHolder.getChildByName("item" + i) as CatRenderer;
+				item.isLock = !CategoryScreen.fullApp ? (idx + i >= Constants.CAT_FREE_NUM) : false;
 				if (listCat.length > idx + i)				
 				{
 					item.setIcon(IconAsset.PREFIX + listCat[idx + i],listCat[idx + i]);
@@ -179,9 +180,8 @@ package fasthand.gui
 				else
 				{
 					item.setComingSoon();
-				}
-				item.isLock = !CategoryScreen.fullApp ? (idx + i >= Constants.CAT_FREE_NUM) : false;
-				//item.isLock = false;
+					item.isLock = true;
+				}								
 			}			
 		}
 		

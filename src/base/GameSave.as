@@ -30,6 +30,7 @@ package base
 		
 		public function saveState():void
 		{
+			data = { state: STATE_APP_LAUNCH};
 			for each (var f:Function in fList) 
 			{
 				f();
@@ -40,7 +41,7 @@ package base
 		public function loadState():void
 		{
 			var ret:String = Util.getPrivateKey(STORE_KEY);
-			if (!ret)
+			if (ret)
 			{
 				data = JSON.parse(ret);
 				state = data.hasOwnProperty("state") ? data.state : STATE_APP_LAUNCH;

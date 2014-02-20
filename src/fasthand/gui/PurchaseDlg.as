@@ -4,10 +4,12 @@ package fasthand.gui
 	import base.BaseJsonGUI;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import base.GameSave;
 	import base.GlobalInput;
 	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;	
+	import base.ScreenMgr;
 	import comp.LoadingIcon;
 	import fasthand.FasthandUtil;
 	import fasthand.screen.CategoryScreen;
@@ -26,16 +28,38 @@ package fasthand.gui
 		public var purchaseBt:BaseButton;
 		public var contentTxt:BaseBitmapTextField;
 		
+		private var state:int = -1;
+		private const PURCHASE:int = 0;
+		private const RESTORE:int = 1;
+		
+		
 		public function PurchaseDlg() 
 		{
 			super("PurchaseDlg");
-			
+			var gameSave:GameSave = Factory.getInstance(GameSave);
+			gameSave.registerValidate(savePurchaseForResuming);
+		}
+		
+		private function savePurchaseForResuming():void 
+		{
+			PopupMgr.removePopup(this);
+			if (ScreenMgr.currScr is CategoryScreen && state > -1)
+			{
+				var gameSave:GameSave = Factory.getInstance(GameSave);
+				var data:Object = gameSave.data;
+				if (state == PURCHASE)
+					data.state = GameSave.STATE_APP_PURCHASE;				
+				else if (state == RESTORE)
+					data.state = GameSave.STATE_APP_RESTORE;
+				else
+					data.state = GameSave.STATE_APP_LAUNCH;				
+			}
 		}
 		
 		override public function onAdded(e:Event):void 
 		{
 			super.onAdded(e);
-			
+			state = -1;
 			var rpl:Array = ["@num", "@price"];
 			var rplW:Array = [(FasthandUtil.getListCat().length - Constants.CAT_FREE_NUM).toString(), Constants.PRICE_GAME.toString()];
 			var colors:Array = [0xFFFF80, 0xFF8080]
@@ -49,19 +73,23 @@ package fasthand.gui
 			//purchaseBt.isDisable = yesBt.isDisable = !iap.canPurchase;			
 		}
 		
-		private function onRestorePurchase():void 
+		public function onRestorePurchase():void 
 		{
-			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-			globalInput.disable = true;
-			PopupMgr.removePopup(this);
-			PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-			var iap:IAP = Factory.getInstance(IAP);
-			iap.restorePurchases(onTransactionComplete);
+			if(iap.canPurchase)
+			{
+				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+				globalInput.disable = true;
+				PopupMgr.removePopup(this);
+				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+				state = RESTORE;
+				var iap:IAP = Factory.getInstance(IAP);
+				iap.restorePurchases(onTransactionComplete);
+			}
 		}
 		
-		private function onTransactionComplete():void 
+		public function onTransactionComplete():void 
 		{
-			try {								
+			try {
 				var iap:IAP = Factory.getInstance(IAP);			
 				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 				globalInput.disable = false;
@@ -73,7 +101,8 @@ package fasthand.gui
 					var infoD:InfoDlg = Factory.getInstance(InfoDlg);
 					infoD.text = LangUtil.getText("IAPComplete");
 					infoD.callback = onCloseIAPInfoDlg;
-					PopupMgr.addPopUp(infoD);				
+					PopupMgr.addPopUp(infoD);
+					state = -1;
 				}
 				else
 				{				
@@ -125,19 +154,24 @@ package fasthand.gui
 			categoryScr.refresh();
 		}
 		
-		private function onYes():void 
+		public function onYes():void 
 		{
-			var iap:IAP = Factory.getInstance(IAP);
-			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-			globalInput.disable = true;
-			PopupMgr.removePopup(this);
-			PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-			iap.makePurchase(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : Constants.ANDROID_PRODUCT_IDS[0], onTransactionComplete);
+			if(iap.canPurchase)
+			{
+				var iap:IAP = Factory.getInstance(IAP);
+				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+				globalInput.disable = true;
+				PopupMgr.removePopup(this);
+				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+				state = PURCHASE;
+				iap.makePurchase(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : Constants.ANDROID_PRODUCT_IDS[0], onTransactionComplete);
+			}
 		}
 			
 		private function onCancel():void 
 		{
 			PopupMgr.removePopup(this);
+			state = -1;
 		}
 		
 	}

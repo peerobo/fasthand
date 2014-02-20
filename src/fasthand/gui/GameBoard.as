@@ -108,7 +108,7 @@ package fasthand.gui
 				var logic:Fasthand = Factory.getInstance(Fasthand);
 				if (isAnimatedTime && logic.isStartGame)
 				{
-					this.time -= time;
+					this.time = logic.roundTime;
 					if (this.time <= 3 && !timeoutSound)
 					{
 						timeoutSound = SoundManager.playSound(SoundAsset.SOUND_TIMEOUT);					
@@ -132,6 +132,7 @@ package fasthand.gui
 		
 		public function animate():void 
 		{
+			resetTimeCount();
 			var input:GlobalInput = Factory.getInstance(GlobalInput);
 			input.disable = true;
 			countAnimatedDone = Constants.TILE_PER_ROUND;

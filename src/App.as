@@ -2,6 +2,7 @@ package
 {	
 	import base.BFConstructor;
 	import base.Factory;
+	import base.GameSave;
 	import base.GlobalInput;	
 	import base.IAP;
 	import base.LayerMgr;	
@@ -46,7 +47,8 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onInit);
 			var fps:FPSCounter = new FPSCounter(0, 0, 0xFFFFFF, true, 0x0);
-			
+			var gameState:GameSave = Factory.getInstance(GameSave);
+			gameState.loadState();
 			//Starling.current.nativeOverlay.addChild(fps);			
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);			
 			if(Util.isIOS)

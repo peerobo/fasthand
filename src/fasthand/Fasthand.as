@@ -25,6 +25,7 @@ package fasthand
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Sprite;
+	import starling.utils.HAlign;
 	/**
 	 * ...
 	 * @author ndp
@@ -33,7 +34,7 @@ package fasthand
 	{
 		private var gameRound:GameRound;		
 		private var interval:Number;				
-		private var roundTime:Number;
+		public var roundTime:Number;
 		private var _cat:String;
 		public var difficult:Boolean;
 		public var currentPlayerScore:int;
@@ -60,8 +61,17 @@ package fasthand
 		
 		private function validateGameState():void
 		{
-			var gameState:GameSave = Factory.getInstance(GameSave);
-			
+			if (ScreenMgr.currScr is GameScreen && isStartGame)
+			{
+				var gameState:GameSave = Factory.getInstance(GameSave);
+				gameState.data.state = GameSave.STATE_APP_INGAME;
+				gameState.data.time = roundTime;
+				gameState.data.word = word2Find;
+				gameState.data.words = seqs.concat();
+				gameState.data.cat = cat;
+				gameState.data.score = currentPlayerScore;
+				gameState.data.round = roundNo;								
+			}
 		}
 		
 		private function initHighscore():void 
@@ -127,7 +137,7 @@ package fasthand
 			{
 				gameRound.mainWord = resumeData.word;
 				roundTime = resumeData.time;
-				shuffleArr = seqs = resumeData.words;
+				shuffleArr = seqs = resumeData.words;				
 				resumeData = null;
 			}
 			SoundManager.playSound(SoundAsset.getName(cat, word2Find));

@@ -8,7 +8,7 @@ package base
 	 */
 	public class ScreenMgr 
 	{		
-		private static var currScr:DisplayObject;
+		public static var currScr:DisplayObject;
 		
 		public function ScreenMgr()
 		{

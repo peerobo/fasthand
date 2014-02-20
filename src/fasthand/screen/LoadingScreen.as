@@ -3,12 +3,15 @@ package fasthand.screen
 	import base.Factory;
 	import base.GameSave;
 	import base.Graphics4Starling;
+	import base.IAP;
 	import base.LangUtil;
+	import base.PopupMgr;
 	import base.ScreenMgr;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.TileImage;
 	import fasthand.Fasthand;
+	import fasthand.gui.PurchaseDlg;
 	import flash.display.Bitmap;
 	import flash.display.Graphics;
 	import flash.utils.ByteArray;
@@ -84,6 +87,7 @@ package fasthand.screen
 		
 		private function validateGameState():void 
 		{
+			var purchaseDL:PurchaseDlg;
 			var gameState:GameSave = Factory.getInstance(GameSave);
 			var data:Object = gameState.data;
 			switch(gameState.state)
@@ -92,10 +96,23 @@ package fasthand.screen
 					ScreenMgr.showScreen(CategoryScreen);
 				break;
 				case GameSave.STATE_APP_INGAME:
+					ScreenMgr.showScreen(CategoryScreen);
 					var catScreen:CategoryScreen = Factory.getInstance(CategoryScreen);
 					catScreen.selectCategory(data.cat);					
 					var logic:Fasthand = Factory.getInstance(Fasthand);
 					logic.initFromData(data.cat, data.round, data.score, data.time, data.word, data.words);
+				break;
+				case GameSave.STATE_APP_PURCHASE:
+					ScreenMgr.showScreen(CategoryScreen);
+					purchaseDL = Factory.getInstance(PurchaseDlg);
+					PopupMgr.addPopUp(purchaseDL);
+					purchaseDL.onYes();
+				break;
+				case GameSave.STATE_APP_RESTORE:
+					ScreenMgr.showScreen(CategoryScreen);
+					purchaseDL = Factory.getInstance(PurchaseDlg);
+					PopupMgr.addPopUp(purchaseDL);
+					purchaseDL.onRestorePurchase();
 				break;
 			}
 		}

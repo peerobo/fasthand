@@ -43,9 +43,7 @@ package
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			//EncryptedLocalStore.reset();
 			// entry point			
-			// new to AIR? please read *carefully* the readme.txt files!						
-			var gameState:GameSave = Factory.getInstance(GameSave);
-			gameState.loadState();
+			// new to AIR? please read *carefully* the readme.txt files!			
 			startStarlingFramework();
 			if (Capabilities.cpuArchitecture == "ARM") 
 			{
@@ -60,10 +58,7 @@ package
 			if (Util.isDesktop)
 				return;
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
-			highscoreDB.saveHighscore();		
-			
-			var gameState:GameSave = Factory.getInstance(GameSave);
-			gameState.saveState();
+			highscoreDB.saveHighscore();
 			
 			Starling.current.stop(true);
 			// make sure the app behaves well (or exits) when in background			
