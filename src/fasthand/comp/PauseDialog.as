@@ -47,7 +47,9 @@ package fasthand.comp
 			addChild(bt);
 			bt.setCallbackFunc(onResume);
 			Util.g_centerScreen(bt);
-			bt.y += 240;						
+			bt.y += 240;
+			
+			Util.showFullScreenAd();
 		}
 		
 		private function onResume():void 

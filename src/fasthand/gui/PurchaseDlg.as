@@ -61,21 +61,29 @@ package fasthand.gui
 		
 		private function onTransactionComplete():void 
 		{
-			var iap:IAP = Factory.getInstance(IAP);			
-			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-			globalInput.disable = false;
-			PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
-			if (iap.checkBought(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : ""))
-			{				
-				var infoD:InfoDlg = Factory.getInstance(InfoDlg);
-				infoD.text = LangUtil.getText("IAPComplete");
-				infoD.callback = onCloseIAPInfoDlg;
-				PopupMgr.addPopUp(infoD);				
-			}
-			else
+			try {
+								
+				var iap:IAP = Factory.getInstance(IAP);			
+				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+				globalInput.disable = false;
+				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+				if (iap.checkBought(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : ""))
+				{				
+					var infoD:InfoDlg = Factory.getInstance(InfoDlg);
+					infoD.text = LangUtil.getText("IAPComplete");
+					infoD.callback = onCloseIAPInfoDlg;
+					PopupMgr.addPopUp(infoD);				
+				}
+				else
+				{				
+					PopupMgr.addPopUp(this);
+				}
+				
+			}catch (e:Error)
 			{
-				PopupMgr.addPopUp(this);
+				FPSCounter.log(e.message);
 			}
+			
 		}
 		
 		private function onCloseIAPInfoDlg():void 
@@ -91,14 +99,7 @@ package fasthand.gui
 				arr.concat(Asset.getExtraContent(listCat[i]));
 			}
 			resMgr.getExtraContent(arr, onExtraContentDownloadCompleted, onAdvanceExtraContent);
-			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[6]));
-			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[7]));
-			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[8]));
-			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[9]));
-			//resMgr.getExtraContent(arr,
-				//function():void{downloadDLC.msg = "complete!"},
-				//function(idx:int):void{downloadDLC.msg = ""}	
-			//);
+			
 		}
 		
 		private function onAdvanceExtraContent(idx:int):void 

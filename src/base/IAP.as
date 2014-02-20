@@ -153,30 +153,44 @@ package base
 		}
 		
 		//private function onIOSTransactionDone(e:Event):void 
-		private function onIOSTransactionDone(e:StoreKitEvent):void 
+		private function onIOSTransactionDone(e:StoreKitEvent = null):void 
 		{
+			try{
+			FPSCounter.log("transaction ok" );
 			iosReceiptList = iOSiap.getReceptListAfterTransaction();
 			saveIOSReceiptsList();
-			if (iosRestoreInProgress)
+			
+			iosRestoreInProgress = false;				
+			if(onRestoreComplete is Function)
 			{
-				iosRestoreInProgress = false;				
-				if(onRestoreComplete is Function)
-					onRestoreComplete();
+				FPSCounter.log("restore callback");
+				onRestoreComplete();
+				onRestoreComplete = null;
 			}
-			else
+			
+			if(onPurchaseComplete is Function)
 			{
-				if(onPurchaseComplete is Function)
-					onPurchaseComplete();
+				FPSCounter.log("purchase callback");
+				onPurchaseComplete();
+				onPurchaseComplete = null;
+			}
+			}
+			catch (e:Error)
+			{
+				FPSCounter.log(e.getStackTrace());
 			}
 		}
 		
 		private function saveIOSReceiptsList():void
 		{
-			var count:int = iosReceiptList.length;
-			Util.setPrivateValue(IOS_RECEIPT_PRE + "count", count.toString());
-			for (var i:int = 0; i < count; i++) 
+			if (iosReceiptList)
 			{
-				Util.setPrivateValue(IOS_RECEIPT_PRE + "receipt" + i, iosReceiptList[i]);
+				var count:int = iosReceiptList.length;
+				Util.setPrivateValue(IOS_RECEIPT_PRE + "count", count.toString());
+				for (var i:int = 0; i < count; i++) 
+				{
+					Util.setPrivateValue(IOS_RECEIPT_PRE + "receipt" + i, iosReceiptList[i]);
+				}
 			}
 		}
 		
@@ -199,6 +213,8 @@ package base
 		{
 			if (Util.isIOS)
 			{
+				if (!iosReceiptList)
+					return false;
 				for (var i:int = 0; i < iosReceiptList.length; i++) 
 				{
 					if (iOSiap.hasBought(iosReceiptList[i]) == productID)

@@ -144,8 +144,7 @@ package
 			Util.registerPool();
 			Asset.init();
 			LangUtil.loadXMLData();
-			BaseJsonGUI.loadCfg();			
-			Util.initAd();	
+			BaseJsonGUI.loadCfg();						
 			
 			if(Util.isDesktop)
 			{

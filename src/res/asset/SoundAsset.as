@@ -2,6 +2,7 @@ package res.asset
 {
 	import base.Factory;
 	import base.SoundManager;
+	import flash.filesystem.File;
 	
 	/**
 	 * sound list
@@ -32,7 +33,7 @@ package res.asset
 				listSound = { };
 		}
 		
-		public static function download(cat:String, list:Array):void
+		public static function download(cat:String, list:Array, isExternal:Boolean = false):void
 		{
 			if (!listSound)
 			{
@@ -50,7 +51,10 @@ package res.asset
 			var soundManager:SoundManager = Factory.getInstance(SoundManager);
 			for (var i:int = 0; i < list.length; i++) 
 			{
-				soundManager.queueSound(FOLDER + cat + "/" + list[i] + ".mp3", getName(cat,list[i]));
+				if(!isExternal)
+					soundManager.queueSound(FOLDER + cat + "/" + list[i] + ".mp3", getName(cat, list[i]));
+				else 
+					soundManager.queueSound(File.cacheDirectory.resolvePath(cat + "/" + list[i] + ".mp3"), getName(cat, list[i]));
 			}
 			soundManager.loadAll(onDownloadDone);
 		}

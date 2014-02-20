@@ -72,12 +72,12 @@ package base
 		public function SoundManager()
 		{
 			_assetMgr = new AssetManager();
-			_assetMgr.verbose = false;
+			_assetMgr.verbose = true;
 			soundVolume = 100;
 			SoundMixer.audioPlaybackMode = AudioPlaybackMode.AMBIENT;
 		}			
 		
-		public function queueSound(url:String,name:String):void
+		public function queueSound(url:*,name:String):void
 		{
 			_assetMgr.enqueueWithName(url,name);
 		}

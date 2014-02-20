@@ -45,17 +45,18 @@ package
 		private function onInit(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onInit);
-			
 			var fps:FPSCounter = new FPSCounter(0, 0, 0xFFFFFF, true, 0x0);
+			
 			//Starling.current.nativeOverlay.addChild(fps);
 			try
 			{
-			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);			
-			if(Util.isIOS)
-				highscoreDB.initGameCenter();
-			FPSCounter.log("iap");
-			var iap:IAP = Factory.getInstance(IAP);
-			iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
+				Util.initAd();
+				var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);			
+				if(Util.isIOS)
+					highscoreDB.initGameCenter();
+				FPSCounter.log("iap");
+				var iap:IAP = Factory.getInstance(IAP);
+				iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
 			}
 			catch (err:Error)
 			{

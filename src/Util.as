@@ -11,13 +11,15 @@ package
 	import base.PopupMgr;
 	import com.adobe.ane.social.SocialServiceType;
 	import com.adobe.ane.social.SocialUI;
+	import com.chartboost.plugin.air.Chartboost;
+	import com.chartboost.plugin.air.ChartboostEvent;
 	import com.freshplanet.ane.AirDeviceId;
 	import fasthand.gui.InfoDlg;
 	import flash.display.BitmapData;
 	import flash.display3D.Context3D;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
+	import flash.events.EventDispatcher;	
 	import starling.core.RenderSupport;	
 	import comp.AdEmulator;
 	import comp.LoadingIcon;
@@ -208,9 +210,23 @@ package
 			var admob:Admob = Admob.getInstance();
 			if (admob.supportDevice)
 			{
-				admob.setKeys(Constants.AD_ID);
+				admob.setKeys(Constants.ADMOB_ID);
 			}
-		}
+			var chartboost:Chartboost = Chartboost.getInstance();
+			if (Util.isAndroid) {
+				FPSCounter.log("Chartboost Actionscript Android init()");
+				chartboost.init(Constants.CHARTBOOST_APP_ID_ANDROID, Constants.CHARTBOOST_ID_ANDROID);
+			} else if (Util.isIOS) {
+				FPSCounter.log("Chartboost Actionscript iOS init()");
+				chartboost.init(Constants.CHARTBOOST_APP_ID, Constants.CHARTBOOST_ID);
+			}
+			
+			// add listeners
+			//chartboost.addEventListener(ChartboostEvent.INTERSTITIAL_CACHED, onAdCached);
+			//chartboost.addEventListener(ChartboostEvent.INTERSTITIAL_SHOWED, onAdShowed);
+			//chartboost.addEventListener(ChartboostEvent.INTERSTITIAL_DISMISSED, onAdDismissed);
+			//chartboost.addEventListener(ChartboostEvent.INTERSTITIAL_FAILED, onAdFailed);
+		}		
 		
 		public static function g_showConfirm(msg:String, callbackFunc:Function):void
 		{
@@ -221,9 +237,10 @@ package
 		}
 		
 		public static function showBannerAd():void
-		{
+		{			
 			var admob:Admob = Admob.getInstance();
-			admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
+			if(admob.supportDevice)
+				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
 			if (isDesktop)
 				AdEmulator.showBannerAd();
 		}
@@ -231,25 +248,16 @@ package
 		public static function hideBannerAd():void
 		{
 			var admob:Admob = Admob.getInstance();
-			admob.hideBanner();
+			if(admob.supportDevice)
+				admob.hideBanner();
 			if (isDesktop)
 				AdEmulator.hideAd();
 		}
 		
 		public static function showFullScreenAd():void
 		{
-			//Chartboost.getInstance().setInterstitialKeys("4f7b433509b602538043000002", "dd2d41b69ac01b80f44443f5b6cf06096d457f82bd");// app id and sign id created in chartboost.com site
-			// then show chartboost Interstitial
-			//Chartboost.getInstance().showInterstitial(); 
-			//or show chartboost more app page
-			//Chartboost.getInstance().showMoreAppPage();
-			var admob:Admob = Admob.getInstance();
-			if (admob.supportDevice)
-			{
-				admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
-				admob.cacheInterstitial();
-				//PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-			}
+			if(Chartboost.isPluginSupported())
+				Chartboost.getInstance().showInterstitial();
 			if (isDesktop)
 				AdEmulator.showFullscreenAd();
 		}
@@ -263,7 +271,7 @@ package
 			return str;
 		}
 		
-		private static function onAdReceived(e:AdmobEvent):void
+		/*private static function onAdReceived(e:AdmobEvent):void
 		{
 			var admob:Admob = Admob.getInstance();
 			if (e.type == AdmobEvent.onInterstitialReceive)
@@ -272,7 +280,7 @@ package
 				admob.removeEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
 				//PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 			}
-		}
+		}*/
 		
 		public static function get appWidth():int
 		{

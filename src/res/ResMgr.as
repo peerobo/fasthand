@@ -50,7 +50,7 @@ package res
 		public function ResMgr() 
 		{
 			assetMgr = new AssetManager(Starling.contentScaleFactor);			
-			assetMgr.verbose = false;
+			assetMgr.verbose = true;
 			
 			// for dynamic loading
 			urlLoader = new URLLoader();			
@@ -188,22 +188,23 @@ package res
 		 * load texture atlas
 		 * @param	name texture name
 		 * @param	onProgress function(progress:Number):void
+		 * @param	isExternal in program directory or cache directory
 		 * @return can download Texture
 		 */
-		public function loadTextureAtlas(name:String, onProgress:Function):Boolean		
-		{			
+		public function loadTextureAtlas(name:String, onProgress:Function, isExternal:Boolean = false):Boolean		
+		{
 			if (assetMgr.getTextureAtlas(name + Asset.contentSuffix))
 			{
 				onProgress(1);
 				return true;
-			}
+			}			
 			// TODO: check if assetMgr is free or not
-			// code here
+			// code here			
 			if (assetMgr.numQueuedAssets < 1)
-			{
-				assetMgr.enqueue(Asset.getTextureAtlURL(name));
+			{				
+				assetMgr.enqueue(Asset.getTextureAtlURL(name,isExternal));
 				assetMgr.loadQueue(onProgress);
-				return true;
+				return true;							
 			}
 			else
 			{

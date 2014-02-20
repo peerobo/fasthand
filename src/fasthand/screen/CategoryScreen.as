@@ -53,7 +53,7 @@ package fasthand.screen
 		private var switchDiff:FlatSwitchButton;
 		private const COLOR_RND:Array = [0xF9F900, 0xFFFF06, 0xFFFF11, 0xFFFF1A, 0xFFFF20, 0xFFFF28, 0xFFFF2D, 0xFFFF3C, 0xFFFF42, 0xFFFF48, 0xFFFF4F, 0xFFFF53, 0xFFFF59, 0xFFFF5E, 0xFFFF64, 0xFFFF6A, 0xFFFF6F];		
 		private var pageFooter:PageFooter;
-		private var isRemindGC:Boolean;
+		private var isExternalContent:Boolean;
 		
 		public function CategoryScreen() 
 		{
@@ -73,23 +73,59 @@ package fasthand.screen
 				resMgr.removeTextureAtlas(logic.cat);
 			}
 			logic.cat = cat;
-			PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+			isExternalContent = FasthandUtil.getListCat().indexOf(cat) >= 6;						
 			loadContent(cat);	
 		}
 		
 		private function loadContent(cat:String):void 
-		{
+		{	
 			var resMgr:ResMgr = Factory.getInstance(ResMgr);
-			resMgr.loadTextureAtlas(cat, contentLoaded);
+			if(!isExternalContent)
+			{			
+				resMgr.loadTextureAtlas(cat, contentLoaded);
+				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+			}
+			else	// cache-download-play
+			{
+				var downloadDLC:DLCDlg = Factory.getInstance(DLCDlg);
+				PopupMgr.addPopUp(downloadDLC);
+				var fileList:Array = Asset.getExtraContent(cat);
+				resMgr.getExtraContent(fileList, onDownloadCompleted, onProgressNextFile);				
+			}
+		}
+		
+		private function onProgressNextFile(idx:int):void 
+		{
+			var idxCat:int = idx / 3 + 6;
+			var idxFile:int = idx % 3;
+			var listCat:Array = FasthandUtil.getListCat();
+			var catLen:int = listCat.length - 6;
+			var str:String = LangUtil.getText("extraContentLoad");
+			str = Util.replaceStr(str,
+				["@cat", "@idxCat", "@totalCat", "@idxFile", "@totalFile"],
+				[LangUtil.getText(listCat[idxCat]), ""+(idxCat-5), ""+catLen, ""+(idxFile+1), "3"]
+			);
+			var downloadDLC:DLCDlg = Factory.getInstance(DLCDlg);
+			downloadDLC.msg = str;
+		}
+		
+		private function onDownloadCompleted():void 
+		{
+			var downloadDLC:DLCDlg = Factory.getInstance(DLCDlg);
+			PopupMgr.removePopup(downloadDLC);
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+			resMgr.loadTextureAtlas(logic.cat, contentLoaded, true);			
 		}
 		
 		private function contentLoaded(progress:Number):void 
 		{			
 			if (progress == 1)
-			{
+			{				
 				var logic:Fasthand = Factory.getInstance(Fasthand);				
 				wait4Sound = true;
-				SoundAsset.download(logic.cat, FasthandUtil.getListWords(logic.cat));
+				SoundAsset.download(logic.cat, FasthandUtil.getListWords(logic.cat), isExternalContent);			
 			}
 		}
 		
@@ -183,8 +219,7 @@ package fasthand.screen
 			//resMgr.getExtraContent(arr,
 				//function():void{downloadDLC.msg = "complete!"},
 				//function(idx:int):void{downloadDLC.msg = ""}	
-			//);
-			
+			//);			
 		}
 		
 		private function onBackAndroidBt():void 

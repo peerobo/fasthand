@@ -4,6 +4,7 @@ package res
 	import base.Factory;
 	import feathers.display.Scale9Image;
 	import feathers.textures.Scale9Textures;
+	import flash.filesystem.File;
 	import flash.geom.Rectangle;
 	import res.asset.BackgroundAsset;
 	import res.asset.ButtonAsset;
@@ -58,9 +59,17 @@ package res
 		
 		
 		
-		static public function getTextureAtlURL(name:String):Array // png/atf, xml 
+		static public function getTextureAtlURL(name:String, isExternal:Boolean =false):Array // png/atf, xml 
 		{
-			return [ASSET_FOLDER + name + contentSuffix + ".atf", ASSET_FOLDER + name + contentSuffix + ".xml"]
+			var arr:Array;
+			if(!isExternal)
+				arr = [ASSET_FOLDER + name + contentSuffix + ".atf", ASSET_FOLDER + name + contentSuffix + ".xml"];
+			else
+			{
+				var file:String = name + "/" + name + contentSuffix;
+				arr = [File.cacheDirectory.resolvePath( file + ".atf"), File.cacheDirectory.resolvePath(file + ".xml")];
+			}
+			return arr;
 		}
 		
 		public static function getImage(texAtl:String,str:String):DisplayObject

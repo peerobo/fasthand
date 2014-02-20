@@ -8,11 +8,11 @@
   <compiler>
     <define append="true">
       <name>CONFIG::debug</name>
-      <value>false</value>
+      <value>true</value>
     </define>
     <define append="true">
       <name>CONFIG::release</name>
-      <value>true</value>
+      <value>false</value>
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
@@ -30,30 +30,28 @@
       <name>CONFIG::desktop</name>
       <value>false</value>
     </define>
-    <optimize>true</optimize>
-    <omit-trace-statements>true</omit-trace-statements>
-    <verbose-stacktraces>false</verbose-stacktraces>
+    <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>D:\iosdev\fasthand\src</path-element>
-      <path-element>D:\iosdev\myStarling\starling\src</path-element>
-      <path-element>D:\iosdev\feathers\source</path-element>
-      <path-element>D:\iosdev\Starling-Extension-Particle-System\src</path-element>
-      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>D:\dev\mobile app\fasthand\airapp\src</path-element>
+      <path-element>D:\dev\lib\Starling-Framework\starling\src</path-element>
+      <path-element>D:\dev\lib\as3corelib\src</path-element>
+      <path-element>D:\dev\lib\feathers\source</path-element>
+      <path-element>D:\dev\lib\Starling-Extension-Particle-System\src</path-element>
+      <path-element>D:\dev\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
-    <external-library-path append="true">
-      <path-element>D:\iosdev\fasthand\lib\admob_all_in_one6.6.7.ane</path-element>
-      <path-element>D:\iosdev\fasthand\lib\AirDeviceId.ane</path-element>
-      <path-element>D:\iosdev\fasthand\lib\InAppPurchase.ane</path-element>
-      <path-element>D:\iosdev\fasthand\lib\socialIOS.ane</path-element>
-      <path-element>D:\iosdev\fasthand\lib\StoreKitExt.ane</path-element>
-      <path-element>D:\iosdev\fasthand\lib\gamecenter.ane</path-element>
-    </external-library-path>
     <library-path append="true">
-      <path-element>D:\iosdev\fasthand\lib\as3commons-zip-1.0.0-alpha.1.swc</path-element>
+      <path-element>D:\dev\mobile app\fasthand\airapp\lib\as3commons-zip-1.0.0-alpha.1.swc</path-element>
+      <path-element>D:\dev\mobile app\fasthand\airapp\lib\AirDeviceId.ane</path-element>
+      <path-element>D:\dev\mobile app\fasthand\airapp\lib\InAppPurchase.ane</path-element>
+      <path-element>D:\dev\mobile app\fasthand\airapp\lib\socialIOS.ane</path-element>
+      <path-element>D:\dev\mobile app\fasthand\airapp\lib\StoreKitExt.ane</path-element>
+      <path-element>D:\dev\mobile app\fasthand\airapp\lib\gamecenter.ane</path-element>
+      <path-element>D:\dev\mobile app\fasthand\airapp\lib\Chartboost.ane</path-element>
+      <path-element>D:\dev\mobile app\fasthand\airapp\lib\admob_all_in_one6.6.7.ane</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>D:\iosdev\fasthand\src\Main.as</path-element>
+    <path-element>D:\dev\mobile app\fasthand\airapp\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#000000</default-background-color>
   <default-frame-rate>60</default-frame-rate>
