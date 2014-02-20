@@ -12,7 +12,7 @@ package
 		public static const SEC_PER_ROUND:int = 30;
 		public static const SEC_PER_ROUND_DIFFICULT:int = 5;
 		public static const MAX_SCORE_PER_ROUND:int = 10;
-		public static const ROUND_PER_GAME:int = 1;
+		public static const ROUND_PER_GAME:int = 10;
 		public static const TILE_PER_ROUND:int = 10;
 		public static const CAT_PER_PAGE:int = 6;		
 		public static const CAT_FREE_NUM:int = 6;

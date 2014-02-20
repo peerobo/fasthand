@@ -46,7 +46,7 @@ package fasthand.gui
 			purchaseBt.setCallbackFunc(onRestorePurchase);
 			
 			var iap:IAP = Factory.getInstance(IAP);
-			yesBt.isDisable = !iap.canPurchase;
+			//purchaseBt.isDisable = yesBt.isDisable = !iap.canPurchase;			
 		}
 		
 		private function onRestorePurchase():void 
@@ -61,14 +61,15 @@ package fasthand.gui
 		
 		private function onTransactionComplete():void 
 		{
-			try {
-								
+			try {								
 				var iap:IAP = Factory.getInstance(IAP);			
 				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 				globalInput.disable = false;
 				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 				if (iap.checkBought(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : ""))
-				{				
+				//if (true)
+				{		
+					CategoryScreen.fullApp = true;
 					var infoD:InfoDlg = Factory.getInstance(InfoDlg);
 					infoD.text = LangUtil.getText("IAPComplete");
 					infoD.callback = onCloseIAPInfoDlg;
@@ -96,7 +97,7 @@ package fasthand.gui
 			var len:int = listCat.length;
 			for (var i:int = Constants.CAT_FREE_NUM; i < len; i++) 
 			{
-				arr.concat(Asset.getExtraContent(listCat[i]));
+				arr = arr.concat(Asset.getExtraContent(listCat[i]));
 			}
 			resMgr.getExtraContent(arr, onExtraContentDownloadCompleted, onAdvanceExtraContent);
 			

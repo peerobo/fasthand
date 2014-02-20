@@ -11,6 +11,7 @@ package fasthand.gui
 	import fasthand.comp.CatRenderer;
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;
+	import fasthand.screen.CategoryScreen;
 	import flash.geom.Rectangle;
 	import res.Asset;
 	import res.asset.BackgroundAsset;
@@ -179,7 +180,7 @@ package fasthand.gui
 				{
 					item.setComingSoon();
 				}
-				item.isLock = !Util.isFullApp ? (idx + i >= Constants.CAT_FREE_NUM) : false;
+				item.isLock = !CategoryScreen.fullApp ? (idx + i >= Constants.CAT_FREE_NUM) : false;
 				//item.isLock = false;
 			}			
 		}

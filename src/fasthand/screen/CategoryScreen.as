@@ -55,6 +55,8 @@ package fasthand.screen
 		private var pageFooter:PageFooter;
 		private var isExternalContent:Boolean;
 		
+		public static var fullApp:Boolean;
+		
 		public function CategoryScreen() 
 		{
 			super();	
@@ -139,6 +141,8 @@ package fasthand.screen
 		{
 			super.onAdded(e);
 			
+			fullApp = Util.isFullApp;
+			
 			var disp:DisplayObject = Asset.getImage(Asset.WALL_CATEGORY, Asset.WALL_CATEGORY);
 			addChild(disp);
 			Util.g_centerScreen(disp);
@@ -219,7 +223,7 @@ package fasthand.screen
 			//resMgr.getExtraContent(arr,
 				//function():void{downloadDLC.msg = "complete!"},
 				//function(idx:int):void{downloadDLC.msg = ""}	
-			//);			
+			//);									
 		}
 		
 		private function onBackAndroidBt():void 

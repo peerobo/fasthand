@@ -239,7 +239,7 @@ package res
 			{				
 				extraOnAdvanceFunction(extraCurrentIdx);
 				extraCurrentIdx++;
-				if (extraCurrentIdx == extraContentList.length)
+				if (extraCurrentIdx >= extraContentList.length)
 				{
 					extraCurrentIdx = -1;
 					extraOnCompleteFunc();

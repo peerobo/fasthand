@@ -91,7 +91,7 @@
 	Android manifest documentation:
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
-  <!--<extensions>
+  <extensions>
     <extensionID>so.cuo.platform.admob</extensionID>
     <extensionID>com.chartboost.plugin.air</extensionID>
 
@@ -101,6 +101,6 @@
 	
 	<extensionID>com.adobe.ane.gameCenter</extensionID>
 	<extensionID>com.adobe.ane.social</extensionID>
-	<extensionID>com.fc.StoreKitExt</extensionID>	
-  </extensions>-->
+	<extensionID>com.fc.StoreKitExt</extensionID>
+  </extensions>
 </application>

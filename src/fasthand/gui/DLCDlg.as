@@ -3,9 +3,11 @@ package fasthand.gui
 	import base.BaseJsonGUI;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
+	import base.LayerMgr;
 	import flash.geom.Rectangle;
 	import res.ResMgr;
 	import starling.display.DisplayObject;
+	import starling.events.Event;
 	
 	/**
 	 * ...
@@ -24,6 +26,18 @@ package fasthand.gui
 		public function DLCDlg() 
 		{
 			super("DownloadContentDlg");			
+		}
+		
+		override public function onAdded(e:Event):void 
+		{
+			LayerMgr.lockGameLayer = true;
+			super.onAdded(e);			
+		}
+		
+		override public function onRemoved(e:Event):void 
+		{
+			LayerMgr.lockGameLayer = false;
+			super.onRemoved(e);			
 		}
 		
 		override public function update(time:Number):void 

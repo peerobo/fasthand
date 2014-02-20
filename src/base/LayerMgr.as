@@ -16,6 +16,7 @@ package base
 		public static const LAYER_EFFECT:int = 1;				
 		public static const LAYER_TOOLTIP:int = 2;
 		public static const LAYER_DIALOG:int = 3;
+		static private var _lockGameLayer:Boolean;
 		
 		public function LayerMgr() 
 		{
@@ -39,6 +40,20 @@ package base
 		static public function getLayer(layerIdx:int):Sprite
 		{
 			return layers[layerIdx];
+		}
+		
+		static public function get lockGameLayer():Boolean 
+		{
+			return _lockGameLayer;
+		}
+		
+		static public function set lockGameLayer(value:Boolean):void 
+		{
+			_lockGameLayer = value;
+			if (value)
+				getLayer(LAYER_GAME).flatten();
+			else
+				getLayer(LAYER_GAME).unflatten();
 		}
 	}
 

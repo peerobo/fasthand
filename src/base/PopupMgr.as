@@ -88,9 +88,9 @@ package base
 					quadBg.visible = false;
 				}
 			}			
-			else if (queue.indexOf(current) > -1)
+			else if (queue.indexOf(disp) > -1)
 			{
-				queue.splice(queue.indexOf(current), 1);
+				queue.splice(queue.indexOf(disp), 1);
 			}
 			if (!current)
 			{
