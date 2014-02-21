@@ -12,7 +12,7 @@
     <movie minorVersion="9" />
     <movie platform="AIR Mobile" />
     <movie background="#000000" />
-    <movie preferredSDK="air 13;4.11.0;" />
+    <movie preferredSDK="air13;4.11.0;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -57,11 +57,10 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="lib\chartboost.ane" />
+    <element path="lib\as3commons-zip-1.0.0-alpha.1.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
-    <element path="lib\as3commons-zip-1.0.0-alpha.1.swc" />
     <element path="lib\AirDeviceId.ane" />
     <element path="lib\socialIOS.ane" />
     <element path="lib\StoreKitExt.ane" />
@@ -95,7 +94,7 @@
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->
   <options>
-    <option showHiddenPaths="False" />
+    <option showHiddenPaths="True" />
     <option testMovie="Custom" />
     <option testMovieCommand="Run.bat" />
   </options>

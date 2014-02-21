@@ -42,7 +42,9 @@ package
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);			
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
-			
+			//EncryptedLocalStore.reset();
+			// entry point			
+			// new to AIR? please read *carefully* the readme.txt files!						
 			startStarlingFramework();
 			if (Capabilities.cpuArchitecture == "ARM") 
 			{
@@ -51,17 +53,18 @@ package
 		}			
 	
 		private function onAppDeactivate(e:Event):void 
-		{
-			var gameState:GameSave = Factory.getInstance(GameSave);
-			gameState.saveState();
+		{			
 			if (Util.isDesktop)
 				return;
+			var gameState:GameSave = Factory.getInstance(GameSave);
+			gameState.saveState();
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
-			highscoreDB.saveHighscore();
+			highscoreDB.saveHighscore();		
 			
 			Starling.current.stop(true);
 			// make sure the app behaves well (or exits) when in background			
-			NativeApplication.nativeApplication.exit();			
+			//NativeApplication.nativeApplication.exit();
+			//NativeAds.deactivateAd();
 		}
 		
 		private function onAppActivate(e:Event):void 
@@ -86,26 +89,6 @@ package
 			var minSize:int = sw < sh ? sw : sh;
 			var w:int;
 			var h:int;
-			//if (maxSize < 640)
-			//{
-				//w = sw*3;
-				//h = sh*3;
-			//}
-			//else if (maxSize < 1920)
-			//{
-				//w = sw*3/2;
-				//h = sh*3/2;
-			//}
-			//else if (maxSize < 1920)
-			//{
-				//w = sw*3/2;
-				//h = sh*3/2;
-			//}
-			//else
-			//{
-				//w = sw;
-				//h = sh;
-			//}
 			var needExtended:Boolean = false;
 			if (minSize <=320)
 			{
@@ -131,20 +114,27 @@ package
 			{
 				w = sw;
 				h = sh;
-			}			
-			var starling:Starling;
+				needExtended = true;
+			}
 			
-			if(!needExtended)
-				starling = new Starling(App, stage, new Rectangle(0, 0, sw, sh));
+			//if(Util.isAndroid)
+				//Starling.handleLostContext = true;
+			//else
+				//Starling.handleLostContext = false;
+			
+			var starling:Starling;
+			if(needExtended)
+				starling = new Starling(App, stage,new Rectangle(0,0,sw,sh),null,"auto",Context3DProfile.BASELINE_EXTENDED);
 			else
-				starling = new Starling(App, stage, new Rectangle(0, 0, sw, sh), null, "auto", Context3DProfile.BASELINE_EXTENDED);			
+				starling = new Starling(App, stage,new Rectangle(0,0,sw,sh));
 			starling.stage.stageWidth = w;
 			starling.stage.stageHeight = h;					
 			starling.start();	
 			Util.registerPool();
 			Asset.init();
 			LangUtil.loadXMLData();
-			BaseJsonGUI.loadCfg();						
+			BaseJsonGUI.loadCfg();			
+			Util.initAd();	
 			
 			if(Util.isDesktop)
 			{

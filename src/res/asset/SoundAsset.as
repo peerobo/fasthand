@@ -65,7 +65,8 @@ package res.asset
 			for (var i:int = 0; i < list.length; i++) 
 			{				
 				soundManager.removeSound(getName(cat, list[i]));				
-			}			
+			}	
+			delete listSound[cat];
 		}
 		
 		static private function onDownloadDone(progress:Number):void 

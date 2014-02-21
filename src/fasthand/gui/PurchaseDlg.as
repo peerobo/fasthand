@@ -4,12 +4,10 @@ package fasthand.gui
 	import base.BaseJsonGUI;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
-	import base.GameSave;
 	import base.GlobalInput;
 	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;	
-	import base.ScreenMgr;
 	import comp.LoadingIcon;
 	import fasthand.FasthandUtil;
 	import fasthand.screen.CategoryScreen;
@@ -28,39 +26,16 @@ package fasthand.gui
 		public var purchaseBt:BaseButton;
 		public var contentTxt:BaseBitmapTextField;
 		
-		private var state:int = -1;
-		private const PURCHASE:int = 0;
-		private const RESTORE:int = 1;
-		
-		
 		public function PurchaseDlg() 
 		{
 			super("PurchaseDlg");
-			var gameSave:GameSave = Factory.getInstance(GameSave);
-			gameSave.registerValidate(savePurchaseForResuming);
-		}
-		
-		private function savePurchaseForResuming():void 
-		{
-			PopupMgr.removePopup(this);
-			if (ScreenMgr.currScr is CategoryScreen && state > -1)
-			{
-				var gameSave:GameSave = Factory.getInstance(GameSave);
-				var data:Object = gameSave.data;
-				if (state == PURCHASE)
-					data.state = GameSave.STATE_APP_PURCHASE;				
-				else if (state == RESTORE)
-					data.state = GameSave.STATE_APP_RESTORE;
-				else
-					data.state = GameSave.STATE_APP_LAUNCH;				
-			}
 			
 		}
 		
 		override public function onAdded(e:Event):void 
 		{
 			super.onAdded(e);
-			state = -1;
+			
 			var rpl:Array = ["@num", "@price"];
 			var rplW:Array = [(FasthandUtil.getListCat().length - Constants.CAT_FREE_NUM).toString(), Constants.PRICE_GAME.toString()];
 			var colors:Array = [0xFFFF80, 0xFF8080]
@@ -71,50 +46,36 @@ package fasthand.gui
 			purchaseBt.setCallbackFunc(onRestorePurchase);
 			
 			var iap:IAP = Factory.getInstance(IAP);
-			//purchaseBt.isDisable = yesBt.isDisable = !iap.canPurchase;			
+			yesBt.isDisable = !iap.canPurchase;
 		}
 		
-		public function onRestorePurchase():void 
+		private function onRestorePurchase():void 
 		{
-			if(iap.canPurchase)
-			{
-				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-				globalInput.disable = true;
-				PopupMgr.removePopup(this);
-				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-				state = RESTORE;
-				var iap:IAP = Factory.getInstance(IAP);
-				iap.restorePurchases(onTransactionComplete);
-			}
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			globalInput.disable = true;
+			PopupMgr.removePopup(this);
+			PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+			var iap:IAP = Factory.getInstance(IAP);
+			iap.restorePurchases(onTransactionComplete);
 		}
 		
-		public function onTransactionComplete():void 
+		private function onTransactionComplete():void 
 		{
-			try {
-				var iap:IAP = Factory.getInstance(IAP);			
-				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-				globalInput.disable = false;
-				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
-				if (iap.checkBought(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : ""))
-				//if (true)
-				{		
-					CategoryScreen.fullApp = true;
-					var infoD:InfoDlg = Factory.getInstance(InfoDlg);
-					infoD.text = LangUtil.getText("IAPComplete");
-					infoD.callback = onCloseIAPInfoDlg;
-					PopupMgr.addPopUp(infoD);
-					state = -1;
-				}
-				else
-				{				
-					PopupMgr.addPopUp(this);
-				}
-				
-			}catch (e:Error)
-			{
-				FPSCounter.log(e.message);
+			var iap:IAP = Factory.getInstance(IAP);			
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			globalInput.disable = false;
+			PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+			if (iap.checkBought(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : ""))
+			{				
+				var infoD:InfoDlg = Factory.getInstance(InfoDlg);
+				infoD.text = LangUtil.getText("IAPComplete");
+				infoD.callback = onCloseIAPInfoDlg;
+				PopupMgr.addPopUp(infoD);				
 			}
-			
+			else
+			{
+				PopupMgr.addPopUp(this);
+			}
 		}
 		
 		private function onCloseIAPInfoDlg():void 
@@ -127,10 +88,17 @@ package fasthand.gui
 			var len:int = listCat.length;
 			for (var i:int = Constants.CAT_FREE_NUM; i < len; i++) 
 			{
-				arr = arr.concat(Asset.getExtraContent(listCat[i]));
+				arr.concat(Asset.getExtraContent(listCat[i]));
 			}
 			resMgr.getExtraContent(arr, onExtraContentDownloadCompleted, onAdvanceExtraContent);
-			
+			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[6]));
+			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[7]));
+			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[8]));
+			//arr = arr.concat(Asset.getExtraContent(FasthandUtil.getListCat()[9]));
+			//resMgr.getExtraContent(arr,
+				//function():void{downloadDLC.msg = "complete!"},
+				//function(idx:int):void{downloadDLC.msg = ""}	
+			//);
 		}
 		
 		private function onAdvanceExtraContent(idx:int):void 
@@ -155,24 +123,19 @@ package fasthand.gui
 			categoryScr.refresh();
 		}
 		
-		public function onYes():void 
+		private function onYes():void 
 		{
-			if(iap.canPurchase)
-			{
-				var iap:IAP = Factory.getInstance(IAP);
-				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-				globalInput.disable = true;
-				PopupMgr.removePopup(this);
-				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-				state = PURCHASE;
-				iap.makePurchase(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : Constants.ANDROID_PRODUCT_IDS[0], onTransactionComplete);
-			}
+			var iap:IAP = Factory.getInstance(IAP);
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			globalInput.disable = true;
+			PopupMgr.removePopup(this);
+			PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+			iap.makePurchase(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : Constants.ANDROID_PRODUCT_IDS[0], onTransactionComplete);
 		}
 			
 		private function onCancel():void 
 		{
 			PopupMgr.removePopup(this);
-			state = -1;
 		}
 		
 	}

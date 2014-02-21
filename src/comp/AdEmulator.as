@@ -2,6 +2,7 @@ package comp
 {
 	import base.Factory;
 	import base.LayerMgr;
+	import so.cuo.platform.admob.AdmobSize;
 	import starling.core.Starling;
 	import starling.display.Quad;
 	import starling.utils.Color;

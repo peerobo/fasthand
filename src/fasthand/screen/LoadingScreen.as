@@ -80,8 +80,9 @@ package fasthand.screen
 			if (resMgr.assetProgress == 1)
 			{
 				var p:DisplayObjectContainer = this.parent;
-				// bg of game				
-				validateGameState();				
+				// bg of game			
+				ScreenMgr.showScreen(CategoryScreen);
+				//validateGameState();				
 			}
 		}
 		
@@ -106,13 +107,13 @@ package fasthand.screen
 					ScreenMgr.showScreen(CategoryScreen);
 					purchaseDL = Factory.getInstance(PurchaseDlg);
 					PopupMgr.addPopUp(purchaseDL);
-					purchaseDL.onYes();
+					//purchaseDL.onYes();
 				break;
 				case GameSave.STATE_APP_RESTORE:
 					ScreenMgr.showScreen(CategoryScreen);
 					purchaseDL = Factory.getInstance(PurchaseDlg);
 					PopupMgr.addPopUp(purchaseDL);
-					purchaseDL.onRestorePurchase();
+					//purchaseDL.onRestorePurchase();
 				break;
 			}
 		}

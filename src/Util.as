@@ -11,15 +11,13 @@ package
 	import base.PopupMgr;
 	import com.adobe.ane.social.SocialServiceType;
 	import com.adobe.ane.social.SocialUI;
-	import com.chartboost.plugin.air.Chartboost;
-	import com.chartboost.plugin.air.ChartboostEvent;
 	import com.freshplanet.ane.AirDeviceId;
 	import fasthand.gui.InfoDlg;
 	import flash.display.BitmapData;
 	import flash.display3D.Context3D;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
-	import flash.events.EventDispatcher;	
+	import flash.events.EventDispatcher;
 	import starling.core.RenderSupport;	
 	import comp.AdEmulator;
 	import comp.LoadingIcon;
@@ -61,8 +59,7 @@ package
 		public static const DISABLE_FILTER:int = 1;
 		public static const DOWN_FILTER:int = 2;
 		
-		public static var root:Sprite;		
-		private static var isInitAd:Boolean;
+		public static var root:Sprite;				
 		
 		public static function getFilter(type:int):FragmentFilter
 		{
@@ -91,8 +88,8 @@ package
 		
 		public static function get isFullApp():Boolean
 		{
-			var iap:IAP = Factory.getInstance(IAP);			
-			var ret:Boolean = Util.isIOS ? iap.checkBought(Constants.IOS_PRODUCT_IDS[0]) : false;			
+			var iap:IAP = Factory.getInstance(IAP);
+			var ret:Boolean = Util.isIOS ? iap.checkBought(Constants.IOS_PRODUCT_IDS[0]) : false;
 			return ret;
 		}
 		
@@ -207,37 +204,13 @@ package
 		}
 		
 		public static function initAd():void
-		{			
-			if (!Util.isFullApp)
+		{
+			var admob:Admob = Admob.getInstance();
+			if (admob.supportDevice)
 			{
-				if (!Util.isDesktop)
-				{
-					var admob:Admob = Admob.getInstance();								
-					admob.setKeys(Constants.ADMOB_ID);				
-									
-					var chartboost:Chartboost = Chartboost.getInstance();
-					if (Util.isAndroid) {
-						FPSCounter.log("Chartboost Actionscript Android init()");
-						chartboost.init(Constants.CHARTBOOST_APP_ID_ANDROID, Constants.CHARTBOOST_ID_ANDROID);
-					} else if (Util.isIOS) {
-						FPSCounter.log("Chartboost Actionscript iOS init()");
-						chartboost.init(Constants.CHARTBOOST_APP_ID, Constants.CHARTBOOST_ID);
-					}
-					isInitAd = true;
-				}
-				
+				admob.setKeys(Constants.ADMOB_ID);
 			}
-			else
-			{
-				FPSCounter.log("no init ad");
-				isInitAd = false;
-			}
-			// add listeners
-			//chartboost.addEventListener(ChartboostEvent.INTERSTITIAL_CACHED, onAdCached);
-			//chartboost.addEventListener(ChartboostEvent.INTERSTITIAL_SHOWED, onAdShowed);
-			//chartboost.addEventListener(ChartboostEvent.INTERSTITIAL_DISMISSED, onAdDismissed);
-			//chartboost.addEventListener(ChartboostEvent.INTERSTITIAL_FAILED, onAdFailed);
-		}		
+		}
 		
 		public static function g_showConfirm(msg:String, callbackFunc:Function):void
 		{
@@ -248,47 +221,40 @@ package
 		}
 		
 		public static function showBannerAd():void
-		{		
-			if (isInitAd)
-			{
-				FPSCounter.log("show banner");
-				var admob:Admob = Admob.getInstance();				
-				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
-				if (isDesktop)
-					AdEmulator.showBannerAd();
-			}
+		{
+			var admob:Admob = Admob.getInstance();
+			admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
+			if (isDesktop)
+				AdEmulator.showBannerAd();
 		}
 		
 		public static function hideBannerAd():void
 		{
-			if (isInitAd)
-			{
-				FPSCounter.log("hide banner");
-				var admob:Admob = Admob.getInstance();			
-				admob.hideBanner();
-				if (isDesktop)
-					AdEmulator.hideAd();
-			}
+			var admob:Admob = Admob.getInstance();
+			admob.hideBanner();
+			if (isDesktop)
+				AdEmulator.hideAd();
 		}
 		
 		public static function showFullScreenAd():void
 		{
-			if (isInitAd)
+			//Chartboost.getInstance().setInterstitialKeys("4f7b433509b602538043000002", "dd2d41b69ac01b80f44443f5b6cf06096d457f82bd");// app id and sign id created in chartboost.com site
+			// then show chartboost Interstitial
+			//Chartboost.getInstance().showInterstitial(); 
+			//or show chartboost more app page
+			//Chartboost.getInstance().showMoreAppPage();
+			var admob:Admob = Admob.getInstance();
+			if (admob.supportDevice)
 			{
-				if(Chartboost.isPluginSupported())
-				{
-					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-					Chartboost.getInstance().addEventListener(ChartboostEvent.INTERSTITIAL_SHOWED, chartboostDone);
-					Chartboost.getInstance().addEventListener(ChartboostEvent.INTERSTITIAL_FAILED, chartboostDone);
-					Chartboost.getInstance().addEventListener(ChartboostEvent.INTERSTITIAL_DISMISSED, chartboostDone);
-					Chartboost.getInstance().showInterstitial();
-				}
-				if (isDesktop)
-					AdEmulator.showFullscreenAd();
+				admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
+				admob.cacheInterstitial();				
+				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
 			}
+			if (isDesktop)
+				AdEmulator.showFullscreenAd();
 		}
 		
-		static private function chartboostDone(e:ChartboostEvent):void 
+		private static function closeAdLoadingDlg():void
 		{
 			PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 		}
@@ -302,7 +268,7 @@ package
 			return str;
 		}
 		
-		/*private static function onAdReceived(e:AdmobEvent):void
+		private static function onAdReceived(e:AdmobEvent):void
 		{
 			var admob:Admob = Admob.getInstance();
 			if (e.type == AdmobEvent.onInterstitialReceive)
@@ -311,7 +277,7 @@ package
 				admob.removeEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
 				//PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 			}
-		}*/
+		}
 		
 		public static function get appWidth():int
 		{

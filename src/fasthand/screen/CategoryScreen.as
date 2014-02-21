@@ -158,19 +158,6 @@ package fasthand.screen
 			title.touchable = true;
 			addChild(title);
 			title.y = 30;
-			/*
-			   var text:BaseBitmapTextField = BFConstructor.getTextField(1, 1, "FULL", BFConstructor.BANHMI);
-			   text.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
-			   text.x = (Util.appWidth >> 1) + 380;
-			   text.y = title.y + 100;
-			   text.scaleX = text.scaleY = 0.5;
-			   //if(Util.isFullApp)
-			   addChild(text);
-			
-			   var icon:DisplayObject = Asset.getBaseImage(IconAsset.ICO_RIBBON);
-			   icon.x = 450;
-			   icon.y = 42;
-			 addChild(icon);*/
 			
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			title.text = LangUtil.getText("welcome");
@@ -214,6 +201,7 @@ package fasthand.screen
 			rateBt.x = 30;
 			
 			Factory.addMouseClickCallback(title, onCheat);
+			Util.showBannerAd();
 		}
 		
 		private function onCheat():void 
@@ -274,7 +262,7 @@ package fasthand.screen
 			switchDiff.destroy();
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			globalInput.unregisterSwipe(cb);
-			
+			Util.hideBannerAd();
 			super.onRemoved(e);
 		}
 		

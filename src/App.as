@@ -46,32 +46,34 @@ package
 		private function onInit(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onInit);
+			
 			var fps:FPSCounter = new FPSCounter(0, 0, 0xFFFFFF, true, 0x0);
-			try {
+			//Starling.current.nativeOverlay.addChild(fps);
+			try
+			{
 				var gameState:GameSave = Factory.getInstance(GameSave);
 				gameState.loadState();
-				Starling.current.nativeOverlay.addChild(fps);			
 				var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);			
 				if(Util.isIOS)
-					highscoreDB.initGameCenter();			
+					highscoreDB.initGameCenter();
+				FPSCounter.log("iap");
 				var iap:IAP = Factory.getInstance(IAP);
 				iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
-				Util.initAd();			
-				Util.root = this;
-				LayerMgr.init(this);
-				var input:GlobalInput = Factory.getInstance(GlobalInput);
-				input.init();
-				var resMgr:ResMgr = Factory.getInstance(ResMgr);
-				resMgr.start();			
-				BFConstructor.init();
-				ParticleAsset.loadCfg();
-				SoundAsset.preload();
-				ScreenMgr.showScreen(LoadingScreen);
-			}catch (err:Error)
-			{
-				FPSCounter.log(err.getStackTrace());
 			}
-						
+			catch (err:Error)
+			{
+				FPSCounter.log(err.message);
+			}
+			Util.root = this;
+			LayerMgr.init(this);
+			var input:GlobalInput = Factory.getInstance(GlobalInput);
+			input.init();
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			resMgr.start();			
+			BFConstructor.init();
+			ParticleAsset.loadCfg();
+			SoundAsset.preload();
+			ScreenMgr.showScreen(LoadingScreen);			
 			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);			
 			
 			addEventListener(TouchEvent.TOUCH, onTouch);									

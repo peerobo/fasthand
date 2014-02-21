@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   applicationDPI="160">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.revmob.airextension.RevMob;
+			import com.revmob.airextension.events.RevMobAdsEvent;
+			
+			import flash.desktop.NativeApplication;
+			import flash.system.Capabilities;
+			
+			// Just replace the ID below with your appID.
+			private static const ANDROID_APP_ID:String = "5106bea78e5bd71500000098";
+			
+			// Just replace the ID below with your appID.
+			private static const IOS_APP_ID:String = "5106be9d0639b41100000052";
+			
+			private var revmob:RevMob;
+			
+			protected function startSession(event:MouseEvent):void 
+			{
+				var appId:String = null;
+				
+				if ( isIOS() ) 
+				{
+					appId = IOS_APP_ID;
+				} 
+				else if ( isAndroid() ) 
+				{
+					appId = ANDROID_APP_ID;
+				} 
+				
+				revmob = new RevMob(appId);
+				revmob.printEnvironmentInformation();
+				
+				// Register the events that you want to listen
+				revmob.addEventListener( RevMobAdsEvent.AD_CLICKED, onAdsEvent );
+				revmob.addEventListener( RevMobAdsEvent.AD_DISMISS, onAdsEvent );
+				revmob.addEventListener( RevMobAdsEvent.AD_DISPLAYED, onAdsEvent );
+				revmob.addEventListener( RevMobAdsEvent.AD_NOT_RECEIVED, onAdsEvent );
+				revmob.addEventListener( RevMobAdsEvent.AD_RECEIVED, onAdsEvent );
+			}
+			
+			protected function disableTestMode(event:MouseEvent):void 
+			{
+				revmob.setTestingMode(false);
+			}
+			
+			protected function testWithAds(event:MouseEvent):void 
+			{
+				revmob.setTestingMode(true);
+			}
+			
+			protected function testWithoutAds(event:MouseEvent):void 
+			{
+				revmob.setTestingWithoutAds(true);
+			}
+			
+			protected function showPopup(event:MouseEvent):void 
+			{
+				revmob.showPopup();
+			}
+			
+			protected function showFullscreen(event:MouseEvent):void 
+			{
+				revmob.showFullscreen();
+			}
+			
+			protected function hideFullscreen(event:MouseEvent):void 
+			{
+				revmob.hideFullscreen();
+			}
+			
+			protected function showBanner(event:MouseEvent):void 
+			{
+				revmob.showBanner();
+			}
+			
+			protected function hideBanner(event:MouseEvent):void 
+			{
+				revmob.hideBanner();
+			}
+			
+			protected function openLink(event:MouseEvent):void 
+			{
+				revmob.openAdLink();
+			}
+			
+			protected function exitApp(event:MouseEvent):void 
+			{
+				NativeApplication.nativeApplication.exit(0);
+			}
+			
+			protected static function isIOS():Boolean
+			{
+				return Capabilities.os.toLowerCase().indexOf("ip") > -1;
+			}
+			
+			protected static function isAndroid():Boolean
+			{
+				return Capabilities.os.toLowerCase().indexOf("linux") > -1;
+			}
+			
+			private function onAdsEvent( event:RevMobAdsEvent ):void 
+			{
+				switch(event.name)
+				{
+					case RevMobAdsEvent.AD_CLICKED:
+					{
+						lblAdsEvent.text = "Ad clicked";
+						break;
+					}
+					case RevMobAdsEvent.AD_DISMISS:
+					{
+						lblAdsEvent.text = "Ad dismissed";
+						break;
+					}
+					case RevMobAdsEvent.AD_DISPLAYED:
+					{
+						lblAdsEvent.text = "Ad displayed";
+						break;
+					}
+					case RevMobAdsEvent.AD_NOT_RECEIVED:
+					{
+						lblAdsEvent.text = "RevMob ad not received: " + event.error;
+						break;
+					}
+					case RevMobAdsEvent.AD_RECEIVED:
+					{
+						lblAdsEvent.text = "RevMob ad received";
+						break;
+					}	
+					default:
+					{
+						lblAdsEvent.text = "";
+						break;
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 width="100%" height="100%">
+		<s:layout>
+			<s:VerticalLayout 
+				variableRowHeight="false" rowHeight="35"
+				paddingBottom="40" paddingLeft="40"
+				paddingRight="40" paddingTop="40"/>
+		</s:layout>
+		<s:Label id="lblTitle"
+				 text="RevMob Sample App"
+				 width="100%" fontSize="24"/>
+		
+		<s:Button id="btnStartSession"
+				  label="Start Session"
+				  width="100%" fontSize="20" x="50"
+				  click="startSession(event)"/>
+		
+		<s:Button id="btnDisableTestMode"
+				  label="Disable Test Mode"
+				  width="100%" fontSize="20" x="100"
+				  click="disableTestMode(event)"/>
+		
+		<s:Button id="btnTestWithAds"
+				  label="Test With Ads" x="70"
+				  width="100%" fontSize="20"
+				  click="testWithAds(event)"/>
+		
+		<s:Button id="btnTestWithoutAds"
+				  label="Test Without Ads"
+				  width="100%" fontSize="20" x="20"
+				  click="testWithoutAds(event)"/>
+		
+		<s:Button id="btnShowPopup"
+				  label="Show Popup"
+				  width="100%" fontSize="20"
+				  click="showPopup(event)"/>
+		
+		<s:Button id="btnShowFullscreen"
+				  label="Show Fullscreen"
+				  width="100%" fontSize="20"
+				  click="showFullscreen(event)"/>
+		
+		<s:Button id="btnHideFullscreen"
+				  label="Hide Fullscreen"
+				  width="100%" fontSize="20"
+				  click="hideFullscreen(event)"/>
+		
+		<s:Button id="btnShowBanner"
+				  label="Show Banner"
+				  width="100%" fontSize="20"
+				  click="showBanner(event)"/>
+		
+		<s:Button id="btnHideBanner"
+				  label="Hide Banner"
+				  width="100%" fontSize="20"
+				  click="hideBanner(event)"/>
+		
+		<s:Button id="btnOpenLink"
+				  label="Open Link"
+				  width="100%" fontSize="20"
+				  click="openLink(event)"/>
+		
+		<s:Button id="btnExit"
+				  label="Exit"
+				  width="100%" fontSize="20"
+				  click="exitApp(event)"/>
+		
+		<s:Label id="lblAdsEvent"
+				 width="100%"/>
+	</s:Group>	
+	
+</s:Application>
