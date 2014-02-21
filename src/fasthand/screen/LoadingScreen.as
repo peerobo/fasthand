@@ -43,6 +43,7 @@ package fasthand.screen
 		private var t:Tween;
 		private var quad:Quad;
 		private var img:Image;
+		private var txt:TextField;
 		
 		public function LoadingScreen() 
 		{
@@ -68,7 +69,6 @@ package fasthand.screen
 			t.repeatCount = 0;
 			t.reverse = true;
 			t.fadeTo(0.3);
-			
 			interval = 0.033;
 		}				
 		
@@ -76,7 +76,7 @@ package fasthand.screen
 		{
 			super.update(time);
 			t.advanceTime(time);
-			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);			
 			if (resMgr.assetProgress == 1)
 			{
 				var p:DisplayObjectContainer = this.parent;

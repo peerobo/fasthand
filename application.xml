@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<application xmlns="http://ns.adobe.com/air/application/4.0">
+<application xmlns="http://ns.adobe.com/air/application/13.0">
   <id>com.fc.FastHandEnglish</id>
   <versionNumber>0.1</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
@@ -42,7 +42,7 @@
 				<!-- iPhone support -->
 				<string>1</string>
 				<!-- iPad support -->
-				<!--<string>2</string>-->
+				<string>2</string>
 			</array>
 		]]>
 	</InfoAdditions>
@@ -92,16 +92,16 @@
 	Android manifest documentation:
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
-  <!--<extensions>
+  <extensions>
     <extensionID>so.cuo.platform.admob</extensionID>
-    <extensionID>com.chartboost.plugin.air</extensionID>
+    <!--<extensionID>com.chartboost.plugin.air</extensionID>-->
 
     <extensionID>com.freshplanet.ane.AirDeviceId</extensionID>
 	
-	<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
+	<!--<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>-->
 	
 	<extensionID>com.adobe.ane.gameCenter</extensionID>
 	<extensionID>com.adobe.ane.social</extensionID>
 	<extensionID>com.fc.StoreKitExt</extensionID>
-  </extensions>-->
+  </extensions>
 </application>

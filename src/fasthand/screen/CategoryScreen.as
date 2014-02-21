@@ -23,6 +23,7 @@ package fasthand.screen
 	import fasthand.gui.ConfirmDlg;
 	import fasthand.gui.DLCDlg;
 	import fasthand.gui.InfoDlg;
+	import flash.data.EncryptedLocalStore;
 	import flash.desktop.NativeApplication;
 	import flash.ui.Keyboard;
 	import res.Asset;
@@ -56,6 +57,7 @@ package fasthand.screen
 		private var isExternalContent:Boolean;
 		
 		public static var fullApp:Boolean;
+		private var cheatCountActivate:int;
 		
 		public function CategoryScreen()
 		{
@@ -64,6 +66,7 @@ package fasthand.screen
 			catChooser = new CategorySelector();
 			catChooser.onSelectCategoryCallback = selectCategory;
 			waitTime2ShowAd = Constants.AD_FULL_WAITTIME;
+			cheatCountActivate = 0;
 		}
 		
 		public function selectCategory(cat:String):void
@@ -152,7 +155,7 @@ package fasthand.screen
 			
 			title = BFConstructor.getTextField(Util.appWidth, 1, "", BFConstructor.BANHMI, Color.YELLOW);
 			title.autoSize = TextFieldAutoSize.VERTICAL;
-			title.touchable = false;
+			title.touchable = true;
 			addChild(title);
 			title.y = 30;
 			/*
@@ -209,7 +212,23 @@ package fasthand.screen
 			addChild(rateBt);
 			rateBt.y = title.y;
 			rateBt.x = 30;
+			
+			Factory.addMouseClickCallback(title, onCheat);
 		}
+		
+		private function onCheat():void 
+		{
+			cheatCountActivate++
+			if (cheatCountActivate >= 7)
+			{
+				EncryptedLocalStore.reset();
+				var infoDlg:InfoDlg = new InfoDlg();
+				infoDlg.text = "App reset! Exit App pls!";
+				PopupMgr.addPopUp(infoDlg);
+				cheatCountActivate = 0;
+			}
+		}
+		
 		
 		private function onBackAndroidBt():void
 		{

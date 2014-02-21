@@ -91,8 +91,8 @@ package
 		
 		public static function get isFullApp():Boolean
 		{
-			var iap:IAP = Factory.getInstance(IAP);
-			var ret:Boolean = Util.isIOS ? iap.checkBought(Constants.IOS_PRODUCT_IDS[0]) : false;
+			var iap:IAP = Factory.getInstance(IAP);			
+			var ret:Boolean = Util.isIOS ? iap.checkBought(Constants.IOS_PRODUCT_IDS[0]) : false;			
 			return ret;
 		}
 		
@@ -207,16 +207,14 @@ package
 		}
 		
 		public static function initAd():void
-		{
+		{			
 			if (!Util.isFullApp)
 			{
-				var admob:Admob = Admob.getInstance();				
-				if (admob.supportDevice)
-				{					
-					admob.setKeys(Constants.ADMOB_ID);				
-				}
-				if(Chartboost.isPluginSupported())
+				if (!Util.isDesktop)
 				{
+					var admob:Admob = Admob.getInstance();								
+					admob.setKeys(Constants.ADMOB_ID);				
+									
 					var chartboost:Chartboost = Chartboost.getInstance();
 					if (Util.isAndroid) {
 						FPSCounter.log("Chartboost Actionscript Android init()");
@@ -225,11 +223,13 @@ package
 						FPSCounter.log("Chartboost Actionscript iOS init()");
 						chartboost.init(Constants.CHARTBOOST_APP_ID, Constants.CHARTBOOST_ID);
 					}
+					isInitAd = true;
 				}
-				isInitAd = true;
+				
 			}
 			else
 			{
+				FPSCounter.log("no init ad");
 				isInitAd = false;
 			}
 			// add listeners
@@ -251,9 +251,9 @@ package
 		{		
 			if (isInitAd)
 			{
-				var admob:Admob = Admob.getInstance();
-				if(admob.supportDevice)
-					admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
+				FPSCounter.log("show banner");
+				var admob:Admob = Admob.getInstance();				
+				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
 				if (isDesktop)
 					AdEmulator.showBannerAd();
 			}
@@ -263,9 +263,9 @@ package
 		{
 			if (isInitAd)
 			{
-				var admob:Admob = Admob.getInstance();
-				if(admob.supportDevice)
-					admob.hideBanner();
+				FPSCounter.log("hide banner");
+				var admob:Admob = Admob.getInstance();			
+				admob.hideBanner();
 				if (isDesktop)
 					AdEmulator.hideAd();
 			}
@@ -276,10 +276,21 @@ package
 			if (isInitAd)
 			{
 				if(Chartboost.isPluginSupported())
+				{
+					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+					Chartboost.getInstance().addEventListener(ChartboostEvent.INTERSTITIAL_SHOWED, chartboostDone);
+					Chartboost.getInstance().addEventListener(ChartboostEvent.INTERSTITIAL_FAILED, chartboostDone);
+					Chartboost.getInstance().addEventListener(ChartboostEvent.INTERSTITIAL_DISMISSED, chartboostDone);
 					Chartboost.getInstance().showInterstitial();
+				}
 				if (isDesktop)
 					AdEmulator.showFullscreenAd();
 			}
+		}
+		
+		static private function chartboostDone(e:ChartboostEvent):void 
+		{
+			PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 		}
 		
 		public static function numberWithCommas(number:Number):String

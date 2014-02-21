@@ -11,6 +11,7 @@ package
 	import flash.desktop.NativeApplication;
 	import flash.desktop.SystemIdleMode;
 	import flash.display.Shape;
+	import flash.display3D.Context3DProfile;
 	import flash.events.Event;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -41,9 +42,7 @@ package
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);			
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
-			//EncryptedLocalStore.reset();
-			// entry point			
-			// new to AIR? please read *carefully* the readme.txt files!			
+			
 			startStarlingFramework();
 			if (Capabilities.cpuArchitecture == "ARM") 
 			{
@@ -62,8 +61,7 @@ package
 			
 			Starling.current.stop(true);
 			// make sure the app behaves well (or exits) when in background			
-			//NativeApplication.nativeApplication.exit();
-			//NativeAds.deactivateAd();
+			NativeApplication.nativeApplication.exit();			
 		}
 		
 		private function onAppActivate(e:Event):void 
@@ -108,7 +106,7 @@ package
 				//w = sw;
 				//h = sh;
 			//}
-			
+			var needExtended:Boolean = false;
 			if (minSize <=320)
 			{
 				w = sw/0.25;
@@ -133,14 +131,13 @@ package
 			{
 				w = sw;
 				h = sh;
-			}
+			}			
+			var starling:Starling;
 			
-			//if(Util.isAndroid)
-				//Starling.handleLostContext = true;
-			//else
-				//Starling.handleLostContext = false;
-			
-			var starling:Starling = new Starling(App, stage,new Rectangle(0,0,sw,sh));
+			if(!needExtended)
+				starling = new Starling(App, stage, new Rectangle(0, 0, sw, sh));
+			else
+				starling = new Starling(App, stage, new Rectangle(0, 0, sw, sh), null, "auto", Context3DProfile.BASELINE_EXTENDED);			
 			starling.stage.stageWidth = w;
 			starling.stage.stageHeight = h;					
 			starling.start();	

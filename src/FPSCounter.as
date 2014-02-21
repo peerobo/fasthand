@@ -22,13 +22,14 @@ package
 			x = xPos;
 			y = yPos;
 			tf = new TextField();			
-			tf.defaultTextFormat = new TextFormat("Arial", 60, color, true );
+			tf.defaultTextFormat = new TextFormat("Arial", 40, color, true );
 			tf.text = "----- fps";			
 			tf.multiline = true;
 			tf.selectable = false;
-			tf.background = fillBackground;
-			tf.backgroundColor = backgroundColor;
-			tf.autoSize = TextFieldAutoSize.LEFT;
+			//tf.background = fillBackground;
+			//tf.backgroundColor = backgroundColor;
+			tf.width = Util.deviceWidth;
+			tf.height = Util.deviceHeight;
 			tf.mouseEnabled = false;			
 			addChild(tf);			
 			addEventListener(Event.ENTER_FRAME, tick);
@@ -53,6 +54,7 @@ package
 				tf.text = str + log;
 				ticks = 0;
 				last = now;
+				tf.scrollV = tf.maxScrollV;
 			}
 		}
 		

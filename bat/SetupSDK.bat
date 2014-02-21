@@ -1,11 +1,11 @@
 :user_configuration
 
 :: Path to Flex SDK
-set FLEX_SDK=D:\iosdev\fasdk\sdkwin
+set FLEX_SDK=D:\dev\sdk
 set AUTO_INSTALL_IOS=yes
 
 :: Path to Android SDK
-set ANDROID_SDK=C:\Program Files (x86)\FlashDevelop\Tools\android
+set ANDROID_SDK=D:\dev\FlashDevelop\Tools\android
 
 
 :validation

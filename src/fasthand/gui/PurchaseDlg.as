@@ -54,6 +54,7 @@ package fasthand.gui
 				else
 					data.state = GameSave.STATE_APP_LAUNCH;				
 			}
+			
 		}
 		
 		override public function onAdded(e:Event):void 

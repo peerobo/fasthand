@@ -18,8 +18,8 @@ set AND_SIGNING_OPTIONS=-storetype pkcs12 -keystore "%AND_CERT_FILE%" -storepass
 set IOS_DIST_CERT_FILE=cert\dist.p12
 set IOS_DEV_CERT_FILE=cert\firecheetah.p12
 set IOS_DEV_CERT_PASS=freeforall
-set IOS_PROVISION=cert\Fast_Hand_English.mobileprovision
-::set IOS_PROVISION=cert\Fast_Hand_English_Dev.mobileprovision
+::set IOS_PROVISION=cert\Fast_Hand_English.mobileprovision
+set IOS_PROVISION=cert\Fast_Hand_English_Dev.mobileprovision
 set IOS_ICONS=icons/ios
 
 set IOS_DEV_SIGNING_OPTIONS=-storetype pkcs12 -keystore "%IOS_DEV_CERT_FILE%" -storepass %IOS_DEV_CERT_PASS% -provisioning-profile %IOS_PROVISION%

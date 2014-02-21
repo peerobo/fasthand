@@ -3,10 +3,10 @@ package base
 	import com.fc.ProductDetail;
 	import com.fc.StoreKitEvent;
 	import com.fc.StoreKitExt;
-	import com.pozirk.payment.android.InAppPurchase;
-	import com.pozirk.payment.android.InAppPurchaseDetails;
-	import com.pozirk.payment.android.InAppPurchaseEvent;
-	import com.pozirk.payment.android.InAppSkuDetails;
+	//import com.pozirk.payment.android.InAppPurchase;
+	//import com.pozirk.payment.android.InAppPurchaseDetails;
+	//import com.pozirk.payment.android.InAppPurchaseEvent;
+	//import com.pozirk.payment.android.InAppSkuDetails;
 	import fasthand.gui.ConfirmDlg;
 	import fasthand.gui.InfoDlg;
 	import flash.events.Event;
@@ -29,8 +29,8 @@ package base
 		private var iosReceiptList:Vector.<String>;	
 		private const IOS_RECEIPT_PRE:String = "iosPre";	
 		
-		private var androidIAP:InAppPurchase;
-		private var androidReadyToPurchase:Boolean;
+		//private var androidIAP:InAppPurchase;
+		//private var androidReadyToPurchase:Boolean;
 		
 		private var onPurchaseComplete:Function;
 		private var onRestoreComplete:Function;
@@ -77,53 +77,53 @@ package base
 					iOSiap.requestProductData(Constants.IOS_PRODUCT_IDS);					
 				}
 			}
-			else if(Util.isAndroid)
-			{			
-				androidIAP = new InAppPurchase();			
-				androidIAP.init(param);
-				androidIAP.addEventListener(InAppPurchaseEvent.INIT_SUCCESS, onAndroidInitSuccess);
-				androidIAP.addEventListener(InAppPurchaseEvent.INIT_ERROR, onAndroidInitError);
-				androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, onAndroidPurchaseSuccess);
-				androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, onAndroidPurchaseSuccess);
-				androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_ERROR, onAndroidPurchaseError);
-				androidIAP.addEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, onAndroidRestoreSuccess);
-				androidIAP.addEventListener(InAppPurchaseEvent.RESTORE_ERROR, onAndroidRestoreError);
-
-				androidReadyToPurchase = false;
-			}
+			//else if(Util.isAndroid)
+			//{			
+				//androidIAP = new InAppPurchase();			
+				//androidIAP.init(param);
+				//androidIAP.addEventListener(InAppPurchaseEvent.INIT_SUCCESS, onAndroidInitSuccess);
+				//androidIAP.addEventListener(InAppPurchaseEvent.INIT_ERROR, onAndroidInitError);
+				//androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, onAndroidPurchaseSuccess);
+				//androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, onAndroidPurchaseSuccess);
+				//androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_ERROR, onAndroidPurchaseError);
+				//androidIAP.addEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, onAndroidRestoreSuccess);
+				//androidIAP.addEventListener(InAppPurchaseEvent.RESTORE_ERROR, onAndroidRestoreError);
+//
+				//androidReadyToPurchase = false;
+			//}
 		}	
 		
-		private function onAndroidRestoreError(e:InAppPurchaseEvent):void 
-		{
-			 var purchase:InAppPurchaseDetails = androidIAP.getPurchaseDetails(Constants.ANDROID_PRODUCT_IDS[0]);
-			 var skuDetails1:InAppSkuDetails = androidIAP.getSkuDetails(Constants.ANDROID_PRODUCT_IDS[0]		);
-
-		}
-		
-		private function onAndroidRestoreSuccess(e:InAppPurchaseEvent):void 
-		{
-			
-		}
-		
-		private function onAndroidPurchaseError(e:InAppPurchaseEvent):void 
-		{
-			
-		}
-		
-		private function onAndroidPurchaseSuccess(e:InAppPurchaseEvent):void 
-		{
-			e.data; // product id
-		}
-		
-		private function onAndroidInitError(e:InAppPurchaseEvent):void 
-		{			
-			androidReadyToPurchase = false;
-		}
-		
-		private function onAndroidInitSuccess(e:InAppPurchaseEvent):void 
-		{
-			androidReadyToPurchase = true;
-		}
+		//private function onAndroidRestoreError(e:InAppPurchaseEvent):void 
+		//{
+			 //var purchase:InAppPurchaseDetails = androidIAP.getPurchaseDetails(Constants.ANDROID_PRODUCT_IDS[0]);
+			 //var skuDetails1:InAppSkuDetails = androidIAP.getSkuDetails(Constants.ANDROID_PRODUCT_IDS[0]		);
+//
+		//}
+		//
+		//private function onAndroidRestoreSuccess(e:InAppPurchaseEvent):void 
+		//{
+			//
+		//}
+		//
+		//private function onAndroidPurchaseError(e:InAppPurchaseEvent):void 
+		//{
+			//
+		//}
+		//
+		//private function onAndroidPurchaseSuccess(e:InAppPurchaseEvent):void 
+		//{
+			//e.data; // product id
+		//}
+		//
+		//private function onAndroidInitError(e:InAppPurchaseEvent):void 
+		//{			
+			//androidReadyToPurchase = false;
+		//}
+		//
+		//private function onAndroidInitSuccess(e:InAppPurchaseEvent):void 
+		//{
+			//androidReadyToPurchase = true;
+		//}
 		
 		public function makePurchase(productID:String, onPurchaseCallback:Function):void
 		{
@@ -147,11 +147,11 @@ package base
 				}
 				iOSiap.makePayment(pIdx);
 			}
-			if (Util.isAndroid)
-			{				
-				androidIAP.purchase(productID, InAppPurchaseDetails.TYPE_INAPP);
-
-			}
+			//if (Util.isAndroid)
+			//{				
+				//androidIAP.purchase(productID, InAppPurchaseDetails.TYPE_INAPP);
+//
+			//}
 		}
 		
 		//private function onIOSTransactionDone(e:Event):void 

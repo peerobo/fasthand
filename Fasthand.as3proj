@@ -12,6 +12,7 @@
     <movie minorVersion="9" />
     <movie platform="AIR Mobile" />
     <movie background="#000000" />
+    <movie preferredSDK="air 13;4.11.0;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -46,7 +47,7 @@
     <option linkReport="" />
     <option loadExterns="" />
     <option staticLinkRSL="True" />
-    <option additional="" />
+    <option additional="-swf-version=24" />
     <option compilerConstants="" />
     <option minorVersion="" />
   </build>
@@ -56,19 +57,17 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="lib\as3commons-zip-1.0.0-alpha.1.swc" />
-    <element path="lib\AirDeviceId.ane" />
-    <element path="lib\InAppPurchase.ane" />
-    <element path="lib\socialIOS.ane" />
-    <element path="lib\StoreKitExt.ane" />
-    <element path="lib\gamecenter.ane" />
-    <element path="lib\Chartboost.ane" />
-    <element path="lib\admob_all_in_one6.6.7.ane" />
     <element path="lib\chartboost.ane" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
-    <!-- example: <element path="..." /> -->
+    <element path="lib\as3commons-zip-1.0.0-alpha.1.swc" />
+    <element path="lib\AirDeviceId.ane" />
+    <element path="lib\socialIOS.ane" />
+    <element path="lib\StoreKitExt.ane" />
+    <element path="lib\gamecenter.ane" />
+    <element path="lib\admob_all_in_one6.6.7.ane" />
+    <element path="lib\Chartboost.ane" />
   </externalLibraryPaths>
   <!-- Runtime Shared Libraries -->
   <rslPaths>
