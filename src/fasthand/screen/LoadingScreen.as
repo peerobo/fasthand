@@ -81,8 +81,8 @@ package fasthand.screen
 			{
 				var p:DisplayObjectContainer = this.parent;
 				// bg of game			
-				ScreenMgr.showScreen(CategoryScreen);
-				//validateGameState();				
+				//ScreenMgr.showScreen(CategoryScreen);
+				validateGameState();				
 			}
 		}
 		

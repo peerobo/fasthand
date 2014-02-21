@@ -36,7 +36,7 @@ package base
 		}
 		
 		public static function addPopUp(disp:DisplayObject, withAnim:Boolean = false):void
-		{
+		{			
 			var l:Sprite = LayerMgr.getLayer(LayerMgr.LAYER_GAME);
 			if (!l.isFlattened)
 			{
@@ -70,7 +70,7 @@ package base
 		}
 		
 		public static function removePopup(disp:DisplayObject= null):void
-		{
+		{			
 			if(!disp || (current == disp && disp))
 			{
 				current.removeFromParent();
