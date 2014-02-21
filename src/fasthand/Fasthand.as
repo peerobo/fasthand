@@ -70,7 +70,7 @@ package fasthand
 				gameState.data.words = seqs.concat();
 				gameState.data.cat = cat;
 				gameState.data.score = currentPlayerScore;
-				gameState.data.round = roundNo;								
+				gameState.data.round = roundNo;
 			}
 		}
 		
@@ -138,6 +138,8 @@ package fasthand
 				gameRound.mainWord = resumeData.word;
 				roundTime = resumeData.time;
 				shuffleArr = seqs = resumeData.words;				
+				var gameScr:GameScreen = Factory.getInstance(GameScreen);
+				gameScr.onPause();
 				resumeData = null;
 			}
 			SoundManager.playSound(SoundAsset.getName(cat, word2Find));

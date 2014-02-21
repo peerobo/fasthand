@@ -201,7 +201,6 @@ package fasthand.screen
 		
 		public function pause():void 
 		{
-			LayerMgr.getLayer(LayerMgr.LAYER_GAME).flatten();
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			logic.pause = true;
 			
@@ -209,8 +208,7 @@ package fasthand.screen
 		}
 		
 		public function resume():void 
-		{
-			LayerMgr.getLayer(LayerMgr.LAYER_GAME).flatten();
+		{			
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			logic.pause = false;
 			

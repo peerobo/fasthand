@@ -20,6 +20,7 @@ package fasthand.gui
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
+	import starling.display.Quad;
 	import starling.display.QuadBatch;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -114,7 +115,6 @@ package fasthand.gui
 			var filter:ColorMatrixFilter = new ColorMatrixFilter();
 			CatRenderer.editColorFilterByIdx(2,filter);			
 			image.filter = filter;
-			filter.cache();
 			backCatIndicator.addChild(image);
 			image = Asset.getBaseImage(BackgroundAsset.BG_ITEM);
 			image.height = 330;
@@ -123,7 +123,6 @@ package fasthand.gui
 			filter = new ColorMatrixFilter();
 			CatRenderer.editColorFilterByIdx(5,filter);			
 			image.filter = filter;
-			filter.cache();
 			backCatIndicator.addChild(image);
 			backCatIndicator.y = Util.appHeight - backCatIndicator.height >> 1;
 			backCatIndicator.x = -image.width / 3;
@@ -131,20 +130,21 @@ package fasthand.gui
 			nextCatIndicator = new Sprite();
 			image = Asset.getBaseImage(BackgroundAsset.BG_ITEM);
 			image.height = 330;
-			image.width = 156;			
+			image.width = 156;
+			image.x = 0;
+			image.y = 0;
 			filter = new ColorMatrixFilter();
 			CatRenderer.editColorFilterByIdx(0,filter);			
 			image.filter = filter;
-			filter.cache();
 			nextCatIndicator.addChild(image);
 			image = Asset.getBaseImage(BackgroundAsset.BG_ITEM);
 			image.height = 330;
 			image.width = 156;
 			image.y = 426;	
+			image.x = 0;
 			filter = new ColorMatrixFilter();
 			CatRenderer.editColorFilterByIdx(3,filter);			
 			image.filter = filter;
-			filter.cache();
 			nextCatIndicator.addChild(image);
 			nextCatIndicator.y = Util.appHeight - nextCatIndicator.height >> 1;
 			nextCatIndicator.x = Util.appWidth - image.width*2/3;

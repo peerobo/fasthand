@@ -73,7 +73,8 @@ package
 			BFConstructor.init();
 			ParticleAsset.loadCfg();
 			SoundAsset.preload();
-			ScreenMgr.showScreen(LoadingScreen);			
+			ScreenMgr.showScreen(LoadingScreen);
+			Util.initAd();	
 			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);			
 			
 			addEventListener(TouchEvent.TOUCH, onTouch);									

@@ -5,7 +5,6 @@ package fasthand.gui
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import base.GameSave;
-	import base.GlobalInput;
 	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;

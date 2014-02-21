@@ -55,7 +55,6 @@ package fasthand.comp
 			callbackUnPaused();
 			
 			PopupMgr.removePopup(this);			
-			LayerMgr.getLayer(LayerMgr.LAYER_GAME).unflatten();
 		}
 		
 	}

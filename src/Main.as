@@ -54,22 +54,19 @@ package
 	
 		private function onAppDeactivate(e:Event):void 
 		{			
-			if (Util.isDesktop)
-				return;
+			FPSCounter.log("deactivated");
 			var gameState:GameSave = Factory.getInstance(GameSave);
 			gameState.saveState();
+			if (Util.isDesktop)
+				return;
+			
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
 			highscoreDB.saveHighscore();		
 			
-			Starling.current.stop(true);
-			// make sure the app behaves well (or exits) when in background			
-			//NativeApplication.nativeApplication.exit();
-			//NativeAds.deactivateAd();
 		}
 		
 		private function onAppActivate(e:Event):void 
 		{
-			Starling.current.start();
 		}
 		
 		private function onAppExit(e:Event):void 
@@ -134,7 +131,6 @@ package
 			Asset.init();
 			LangUtil.loadXMLData();
 			BaseJsonGUI.loadCfg();			
-			Util.initAd();	
 			
 			if(Util.isDesktop)
 			{

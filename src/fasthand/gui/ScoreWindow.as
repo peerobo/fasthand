@@ -6,6 +6,7 @@ package fasthand.gui
 	import base.font.BaseBitmapTextField;
 	import base.GlobalInput;
 	import base.LangUtil;
+	import base.LayerMgr;
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;
@@ -58,8 +59,7 @@ package fasthand.gui
 		}
 		
 		override public function onAdded(e:Event):void 
-		{
-			
+		{			
 			
 			super.onAdded(e);
 			
@@ -81,6 +81,8 @@ package fasthand.gui
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			prevF = globalInput.getCurrentKeyHandler(Keyboard.BACK);
 			globalInput.registerKey(Keyboard.BACK, onBackBt);
+			
+			LayerMgr.lockGameLayer = true;
 		}
 		
 		private function onBackBt():void 
@@ -156,6 +158,7 @@ package fasthand.gui
 		{
 			particleSys.stop();
 			particleSys.removeFromParent();
+			LayerMgr.lockGameLayer = false;
 			super.onRemoved(e);
 		}
 		

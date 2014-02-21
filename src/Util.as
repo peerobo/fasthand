@@ -58,7 +58,7 @@ package
 		public static const HOVER_FILTER:int = 0;
 		public static const DISABLE_FILTER:int = 1;
 		public static const DOWN_FILTER:int = 2;
-		
+		private static var isInitAd:Boolean;
 		public static var root:Sprite;				
 		
 		public static function getFilter(type:int):FragmentFilter
@@ -205,10 +205,15 @@ package
 		
 		public static function initAd():void
 		{
-			var admob:Admob = Admob.getInstance();
-			if (admob.supportDevice)
+			isInitAd = false;
+			if (!Util.isFullApp)
 			{
-				admob.setKeys(Constants.ADMOB_ID);
+				var admob:Admob = Admob.getInstance();
+				if (admob.supportDevice)
+				{
+					admob.setKeys(Constants.ADMOB_ID);
+				}
+				isInitAd = true;
 			}
 		}
 		
@@ -222,10 +227,13 @@ package
 		
 		public static function showBannerAd():void
 		{
-			var admob:Admob = Admob.getInstance();
-			admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
-			if (isDesktop)
-				AdEmulator.showBannerAd();
+			if (isInitAd)
+			{
+				var admob:Admob = Admob.getInstance();
+				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
+				if (isDesktop)
+					AdEmulator.showBannerAd();
+			}
 		}
 		
 		public static function hideBannerAd():void
@@ -243,15 +251,18 @@ package
 			//Chartboost.getInstance().showInterstitial(); 
 			//or show chartboost more app page
 			//Chartboost.getInstance().showMoreAppPage();
-			var admob:Admob = Admob.getInstance();
-			if (admob.supportDevice)
+			if (isInitAd)
 			{
-				admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
-				admob.cacheInterstitial();				
-				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
+				var admob:Admob = Admob.getInstance();
+				if (admob.supportDevice)
+				{
+					admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
+					admob.cacheInterstitial();				
+					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
+				}
+				if (isDesktop)
+					AdEmulator.showFullscreenAd();
 			}
-			if (isDesktop)
-				AdEmulator.showFullscreenAd();
 		}
 		
 		private static function closeAdLoadingDlg():void

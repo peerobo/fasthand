@@ -350,11 +350,6 @@ package res
 			var fr:FileStream;
 			var directory:String = url2cache(extraURLRequest.url);
 			// mark as downloaded
-			fr = new FileStream();
-			var file:File = File.cacheDirectory.resolvePath(directory + "/" + directory + ".zip");
-			fr.open(file, FileMode.WRITE);
-			fr.writeBytes(new ByteArray());
-			fr.close();
 			var zip:Zip = new Zip();
 			zip.loadBytes(extraURLLoader.data);
 			var count:int = zip.getFileCount();
@@ -368,6 +363,11 @@ package res
 				fr.writeBytes(zipFile.content);
 				fr.close();				
 			}
+			fr = new FileStream();
+			var file:File = File.cacheDirectory.resolvePath(directory + "/" + directory + ".zip");
+			fr.open(file, FileMode.WRITE);
+			fr.writeBytes(new ByteArray());
+			fr.close();
 		}
 		
 		private function onExtraStartDownloadNewItem(e:Event):void 

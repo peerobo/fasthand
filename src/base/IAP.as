@@ -154,29 +154,37 @@ package base
 		//private function onIOSTransactionDone(e:Event):void 
 		private function onIOSTransactionDone(e:StoreKitEvent):void 
 		{
-			iosReceiptList = iOSiap.getReceptListAfterTransaction();
-			saveIOSReceiptsList();
-			if (iosRestoreInProgress)
+			try
 			{
-				iosRestoreInProgress = false;				
+				FPSCounter.log("transaction complete");
+				iosReceiptList = iOSiap.getReceptListAfterTransaction();
+				saveIOSReceiptsList();						
 				if(onRestoreComplete is Function)
-					onRestoreComplete();
-			}
-			else
-			{
+				{
+					onRestoreComplete();			
+					iosRestoreInProgress = false;
+				}
 				if(onPurchaseComplete is Function)
 					onPurchaseComplete();
+				
+			}
+			catch (err:Error)
+			{
+				FPSCounter.log(err.getStackTrace());
 			}
 		}
 		
 		private function saveIOSReceiptsList():void
 		{
-			var count:int = iosReceiptList.length;
-			Util.setPrivateValue(IOS_RECEIPT_PRE + "count", count.toString());
-			for (var i:int = 0; i < count; i++) 
-			{
-				Util.setPrivateValue(IOS_RECEIPT_PRE + "receipt" + i, iosReceiptList[i]);
-			}
+			
+				var count:int = iosReceiptList ? iosReceiptList.length : 0;
+				Util.setPrivateValue(IOS_RECEIPT_PRE + "count", count.toString());
+				for (var i:int = 0; i < count; i++) 
+				{
+					Util.setPrivateValue(IOS_RECEIPT_PRE + "receipt" + i, iosReceiptList[i]);
+				}
+			
+			
 		}
 		
 		private function loadIOSReceiptList():void
@@ -198,7 +206,8 @@ package base
 		{
 			if (Util.isIOS)
 			{
-				for (var i:int = 0; i < iosReceiptList.length; i++) 
+				var count:int = iosReceiptList ? iosReceiptList.length : 0;
+				for (var i:int = 0; i < count; i++) 
 				{
 					if (iOSiap.hasBought(iosReceiptList[i]) == productID)
 					{
