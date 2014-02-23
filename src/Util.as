@@ -212,6 +212,9 @@ package
 				if (admob.supportDevice)
 				{
 					admob.setKeys(Constants.ADMOB_ID);
+					admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
+					admob.addEventListener(AdmobEvent.onInterstitialFailedReceive, onAdReceived);
+					admob.addEventListener(AdmobEvent.onBannerFailedReceive, onAdReceived);
 				}
 				isInitAd = true;
 			}
@@ -229,6 +232,7 @@ package
 		{
 			if (isInitAd)
 			{
+				FPSCounter.log("show ad");
 				var admob:Admob = Admob.getInstance();
 				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
 				if (isDesktop)
@@ -256,7 +260,6 @@ package
 				var admob:Admob = Admob.getInstance();
 				if (admob.supportDevice)
 				{
-					admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
 					admob.cacheInterstitial();				
 					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
 				}
@@ -285,9 +288,17 @@ package
 			if (e.type == AdmobEvent.onInterstitialReceive)
 			{
 				admob.showInterstitial();
-				admob.removeEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
-				//PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 			}
+			else if (e.type == AdmobEvent.onBannerFailedReceive)
+			{
+				FPSCounter.log(JSON.stringify(e.data));
+			}
+			else if (e.type == AdmobEvent.onInterstitialFailedReceive)
+			{				
+				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+			}
+			 
 		}
 		
 		public static function get appWidth():int

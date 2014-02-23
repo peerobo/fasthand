@@ -107,7 +107,7 @@ package fasthand.screen
 					ScreenMgr.showScreen(CategoryScreen);
 					purchaseDL = Factory.getInstance(PurchaseDlg);
 					PopupMgr.addPopUp(purchaseDL);
-					purchaseDL.onRestorePurchase();
+					purchaseDL.onPurchase();
 				break;
 				case GameSave.STATE_APP_RESTORE:
 					ScreenMgr.showScreen(CategoryScreen);

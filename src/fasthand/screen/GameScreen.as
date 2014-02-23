@@ -39,7 +39,7 @@ package fasthand.screen
 		private var gameboard:GameBoard;
 		private var scoreBoard:SpriteNumber;
 		private var scoreTxt:BaseBitmapTextField;
-		private var timeDisableInput:Number;
+
 		
 		public function GameScreen() 
 		{
@@ -104,8 +104,7 @@ package fasthand.screen
 		private function validateWord(word:String, item:DisplayObject):void 
 		{
 			var globalIpt:GlobalInput = Factory.getInstance(GlobalInput);
-			globalIpt.disable = true;
-			timeDisableInput = Constants.DISABLE_INPUT_EACH_TOUCH;			
+			globalIpt.setDisableTimeout(Constants.DISABLE_INPUT_EACH_TOUCH);			
 			
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			var score:int = logic.remainingRoundScore;
@@ -218,15 +217,6 @@ package fasthand.screen
 		override public function update(time:Number):void 
 		{
 			super.update(time);
-			if (timeDisableInput > 0)
-			{
-				timeDisableInput -= time;
-				if (timeDisableInput <= 0)
-				{
-					var globalInpt:GlobalInput = Factory.getInstance(GlobalInput);
-					globalInpt.disable = false;
-				}
-			}
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			scoreTxt.text =LangUtil.getText("score") + " " + logic.currentPlayerScore.toString();
 		}

@@ -48,7 +48,7 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, onInit);
 			
 			var fps:FPSCounter = new FPSCounter(0, 0, 0xFFFFFF, true, 0x0);
-			Starling.current.nativeOverlay.addChild(fps);
+			//Starling.current.nativeOverlay.addChild(fps);
 			try
 			{
 				var gameState:GameSave = Factory.getInstance(GameSave);

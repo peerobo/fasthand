@@ -65,7 +65,7 @@ package fasthand.gui
 			Util.g_replaceAndColorUp(contentTxt, rpl, rplW, colors);
 			
 			noBt.setCallbackFunc(onCancel);
-			yesBt.setCallbackFunc(onYes);
+			yesBt.setCallbackFunc(onPurchase);
 			purchaseBt.setCallbackFunc(onRestorePurchase);
 			
 			var iap:IAP = Factory.getInstance(IAP);
@@ -81,7 +81,7 @@ package fasthand.gui
 			state = RESTORE;
 		}
 		
-		public function onYes():void
+		public function onPurchase():void
 		{		
 			var iap:IAP = Factory.getInstance(IAP);
 			PopupMgr.removePopup(this);

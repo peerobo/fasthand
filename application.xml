@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/13.0">
   <id>com.fc.FastHandEnglish</id>
-  <versionNumber>0.1</versionNumber>
+  <versionNumber>1.0.0</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>Fasthand</filename>
   <name>Fasthand</name>
@@ -44,6 +44,8 @@
 				<!-- iPad support -->
 				<string>2</string>
 			</array>
+			<key>MinimumOSVersion</key>
+			<string>5.1</string>
 		]]>
 	</InfoAdditions>
     <requestedDisplayResolution>high</requestedDisplayResolution>

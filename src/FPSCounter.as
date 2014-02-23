@@ -28,8 +28,8 @@ package
 			tf.selectable = false;
 			//tf.background = fillBackground;
 			//tf.backgroundColor = backgroundColor;
-			tf.width = Util.deviceWidth;
-			tf.height = Util.deviceHeight;
+			tf.width = Util.deviceWidth / Starling.contentScaleFactor;
+			tf.height = Util.deviceHeight * Starling.contentScaleFactor;
 			tf.mouseEnabled = false;			
 			addChild(tf);			
 			addEventListener(Event.ENTER_FRAME, tick);

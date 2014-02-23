@@ -75,18 +75,10 @@ package fasthand.gui
 				item.x += item.width >> 1;
 				item.y += item.height >> 1;
 			}					
-			
-			/*scoreBoard = Factory.getObjectFromPool(SpriteNumber);
-			scoreBoard.init(Asset.getBaseTextures(IconAsset.ICO_NUMBER));
-			scoreBoard.text = "0";
-			scoreBoard.x = rectScore.x;
-			scoreBoard.y = rectScore.y;
-			addChildAt(scoreBoard, 0);	*/		
 		}
 		
 		private function onItemClick(item:TileRenderer):void 
 		{
-			//animate();
 			onSelectWord(item.word,item);
 		}
 		
@@ -143,7 +135,7 @@ package fasthand.gui
 				item.flatten();
 				item.scaleX = item.scaleY = 0.3;				
 				//if (i == 0)
-					Starling.juggler.tween(item, 0.5, { scaleX:1, scaleY:1, onComplete: animatedDone } );
+				Starling.juggler.tween(item, 0.5, { scaleX:1, scaleY:1, onComplete: animatedDone } );
 				//else
 					//Starling.juggler.tween(item, 0.5, { scaleX:1, scaleY:1 } );
 			}

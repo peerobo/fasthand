@@ -21,7 +21,7 @@ package base
 		private var anchorPt:Point;
 		private var directPt:Point;
 		private var checkSwipe:Boolean;
-		private var disableTimeout:int;
+		private var disableTimeout:Number;
 		private var swipeCallbacks:Array;	// callback object		
 		private var keyMap:Object;
 		
