@@ -12,6 +12,8 @@ package
 	import com.adobe.ane.social.SocialServiceType;
 	import com.adobe.ane.social.SocialUI;
 	import com.freshplanet.ane.AirDeviceId;
+	import com.revmob.airextension.events.RevMobAdsEvent;
+	import com.revmob.airextension.RevMob;
 	import fasthand.gui.InfoDlg;
 	import flash.display.BitmapData;
 	import flash.display3D.Context3D;
@@ -34,9 +36,9 @@ package
 	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
 	import flash.net.URLRequest;
-	import so.cuo.platform.admob.Admob;
+	/*import so.cuo.platform.admob.Admob;
 	import so.cuo.platform.admob.AdmobEvent;
-	import so.cuo.platform.admob.AdmobPosition;
+	import so.cuo.platform.admob.AdmobPosition;*/
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -59,6 +61,9 @@ package
 		public static const DISABLE_FILTER:int = 1;
 		public static const DOWN_FILTER:int = 2;
 		private static var isInitAd:Boolean;
+		static private var revmob:RevMob;
+		static private var isCreatingFullscreenAd:Boolean;
+		static private var isCreatingBanner:Boolean;
 		public static var root:Sprite;				
 		
 		public static function getFilter(type:int):FragmentFilter
@@ -208,15 +213,91 @@ package
 			isInitAd = false;
 			if (!Util.isFullApp)
 			{
-				var admob:Admob = Admob.getInstance();
-				if (admob.supportDevice)
+				if(!Util.isDesktop)
 				{
-					admob.setKeys(Constants.ADMOB_ID);
-					admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
-					admob.addEventListener(AdmobEvent.onInterstitialFailedReceive, onAdReceived);
-					admob.addEventListener(AdmobEvent.onBannerFailedReceive, onAdReceived);
+					FPSCounter.log("init rev mob");
+					revmob = new RevMob(Util.isIOS?Constants.REVMOB_IOS_ID:Constants.REVMOB_ANDROID_ID);
+					revmob.setTestingMode(false);
+					revmob.setTestingWithoutAds(false);
+					revmob.printEnvironmentInformation();
+					revmob.addEventListener( RevMobAdsEvent.AD_CLICKED, onRevMobAdEvent );
+					revmob.addEventListener( RevMobAdsEvent.AD_DISMISS, onRevMobAdEvent );
+					revmob.addEventListener( RevMobAdsEvent.AD_DISPLAYED, onRevMobAdEvent );
+					revmob.addEventListener( RevMobAdsEvent.AD_NOT_RECEIVED, onRevMobAdEvent );
+					revmob.addEventListener( RevMobAdsEvent.AD_RECEIVED, onRevMobAdEvent );
 				}
+				
+				//var admob:Admob = Admob.getInstance();
+				//if (admob.supportDevice)
+				//{
+					//admob.setKeys(Constants.ADMOB_ID);
+					//admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
+					//admob.addEventListener(AdmobEvent.onInterstitialFailedReceive, onAdReceived);
+					//admob.addEventListener(AdmobEvent.onBannerFailedReceive, onAdReceived);
+				//}
 				isInitAd = true;
+			}
+		}
+		
+		static private function onRevMobAdEvent(e:RevMobAdsEvent):void 
+		{
+			switch(e.name)
+			{
+				case RevMobAdsEvent.AD_CLICKED:
+				{				
+					if (isCreatingFullscreenAd)
+					{
+						revmob.releaseFullscreen();
+						Util.showBannerAd();
+						isCreatingFullscreenAd = false;
+					}
+					break;
+				}
+				case RevMobAdsEvent.AD_DISMISS:
+				{		
+					if (isCreatingFullscreenAd)
+					{
+						revmob.releaseFullscreen();
+						Util.showBannerAd();
+						isCreatingFullscreenAd = false;
+					}
+					break;
+				}
+				case RevMobAdsEvent.AD_DISPLAYED:
+				{					
+					break;
+				}
+				case RevMobAdsEvent.AD_NOT_RECEIVED:
+				{	
+					if(isCreatingFullscreenAd)
+					{
+						PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+						isCreatingFullscreenAd = false;
+					}
+					else if (isCreatingBanner)
+					{
+						isCreatingBanner = false;
+					}
+					break;
+				}
+				case RevMobAdsEvent.AD_RECEIVED:
+				{			
+					if (isCreatingFullscreenAd)
+					{
+						PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+						revmob.showFullscreen();
+					}
+					else if(isCreatingBanner)
+					{			
+						revmob.showBanner(0, Util.deviceHeight - 370);
+						isCreatingBanner = false
+					}
+					break;
+				}	
+				default:
+				{					
+					break;
+				}
 			}
 		}
 		
@@ -233,17 +314,25 @@ package
 			if (isInitAd)
 			{
 				FPSCounter.log("show ad");
-				var admob:Admob = Admob.getInstance();
-				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
-				if (isDesktop)
-					AdEmulator.showBannerAd();
+				//var admob:Admob = Admob.getInstance();
+				//admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
+				//if (isDesktop)
+					//AdEmulator.showBannerAd();					
+				revmob.createBanner(0,Util.deviceHeight - 370);
+				isCreatingBanner = true;
+				
 			}
 		}
 		
 		public static function hideBannerAd():void
 		{
-			var admob:Admob = Admob.getInstance();
-			admob.hideBanner();
+			//var admob:Admob = Admob.getInstance();
+			//admob.hideBanner();
+			if(isInitAd)
+			{
+				revmob.hideBanner();
+				revmob.releaseBanner();
+			}
 			if (isDesktop)
 				AdEmulator.hideAd();
 		}
@@ -257,12 +346,17 @@ package
 			//Chartboost.getInstance().showMoreAppPage();
 			if (isInitAd)
 			{
-				var admob:Admob = Admob.getInstance();
-				if (admob.supportDevice)
-				{
-					admob.cacheInterstitial();				
-					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
-				}
+				//var admob:Admob = Admob.getInstance();
+				//if (admob.supportDevice)
+				//{
+					//admob.cacheInterstitial();				
+					//PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
+				//}
+				Util.hideBannerAd();
+				
+				revmob.createFullscreen();
+				isCreatingFullscreenAd = true;
+				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
 				if (isDesktop)
 					AdEmulator.showFullscreenAd();
 			}
@@ -282,7 +376,7 @@ package
 			return str;
 		}
 		
-		private static function onAdReceived(e:AdmobEvent):void
+		/*private static function onAdReceived(e:AdmobEvent):void
 		{
 			var admob:Admob = Admob.getInstance();
 			if (e.type == AdmobEvent.onInterstitialReceive)
@@ -299,7 +393,7 @@ package
 				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 			}
 			 
-		}
+		}*/
 		
 		public static function get appWidth():int
 		{

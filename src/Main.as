@@ -131,7 +131,7 @@ package
 			Asset.init();
 			LangUtil.loadXMLData();
 			BaseJsonGUI.loadCfg();			
-			Util.initAd();
+			
 			if(Util.isDesktop)
 			{
 				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + Constants.SUBJECT_STR);								

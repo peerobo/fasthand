@@ -36,7 +36,7 @@ package base
 		}
 		
 		public static function addPopUp(disp:DisplayObject, withAnim:Boolean = false):void
-		{			
+		{						
 			quadBg.visible = true;
 			if(!current)
 			{
