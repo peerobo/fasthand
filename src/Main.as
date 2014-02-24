@@ -5,8 +5,11 @@ package
 	import base.GameSave;
 	import base.IAP;
 	import base.LangUtil;
+	import base.ScreenMgr;
+	import base.SoundManager;
 	import comp.HighscoreDB;
 	import fasthand.Fasthand;
+	import fasthand.screen.GameScreen;
 	import flash.data.EncryptedLocalStore;
 	import flash.desktop.NativeApplication;
 	import flash.desktop.SystemIdleMode;
@@ -62,11 +65,18 @@ package
 			
 			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
 			highscoreDB.saveHighscore();		
-			
+			SoundManager.instance.muteMusic = true;
+			var logic:Fasthand = Factory.getInstance(Fasthand);			
+			if (ScreenMgr.currScr is GameScreen && logic.isStartGame)
+			{
+				var gScr:GameScreen = Factory.getInstance(GameScreen);
+				gScr.onPause();
+			}
 		}
 		
 		private function onAppActivate(e:Event):void 
 		{
+			SoundManager.instance.muteMusic = false;
 		}
 		
 		private function onAppExit(e:Event):void 

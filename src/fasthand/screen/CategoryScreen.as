@@ -12,6 +12,7 @@ package fasthand.screen
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;
+	import comp.ComboBox;
 	import comp.FlatSwitchButton;
 	import comp.HighscoreDB;
 	import comp.LoadingIcon;
@@ -51,7 +52,7 @@ package fasthand.screen
 		
 		private var waitTime2ShowAd:int;
 		private var wait4Sound:Boolean;
-		private var switchDiff:FlatSwitchButton;
+		private var switchDiff:ComboBox;
 		private const COLOR_RND:Array = [0xF9F900, 0xFFFF06, 0xFFFF11, 0xFFFF1A, 0xFFFF20, 0xFFFF28, 0xFFFF2D, 0xFFFF3C, 0xFFFF42, 0xFFFF48, 0xFFFF4F, 0xFFFF53, 0xFFFF59, 0xFFFF5E, 0xFFFF64, 0xFFFF6A, 0xFFFF6F];
 		private var pageFooter:PageFooter;
 		private var isExternalContent:Boolean;
@@ -67,6 +68,13 @@ package fasthand.screen
 			catChooser.onSelectCategoryCallback = selectCategory;
 			waitTime2ShowAd = Constants.AD_FULL_WAITTIME;
 			cheatCountActivate = 0;
+			
+			var idxDiff:int = parseInt(Util.getPrivateKey("difficultMode"));
+			idxDiff = isNaN(idxDiff) ? 1 : idxDiff;
+			switchDiff = new ComboBox();
+			switchDiff.init(ButtonAsset.BT_BLUE, ButtonAsset.BT_DARK_GRAY, IconAsset.ICO_DROP_DOWN);			
+			var values:Array = [LangUtil.getText("fast"), LangUtil.getText("slow")];
+			switchDiff.initList(values, idxDiff, onSwitchDiff, [values]);
 		}
 		
 		public function selectCategory(cat:String):void
@@ -159,7 +167,7 @@ package fasthand.screen
 			addChild(title);
 			title.y = 30;
 			
-			var logic:Fasthand = Factory.getInstance(Fasthand);
+			var logic:Fasthand = Factory.getInstance(Fasthand);			
 			title.text = LangUtil.getText("welcome");
 			var len:int = title.text.length;
 			title.colors = [];
@@ -184,12 +192,10 @@ package fasthand.screen
 				waitTime2ShowAd = Constants.AD_FULL_WAITTIME;
 			}
 			
-			switchDiff = new FlatSwitchButton();
-			switchDiff.init(LangUtil.getText("fast"), LangUtil.getText("slow"), ButtonAsset.BT_BLUE, ButtonAsset.BT_DARK_GRAY, onSwitchDiff);
-			switchDiff.value = logic.difficult;
 			addChild(switchDiff);
 			switchDiff.y = title.y;
 			switchDiff.x = Util.appWidth - 36 - switchDiff.width;
+			logic.difficult = switchDiff.list[switchDiff.selectedIdx] == LangUtil.getText("fast");
 			
 			var rateBt:BaseButton = ButtonAsset.getBaseBt(ButtonAsset.BT_BLUE);
 			rateBt.background.width = 288;
@@ -242,10 +248,11 @@ package fasthand.screen
 			Util.rateMe();
 		}
 		
-		private function onSwitchDiff(isDiff:Boolean):void
+		private function onSwitchDiff(idx:int, list:Array):void
 		{
-			var logic:Fasthand = Factory.getInstance(Fasthand);
-			logic.difficult = isDiff;
+			var logic:Fasthand = Factory.getInstance(Fasthand);			
+			logic.difficult = list[idx] == LangUtil.getText("fast");
+			Util.setPrivateValue("difficultMode", idx.toString());
 		}
 		
 		private function onSwipe(mode:int):void
@@ -258,8 +265,7 @@ package fasthand.screen
 		
 		override public function onRemoved(e:Event):void
 		{
-			catChooser.removeFromParent();
-			switchDiff.destroy();
+			catChooser.removeFromParent();			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			globalInput.unregisterSwipe(cb);
 			Util.hideBannerAd();

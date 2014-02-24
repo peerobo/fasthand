@@ -17,8 +17,9 @@ package
 		public static const CAT_PER_PAGE:int = 6;		
 		public static const CAT_FREE_NUM:int = 6;
 		public static const REVMOB_IOS_ID:String = "53072df6e39aa7fe2f209983";
-		public static const REVMOB_ANDROID_ID:String = "53072df6e39aa7fe2f209983";
-		static public const ADMOB_ID:String = "a152e1293565247";
+		public static const REVMOB_ANDROID_ID:String = "530ad7310ff0aa2f32569ca1";
+		static public const ADMOB_IOS_ID:String = "a15309f418b3a43";
+		static public const ADMOB_ANDROID_ID:String = "a152e1293565247";
 		static public const CHARTBOOST_ID:String = "38669acf1b55a381fb61e1d595a1412d261743b4";
 		static public const CHARTBOOST_ID_ANDROID:String = "aaea7561432ef903b0d6591e424a0bf155086d0f";
 		static public const CHARTBOOST_APP_ID:String = "53056b909ddc357a1450137b";

@@ -36,9 +36,9 @@ package
 	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
 	import flash.net.URLRequest;
-	/*import so.cuo.platform.admob.Admob;
+	import so.cuo.platform.admob.Admob;
 	import so.cuo.platform.admob.AdmobEvent;
-	import so.cuo.platform.admob.AdmobPosition;*/
+	import so.cuo.platform.admob.AdmobPosition;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -227,14 +227,14 @@ package
 					revmob.addEventListener( RevMobAdsEvent.AD_RECEIVED, onRevMobAdEvent );
 				}
 				
-				//var admob:Admob = Admob.getInstance();
-				//if (admob.supportDevice)
-				//{
-					//admob.setKeys(Constants.ADMOB_ID);
-					//admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
-					//admob.addEventListener(AdmobEvent.onInterstitialFailedReceive, onAdReceived);
-					//admob.addEventListener(AdmobEvent.onBannerFailedReceive, onAdReceived);
-				//}
+				var admob:Admob = Admob.getInstance();
+				if (admob.supportDevice)
+				{
+					admob.setKeys(Util.isIOS ? Constants.ADMOB_IOS_ID : Constants.ADMOB_ANDROID_ID);
+					admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
+					admob.addEventListener(AdmobEvent.onInterstitialFailedReceive, onAdReceived);
+					admob.addEventListener(AdmobEvent.onBannerFailedReceive, onAdReceived);
+				}
 				isInitAd = true;
 			}
 		}
@@ -248,7 +248,7 @@ package
 					if (isCreatingFullscreenAd)
 					{
 						revmob.releaseFullscreen();
-						Util.showBannerAd();
+						//Util.showBannerAd();
 						isCreatingFullscreenAd = false;
 					}
 					break;
@@ -258,7 +258,7 @@ package
 					if (isCreatingFullscreenAd)
 					{
 						revmob.releaseFullscreen();
-						Util.showBannerAd();
+						//Util.showBannerAd();
 						isCreatingFullscreenAd = false;
 					}
 					break;
@@ -269,6 +269,7 @@ package
 				}
 				case RevMobAdsEvent.AD_NOT_RECEIVED:
 				{	
+					FPSCounter.log(e.error, e.name);
 					if(isCreatingFullscreenAd)
 					{
 						PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
@@ -314,24 +315,26 @@ package
 			if (isInitAd)
 			{
 				FPSCounter.log("show ad");
-				//var admob:Admob = Admob.getInstance();
-				//admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
+				var admob:Admob = Admob.getInstance();
+				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
 				//if (isDesktop)
 					//AdEmulator.showBannerAd();					
-				revmob.createBanner(0,Util.deviceHeight - 370);
-				isCreatingBanner = true;
+				//revmob.createBanner(0,Util.deviceHeight - 370);
+				//isCreatingBanner = true;
 				
 			}
 		}
 		
 		public static function hideBannerAd():void
 		{
-			//var admob:Admob = Admob.getInstance();
-			//admob.hideBanner();
+			var admob:Admob = Admob.getInstance();
+			
 			if(isInitAd)
 			{
-				revmob.hideBanner();
-				revmob.releaseBanner();
+				//revmob.hideBanner();
+				//revmob.releaseBanner();
+				if(admob.supportDevice)
+					admob.hideBanner();
 			}
 			if (isDesktop)
 				AdEmulator.hideAd();
@@ -352,7 +355,7 @@ package
 					//admob.cacheInterstitial();				
 					//PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
 				//}
-				Util.hideBannerAd();
+				//Util.hideBannerAd();
 				
 				revmob.createFullscreen();
 				isCreatingFullscreenAd = true;
@@ -376,7 +379,7 @@ package
 			return str;
 		}
 		
-		/*private static function onAdReceived(e:AdmobEvent):void
+		private static function onAdReceived(e:AdmobEvent):void
 		{
 			var admob:Admob = Admob.getInstance();
 			if (e.type == AdmobEvent.onInterstitialReceive)
@@ -393,7 +396,7 @@ package
 				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 			}
 			 
-		}*/
+		}
 		
 		public static function get appWidth():int
 		{

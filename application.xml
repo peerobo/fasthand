@@ -14,14 +14,12 @@
 			<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>			
 			<uses-permission android:name="com.android.vending.BILLING" />
 			<uses-permission android:name="android.permission.INTERNET"/>
+			<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>			
 			<application android:enabled="true">
 				<activity android:name="com.google.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/> 
+				<activity android:name="com.revmob.ads.fullscreen.FullscreenActivity" android:configChanges="keyboardHidden|orientation"></activity>
 				<activity android:name="com.pozirk.payment.BillingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />
-				<meta-data android:name="__ChartboostAir__AppID" android:value="53059273f8975c7805690242" />
-				<meta-data android:name="__ChartboostAir__AppSignature" android:value="aaea7561432ef903b0d6591e424a0bf155086d0f" />
-				<!-- Also required for the Chartboost SDK. -->
-				<activity android:name="com.chartboost.sdk.CBImpressionActivity" android:excludeFromRecents="true" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 			</application>
 		</manifest>]]>
 	</manifestAdditions>
@@ -94,12 +92,12 @@
 	Android manifest documentation:
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
-  <extensions>
-    <!--<extensionID>so.cuo.platform.admob</extensionID>-->
+  <!--<extensions>
+    <extensionID>so.cuo.platform.admob</extensionID>
     <extensionID>com.freshplanet.ane.AirDeviceId</extensionID>
 	<extensionID>com.adobe.ane.gameCenter</extensionID>
 	<extensionID>com.adobe.ane.social</extensionID>
 	<extensionID>com.fc.StoreKitExt</extensionID>
 	<extensionID>com.revmob.airextension</extensionID>
-  </extensions>
+  </extensions>-->
 </application>
