@@ -206,8 +206,7 @@ package fasthand.screen
 			rateBt.y = title.y;
 			rateBt.x = 30;
 			
-			Factory.addMouseClickCallback(title, onCheat);
-			Util.showBannerAd();
+			Factory.addMouseClickCallback(title, onCheat);			
 		}
 		
 		private function onCheat():void 
@@ -268,7 +267,7 @@ package fasthand.screen
 			catChooser.removeFromParent();			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			globalInput.unregisterSwipe(cb);
-			Util.hideBannerAd();
+			//Util.hideBannerAd();
 			super.onRemoved(e);
 		}
 		

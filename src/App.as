@@ -56,6 +56,8 @@ package
 				var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);			
 				if(Util.isIOS)
 					highscoreDB.initGameCenter();
+				else if (Util.isAndroid)
+					highscoreDB.initGooglePlayGameService();
 				FPSCounter.log("iap");
 				var iap:IAP = Factory.getInstance(IAP);
 				iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
@@ -76,7 +78,7 @@ package
 			ScreenMgr.showScreen(LoadingScreen);
 			Util.initAd();	
 			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);			
-			
+			Util.showBannerAd();
 			addEventListener(TouchEvent.TOUCH, onTouch);									
 		}
 		

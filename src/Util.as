@@ -265,7 +265,11 @@ package
 					break;
 				}
 				case RevMobAdsEvent.AD_DISPLAYED:
-				{					
+				{		
+					if (isCreatingFullscreenAd)
+					{
+						PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+					}
 					break;
 				}
 				case RevMobAdsEvent.AD_NOT_RECEIVED:
@@ -285,8 +289,7 @@ package
 				case RevMobAdsEvent.AD_RECEIVED:
 				{			
 					if (isCreatingFullscreenAd)
-					{
-						PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+					{						
 						revmob.showFullscreen();
 					}
 					else if(isCreatingBanner)
@@ -317,7 +320,7 @@ package
 			{
 				FPSCounter.log("show ad");
 				var admob:Admob = Admob.getInstance();
-				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position			
+				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position							
 				//if (isDesktop)
 					//AdEmulator.showBannerAd();					
 				//revmob.createBanner(0,Util.deviceHeight - 370);

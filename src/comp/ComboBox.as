@@ -3,8 +3,10 @@ package comp
 	import base.BaseButton;
 	import base.BFConstructor;
 	import base.Factory;
+	import base.SoundManager;
 	import res.Asset;
 	import res.asset.IconAsset;
+	import res.asset.SoundAsset;
 	import starling.display.DisplayObject;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -107,6 +109,7 @@ package comp
 		{
 			if (dropDownSpr.visible)
 			{
+				SoundManager.playSound(SoundAsset.SOUND_CLICK);
 				for (var i:int = 0; i < list.length; i++) 
 				{
 					var textF:TextField = dropDownSpr.getChildByName("text" + i) as TextField;
@@ -140,6 +143,7 @@ package comp
 		private function onTouchCboBox():void 
 		{
 			var ico:DisplayObject;
+			SoundManager.playSound(SoundAsset.SOUND_CLICK);
 			if (!dropDownSpr.visible)
 			{
 				dropDownSpr.visible = true;

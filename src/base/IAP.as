@@ -115,7 +115,7 @@ package base
 			var purchase:InAppPurchaseDetails = androidIAP.getPurchaseDetails(Constants.ANDROID_PRODUCT_IDS[0]);
 			if(purchase)
 				FPSCounter.log(", order id ", purchase._orderId, ", purchase state", purchase._purchaseState, ", purchase time", purchase._time, ", purchase sku", purchase._sku);
-			
+			FPSCounter.log("restore done");
 			androidBoughtList = new Vector.<String>();
 			var len:int = Constants.ANDROID_PRODUCT_IDS.length;
 			for (var i:int = 0; i < len; i++) 

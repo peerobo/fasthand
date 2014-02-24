@@ -5,6 +5,9 @@ package comp
 	import com.adobe.ane.gameCenter.GameCenterAuthenticationEvent;
 	import com.adobe.ane.gameCenter.GameCenterController;
 	import com.adobe.ane.gameCenter.GameCenterLeaderboardEvent;
+	//import com.freshplanet.ane.AirGooglePlayGames.AirGooglePlayGames;
+	//import com.freshplanet.ane.AirGooglePlayGames.AirGooglePlayGamesEvent;
+	import fasthand.FasthandUtil;
 	/**
 	 * ...
 	 * @author ndp
@@ -17,6 +20,8 @@ package comp
 		private var gcController:GameCenterController;		
 		private var gameCenterLogged:Boolean;
 		private var validCats:Array;
+		//private var googlePlay:AirGooglePlayGames;
+		private var googlePlayLogged:Boolean;
 		
 		public function initGameCenter():void
 		{
@@ -133,6 +138,40 @@ package comp
 				}
 			}
 		}
+		
+		public function initGooglePlayGameService():void 
+		{
+			// Initialize
+			/*googlePlay = AirGooglePlayGames.getInstance();
+			googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_IN_SUCCESS, onGooglePlayResponse);
+			googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS, onGooglePlayResponse);
+			googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_IN_FAIL, onGooglePlayResponse);
+			googlePlay.startAtLaunch();		*/	
+		}
+		
+		/*public function showGooglePlayLeaderboard(cat:String):void 
+		{
+			if(googlePlay && googlePlayLogged)
+			{
+				googlePlay.showLeaderboard(FasthandUtil.getCatForGooglePlay(cat));
+			}
+		}
+		
+		private function onGooglePlayResponse(e:AirGooglePlayGamesEvent):void 
+		{
+			switch(e.type)
+			{
+				case AirGooglePlayGamesEvent.ON_SIGN_IN_SUCCESS:
+					googlePlayLogged = true;
+				break;
+				case AirGooglePlayGamesEvent.ON_SIGN_IN_FAIL:
+					googlePlayLogged = false;
+				break;
+				case AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS:
+					googlePlayLogged = false;
+				break;
+			}
+		}*/
 		
 	}
 

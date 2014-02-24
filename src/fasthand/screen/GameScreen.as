@@ -84,7 +84,7 @@ package fasthand.screen
 			Util.g_centerScreen(gameboard);
 			gameboard.onSelectWord = validateWord;			
 			
-			Util.showBannerAd();
+			//Util.showBannerAd();
 			preStartGame();
 			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
@@ -189,7 +189,7 @@ package fasthand.screen
 			super.onRemoved(e);
 			
 			SoundManager.instance.muteMusic = false;
-			Util.hideBannerAd();
+			//Util.hideBannerAd();
 		}
 		
 		public function endGame():void

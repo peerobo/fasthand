@@ -1,5 +1,6 @@
 package fasthand 
 {
+	import base.LangUtil;
 	import flash.utils.describeType;
 	/**
 	 * ...
@@ -39,6 +40,7 @@ package fasthand
 		
 		private static var listCat:Array;
 		private static var listWords:Object;
+		static private var GPLConstants:Object;
 		
 		public function FasthandUtil() 
 		{			
@@ -77,6 +79,48 @@ package fasthand
 				listCat.sort();
 			}				
 			return listCat;
+		}
+		
+		static public function getCatForGooglePlay(cat:String):String 
+		{
+			if (!GPLConstants)
+			{
+				GPLConstants = { };
+				GPLConstants.LEAD_OVERALL = 'CgkIw5jL5a4VEAIQAw';
+				GPLConstants.LEAD_ADJECTIVES = 'CgkIw5jL5a4VEAIQAQ';
+				GPLConstants.LEAD_ANIMAL_1 = 'CgkIw5jL5a4VEAIQAg';
+				GPLConstants.LEAD_ANIMAL_2 = 'CgkIw5jL5a4VEAIQBA';
+				GPLConstants.LEAD_ANIMAL_PARTS = 'CgkIw5jL5a4VEAIQBQ';
+				GPLConstants.LEAD_BODY_1 = 'CgkIw5jL5a4VEAIQBg';
+				GPLConstants.LEAD_BODY_2 = 'CgkIw5jL5a4VEAIQBw';
+				GPLConstants.LEAD_CITY = 'CgkIw5jL5a4VEAIQCA';
+				GPLConstants.LEAD_CLOTHEST_1 = 'CgkIw5jL5a4VEAIQCQ';
+				GPLConstants.LEAD_CLOTHEST_2 = 'CgkIw5jL5a4VEAIQCg';
+				GPLConstants.LEAD_COLORS = 'CgkIw5jL5a4VEAIQCw';
+				GPLConstants.LEAD_COMPUTERS = 'CgkIw5jL5a4VEAIQDA';
+				GPLConstants.LEAD_FOOD_1 = 'CgkIw5jL5a4VEAIQDQ';
+				GPLConstants.LEAD_FOOD_2 = 'CgkIw5jL5a4VEAIQDg';
+				GPLConstants.LEAD_FURNITURE = 'CgkIw5jL5a4VEAIQDw';
+				GPLConstants.LEAD_GARDEN = 'CgkIw5jL5a4VEAIQEA';
+				GPLConstants.LEAD_HOSPITAL = 'CgkIw5jL5a4VEAIQEQ';
+				GPLConstants.LEAD_JOBS = 'CgkIw5jL5a4VEAIQEg';
+				GPLConstants.LEAD_KITCHEN = 'CgkIw5jL5a4VEAIQEw';
+				GPLConstants.LEAD_LETTERS = 'CgkIw5jL5a4VEAIQFA';
+				GPLConstants.LEAD_NATURE = 'CgkIw5jL5a4VEAIQFQ';
+				GPLConstants.LEAD_NUMBERS_1 = 'CgkIw5jL5a4VEAIQFg';
+				GPLConstants.LEAD_NUMBERS_2 = 'CgkIw5jL5a4VEAIQFw';
+				GPLConstants.LEAD_PERSONAL = 'CgkIw5jL5a4VEAIQGA';
+				GPLConstants.LEAD_POSITION = 'CgkIw5jL5a4VEAIQGQ';
+				GPLConstants.LEAD_SPORTS = 'CgkIw5jL5a4VEAIQGg';
+				GPLConstants.LEAD_STATIONARY = 'CgkIw5jL5a4VEAIQGw';
+				GPLConstants.LEAD_TRANSPORT = 'CgkIw5jL5a4VEAIQHA';
+				GPLConstants.LEAD_VERBS_1 = 'CgkIw5jL5a4VEAIQHQ';
+				GPLConstants.LEAD_VERBS_2 = 'CgkIw5jL5a4VEAIQHg';
+			}			
+			var key:String = LangUtil.getText(cat);
+			key = key.replace(" ", "_");
+			key = "LEAD_" + key.toUpperCase();
+			return GPLConstants[key];
 		}
 		
 	}

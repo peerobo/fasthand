@@ -123,6 +123,10 @@ package fasthand.gui
 			{			
 				highscoreDB.showGameCenterHighScore(cat);
 			}
+			/*else if (Util.isAndroid)
+			{
+				highscoreDB.showGooglePlayLeaderboard(cat);
+			}*/
 		}
 		
 		private function openSelfAgain():void 

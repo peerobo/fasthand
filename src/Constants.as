@@ -33,7 +33,7 @@ package
 		static public const ANDROID_PRODUCT_IDS:Array = ["com.fc.fasthandenglish.fullapp"];
 		static public const SHORT_LINK:String = "http://t.co/M4mfSY8zR4";
 		static public const HIGHSCORE_ITUNE_PRE:String = "cat";		
-		static public const ANDROID_LICENSING:String = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3ICIrt5ShGXvRFI3AI2cUYrGl+1XHj4JS44jV/T+fkDFkpd54J4nGZ0Wr9sTmsAAfrTrmjcXf+7/XGFYpQvk97QWoO6QLF3lII581ATlVl8VccRa+WDy8fO9q1Zt0c/k3P0K5QdJNtA5RjURbmjpgS54zcD8NQx+jl8g8HGntXG37Uo0DwHkYwNidKcyFRyWTk+9pdAmJZ8HZ/Hm/17xFrTRnpCpd79Z14+nOOKqqKZAHP8l7n8MMuhhWOE0PNVhDI5IOv7RohE4fhoB5WIXrvNJYGD95XYRXS79CwQy8LNWaEepMO5DiQOuqZhToNqPX2X6tu5qQuxVUlso+j5alwIDAQAB";
+		static public const ANDROID_LICENSING:String = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8/qKPuGjvY3au5vj1o4DwunIfIvcQRq7h0U5rV9PumAUN9WpSYeHwPlrVpGdSwll5y9KoF0FqLHpQdCTyac8NpIsNINB5t6EvYxTukS2N/eWFWEvTapJwiSDgE0/tSj7ZsHGl4FqS+NkHvZjGXxc/09eEuNgNGGAhf0y04IZB2/fM772tcMO9gU1XTVRfnNCRul4MY8U1GsowBCru4IZHSsMxX+fiMeJE5vNToz03VoOzHaEojsOHfgLclqGkhVyOUrZQ8T9msCrBHlNIB/LNa2GP25rx+lssFke2koK246pf5TdVcLwOGkOcqQFnqxwUENg6SDw+3Mydd9ErdxVjQIDAQAB";
 		public function Constants() 
 		{
 			
