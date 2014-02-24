@@ -6,7 +6,7 @@ set AUTO_INSTALL_IOS=yes
 
 :: Path to Android SDK
 set ANDROID_SDK=D:\dev\FlashDevelop\Tools\android
-
+set AIR_NOANDROIDFLAIR=true
 
 :validation
 if not exist "%FLEX_SDK%\bin" goto flexsdk
