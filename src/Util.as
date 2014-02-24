@@ -9,6 +9,7 @@ package
 	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;
+	import by.blooddy.crypto.SHA1;
 	import com.adobe.ane.social.SocialServiceType;
 	import com.adobe.ane.social.SocialUI;
 	import com.freshplanet.ane.AirDeviceId;
@@ -549,7 +550,8 @@ package
 			{
 				var bytes:ByteArray = new ByteArray();
 				bytes.writeUTFBytes(value);
-				EncryptedLocalStore.setItem(Constants.APP_NAME + "_" + key, bytes);
+				var hashKey:String = SHA1.hash(Constants.APP_NAME + "_" + key);
+				EncryptedLocalStore.setItem(hashKey, bytes);
 			}
 		}
 		
@@ -557,7 +559,8 @@ package
 		{
 			if (EncryptedLocalStore.isSupported)
 			{
-				var storedValue:ByteArray = EncryptedLocalStore.getItem(Constants.APP_NAME + "_" + key);
+				var hashKey:String = SHA1.hash(Constants.APP_NAME + "_" + key);
+				var storedValue:ByteArray = EncryptedLocalStore.getItem(hashKey);
 				return storedValue ? storedValue.readUTFBytes(storedValue.length) : null;
 			}
 			return null;

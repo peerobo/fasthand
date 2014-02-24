@@ -92,12 +92,15 @@
 	Android manifest documentation:
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
-  <!--<extensions>
+  <extensions>
     <extensionID>so.cuo.platform.admob</extensionID>
     <extensionID>com.freshplanet.ane.AirDeviceId</extensionID>
+	
 	<extensionID>com.adobe.ane.gameCenter</extensionID>
 	<extensionID>com.adobe.ane.social</extensionID>
 	<extensionID>com.fc.StoreKitExt</extensionID>
 	<extensionID>com.revmob.airextension</extensionID>
-  </extensions>-->
+	
+	<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
+  </extensions>
 </application>

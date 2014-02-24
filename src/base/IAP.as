@@ -3,10 +3,10 @@ package base
 	import com.fc.ProductDetail;
 	import com.fc.StoreKitEvent;
 	import com.fc.StoreKitExt;
-	/*import com.pozirk.payment.android.InAppPurchase;
+	import com.pozirk.payment.android.InAppPurchase;
 	import com.pozirk.payment.android.InAppPurchaseDetails;
 	import com.pozirk.payment.android.InAppPurchaseEvent;
-	import com.pozirk.payment.android.InAppSkuDetails;*/
+	import com.pozirk.payment.android.InAppSkuDetails;
 	import fasthand.gui.ConfirmDlg;
 	import fasthand.gui.InfoDlg;
 	import flash.events.Event;
@@ -19,21 +19,21 @@ package base
 	 * @author ndp
 	 */
 	public class IAP 
-	{
-		//private var iOSiap:Object;
+	{		
 		private var iOSiap:StoreKitExt;
 		private var iosRequestInfoInProgress:Boolean;
-		private var iosRestoreInProgress:Boolean;
-		//private var iosProductList:Vector.<Object>;
+		private var iosRestoreInProgress:Boolean;		
 		private var iosProductList:Vector.<ProductDetail>;
 		private var iosReceiptList:Vector.<String>;	
 		private const IOS_RECEIPT_PRE:String = "iosPre";	
 		
-		/*private var androidIAP:InAppPurchase;
-		private var androidReadyToPurchase:Boolean;*/
+		private var androidIAP:InAppPurchase;
+		private var androidReadyToPurchase:Boolean; 
+		private var androidBoughtList:Vector.<String>;
 		
 		private var onPurchaseComplete:Function;
 		private var onRestoreComplete:Function;
+		private var androidInitErrorMsg:String;
 		
 		public function IAP() 
 		{								
@@ -46,14 +46,17 @@ package base
 			{
 				ret = iOSiap.canMakePurchase();
 				if (!ret)
-				{				
-					
+				{									
 					var infoD:InfoDlg = Factory.getInstance(InfoDlg);
 					infoD.text = LangUtil.getText("enableInAppPurchaseIOS");
 					infoD.callback = null;
 					PopupMgr.addPopUp(infoD);
 				}
-			}			
+			}	
+			else if (Util.isAndroid)
+			{
+				ret = true;
+			}
 			return ret;
 		}
 		
@@ -78,50 +81,96 @@ package base
 			}
 			else if(Util.isAndroid)
 			{			
-				//androidIAP = new InAppPurchase();			
-				//androidIAP.init(param);
-				//androidIAP.addEventListener(InAppPurchaseEvent.INIT_SUCCESS, onAndroidInitSuccess);
-				//androidIAP.addEventListener(InAppPurchaseEvent.INIT_ERROR, onAndroidInitError);
-				//androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, onAndroidPurchaseSuccess);
-				//androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, onAndroidPurchaseSuccess);
-				//androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_ERROR, onAndroidPurchaseError);
-				//androidIAP.addEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, onAndroidRestoreSuccess);
-				//androidIAP.addEventListener(InAppPurchaseEvent.RESTORE_ERROR, onAndroidRestoreError);
-				//androidReadyToPurchase = false;
+				androidIAP = new InAppPurchase();
+				loadAnroidPurchaseStates();
+				androidIAP.init(param);
+				androidIAP.addEventListener(InAppPurchaseEvent.INIT_SUCCESS, onAndroidInitSuccess);
+				androidIAP.addEventListener(InAppPurchaseEvent.INIT_ERROR, onAndroidInitError);
+				androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, onAndroidPurchaseSuccess);
+				androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, onAndroidPurchaseSuccess);
+				androidIAP.addEventListener(InAppPurchaseEvent.PURCHASE_ERROR, onAndroidPurchaseError);
+				androidIAP.addEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, onAndroidRestoreSuccess);
+				androidIAP.addEventListener(InAppPurchaseEvent.RESTORE_ERROR, onAndroidRestoreError);
+				androidReadyToPurchase = false;
 			}
 		}	
 		
-		/*private function onAndroidRestoreError(e:InAppPurchaseEvent):void 
+		private function loadAnroidPurchaseStates():void 
 		{
-			 var purchase:InAppPurchaseDetails = androidIAP.getPurchaseDetails(Constants.ANDROID_PRODUCT_IDS[0]);
-			 var skuDetails1:InAppSkuDetails = androidIAP.getSkuDetails(Constants.ANDROID_PRODUCT_IDS[0]		);
-
+			
+		}
+		
+		private function onAndroidRestoreError(e:InAppPurchaseEvent):void 
+		{			 
+			FPSCounter.log("restore error:", e.data);
+			if(onRestoreComplete is Function)
+			{
+				onRestoreComplete();
+				onRestoreComplete = null;
+			}
 		}
 		
 		private function onAndroidRestoreSuccess(e:InAppPurchaseEvent):void 
+		{
+			var purchase:InAppPurchaseDetails = androidIAP.getPurchaseDetails(Constants.ANDROID_PRODUCT_IDS[0]);
+			if(purchase)
+				FPSCounter.log(", order id ", purchase._orderId, ", purchase state", purchase._purchaseState, ", purchase time", purchase._time, ", purchase sku", purchase._sku);
+			
+			androidBoughtList = new Vector.<String>();
+			var len:int = Constants.ANDROID_PRODUCT_IDS.length;
+			for (var i:int = 0; i < len; i++) 
+			{
+				
+			}
+			saveAnroidPurchaseStates();
+			if(onRestoreComplete is Function)
+			{
+				onRestoreComplete();
+				onRestoreComplete = null;
+			}
+		}
+		
+		private function saveAnroidPurchaseStates():void 
 		{
 			
 		}
 		
 		private function onAndroidPurchaseError(e:InAppPurchaseEvent):void 
 		{
-			
+			FPSCounter.log("iap purchase error:",e.data);
+			if(onPurchaseComplete is Function)
+			{
+				onPurchaseComplete();
+				onPurchaseComplete = null;
+			}
 		}
 		
 		private function onAndroidPurchaseSuccess(e:InAppPurchaseEvent):void 
 		{
-			e.data; // product id
+			if (androidBoughtList.indexOf(e.data) > -1)
+				return;
+			androidBoughtList.push(e.data);
+			var purchase:InAppPurchaseDetails = androidIAP.getPurchaseDetails(Constants.ANDROID_PRODUCT_IDS[0]);
+			FPSCounter.log(", order id ", purchase._orderId, ", purchase state", purchase._purchaseState, ", purchase time", purchase._time, ", purchase sku", purchase._sku);
+			if(onPurchaseComplete is Function)
+			{
+				onPurchaseComplete();
+				onPurchaseComplete = null;
+			}
 		}
 		
 		private function onAndroidInitError(e:InAppPurchaseEvent):void 
 		{			
 			androidReadyToPurchase = false;
+			androidInitErrorMsg = e.data;
+			FPSCounter.log("IAP:", e.data);	
 		}
 		
 		private function onAndroidInitSuccess(e:InAppPurchaseEvent):void 
 		{
 			androidReadyToPurchase = true;
-		}*/
+			FPSCounter.log("IAP init success");	
+		}
 		
 		public function makePurchase(productID:String, onPurchaseCallback:Function):void
 		{
@@ -144,11 +193,20 @@ package base
 				}
 				iOSiap.makePayment(pIdx);
 			}
-			/*if (Util.isAndroid)
+			else if (Util.isAndroid)
 			{				
-				androidIAP.purchase(productID, InAppPurchaseDetails.TYPE_INAPP);
-
-			}*/
+				if(androidReadyToPurchase)
+				{
+					androidIAP.purchase(productID, InAppPurchaseDetails.TYPE_INAPP);
+				}
+				else
+				{
+					var infoD:InfoDlg = Factory.getInstance(InfoDlg);
+					infoD.text = LangUtil.getText("cannotPurchase") + androidInitErrorMsg;
+					PopupMgr.flush();
+					PopupMgr.addPopUp(infoD);
+				}
+			}
 		}
 		
 		//private function onIOSTransactionDone(e:Event):void 
@@ -175,16 +233,13 @@ package base
 		}
 		
 		private function saveIOSReceiptsList():void
-		{
-			
-				var count:int = iosReceiptList ? iosReceiptList.length : 0;
-				Util.setPrivateValue(IOS_RECEIPT_PRE + "count", count.toString());
-				for (var i:int = 0; i < count; i++) 
-				{
-					Util.setPrivateValue(IOS_RECEIPT_PRE + "receipt" + i, iosReceiptList[i]);
-				}
-			
-			
+		{		
+			var count:int = iosReceiptList ? iosReceiptList.length : 0;
+			Util.setPrivateValue(IOS_RECEIPT_PRE + "count", count.toString());
+			for (var i:int = 0; i < count; i++) 
+			{
+				Util.setPrivateValue(IOS_RECEIPT_PRE + "receipt" + i, iosReceiptList[i]);
+			}					
 		}
 		
 		private function loadIOSReceiptList():void
@@ -225,6 +280,11 @@ package base
 			{
 				iOSiap.restoreProducts();
 				iosRestoreInProgress = true;
+			}
+			else if(Util.isAndroid)
+			{
+				FPSCounter.log("start restore purchase");
+				androidIAP.restore();
 			}
 			
 		}

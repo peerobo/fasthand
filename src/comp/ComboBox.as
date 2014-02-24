@@ -139,17 +139,18 @@ package comp
 		
 		private function onTouchCboBox():void 
 		{
+			var ico:DisplayObject;
 			if (!dropDownSpr.visible)
 			{
 				dropDownSpr.visible = true;
-				var ico:DisplayObject = getChildByName("ico");
+				ico = getChildByName("ico");
 				ico.scaleY = -1;
 				ico.y += ico.height;
 			}
 			else
 			{
 				dropDownSpr.visible = false;
-				var ico:DisplayObject = getChildByName("ico");
+				ico = getChildByName("ico");
 				ico.scaleY = 1;
 				ico.y -= ico.height;
 			}
