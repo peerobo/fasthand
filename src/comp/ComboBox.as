@@ -162,6 +162,11 @@ package comp
 		
 		override public function onRemoved(e:Event):void 
 		{
+			for (var i:int = 0; i < dropDownSpr.numChildren; i++) 
+			{
+				Factory.toPool(dropDownSpr.getChildAt(i));
+			} 
+			dropDownSpr.removeChildren();
 			dropDownSpr.removeFromParent();
 			super.onRemoved(e);
 		}

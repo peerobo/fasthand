@@ -99,8 +99,8 @@ package fasthand
 				currentPlayerScore = 0;
 				roundNo = 1;
 				startARound();
-			}
-			Starling.juggler.add(this);
+				Starling.juggler.add(this);
+			}			
 		}
 		
 		public function startARound():void
@@ -230,6 +230,7 @@ package fasthand
 		{
 			var hScoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
 			var hScoreType:String = cat;
+			PopupMgr.flush();
 			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);			
 			PopupMgr.addPopUp(scoreWnd, true);
 			scoreWnd.setTitle(cat);			

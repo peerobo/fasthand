@@ -40,51 +40,39 @@ package
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			//stage.addEventListener(Event.DEACTIVATE, deactivate);
-			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onAppExit);
-			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onAppActivate);
-			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);			
+			
 			// touch or gesture?
-			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;			
 			//EncryptedLocalStore.reset();
-			// entry point			
-			// new to AIR? please read *carefully* the readme.txt files!						
 			startStarlingFramework();
 			if (Capabilities.cpuArchitecture == "ARM") 
 			{
 				NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
 			}
+			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onAppExit);
+			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onAppActivate);
+			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);
 		}			
 	
 		private function onAppDeactivate(e:Event):void 
 		{			
-			FPSCounter.log("deactivated");
-			var gameState:GameSave = Factory.getInstance(GameSave);
-			gameState.saveState();
-			if (Util.isDesktop)
-				return;
-			
-			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
-			highscoreDB.saveHighscore();		
-			SoundManager.instance.muteMusic = true;
-			var logic:Fasthand = Factory.getInstance(Fasthand);			
-			if (ScreenMgr.currScr is GameScreen && logic.isStartGame)
-			{
-				var gScr:GameScreen = Factory.getInstance(GameScreen);
-				gScr.onPause();
-			}
+			Util.root.onAppDeactivate();			
 		}
 		
 		private function onAppActivate(e:Event):void 
 		{
-			SoundManager.instance.muteMusic = false;
+			if (Util.root)
+			{				
+				Util.root.onAppActivate();			
+			}
 		}
 		
 		private function onAppExit(e:Event):void 
 		{
-			if (Util.isAndroid)
-			{			
-				e.preventDefault();
-			}
+			if (Util.root)
+			{
+				Util.root.onAppExit();
+			}			
 		}
 		
 		private function startStarlingFramework():void 

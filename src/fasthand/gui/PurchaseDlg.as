@@ -69,7 +69,7 @@ package fasthand.gui
 			purchaseBt.setCallbackFunc(onRestorePurchase);
 			
 			var iap:IAP = Factory.getInstance(IAP);
-			yesBt.isDisable = !iap.canPurchase;
+			purchaseBt.isDisable = yesBt.isDisable = !iap.canPurchase;
 		}
 		
 		public function onRestorePurchase():void
@@ -94,7 +94,7 @@ package fasthand.gui
 		{
 			var iap:IAP = Factory.getInstance(IAP);			
 			PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
-			if (iap.checkBought(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : ""))
+			if (iap.checkBought(Util.isIOS ? Constants.IOS_PRODUCT_IDS[0] : Constants.ANDROID_PRODUCT_IDS[0]))
 			{
 				var infoD:InfoDlg = Factory.getInstance(InfoDlg);
 				infoD.text = LangUtil.getText("IAPComplete");

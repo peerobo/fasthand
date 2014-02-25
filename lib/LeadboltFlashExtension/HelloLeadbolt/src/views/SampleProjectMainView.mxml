@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" title="Hello Leadbolt" creationComplete="applicationCreated(null);">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.leadbolt.aslib.LeadboltAdEvent;
+			import com.leadbolt.aslib.LeadboltController;
+			
+			import flash.sensors.Accelerometer;
+			
+			private static var controller:LeadboltController = null;
+			private var iosDemoDisplayID:String = "615404672";
+			private var iosDemoAudioID:String = "340155759";
+			private var androidDemoDisplayID:String = "245955741";
+			private var androidDemoAudioID:String = "324021230";
+			private var flAccel:Accelerometer = new Accelerometer();
+			
+			protected function applicationCreated(event:MouseEvent):void
+			{
+				eventText.text = "CLick a button for a LeadBolt Ad!";
+				
+				/*************************************************
+				 * DEMO SECTION IDs FOR IOS						 *
+				 * *********************************************** 
+				 * 615404672 - Floating Ads
+				 * 489170668 - App-wall
+				 * 865902403 - Interstitial
+				 * 740665529 - Banner Ad
+				 * 655820858 - Alert with Audio enhancement
+				 * 340155759 - Audio Ad
+				 * 700473527 - Re-engagement
+				 * 
+				 *************************************************
+				 * DEMO SECTION IDs FOR ANDROID					 *
+				 * ***********************************************
+				 * 245955741 - Floating Ads
+				 * 504913636 - App-wall
+				 * 716330258 - Overlay Ad
+				 * 988252279 - Banner Ad
+				 * 165896661 - Alert with Audio enhancement
+				 * 324021230 - Audio Ad
+				 * 711617900 - re-engagement
+				 * 
+				 *************************************************/
+				
+			}
+
+			protected function topButtonClickHandler(event:MouseEvent):void
+			{	
+				//(1) Let's start by initiating the extension with a section ID
+				//syntax: <EXTENSION_INSTANCE> = new LeadboltController(<SECTION_ID>);
+				//eg.
+				controller = new LeadboltController(androidDemoDisplayID);
+				
+				/*************************************************/
+				//(2) Optional settings:
+				
+				// - Optional orientation setting (only needed for iOS device using landscape mode)
+				//controller.setLandscapeMode("1");
+				
+				// - Optional caching to speed up ad display (works best if called few seconds before calling loadAd();)
+				//controller.loadAdToCache();
+				
+				// - Optional registery to listen for LeadBolt ad events 
+				controller.registerDisplayAdEventListeners();
+				eventHandler();
+				
+				/*************************************************/
+				//(3) Use one of the following depending on the type of ad your section ID is for:
+				//Floating ad has been uncommented in this sample
+				
+				//OPTION 1: "Interstitial", "App Wall" and our new exciting "Floating Ads" are only 1 line of code away:
+				//syntax: <EXTENSION_INSTANCE>.loadAd();
+				//eg.
+				controller.loadAd();
+				
+				//OPTION 2: "Banner Ad" can be optionally be loaded with a margin. Specify the margin size before loading the ad if needed.
+				//syntax: <EXTENSION_INSTANCE>.setAdditionalDockingMargin(<MARGIN_IN_INT>);
+				//		  <EXTENSION_INSTANCE>.loadAd();
+				//eg.
+				//controller.setAdditionalDockingMargin(20);
+				//controller.loadAd;
+				
+				//OPTION 3: "Alert Ad" is now Audio enhanced, so will need shake motion detection for activation 
+				//			Need to additionally register shake detection listener like below and copy the "shakeDetected" function that follow 
+				//syntax: <EXTENSION_INSTANCE>.loadAd();
+				//		  <ACCELEROMETER_INSTANCE>.ADDEVENTLISTENER(AccelerometerEvent.UPDATE,<FUNCTION_NAME>);
+				//		  <EXTENSION_INSTANCE>.registerAudioAdEventListeners(); //this is optional, to listen to audio ad events
+				//eg.
+				//controller.loadAd();
+				//flAccel.addEventListener(AccelerometerEvent.UPDATE,shakeDetected);	
+				
+				//OPTION 4: "Re-engagement" helps to keep your audience engaged for longer 
+				//			Remember to instantiate with a section ID seuited for re-engagement before loading the re-engagement 
+				//syntax: <EXTENSION_INSTANCE>.loadReEngagement();
+				//eg.
+				//controller.loadReEngagement();
+				
+				//OPTION 5: "Quick Start Ad" Lets you deply 3 ad types in one go! 
+				//			Remember to firstly instantiate with a display type section ID before loading the Quick Start Ad 
+				//syntax: <EXTENSION_INSTANCE>.loadStartAd(<AUDIO_SECTION_ID>,<REENGAGEMENT_SECTION_ID>);
+				//eg.
+				//controller.loadStartAd(iosDemoAudioID ,"711617900");
+			}
+			
+			protected function midButtonClickHandler(event:MouseEvent):void
+			{	
+				if (controller != null) {
+					/*************************************************/
+					//(4) Optional Ad destroying command if a display ad is no longer needed
+					controller.destroyAd();
+					eventText.text = "destroying old ad and creating a new one";
+				}
+				
+				//OR 
+				
+				//use the Audio Ad option
+				//(1) Initialize! Make sure to use a section ID designed for Audio ad to take advantage of Leadbolt's Audio Ad! 
+				//eg:
+				controller = new LeadboltController(androidDemoAudioID);
+				
+				/*************************************************/
+				//(2) Optional settings:
+				// - Optional caching to speed up ad loading (works best if called few seconds before calling loadAudioAd();)
+				//controller.loadAudioAdToCache();
+				
+				// - Optional registery to listen for LeadBolt audio ad events
+				controller.registerAudioAdEventListeners();
+				eventHandler();
+				
+				/*************************************************/
+				//(3) Load "Audio Ad"! Activated by shake motion 
+				//			Need to additionally register shake detection listener like below and copy the "shakeDetected" function that follow
+				//syntax: <EXTENSION_INSTANCE>.loadAudioAd();
+				//		  <ACCELEROMETER_INSTANCE>.ADDEVENTLISTENER(AccelerometerEvent.UPDATE,<FUNCTION_NAME>);
+				//eg.
+				controller.loadAudioAd();
+				flAccel.addEventListener(AccelerometerEvent.UPDATE,shakeDetected);
+				
+			}
+			
+			protected function shakeDetected(event:AccelerometerEvent):void
+			{
+				var threshold:Number = 8;
+				var magnitude:Number = (event.accelerationX*event.accelerationX)+(event.accelerationY*event.accelerationY)+(event.accelerationZ*event.accelerationZ);
+				
+				if (magnitude >= threshold) {
+					controller.shakeMotionStarted();
+					flAccel.removeEventListener(AccelerometerEvent.UPDATE,shakeDetected);
+					controller.shakeMotionEnded();
+				}
+			}
+			
+			private function eventHandler():void
+			{
+				//Listen to "display ad" events that you want to be notified
+				controller.addEventListener(LeadboltAdEvent.ON_AD_LOADED, onAdLoaded);
+				controller.addEventListener(LeadboltAdEvent.ON_AD_CLICKED, onAdClicked);
+				controller.addEventListener(LeadboltAdEvent.ON_AD_CLOSED, onAdClosed);
+				controller.addEventListener(LeadboltAdEvent.ON_AD_COMPLETED, onAdCompleted);
+				controller.addEventListener(LeadboltAdEvent.ON_AD_FAILED, onAdFailed);
+				controller.addEventListener(LeadboltAdEvent.ON_AD_ALREADYCOMPLETED, onAdAlreadyCompleted);
+				controller.addEventListener(LeadboltAdEvent.ON_AD_CACHED, onAdCached);
+				
+				//OR "audio ad" events
+				controller.addEventListener(LeadboltAdEvent.ON_AUDIO_LOADED, onAudioEvent);
+				controller.addEventListener(LeadboltAdEvent.ON_AUDIO_CLICKED, onAudioEvent);
+				controller.addEventListener(LeadboltAdEvent.ON_AUDIO_FINISHED, onAudioEvent);
+				controller.addEventListener(LeadboltAdEvent.ON_AUDIO_FAILED, onAudioEvent);
+				controller.addEventListener(LeadboltAdEvent.ON_AUDIO_CACHED, onAudioEvent);
+			}
+			
+			private function onAdLoaded(event:Event):void {
+				//Add app specific code for this event here 
+				//For demo purpose, the status is displayed in a text box
+				eventText.text = "ad loaded";
+			}
+			
+			private function onAdClicked(event:Event):void {
+				//Add app specific code for this event here 
+				//For demo purpose, the status is displayed in a text box
+				eventText.text = "ad clicked";
+			}
+			
+			private function onAdClosed(event:Event):void {
+				//Add app specific code for this event here 
+				//For demo purpose, the status is displayed in a text box
+				eventText.text = "ad closed";	
+			}
+			
+			private function onAdCompleted(event:Event):void {
+				//Add app specific code for this event here 
+				//For demo purpose, the status is displayed in a text box
+				eventText.text = "ad completed";
+			}
+			
+			private function onAdFailed(event:Event):void {
+				//Add app specific code for this event here 
+				//For demo purpose, the status is displayed in a text box
+				eventText.text = "ad failed";
+			}
+			
+			private function onAdAlreadyCompleted(event:Event):void {
+				//Add app specific code for this event here 
+				//For demo purpose, the status is displayed in a text box
+				eventText.text = "ad already completed";
+			}
+			
+			private function onAdCached(event:Event):void {
+				//Add app specific code for this event here 
+				//If ad should only be loaded when it has been cached, then put the load ad command here
+				
+				//For demo purpose, the status is displayed in a text box
+				eventText.text = "ad cached";
+			}
+			
+			
+			//The following method demonstrates that events can also be handled in a group
+			
+			private function onAudioEvent(event:Event):void {
+				//Add app specific code for this event here 
+				//For demo purpose, the status is displayed in a text box
+				eventText.text = event.type;
+				
+				if(event.type == LeadboltAdEvent.ON_AUDIO_CACHED) {
+					//Add app specific code for this event here 
+					//If ad should only be loaded when it has been cached, then put the load audio ad command here
+					
+					//For demo purpose, the status is displayed in a text box
+					eventText.text = "Audio cached!"	
+				} else if(event.type == LeadboltAdEvent.ON_AUDIO_CLICKED) {
+					eventText.text = "Audio Ad activated!"
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Button x="50" y="80" label="Start Leadbolt Ad" click="topButtonClickHandler(event)"/>
+	<s:Button x="50" y="160" label="Start Leadbolt Audio Ad" click="midButtonClickHandler(event)"/>
+	<s:TextInput x="50" y="240" id="eventText" width="250"/>
+</s:View>
+

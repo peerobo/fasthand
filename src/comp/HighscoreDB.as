@@ -2,11 +2,15 @@ package comp
 {
 	import base.Factory;
 	import base.GlobalInput;
-	import com.adobe.ane.gameCenter.GameCenterAuthenticationEvent;
-	import com.adobe.ane.gameCenter.GameCenterController;
-	import com.adobe.ane.gameCenter.GameCenterLeaderboardEvent;
-	//import com.freshplanet.ane.AirGooglePlayGames.AirGooglePlayGames;
-	//import com.freshplanet.ane.AirGooglePlayGames.AirGooglePlayGamesEvent;
+	CONFIG::isIOS{
+		import com.adobe.ane.gameCenter.GameCenterAuthenticationEvent;
+		import com.adobe.ane.gameCenter.GameCenterController;
+		import com.adobe.ane.gameCenter.GameCenterLeaderboardEvent;
+	}
+	CONFIG::isAndroid{
+		import com.freshplanet.ane.AirGooglePlayGames.AirGooglePlayGames;
+		import com.freshplanet.ane.AirGooglePlayGames.AirGooglePlayGamesEvent;
+	}
 	import fasthand.FasthandUtil;
 	/**
 	 * ...
@@ -17,63 +21,73 @@ package comp
 		private var highscoreMap:Object;
 		
 		// game center only
-		private var gcController:GameCenterController;		
-		private var gameCenterLogged:Boolean;
-		private var validCats:Array;
-		//private var googlePlay:AirGooglePlayGames;
-		private var googlePlayLogged:Boolean;
+		CONFIG::isIOS{
+			private var gcController:GameCenterController;		
+			private var gameCenterLogged:Boolean;
+			private var validCats:Array;
+		}
+		
+		CONFIG::isAndroid{
+			private var googlePlay:AirGooglePlayGames;
+			private var googlePlayLogged:Boolean;
+		}
+		
 		
 		public function initGameCenter():void
 		{
-			if (GameCenterController.isSupported)
-			{
-				gcController = new GameCenterController();
-				//Authenticate 
-				gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_NOT_AUTHENTICATED, gameCenterAuthenticatedFailed);				
-				gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_AUTHENTICATION_CHANGED, gameCenterAuthenticatedChanged);				
-				//Leadership
-				gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_VIEW_FINISHED, leaderBoardViewClose);
-				gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_CATEGORIES_LOADED, leaderboardeCategoriesLoaded);				
-				gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_CATEGORIES_FAILED, leaderboardeCategoriesFailed);	
-				if (!gcController.authenticated) {
-					gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_AUTHENTICATED, gameCenterAuthenticated);
-					gcController.authenticate();
+			CONFIG::isIOS{
+				if (GameCenterController.isSupported)
+				{
+					gcController = new GameCenterController();
+					//Authenticate 
+					gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_NOT_AUTHENTICATED, gameCenterAuthenticatedFailed);				
+					gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_AUTHENTICATION_CHANGED, gameCenterAuthenticatedChanged);				
+					//Leadership
+					gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_VIEW_FINISHED, leaderBoardViewClose);
+					gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_CATEGORIES_LOADED, leaderboardeCategoriesLoaded);				
+					gcController.addEventListener(GameCenterLeaderboardEvent.LEADERBOARD_CATEGORIES_FAILED, leaderboardeCategoriesFailed);	
+					if (!gcController.authenticated) {
+						gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_AUTHENTICATED, gameCenterAuthenticated);
+						gcController.authenticate();
+					}
 				}
 			}
 		}
-		
-		private function leaderBoardViewClose(e:GameCenterLeaderboardEvent):void 
-		{
-			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-			globalInput.disable = false;
-		}
-		
-		private function gameCenterAuthenticatedChanged(e:GameCenterAuthenticationEvent):void 
-		{
-			gameCenterLogged = gcController.authenticated;
-		}
-		
-		private function gameCenterAuthenticatedFailed(e:GameCenterAuthenticationEvent):void 
-		{
-			gameCenterLogged = false;
-		}
-		
-		private function leaderboardeCategoriesFailed(e:GameCenterLeaderboardEvent):void 
-		{
-			validCats = null;
-		}
-		
-		private function leaderboardeCategoriesLoaded(e:GameCenterLeaderboardEvent):void 
-		{
-			validCats = e.leaderboardCategories;
-		}
-		
-		protected function gameCenterAuthenticated(event:GameCenterAuthenticationEvent):void
-		{
-			gameCenterLogged = gcController.authenticated;
-			if (gcController.authenticated)
+			
+		CONFIG::isIOS{	
+			private function leaderBoardViewClose(e:GameCenterLeaderboardEvent):void 
 			{
-				gcController.requestLeaderboardCategories();
+				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+				globalInput.disable = false;
+			}
+			
+			private function gameCenterAuthenticatedChanged(e:GameCenterAuthenticationEvent):void 
+			{
+				gameCenterLogged = gcController.authenticated;
+			}
+			
+			private function gameCenterAuthenticatedFailed(e:GameCenterAuthenticationEvent):void 
+			{
+				gameCenterLogged = false;
+			}
+			
+			private function leaderboardeCategoriesFailed(e:GameCenterLeaderboardEvent):void 
+			{
+				validCats = null;
+			}
+			
+			private function leaderboardeCategoriesLoaded(e:GameCenterLeaderboardEvent):void 
+			{
+				validCats = e.leaderboardCategories;
+			}
+			
+			protected function gameCenterAuthenticated(event:GameCenterAuthenticationEvent):void
+			{
+				gameCenterLogged = gcController.authenticated;
+				if (gcController.authenticated)
+				{
+					gcController.requestLeaderboardCategories();
+				}
 			}
 		}
 		
@@ -98,11 +112,13 @@ package comp
 		public function setHighscore(type:String, value:int):void
 		{
 			highscoreMap[type ] = value;
-			if (Util.isIOS && gameCenterLogged && validCats)
-			{
-				var catName:String = Constants.HIGHSCORE_ITUNE_PRE + type.substr(0, 1).toUpperCase() + type.substr(1);
-				if(validCats.indexOf(catName) > -1)
-					gcController.submitScore(value, catName);				
+			CONFIG::isIOS{
+				if (Util.isIOS && gameCenterLogged && validCats)
+				{
+					var catName:String = Constants.HIGHSCORE_ITUNE_PRE + type.substr(0, 1).toUpperCase() + type.substr(1);
+					if(validCats.indexOf(catName) > -1)
+						gcController.submitScore(value, catName);				
+				}
 			}
 		}
 		
@@ -127,52 +143,62 @@ package comp
 		
 		public function showGameCenterHighScore(cat:String):void 
 		{
-			if (gcController && gameCenterLogged && validCats)
-			{
-				var catName:String = Constants.HIGHSCORE_ITUNE_PRE + cat.substr(0, 1).toUpperCase() + cat.substr(1);
-				if(validCats.indexOf(catName) > -1)
+			CONFIG::isIOS{
+				if (gcController && gameCenterLogged && validCats)
 				{
-					gcController.showLeaderboardView(catName);
-					var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-					globalInput.disable = true;
+					var catName:String = Constants.HIGHSCORE_ITUNE_PRE + cat.substr(0, 1).toUpperCase() + cat.substr(1);
+					if(validCats.indexOf(catName) > -1)
+					{
+						gcController.showLeaderboardView(catName);
+						var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+						globalInput.disable = true;
+					}
 				}
 			}
 		}
 		
 		public function initGooglePlayGameService():void 
 		{
-			// Initialize
-			/*googlePlay = AirGooglePlayGames.getInstance();
-			googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_IN_SUCCESS, onGooglePlayResponse);
-			googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS, onGooglePlayResponse);
-			googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_IN_FAIL, onGooglePlayResponse);
-			googlePlay.startAtLaunch();		*/	
+			CONFIG::isAndroid{
+				// Initialize
+				googlePlay = AirGooglePlayGames.getInstance();
+				googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_IN_SUCCESS, onGooglePlayResponse);
+				googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS, onGooglePlayResponse);
+				googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_IN_FAIL, onGooglePlayResponse);
+				googlePlay.startAtLaunch();
+			}
 		}
-		
-		/*public function showGooglePlayLeaderboard(cat:String):void 
+				
+		public function showGooglePlayLeaderboard(cat:String):void 
 		{
-			if(googlePlay && googlePlayLogged)
-			{
-				googlePlay.showLeaderboard(FasthandUtil.getCatForGooglePlay(cat));
+			CONFIG::isAndroid{
+				if(googlePlay && googlePlayLogged)
+				{
+					googlePlay.showLeaderboard(FasthandUtil.getCatForGooglePlay(cat));
+				}
 			}
 		}
 		
-		private function onGooglePlayResponse(e:AirGooglePlayGamesEvent):void 
-		{
-			switch(e.type)
+		CONFIG::isAndroid{
+			private function onGooglePlayResponse(e:AirGooglePlayGamesEvent):void 
 			{
-				case AirGooglePlayGamesEvent.ON_SIGN_IN_SUCCESS:
-					googlePlayLogged = true;
-				break;
-				case AirGooglePlayGamesEvent.ON_SIGN_IN_FAIL:
-					googlePlayLogged = false;
-				break;
-				case AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS:
-					googlePlayLogged = false;
-				break;
+				switch(e.type)
+				{
+					case AirGooglePlayGamesEvent.ON_SIGN_IN_SUCCESS:
+						googlePlayLogged = true;
+						FPSCounter.log("play login ok");
+					break;
+					case AirGooglePlayGamesEvent.ON_SIGN_IN_FAIL:
+						googlePlayLogged = false;
+						FPSCounter.log("play login fail");
+					break;
+					case AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS:
+						googlePlayLogged = false;
+						FPSCounter.log("play login fail");
+					break;
+				}
 			}
-		}*/
-		
+		}
 	}
 
 }

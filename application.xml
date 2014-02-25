@@ -17,9 +17,9 @@
 			<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>			
 			<application android:enabled="true">
-				<meta-data android:name="com.google.android.gms.games.com.fc.FastHandEnglish" android:value="\ com.fc.FastHandEnglish" />
-				<activity android:name="com.freshplanet.googleplaygames.SignInActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-				<activity android:name="com.google.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/> 
+				<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 734115580995" />
+				<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+				<activity android:name="com.freshplanet.googleplaygames.SignInActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />								
 				<activity android:name="com.revmob.ads.fullscreen.FullscreenActivity" android:configChanges="keyboardHidden|orientation"></activity>
 				<activity android:name="com.pozirk.payment.BillingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />
 			</application>
@@ -94,15 +94,15 @@
 	Android manifest documentation:
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
-  <extensions>
-    <extensionID>so.cuo.platform.admob</extensionID>
+  <extensions>    
     <extensionID>com.freshplanet.ane.AirDeviceId</extensionID>
+	<extensionID>com.revmob.airextension</extensionID>
 	
+	<!--<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
+	<extensionID>com.freshplanet.AirGooglePlayGamesService</extensionID>-->
+	<extensionID>so.cuo.platform.admob</extensionID>
 	<extensionID>com.adobe.ane.gameCenter</extensionID>
 	<extensionID>com.adobe.ane.social</extensionID>
 	<extensionID>com.fc.StoreKitExt</extensionID>
-	<extensionID>com.revmob.airextension</extensionID>
-	
-	<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
   </extensions>
 </application>

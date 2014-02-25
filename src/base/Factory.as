@@ -175,6 +175,9 @@ package base
 
 		public static function addMouseClickCallback(eventDispatcher:EventDispatcher, f:Function, p:Array = null):void
 		{
+			if(eventDispatcher.hasEventListener(TouchEvent.TOUCH))			
+				eventDispatcher.removeEventListeners();
+			
 			eventDispatcher.addEventListener(TouchEvent.TOUCH, onMouseClickCallback);
 			ins.touchDict[eventDispatcher] = [f, p];
 		}

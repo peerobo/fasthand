@@ -8,14 +8,14 @@
 
 :: Android packaging
 set AND_CERT_NAME="Fasthand"
-set AND_CERT_PASS=fd
-set AND_CERT_FILE=cert\Fasthand.p12
+set AND_CERT_PASS=freeforall
+set AND_CERT_FILE=cert\firecheetahAndroid.p12
 set AND_ICONS=icons/android
 
 set AND_SIGNING_OPTIONS=-storetype pkcs12 -keystore "%AND_CERT_FILE%" -storepass %AND_CERT_PASS%
 
 :: iOS packaging
-set IOS_DIST_CERT_FILE=cert\newP12.p12
+set IOS_DIST_CERT_FILE=cert\dist.p12
 set IOS_DEV_CERT_FILE=cert\firecheetah.p12
 set IOS_DEV_CERT_PASS=freeforall
 set IOS_PROVISION=cert\Fast_Hand_English_Dev.mobileprovision

@@ -10,7 +10,6 @@ package fasthand.gui
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;
-	import com.adobe.ane.social.SocialServiceType;	
 	import comp.HighscoreDB;
 	import comp.SpriteNumber;
 	import fasthand.Fasthand;
@@ -28,6 +27,10 @@ package fasthand.gui
 	import starling.events.Event;
 	import starling.extensions.PDParticleSystem;
 	import starling.utils.Color;
+	
+	CONFIG::isIOS{
+		import com.adobe.ane.social.SocialServiceType;	
+	}	
 	
 	/**
 	 * ...
@@ -95,22 +98,28 @@ package fasthand.gui
 			var text:String = LangUtil.getText("shareMsg");
 			text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);								
 			
-			Util.shareOnIOS(type, text, Util.g_takeSnapshot());
+			CONFIG::isIOS{
+				Util.shareOnIOS(type, text, Util.g_takeSnapshot());
+			}
 		}
 		
 		private function onFacebook():void 
 		{
-			if(Util.isIOS)
-			{
-				shareOnIOS(SocialServiceType.FACEBOOK);
+			CONFIG::isIOS{
+				if(Util.isIOS)
+				{
+					shareOnIOS(SocialServiceType.FACEBOOK);
+				}
 			}
 		}
 		
 		private function onTwitter():void 
 		{
-			if(Util.isIOS)
-			{
-				shareOnIOS(SocialServiceType.TWITTER);
+			CONFIG::isIOS{
+				if(Util.isIOS)
+				{
+					shareOnIOS(SocialServiceType.TWITTER);
+				}
 			}
 		}
 		
@@ -123,10 +132,10 @@ package fasthand.gui
 			{			
 				highscoreDB.showGameCenterHighScore(cat);
 			}
-			/*else if (Util.isAndroid)
+			else if (Util.isAndroid)
 			{
 				highscoreDB.showGooglePlayLeaderboard(cat);
-			}*/
+			}
 		}
 		
 		private function openSelfAgain():void 
@@ -160,6 +169,8 @@ package fasthand.gui
 		
 		override public function onRemoved(e:Event):void 
 		{
+			Factory.removeMouseClickCallback(twitterBt);
+			Factory.removeMouseClickCallback(facebookBt);
 			particleSys.stop();
 			particleSys.removeFromParent();
 			LayerMgr.lockGameLayer = false;

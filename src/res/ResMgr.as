@@ -50,7 +50,7 @@ package res
 		public function ResMgr() 
 		{
 			assetMgr = new AssetManager(Starling.contentScaleFactor);			
-			assetMgr.verbose = true;
+			assetMgr.verbose = false;
 			
 			// for dynamic loading
 			urlLoader = new URLLoader();			
@@ -160,8 +160,7 @@ package res
 		{
 			updateInternalProgress();
 			
-			assetMgr.enqueue(Asset.getBasicTextureAtlURL());
-			FPSCounter.log("start load");
+			assetMgr.enqueue(Asset.getBasicTextureAtlURL());			
 			assetMgr.loadQueue(onAssetProgress);			
 		}
 		

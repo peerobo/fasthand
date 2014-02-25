@@ -29,14 +29,12 @@ package fasthand.gui
 	 * @author ndp
 	 */
 	public class GameBoard extends BaseJsonGUI 
-	{
-		//private var scoreBoard:SpriteNumber;
+	{		
 		public var wordTxt:BaseBitmapTextField;
 		public var rectTile:Array;
 		public var timeProgressbar:DisplayObject;
 		public var timeProgressbarBg:DisplayObject;
-		public var rectPBMin:Rectangle;
-		
+		public var rectPBMin:Rectangle;		
 		public var maxTime:Number;
 		public var time:Number;
 		public var isAnimatedTime:Boolean;		
@@ -46,6 +44,7 @@ package fasthand.gui
 		private var countAnimatedDone:int;
 		private var _isPaused:Boolean;		
 		private var shakeObj:ShakeObject;
+		private var currentTimeoutIdx:Number;
 		
 		public function GameBoard() 
 		{
@@ -77,6 +76,12 @@ package fasthand.gui
 			}					
 		}
 		
+		override public function onRemoved(e:Event):void 
+		{
+			_isPaused = false;
+			super.onRemoved(e);
+		}
+		
 		private function onItemClick(item:TileRenderer):void 
 		{
 			onSelectWord(item.word,item);
@@ -84,7 +89,6 @@ package fasthand.gui
 		
 		public function resetTimeCount():void
 		{
-			_isPaused = false;
 			timeProgressbar.width = timeProgressbarBg.width;
 			time = maxTime;
 			if (timeoutSound)
@@ -118,8 +122,7 @@ package fasthand.gui
 					}
 					timeProgressbar.width = w;
 				}			
-			}
-			//scoreBoard.text = Util.numberWithCommas(logic.currentPlayerScore);
+			}			
 		}
 		
 		public function animate():void 
@@ -134,10 +137,7 @@ package fasthand.gui
 				item.reset();
 				item.flatten();
 				item.scaleX = item.scaleY = 0.3;				
-				//if (i == 0)
 				Starling.juggler.tween(item, 0.5, { scaleX:1, scaleY:1, onComplete: animatedDone } );
-				//else
-					//Starling.juggler.tween(item, 0.5, { scaleX:1, scaleY:1 } );
 			}
 			if (timeoutSound)
 				timeoutSound.stop();
@@ -221,11 +221,24 @@ package fasthand.gui
 		public function pause():void 
 		{
 			_isPaused = true;
+			if (timeoutSound)
+			{
+				currentTimeoutIdx = timeoutSound.position;
+				timeoutSound.stop();
+			}
+			else
+			{
+				currentTimeoutIdx = -1;
+			}
 		}
 		
 		public function resume():void 
 		{
 			_isPaused = false;
+			if (currentTimeoutIdx > -1)
+			{
+				timeoutSound = SoundManager.playSound(SoundAsset.SOUND_TIMEOUT, false, 0, 1, currentTimeoutIdx);
+			}
 		}
 		
 	}

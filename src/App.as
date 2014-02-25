@@ -7,7 +7,11 @@ package
 	import base.IAP;
 	import base.LayerMgr;	
 	import base.ScreenMgr;
+	import base.SoundManager;
 	import comp.HighscoreDB;
+	import fasthand.Fasthand;
+	import fasthand.screen.CategoryScreen;
+	import fasthand.screen.GameScreen;
 	import flash.display.Stage;
 	import res.asset.ParticleAsset;
 	import res.asset.SoundAsset;
@@ -32,8 +36,6 @@ package
 	public class App extends Sprite 
 	{
 		public static const APP_NAME:String = "fasthand";
-		public static var APP_ID_IPHONE:String = "820843454";
-		public static var APP_ID_ANDROID:String = "com.chillingo.deadahead.rowgplay";
 		
 		public function App() 
 		{
@@ -43,10 +45,41 @@ package
 			this.alpha = 0.9999;			
 		}				
 		
+		public function onAppDeactivate():void 
+		{			
+			if (Util.isDesktop)
+				return;
+			SoundManager.instance.muteMusic = true;
+			var logic:Fasthand = Factory.getInstance(Fasthand);			
+			if (ScreenMgr.currScr is GameScreen && logic.isStartGame)
+			{
+				var gScr:GameScreen = Factory.getInstance(GameScreen);
+				gScr.onPause();
+			}
+		}
+		
+		public function onAppActivate():void 
+		{
+			if (ScreenMgr.currScr is CategoryScreen)
+			{				
+				SoundManager.instance.muteMusic = false;
+			}
+			
+		}
+		
+		public function onAppExit():void 
+		{
+			var gameState:GameSave = Factory.getInstance(GameSave);
+			gameState.saveState();
+			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			highscoreDB.saveHighscore();		
+			
+		}
+		
 		private function onInit(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onInit);
-			
+			Util.root = this;
 			var fps:FPSCounter = new FPSCounter(0, 0, 0xFFFFFF, true, 0x0);
 			Starling.current.nativeOverlay.addChild(fps);
 			try
@@ -65,8 +98,7 @@ package
 			catch (err:Error)
 			{
 				FPSCounter.log(err.message);
-			}
-			Util.root = this;
+			}			
 			LayerMgr.init(this);
 			var input:GlobalInput = Factory.getInstance(GlobalInput);
 			input.init();

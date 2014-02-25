@@ -10,8 +10,13 @@ package
 	import base.LangUtil;
 	import base.PopupMgr;
 	import by.blooddy.crypto.SHA1;
-	import com.adobe.ane.social.SocialServiceType;
-	import com.adobe.ane.social.SocialUI;
+	CONFIG::isIOS {
+		import com.adobe.ane.social.SocialServiceType;
+		import com.adobe.ane.social.SocialUI;
+		import so.cuo.platform.admob.Admob;
+		import so.cuo.platform.admob.AdmobEvent;
+		import so.cuo.platform.admob.AdmobPosition;
+	}
 	import com.freshplanet.ane.AirDeviceId;
 	import com.revmob.airextension.events.RevMobAdsEvent;
 	import com.revmob.airextension.RevMob;
@@ -21,8 +26,7 @@ package
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import starling.core.RenderSupport;	
-	import comp.AdEmulator;
+	import starling.core.RenderSupport;		
 	import comp.LoadingIcon;
 	import comp.TileImage;
 	import fasthand.gui.ConfirmDlg;
@@ -36,10 +40,7 @@ package
 	import flash.net.SharedObject;
 	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
-	import flash.net.URLRequest;
-	import so.cuo.platform.admob.Admob;
-	import so.cuo.platform.admob.AdmobEvent;
-	import so.cuo.platform.admob.AdmobPosition;
+	import flash.net.URLRequest;	
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -65,7 +66,7 @@ package
 		static private var revmob:RevMob;
 		static private var isCreatingFullscreenAd:Boolean;
 		static private var isCreatingBanner:Boolean;
-		public static var root:Sprite;				
+		public static var root:App;				
 		
 		public static function getFilter(type:int):FragmentFilter
 		{
@@ -95,53 +96,55 @@ package
 		public static function get isFullApp():Boolean
 		{
 			var iap:IAP = Factory.getInstance(IAP);
-			var ret:Boolean = Util.isIOS ? iap.checkBought(Constants.IOS_PRODUCT_IDS[0]) : false;
+			var ret:Boolean = Util.isIOS ? iap.checkBought(Constants.IOS_PRODUCT_IDS[0]) : iap.checkBought(Constants.ANDROID_PRODUCT_IDS[0]);
 			return ret;
 		}
 		
-		public static function shareOnIOS(type:String,msg:String,image:BitmapData):void
-		{
-			if(SocialUI.isSupported)
+		CONFIG::isIOS{
+			public static function shareOnIOS(type:String,msg:String,image:BitmapData):void
 			{
-				var sUI:SocialUI = new SocialUI(type);
-				sUI.setMessage(msg);
-				sUI.addImage(image);
-				sUI.addEventListener(Event.COMPLETE,onShareIOSDone);
-				sUI.addEventListener(ErrorEvent.ERROR,onShareIOSDone);
-				sUI.addEventListener(Event.CANCEL,onShareIOSDone);
-				sUI.launch();
-				var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-				globalInput.setDisableTimeout(3);
+				if(SocialUI.isSupported)
+				{
+					var sUI:SocialUI = new SocialUI(type);
+					sUI.setMessage(msg);
+					sUI.addImage(image);
+					sUI.addEventListener(Event.COMPLETE,onShareIOSDone);
+					sUI.addEventListener(ErrorEvent.ERROR,onShareIOSDone);
+					sUI.addEventListener(Event.CANCEL,onShareIOSDone);
+					sUI.launch();
+					var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+					globalInput.setDisableTimeout(3);
+				}
+				else
+				{
+					var str:String = LangUtil.getText("shareUnavailable");
+					str = Util.replaceStr(str, ["@type"], [type == SocialServiceType.FACEBOOK ? "Facebook":"Twitter"]);
+					var infoDlg:InfoDlg = Factory.getInstance(InfoDlg);
+					infoDlg.text = str;
+					PopupMgr.addPopUp(infoDlg);
+				}
 			}
-			else
+			
+			private static function onShareIOSDone(e:Event):void 
 			{
-				var str:String = LangUtil.getText("shareUnavailable");
-				str = Util.replaceStr(str, ["@type"], [type == SocialServiceType.FACEBOOK ? "Facebook":"Twitter"]);
-				var infoDlg:InfoDlg = Factory.getInstance(InfoDlg);
-				infoDlg.text = str;
-				PopupMgr.addPopUp(infoDlg);
+				switch (e.type) 
+				{
+					case Event.COMPLETE:
+						
+					break;
+					case Event.CANCEL:
+						
+					break;
+					case ErrorEvent.ERROR:
+						
+					break;
+					default:
+				}
+				var ed:EventDispatcher = e.currentTarget as EventDispatcher;
+				ed.removeEventListener(Event.COMPLETE,onShareIOSDone);
+				ed.removeEventListener(ErrorEvent.ERROR,onShareIOSDone);
+				ed.removeEventListener(Event.CANCEL,onShareIOSDone);			
 			}
-		}
-		
-		private static function onShareIOSDone(e:Event):void 
-		{
-			switch (e.type) 
-			{
-				case Event.COMPLETE:
-					
-				break;
-				case Event.CANCEL:
-					
-				break;
-				case ErrorEvent.ERROR:
-					
-				break;
-				default:
-			}
-			var ed:EventDispatcher = e.currentTarget as EventDispatcher;
-			ed.removeEventListener(Event.COMPLETE,onShareIOSDone);
-			ed.removeEventListener(ErrorEvent.ERROR,onShareIOSDone);
-			ed.removeEventListener(Event.CANCEL,onShareIOSDone);			
 		}
 		
 		public static function rateMe():void
@@ -227,14 +230,15 @@ package
 					revmob.addEventListener( RevMobAdsEvent.AD_NOT_RECEIVED, onRevMobAdEvent );
 					revmob.addEventListener( RevMobAdsEvent.AD_RECEIVED, onRevMobAdEvent );
 				}
-				
-				var admob:Admob = Admob.getInstance();
-				if (admob.supportDevice)
-				{
-					admob.setKeys(Util.isIOS ? Constants.ADMOB_IOS_ID : Constants.ADMOB_ANDROID_ID);
-					admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
-					admob.addEventListener(AdmobEvent.onInterstitialFailedReceive, onAdReceived);
-					admob.addEventListener(AdmobEvent.onBannerFailedReceive, onAdReceived);
+				CONFIG::isIOS{
+					var admob:Admob = Admob.getInstance();
+					if (admob.supportDevice)
+					{
+						admob.setKeys(Util.isIOS ? Constants.ADMOB_IOS_ID : Constants.ADMOB_ANDROID_ID);
+						admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
+						admob.addEventListener(AdmobEvent.onInterstitialFailedReceive, onAdReceived);
+						admob.addEventListener(AdmobEvent.onBannerFailedReceive, onAdReceived);
+					}				
 				}
 				isInitAd = true;
 			}
@@ -317,55 +321,58 @@ package
 		public static function showBannerAd():void
 		{
 			if (isInitAd)
+			{	
+				trace("show banner")
+				CONFIG::isIOS{					
+					var admob:Admob = Admob.getInstance();
+					admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position	
+				}
+			}
+		}
+		
+		CONFIG::isIOS{		
+			private static function onAdReceived(e:AdmobEvent):void
 			{
-				FPSCounter.log("show ad");
 				var admob:Admob = Admob.getInstance();
-				admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position							
-				//if (isDesktop)
-					//AdEmulator.showBannerAd();					
-				//revmob.createBanner(0,Util.deviceHeight - 370);
-				//isCreatingBanner = true;
-				
+				if (e.type == AdmobEvent.onInterstitialReceive)
+				{
+					admob.showInterstitial();
+					PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+				}
+				else if (e.type == AdmobEvent.onBannerFailedReceive)
+				{
+					FPSCounter.log(JSON.stringify(e.data));
+				}
+				else if (e.type == AdmobEvent.onInterstitialFailedReceive)
+				{				
+					PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+				}
+				 
 			}
 		}
 		
 		public static function hideBannerAd():void
 		{
-			var admob:Admob = Admob.getInstance();
-			
 			if(isInitAd)
 			{
-				//revmob.hideBanner();
-				//revmob.releaseBanner();
-				if(admob.supportDevice)
-					admob.hideBanner();
+				trace("hide banner");
+				CONFIG::isIOS {
+					var admob:Admob = Admob.getInstance();
+					if(admob.supportDevice)
+						admob.hideBanner();
+				}
 			}
-			if (isDesktop)
-				AdEmulator.hideAd();
 		}
 		
 		public static function showFullScreenAd():void
 		{
-			//Chartboost.getInstance().setInterstitialKeys("4f7b433509b602538043000002", "dd2d41b69ac01b80f44443f5b6cf06096d457f82bd");// app id and sign id created in chartboost.com site
-			// then show chartboost Interstitial
-			//Chartboost.getInstance().showInterstitial(); 
-			//or show chartboost more app page
-			//Chartboost.getInstance().showMoreAppPage();
 			if (isInitAd)
 			{
-				//var admob:Admob = Admob.getInstance();
-				//if (admob.supportDevice)
-				//{
-					//admob.cacheInterstitial();				
-					//PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
-				//}
-				//Util.hideBannerAd();
-				
+				if (isDesktop)
+					return;
 				revmob.createFullscreen();
 				isCreatingFullscreenAd = true;
 				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));				
-				if (isDesktop)
-					AdEmulator.showFullscreenAd();
 			}
 		}
 		
@@ -381,25 +388,6 @@ package
 			while (pattern.test(str))
 				str = str.replace(pattern, "$1,$2");
 			return str;
-		}
-		
-		private static function onAdReceived(e:AdmobEvent):void
-		{
-			var admob:Admob = Admob.getInstance();
-			if (e.type == AdmobEvent.onInterstitialReceive)
-			{
-				admob.showInterstitial();
-				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
-			}
-			else if (e.type == AdmobEvent.onBannerFailedReceive)
-			{
-				FPSCounter.log(JSON.stringify(e.data));
-			}
-			else if (e.type == AdmobEvent.onInterstitialFailedReceive)
-			{				
-				PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
-			}
-			 
 		}
 		
 		public static function get appWidth():int
@@ -464,7 +452,7 @@ package
 					img.filter = null;
 					img.pivotY = img.pivotX = 0;
 					img.rotation = 0;
-					img.alpha = 1;
+					img.alpha = 1;					
 				});
 			
 			Factory.registerPoolCreator(MovieClip, function():MovieClip
@@ -492,16 +480,6 @@ package
 					c.p = null;
 					c.optionalData = null;
 				});
-			
-			//Factory.registerPoolCreator(BaseButton, function():BaseButton {
-			//var baseBt:BaseButton = new BaseButton();
-			//return baseBt;
-			//},
-			//function (bt:BaseButton):void {										
-			//bt.destroy();					
-			//}
-			//);
-			
 			Factory.registerPoolCreator(Quad, function():Quad
 				{
 					return new Quad(1, 1);
@@ -520,7 +498,8 @@ package
 					img.filter = null;
 					img.pivotY = img.pivotX = 0;
 					img.rotation = 0;
-					img.alpha = 1;
+					img.alpha = 1;					
+					img.unflatten();
 				});
 		}
 		

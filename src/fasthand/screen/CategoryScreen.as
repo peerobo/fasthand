@@ -64,6 +64,7 @@ package fasthand.screen
 		{
 			super();
 			SoundManager.playSound(SoundAsset.THEME_SONG, true, 0, 0.7);
+			SoundManager.instance.muteMusic = false;
 			catChooser = new CategorySelector();
 			catChooser.onSelectCategoryCallback = selectCategory;
 			waitTime2ShowAd = Constants.AD_FULL_WAITTIME;
@@ -264,6 +265,7 @@ package fasthand.screen
 		
 		override public function onRemoved(e:Event):void
 		{
+			Factory.removeMouseClickCallback(title);
 			catChooser.removeFromParent();			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			globalInput.unregisterSwipe(cb);
