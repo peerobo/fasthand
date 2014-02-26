@@ -9,7 +9,11 @@ package
 	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;
-	import by.blooddy.crypto.SHA1;
+	import by.blooddy.crypto.SHA1;	
+	CONFIG::isAndroid {
+		import com.leadbolt.aslib.LeadboltController;
+		import com.leadbolt.aslib.LeadboltAdEvent;
+	}
 	CONFIG::isIOS {
 		import com.adobe.ane.social.SocialServiceType;
 		import com.adobe.ane.social.SocialUI;
@@ -66,7 +70,11 @@ package
 		static private var revmob:RevMob;
 		static private var isCreatingFullscreenAd:Boolean;
 		static private var isCreatingBanner:Boolean;
-		public static var root:App;				
+		public static var root:App;			
+		
+		CONFIG::isAndroid {
+			private static var leadBolt:LeadboltController;
+		}
 		
 		public static function getFilter(type:int):FragmentFilter
 		{
@@ -234,13 +242,45 @@ package
 					var admob:Admob = Admob.getInstance();
 					if (admob.supportDevice)
 					{
-						admob.setKeys(Util.isIOS ? Constants.ADMOB_IOS_ID : Constants.ADMOB_ANDROID_ID);
+						admob.setKeys(Constants.ADMOB_IOS_ID);
 						admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
 						admob.addEventListener(AdmobEvent.onInterstitialFailedReceive, onAdReceived);
 						admob.addEventListener(AdmobEvent.onBannerFailedReceive, onAdReceived);
 					}				
 				}
+				CONFIG::isAndroid {
+					leadBolt = new LeadboltController(Constants.LEAD_BOLT_BANNER_ID);
+					leadBolt.setLandscapeMode("1");
+					leadBolt.registerDisplayAdEventListeners();					
+					leadBolt.addEventListener(LeadboltAdEvent.ON_AD_LOADED, onLeadBoltAdEvent);
+					leadBolt.addEventListener(LeadboltAdEvent.ON_AD_CLICKED, onLeadBoltAdEvent);
+					leadBolt.addEventListener(LeadboltAdEvent.ON_AD_CLOSED, onLeadBoltAdEvent);
+					leadBolt.addEventListener(LeadboltAdEvent.ON_AD_COMPLETED, onLeadBoltAdEvent);
+					leadBolt.addEventListener(LeadboltAdEvent.ON_AD_FAILED, onLeadBoltAdEvent);
+					leadBolt.addEventListener(LeadboltAdEvent.ON_AD_ALREADYCOMPLETED, onLeadBoltAdEvent);
+					leadBolt.addEventListener(LeadboltAdEvent.ON_AD_CACHED, onLeadBoltAdEvent);										
+				}
 				isInitAd = true;
+			}
+		}
+		
+		CONFIG::isAndroid{
+		private static function onLeadBoltAdEvent(e:LeadboltAdEvent):void 
+			{
+				switch (e.type) 
+				{
+					case LeadboltAdEvent.ON_AD_FAILED:
+						FPSCounter.log("lead bolt ad failed");
+					break;
+					case LeadboltAdEvent.ON_AD_CACHED:
+						leadBolt.loadAd();
+					break;
+					case LeadboltAdEvent.ON_AD_CLICKED:
+						leadBolt.destroyAd();
+						leadBolt.loadAdToCache();
+					break;
+					default:
+				}
 			}
 		}
 		
@@ -322,10 +362,15 @@ package
 		{
 			if (isInitAd)
 			{	
-				trace("show banner")
+				FPSCounter.log("show banner");
 				CONFIG::isIOS{					
 					var admob:Admob = Admob.getInstance();
 					admob.showBanner(Admob.SMART_BANNER, AdmobPosition.BOTTOM_CENTER); //show banner with relation position	
+				}
+				CONFIG::isAndroid {					
+					leadBolt.destroyAd();
+					leadBolt.loadAdToCache();					
+					Starling.juggler.delayCall(showBannerAd, 120);
 				}
 			}
 		}
@@ -355,11 +400,14 @@ package
 		{
 			if(isInitAd)
 			{
-				trace("hide banner");
+				FPSCounter.log("hide banner");
 				CONFIG::isIOS {
 					var admob:Admob = Admob.getInstance();
 					if(admob.supportDevice)
 						admob.hideBanner();
+				}
+				CONFIG::isAndroid {
+					leadBolt.destroyAd();
 				}
 			}
 		}

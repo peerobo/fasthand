@@ -76,6 +76,9 @@ package fasthand.screen
 			switchDiff.init(ButtonAsset.BT_BLUE, ButtonAsset.BT_DARK_GRAY, IconAsset.ICO_DROP_DOWN);			
 			var values:Array = [LangUtil.getText("fast"), LangUtil.getText("slow")];
 			switchDiff.initList(values, idxDiff, onSwitchDiff, [values]);
+			
+			Util.showBannerAd();
+			
 		}
 		
 		public function selectCategory(cat:String):void
@@ -212,7 +215,7 @@ package fasthand.screen
 		
 		private function onCheat():void 
 		{
-			cheatCountActivate++
+			cheatCountActivate++;
 			if (cheatCountActivate >= 7)
 			{
 				EncryptedLocalStore.reset();

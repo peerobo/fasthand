@@ -2,6 +2,7 @@ package comp
 {
 	import base.Factory;
 	import base.GlobalInput;
+	import starling.core.Starling;
 	CONFIG::isIOS{
 		import com.adobe.ane.gameCenter.GameCenterAuthenticationEvent;
 		import com.adobe.ane.gameCenter.GameCenterController;
@@ -111,13 +112,48 @@ package comp
 		
 		public function setHighscore(type:String, value:int):void
 		{
-			highscoreMap[type ] = value;
+			var catName:String;
+			highscoreMap[type ] = value;			
 			CONFIG::isIOS{
 				if (Util.isIOS && gameCenterLogged && validCats)
 				{
-					var catName:String = Constants.HIGHSCORE_ITUNE_PRE + type.substr(0, 1).toUpperCase() + type.substr(1);
+					catName = Constants.HIGHSCORE_ITUNE_PRE + type.substr(0, 1).toUpperCase() + type.substr(1);
 					if(validCats.indexOf(catName) > -1)
 						gcController.submitScore(value, catName);				
+				}				
+			}
+			CONFIG::isAndroid {
+				if (Util.isAndroid && googlePlayLogged)
+				{
+					catName = FasthandUtil.getCatForGooglePlay(type);
+					googlePlay.reportScore(catName, value);
+				}
+			}
+			
+			var tmpVal:int = 0;
+			for (var cat:String in highscoreMap) 
+			{
+				if (cat == Constants.OVERALL_HIGHSCORE)
+					continue;
+				tmpVal += highscoreMap[cat];
+			}
+			if (highscoreMap[Constants.OVERALL_HIGHSCORE] < tmpVal)
+			{
+				highscoreMap[Constants.OVERALL_HIGHSCORE] = tmpVal;
+				CONFIG::isIOS{
+					if (Util.isIOS && gameCenterLogged && validCats)
+					{
+						catName = Constants.HIGHSCORE_ITUNE_PRE + Constants.OVERALL_HIGHSCORE.substr(0, 1).toUpperCase() + Constants.OVERALL_HIGHSCORE.substr(1);
+						if(validCats.indexOf(catName) > -1)
+							gcController.submitScore(value, catName);				
+					}				
+				}
+				CONFIG::isAndroid {
+					if (Util.isAndroid && googlePlayLogged)
+					{
+						catName = FasthandUtil.getCatForGooglePlay(Constants.OVERALL_HIGHSCORE);
+						googlePlay.reportScore(catName, value);
+					}
 				}
 			}
 		}
@@ -154,6 +190,10 @@ package comp
 						globalInput.disable = true;
 					}
 				}
+				else if (gcController && !gameCenterLogged && validCats)
+				{
+					gcController.authenticate();
+				}
 			}
 		}
 		
@@ -166,6 +206,8 @@ package comp
 				googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS, onGooglePlayResponse);
 				googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_IN_FAIL, onGooglePlayResponse);
 				googlePlay.startAtLaunch();
+				
+				Starling.juggler.delayCall(googlePlay.signOut, 5);
 			}
 		}
 				
@@ -175,6 +217,10 @@ package comp
 				if(googlePlay && googlePlayLogged)
 				{
 					googlePlay.showLeaderboard(FasthandUtil.getCatForGooglePlay(cat));
+				}
+				else if(googlePlay)
+				{
+					googlePlay.signIn();
 				}
 			}
 		}
@@ -194,7 +240,7 @@ package comp
 					break;
 					case AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS:
 						googlePlayLogged = false;
-						FPSCounter.log("play login fail");
+						googlePlay.signIn();						
 					break;
 				}
 			}

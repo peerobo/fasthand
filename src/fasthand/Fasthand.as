@@ -47,7 +47,7 @@ package fasthand
 		
 		public var highscore:int;			
 		private var _pause:Boolean;
-		private var resumeData:Object;
+		private var resumeData:Object;				
 		
 		public function Fasthand() 
 		{
@@ -80,7 +80,8 @@ package fasthand
 			for each (var s:String in FasthandUtil.getListCat())
 			{
 				highscoreDB.registerType(s);				
-			}									
+			}				
+			highscoreDB.registerType(Constants.OVERALL_HIGHSCORE);
 			highscoreDB.loadHighscore();
 		}
 		

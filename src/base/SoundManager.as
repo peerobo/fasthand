@@ -309,6 +309,8 @@ package base
 		
 		public function set muteMusic(value:Boolean):void
 		{
+			if (_muteMusic == value)
+				return;
 			_muteMusic = value;
 			var i:int;
 			if (_currentPlayingSound)

@@ -3,6 +3,7 @@
 		<welcome> Chào mừng các bạn\nđến với game</welcome>		
 	</vi>
 	<en>
+		<overall>Overall</overall>
 		<loading>Loading</loading>
 		<extraContentLoad>Category: @cat (@idxCat/@totalCat)\nFile: (@idxFile/@totalFile)</extraContentLoad>
 		<downloadExtraContent>Downloading require content</downloadExtraContent>
