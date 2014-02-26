@@ -9,10 +9,11 @@ package
 	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;
-	import by.blooddy.crypto.SHA1;	
+	import by.blooddy.crypto.SHA1;		
 	CONFIG::isAndroid {
 		import com.leadbolt.aslib.LeadboltController;
 		import com.leadbolt.aslib.LeadboltAdEvent;
+		import comp.SocialForAndroid;
 	}
 	CONFIG::isIOS {
 		import com.adobe.ane.social.SocialServiceType;
@@ -106,6 +107,14 @@ package
 			var iap:IAP = Factory.getInstance(IAP);
 			var ret:Boolean = Util.isIOS ? iap.checkBought(Constants.IOS_PRODUCT_IDS[0]) : iap.checkBought(Constants.ANDROID_PRODUCT_IDS[0]);
 			return ret;
+		}
+		
+		CONFIG::isAndroid {
+			public static function shareOnFBAndroid(msg:String,image:BitmapData):void
+			{
+				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+				social.share(SocialForAndroid.FACEBOOK_TYPE, msg, image);
+			}
 		}
 		
 		CONFIG::isIOS{

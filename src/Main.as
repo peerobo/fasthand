@@ -7,7 +7,7 @@ package
 	import base.LangUtil;
 	import base.ScreenMgr;
 	import base.SoundManager;
-	import comp.HighscoreDB;
+	import comp.GameService;
 	import fasthand.Fasthand;
 	import fasthand.screen.GameScreen;
 	import flash.data.EncryptedLocalStore;

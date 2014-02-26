@@ -8,7 +8,10 @@ package
 	import base.LayerMgr;	
 	import base.ScreenMgr;
 	import base.SoundManager;
-	import comp.HighscoreDB;
+	import comp.GameService;
+	CONFIG::isAndroid{
+		import comp.SocialForAndroid;
+	}
 	import fasthand.Fasthand;
 	import fasthand.screen.CategoryScreen;
 	import fasthand.screen.GameScreen;
@@ -71,7 +74,7 @@ package
 		{
 			var gameState:GameSave = Factory.getInstance(GameSave);
 			gameState.saveState();
-			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			var highscoreDB:GameService = Factory.getInstance(GameService);
 			highscoreDB.saveHighscore();		
 			
 		}
@@ -86,7 +89,7 @@ package
 			{
 				var gameState:GameSave = Factory.getInstance(GameSave);
 				gameState.loadState();
-				var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);			
+				var highscoreDB:GameService = Factory.getInstance(GameService);			
 				if(Util.isIOS)
 					highscoreDB.initGameCenter();
 				else if (Util.isAndroid)
@@ -94,6 +97,10 @@ package
 				FPSCounter.log("iap");
 				var iap:IAP = Factory.getInstance(IAP);
 				iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
+				CONFIG::isAndroid {
+					var shareAndroid:SocialForAndroid = Factory.getInstance(SocialForAndroid)
+					shareAndroid.init();
+				}
 			}
 			catch (err:Error)
 			{

@@ -10,7 +10,7 @@ package fasthand
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;	
-	import comp.HighscoreDB;
+	import comp.GameService;
 	import fasthand.gui.ScoreWindow;
 	import fasthand.logic.GameRound;
 	import fasthand.screen.CategoryScreen;
@@ -76,7 +76,7 @@ package fasthand
 		
 		private function initHighscore():void 
 		{
-			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			var highscoreDB:GameService = Factory.getInstance(GameService);
 			for each (var s:String in FasthandUtil.getListCat())
 			{
 				highscoreDB.registerType(s);				
@@ -201,7 +201,7 @@ package fasthand
 		
 		public function gameOver(noScoreWnd:Boolean = false):void 
 		{
-			var hScoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			var hScoreDB:GameService = Factory.getInstance(GameService);
 			var hScoreType:String = cat;
 			highscore = hScoreDB.getHighscore(hScoreType);
 			highscore = currentPlayerScore > highscore ? currentPlayerScore : highscore;			
@@ -229,7 +229,7 @@ package fasthand
 		
 		private function showScoreWindow():void 
 		{
-			var hScoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			var hScoreDB:GameService = Factory.getInstance(GameService);
 			var hScoreType:String = cat;
 			PopupMgr.flush();
 			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);			

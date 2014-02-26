@@ -10,7 +10,7 @@ package fasthand.gui
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;
-	import comp.HighscoreDB;
+	import comp.GameService;
 	import comp.SpriteNumber;
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;	
@@ -111,6 +111,14 @@ package fasthand.gui
 					shareOnIOS(SocialServiceType.FACEBOOK);
 				}
 			}
+			CONFIG::isAndroid {
+				if (Util.isAndroid)
+				{
+					var text:String = LangUtil.getText("shareMsg");
+					text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);
+					Util.shareOnFBAndroid(text, Util.g_takeSnapshot());
+				}
+			}
 		}
 		
 		private function onTwitter():void 
@@ -125,7 +133,7 @@ package fasthand.gui
 		
 		private function onScoreBt():void 
 		{
-			var highscoreDB:HighscoreDB = Factory.getInstance(HighscoreDB);
+			var highscoreDB:GameService = Factory.getInstance(GameService);
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			var cat:String = logic.cat;			
 			if(Util.isIOS)

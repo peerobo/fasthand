@@ -14,7 +14,7 @@ package fasthand.screen
 	import base.SoundManager;
 	import comp.ComboBox;
 	import comp.FlatSwitchButton;
-	import comp.HighscoreDB;
+	import comp.GameService;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.PageFooter;

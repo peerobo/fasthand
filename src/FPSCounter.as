@@ -26,6 +26,7 @@ package
 			tf.text = "----- fps";			
 			tf.multiline = true;
 			tf.selectable = false;
+			tf.wordWrap = true;
 			//tf.background = fillBackground;
 			//tf.backgroundColor = backgroundColor;
 			tf.width = Util.deviceWidth / Starling.contentScaleFactor;
