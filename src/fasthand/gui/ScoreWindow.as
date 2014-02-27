@@ -11,6 +11,7 @@ package fasthand.gui
 	import base.ScreenMgr;
 	import base.SoundManager;
 	import comp.GameService;
+	import comp.LoadingIcon;
 	import comp.SpriteNumber;
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;	
@@ -49,6 +50,9 @@ package fasthand.gui
 		private var particleSys:PDParticleSystem;
 		private var _cat:String;
 		private var prevF:Function;
+		private var score:int;
+		private var scoreBest:int;
+		private var subjectPlayed:int;
 		
 		public var closeCallback:Function;
 		public var isChangeSubject:Boolean;
@@ -86,6 +90,20 @@ package fasthand.gui
 			globalInput.registerKey(Keyboard.BACK, onBackBt);
 			
 			LayerMgr.lockGameLayer = true;
+			
+			var str:String = LangUtil.getText("result");
+			contentTxt.text = str;
+			var strs2Replace:Array = ["@score", "@best", "@subject"];
+			var strs2ReplaceWith:Array = [score.toString(), scoreBest.toString(), subjectPlayed.toString() + "/" + FasthandUtil.getListCat().length];
+			var colors:Array = [0x00FF40, Color.YELLOW, 0xFF8080];
+			Util.g_replaceAndColorUp(contentTxt, strs2Replace, strs2ReplaceWith, colors );
+			subjectTitleTxt.text = LangUtil.getText(_cat);
+			
+			if (celebrate)
+			{
+				SoundManager.playSound(SoundAsset.SOUND_HIGH_SCORE);
+				particleSys.start(5);
+			}
 		}
 		
 		private function onBackBt():void 
@@ -116,9 +134,19 @@ package fasthand.gui
 				{
 					var text:String = LangUtil.getText("shareMsg");
 					text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);
-					Util.shareOnFBAndroid(text, Util.g_takeSnapshot());
+					Util.shareOnFBAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
+					PopupMgr.removePopup(this);
+					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+					Starling.juggler.delayCall(onShareOnAnroidComplete, 5);
 				}
 			}
+		}
+		
+		private function onShareOnAnroidComplete(success:Boolean):void 
+		{
+			celebrate = false;
+			PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+			PopupMgr.addPopUp(this);
 		}
 		
 		private function onTwitter():void 
@@ -127,6 +155,17 @@ package fasthand.gui
 				if(Util.isIOS)
 				{
 					shareOnIOS(SocialServiceType.TWITTER);
+				}
+			}
+			CONFIG::isAndroid {
+				if (Util.isAndroid)
+				{
+					var text:String = LangUtil.getText("shareMsg");
+					text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);
+					Util.shareOnTTAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
+					PopupMgr.removePopup(this);
+					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+					Starling.juggler.delayCall(onShareOnAnroidComplete, 5);
 				}
 			}
 		}
@@ -171,8 +210,7 @@ package fasthand.gui
 		
 		public function setTitle(subject:String):void
 		{
-			_cat = subject;
-			subjectTitleTxt.text = LangUtil.getText(subject);
+			_cat = subject;			
 		}
 		
 		override public function onRemoved(e:Event):void 
@@ -187,18 +225,9 @@ package fasthand.gui
 		
 		public function setScore(score:int, scoreBest:int, subjectPlayed:int):void		
 		{
-			var str:String = LangUtil.getText("result");
-			contentTxt.text = str;
-			var strs2Replace:Array = ["@score", "@best", "@subject"];
-			var strs2ReplaceWith:Array = [score.toString(), scoreBest.toString(), subjectPlayed.toString() + "/" + FasthandUtil.getListCat().length];
-			var colors:Array = [0x00FF40, Color.YELLOW, 0xFF8080];
-			Util.g_replaceAndColorUp(contentTxt, strs2Replace, strs2ReplaceWith, colors );
-			
-			if (celebrate)
-			{
-				SoundManager.playSound(SoundAsset.SOUND_HIGH_SCORE);
-				particleSys.start(5);
-			}
+			this.subjectPlayed = subjectPlayed;
+			this.scoreBest = scoreBest;
+			this.score = score;			
 		}
 		
 		override public function update(time:Number):void 

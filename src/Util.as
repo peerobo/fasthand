@@ -15,6 +15,7 @@ package
 		import com.leadbolt.aslib.LeadboltAdEvent;
 		import comp.SocialForAndroid;
 	}
+	
 	CONFIG::isIOS {
 		import com.adobe.ane.social.SocialServiceType;
 		import com.adobe.ane.social.SocialUI;
@@ -110,10 +111,16 @@ package
 		}
 		
 		CONFIG::isAndroid {
-			public static function shareOnFBAndroid(msg:String,image:BitmapData):void
+			public static function shareOnFBAndroid(msg:String,image:BitmapData, onComplete:Function):void
 			{
 				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
-				social.share(SocialForAndroid.FACEBOOK_TYPE, msg, image);
+				social.share(SocialForAndroid.FACEBOOK_TYPE, msg, image, onComplete);
+			}
+			
+			public static function shareOnTTAndroid(msg:String,image:BitmapData, onComplete:Function):void
+			{
+				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+				social.share(SocialForAndroid.TWITTER_TYPE, msg, image, onComplete);
 			}
 		}
 		

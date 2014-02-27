@@ -98,7 +98,7 @@ package
 				var iap:IAP = Factory.getInstance(IAP);
 				iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
 				CONFIG::isAndroid {
-					var shareAndroid:SocialForAndroid = Factory.getInstance(SocialForAndroid)
+					var shareAndroid:SocialForAndroid = Factory.getInstance(SocialForAndroid);
 					shareAndroid.init();
 				}
 			}

@@ -232,11 +232,11 @@ package fasthand
 			var hScoreDB:GameService = Factory.getInstance(GameService);
 			var hScoreType:String = cat;
 			PopupMgr.flush();
-			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);			
-			PopupMgr.addPopUp(scoreWnd, true);
+			var scoreWnd:ScoreWindow = Factory.getInstance(ScoreWindow);						
 			scoreWnd.setTitle(cat);			
 			scoreWnd.celebrate = hScoreDB.getHighscore(hScoreType) < highscore;
 			scoreWnd.setScore(currentPlayerScore, highscore, getPlayedSubjectNum());
+			PopupMgr.addPopUp(scoreWnd, true);
 			
 			scoreWnd.closeCallback = onUserCloseWindow;
 		}

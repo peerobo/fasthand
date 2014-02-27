@@ -50,7 +50,7 @@ package base
 					centerDisp(disp);										
 				}
 			}
-			else
+			else if (current != disp)			
 			{
 				queue.push(disp);
 			}
