@@ -39,6 +39,7 @@ package comp
 			CONFIG::isIOS{
 				if (GameCenterController.isSupported)
 				{
+					FPSCounter.log("init game center");
 					gcController = new GameCenterController();
 					//Authenticate 
 					gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_NOT_AUTHENTICATED, gameCenterAuthenticatedFailed);				
@@ -50,6 +51,7 @@ package comp
 					if (!gcController.authenticated) {
 						gcController.addEventListener(GameCenterAuthenticationEvent.PLAYER_AUTHENTICATED, gameCenterAuthenticated);
 						gcController.authenticate();
+						FPSCounter.log("authen game center");
 					}
 				}
 			}
@@ -69,6 +71,7 @@ package comp
 			
 			private function gameCenterAuthenticatedFailed(e:GameCenterAuthenticationEvent):void 
 			{
+				FPSCounter.log("cannot log in game center");
 				gameCenterLogged = false;
 			}
 			
@@ -85,8 +88,10 @@ package comp
 			protected function gameCenterAuthenticated(event:GameCenterAuthenticationEvent):void
 			{
 				gameCenterLogged = gcController.authenticated;
+				FPSCounter.log("authen game center done");
 				if (gcController.authenticated)
 				{
+					FPSCounter.log("authen game center ok");
 					gcController.requestLeaderboardCategories();
 				}
 			}
@@ -242,6 +247,24 @@ package comp
 						googlePlay.signIn();						
 					break;
 				}
+			}
+		}
+		
+		public function unlockAchievement(type:String):void
+		{
+			var ach:String;
+			var key:String = "achievement" + type;
+			var checkDone:String = Util.getPrivateKey(key);
+			if (checkDone)
+				return;
+			Util.setPrivateValue(key, "available");
+			CONFIG::isIOS {
+				ach = FasthandUtil.getAchievementIOS(type);
+				gcController.submitAchievement(ach, 100);
+			}
+			CONFIG::isAndroid {
+				ach = FasthandUtil.getAchievementAndroid(type);
+				googlePlay.reportAchievement(ach);
 			}
 		}
 	}

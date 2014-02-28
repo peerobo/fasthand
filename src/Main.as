@@ -1,30 +1,20 @@
 package 
 {	
 	import base.BaseJsonGUI;
-	import base.Factory;
-	import base.GameSave;
-	import base.IAP;
 	import base.LangUtil;
-	import base.ScreenMgr;
-	import base.SoundManager;
-	import comp.GameService;
-	import fasthand.Fasthand;
-	import fasthand.screen.GameScreen;
 	import flash.data.EncryptedLocalStore;
 	import flash.desktop.NativeApplication;
 	import flash.desktop.SystemIdleMode;
-	import flash.display.Shape;
-	import flash.display3D.Context3DProfile;
-	import flash.events.Event;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.display3D.Context3DProfile;
+	import flash.events.Event;
 	import flash.geom.Rectangle;
-	import flash.net.SharedObject;
 	import flash.system.Capabilities;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
-	import res.Asset;		
+	import res.Asset;
 	import starling.core.Starling;
 	
 	/**
@@ -43,7 +33,7 @@ package
 			
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;			
-			//EncryptedLocalStore.reset();
+			//EncryptedLocalStore.reset();			
 			startStarlingFramework();
 			if (Capabilities.cpuArchitecture == "ARM") 
 			{

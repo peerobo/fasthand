@@ -54,6 +54,7 @@ package comp
 			super.onAdded(e);
 			
 			var boxBG:DisplayObject = Asset.getBaseImage(boxBgTex);
+			boxBG.name = "boxbg";
 			addChild(boxBG);
 			
 			var w:int = 0;
@@ -82,6 +83,7 @@ package comp
 				dropDownSpr.addChild(itemBG);
 				itemBG.y = boxBG.height * j;
 				itemBG.height = boxBG.height;
+				itemBG.name = "item" + j;
 				itemBG.width = boxBG.width;
 				var text:TextField = BFConstructor.getTextField(itemBG.width, itemBG.height, list[j], BFConstructor.ARIAL);
 				if (j == selectedIdx)
@@ -162,6 +164,14 @@ package comp
 		
 		override public function onRemoved(e:Event):void 
 		{
+			var child:DisplayObject = getChildByName("boxbg");
+			Factory.removeMouseClickCallback(child);
+			var len:int = list.length;
+			for (var j:int = 0; j < len; j++) 
+			{
+				child = dropDownSpr.getChildByName("item" + j);
+				Factory.removeMouseClickCallback(child);
+			}
 			for (var i:int = 0; i < dropDownSpr.numChildren; i++) 
 			{
 				Factory.toPool(dropDownSpr.getChildAt(i));

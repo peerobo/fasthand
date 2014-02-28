@@ -107,6 +107,33 @@ package fasthand.gui
 				SoundManager.playSound(SoundAsset.SOUND_HIGH_SCORE);
 				particleSys.start(5);
 			}
+			
+			var cats:Array = FasthandUtil.getListCat();
+			var gameService:GameService = Factory.getInstance(GameService);
+			var logic:Fasthand = Factory.getInstance(Fasthand);
+			if (logic.difficult)			
+				gameService.unlockAchievement(FasthandUtil.ACH_FEARLESS);			
+			if (subjectPlayed == Constants.CAT_FREE_NUM)
+				gameService.unlockAchievement(FasthandUtil.ACH_COOL_START);
+			if (score >= 50)
+				gameService.unlockAchievement(FasthandUtil.ACH_PRETTY_QUICK);
+			if (score > 70)
+			{
+				var checkAll:Boolean = true;
+				for each (var item:String in cats) 
+				{
+					var points:int = gameService.getHighscore(item);
+					if (item == _cat)
+						points = score;
+					checkAll &&= points > 70;
+					if (!checkAll)
+						break;
+				}
+				if(checkAll)
+					gameService.unlockAchievement(FasthandUtil.ACH_FAST_HAND_MASTER);
+			}
+			if (subjectPlayed == cats.length)
+				gameService.unlockAchievement(FasthandUtil.ACH_KNOW_THEM_ALL);
 		}
 		
 		private function onBackBt():void 

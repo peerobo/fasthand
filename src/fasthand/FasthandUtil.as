@@ -38,9 +38,15 @@ package fasthand
         public static var verbs2:String = "close the door;do homework;go shopping;listen to music;open a book;play video games;take a photo;talk on the phone;use a computer;wash hands;clean teeth;get dressed;get to school;get up;have breakfast;leave the house;take a bus;take a shower;wake up;wash your face;";
         public static var sports:String = "basketball;soccer;tennis;swimming;golf;table tennis;volley ball;chess;boxing;pool;cycling;baseball;cricket;bowling;poker;fishing;american football;rugby;hockey;wrestling;darts;diving;gymnastics;high jump;horse riding;javelin;long jump;pole vault;shooting;shot putt;";
 		
+		public static const ACH_FEARLESS:String = "ACH_FEARLESS";
+		public static const ACH_COOL_START:String = "ACH_COOL_START";
+		public static const ACH_PRETTY_QUICK:String = "ACH_PRETTY_QUICK";
+		public static const ACH_KNOW_THEM_ALL:String = "ACH_KNOW_THEM_ALL";
+		public static const ACH_FAST_HAND_MASTER:String = "ACH_FAST_HAND_MASTER";
+		
 		private static var listCat:Array;
 		private static var listWords:Object;
-		static private var GPLConstants:Object;
+		static private var GPLConstants:Object;	
 		
 		public function FasthandUtil() 
 		{			
@@ -81,11 +87,37 @@ package fasthand
 			return listCat;
 		}
 		
+		static public function getAchievementIOS(type:String):String
+		{
+			var retStr:String = "";
+			var parts:Array = type.toLowerCase().split("_");
+			var len:int = parts.length;
+			for (var i:int = 0; i < len; i++) 
+			{
+				var s:String = parts[i];
+				retStr += i == 0 ? s : (s.charAt(0).toUpperCase() + s.substr(1));
+			}
+			return retStr;
+		}
+		
+		static public function getAchievementAndroid(type:String):String
+		{
+			if (!GPLConstants)	// init 
+				getCatForGooglePlay("letters");
+			var retStr:String = GPLConstants[type];
+			return retStr;
+		}
+		
 		static public function getCatForGooglePlay(cat:String):String 
 		{
 			if (!GPLConstants)
 			{
 				GPLConstants = { };
+				GPLConstants.ACH_FEARLESS = 'CgkIw5jL5a4VEAIQIA';
+				GPLConstants.ACH_COOL_START = 'CgkIw5jL5a4VEAIQIQ';
+				GPLConstants.ACH_PRETTY_QUICK = 'CgkIw5jL5a4VEAIQIw';
+				GPLConstants.ACH_KNOW_THEM_ALL = 'CgkIw5jL5a4VEAIQIg';
+				GPLConstants.ACH_FAST_HAND_MASTER = 'CgkIw5jL5a4VEAIQJA';
 				GPLConstants.LEAD_OVERALL = 'CgkIw5jL5a4VEAIQAw';
 				GPLConstants.LEAD_ADJECTIVES = 'CgkIw5jL5a4VEAIQAQ';
 				GPLConstants.LEAD_ANIMAL_1 = 'CgkIw5jL5a4VEAIQAg';

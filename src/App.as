@@ -3,34 +3,26 @@ package
 	import base.BFConstructor;
 	import base.Factory;
 	import base.GameSave;
-	import base.GlobalInput;	
+	import base.GlobalInput;
 	import base.IAP;
-	import base.LayerMgr;	
+	import base.LayerMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;
 	import comp.GameService;
-	CONFIG::isAndroid{
-		import comp.SocialForAndroid;
-	}
 	import fasthand.Fasthand;
 	import fasthand.screen.CategoryScreen;
 	import fasthand.screen.GameScreen;
-	import flash.display.Stage;
+	import fasthand.screen.LoadingScreen;
 	import res.asset.ParticleAsset;
 	import res.asset.SoundAsset;
 	import res.ResMgr;
-	import fasthand.screen.LoadingScreen;	
 	import starling.core.Starling;
-	import starling.display.DisplayObject;
-	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.events.Touch;
 	import starling.events.TouchEvent;
-	import starling.events.TouchPhase;
-	import starling.text.TextField;
-	import starling.utils.HAlign;
-	import starling.utils.VAlign;	
+	CONFIG::isAndroid{
+		import comp.SocialForAndroid;
+	}
 	
 	/**
 	 * ...
@@ -84,7 +76,7 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, onInit);
 			Util.root = this;
 			var fps:FPSCounter = new FPSCounter(0, 0, 0xFFFFFF, true, 0x0);
-			Starling.current.nativeOverlay.addChild(fps);
+			//Starling.current.nativeOverlay.addChild(fps);
 			try
 			{
 				var gameState:GameSave = Factory.getInstance(GameSave);
@@ -94,7 +86,6 @@ package
 					highscoreDB.initGameCenter();
 				else if (Util.isAndroid)
 					highscoreDB.initGooglePlayGameService();
-				FPSCounter.log("iap");
 				var iap:IAP = Factory.getInstance(IAP);
 				iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
 				CONFIG::isAndroid {

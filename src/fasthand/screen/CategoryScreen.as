@@ -76,8 +76,7 @@ package fasthand.screen
 			var values:Array = [LangUtil.getText("slow"), LangUtil.getText("fast")];
 			switchDiff.initList(values, idxDiff, onSwitchDiff, [values]);
 			
-			Util.showBannerAd();
-			
+			Util.showBannerAd();			
 		}
 		
 		public function selectCategory(cat:String):void

@@ -144,7 +144,7 @@ package fasthand
 				gameScr.onPause();
 				resumeData = null;
 			}
-			SoundManager.playSound(SoundAsset.getName(cat, word2Find));			
+			SoundManager.playSound(SoundAsset.getName(cat, word2Find));
 		}
 		
 		/* INTERFACE starling.animation.IAnimatable */

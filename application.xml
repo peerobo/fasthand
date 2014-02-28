@@ -105,15 +105,15 @@
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
   <extensions>    
-    <!--<extensionID>com.freshplanet.ane.AirDeviceId</extensionID>
-	<extensionID>com.revmob.airextension</extensionID>-->
+    <extensionID>com.freshplanet.ane.AirDeviceId</extensionID>
+	<extensionID>com.revmob.airextension</extensionID>
 	
 	<!--<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
 	<extensionID>com.freshplanet.AirGooglePlayGamesService</extensionID>
 	<extensionID>com.leadbolt.LeadboltANE</extensionID>	-->
-	<!--<extensionID>so.cuo.platform.admob</extensionID>
+	<extensionID>so.cuo.platform.admob</extensionID>
 	<extensionID>com.adobe.ane.gameCenter</extensionID>
 	<extensionID>com.adobe.ane.social</extensionID>
-	<extensionID>com.fc.StoreKitExt</extensionID>-->
+	<extensionID>com.fc.StoreKitExt</extensionID>
   </extensions>
 </application>

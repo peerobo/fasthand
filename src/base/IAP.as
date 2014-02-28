@@ -1,7 +1,6 @@
 package base 
 {		
-	CONFIG::isIOS{
-		import by.blooddy.crypto.Base64;
+	CONFIG::isIOS{		
 		import com.fc.ProductDetail;
 		import com.fc.StoreKitEvent;
 		import com.fc.StoreKitExt;
