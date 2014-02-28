@@ -1,7 +1,5 @@
 package
 {
-	import base.BaseButton;
-	import base.BFConstructor;
 	import base.CallbackObj;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
@@ -9,7 +7,37 @@ package
 	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;
-	import by.blooddy.crypto.SHA1;		
+	import com.freshplanet.ane.AirDeviceId;
+	import com.hurlant.crypto.Crypto;
+	import com.hurlant.crypto.hash.IHash;
+	import com.hurlant.util.Hex;
+	import com.revmob.airextension.events.RevMobAdsEvent;
+	import com.revmob.airextension.RevMob;
+	import comp.LoadingIcon;
+	import fasthand.gui.ConfirmDlg;
+	import fasthand.gui.InfoDlg;
+	import fasthand.gui.PurchaseDlg;
+	import feathers.display.Scale9Image;
+	import feathers.textures.Scale9Textures;
+	import flash.data.EncryptedLocalStore;
+	import flash.display.BitmapData;
+	import flash.events.ErrorEvent;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.geom.Rectangle;
+	import flash.net.navigateToURL;
+	import flash.net.SharedObject;
+	import flash.net.URLRequest;
+	import flash.system.Capabilities;
+	import flash.utils.ByteArray;
+	import starling.core.Starling;
+	import starling.display.DisplayObject;
+	import starling.display.Image;
+	import starling.display.MovieClip;
+	import starling.display.Quad;
+	import starling.filters.ColorMatrixFilter;
+	import starling.filters.FragmentFilter;
+	import starling.textures.Texture;
 	CONFIG::isAndroid {
 		import com.leadbolt.aslib.LeadboltController;
 		import com.leadbolt.aslib.LeadboltAdEvent;
@@ -23,41 +51,6 @@ package
 		import so.cuo.platform.admob.AdmobEvent;
 		import so.cuo.platform.admob.AdmobPosition;
 	}
-	import com.freshplanet.ane.AirDeviceId;
-	import com.revmob.airextension.events.RevMobAdsEvent;
-	import com.revmob.airextension.RevMob;
-	import fasthand.gui.InfoDlg;
-	import flash.display.BitmapData;
-	import flash.display3D.Context3D;
-	import flash.events.ErrorEvent;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import starling.core.RenderSupport;		
-	import comp.LoadingIcon;
-	import comp.TileImage;
-	import fasthand.gui.ConfirmDlg;
-	import fasthand.gui.PurchaseDlg;
-	import feathers.display.Scale3Image;
-	import feathers.display.Scale9Image;
-	import feathers.textures.Scale9Textures;
-	import flash.data.EncryptedLocalStore;
-	import flash.geom.Rectangle;
-	import flash.net.navigateToURL;
-	import flash.net.SharedObject;
-	import flash.system.Capabilities;
-	import flash.utils.ByteArray;
-	import flash.net.URLRequest;	
-	import starling.core.Starling;
-	import starling.display.DisplayObject;
-	import starling.display.Image;
-	import starling.display.MovieClip;
-	import starling.display.Quad;
-	import starling.display.Sprite;
-	import starling.filters.ColorMatrixFilter;
-	import starling.filters.FragmentFilter;
-	import starling.text.TextField;
-	import starling.text.TextFieldAutoSize;
-	import starling.textures.Texture;
 	
 	/**
 	 * ...
@@ -594,9 +587,13 @@ package
 		{
 			if (EncryptedLocalStore.isSupported)
 			{
+				var hash:IHash = Crypto.getHash("sha1");
 				var bytes:ByteArray = new ByteArray();
-				bytes.writeUTFBytes(value);
-				var hashKey:String = SHA1.hash(Constants.APP_NAME + "_" + key);
+				bytes.writeUTFBytes(Constants.APP_NAME + "_" + key);
+				var retBytes:ByteArray = hash.hash(bytes);				
+				var hashKey:String = Hex.fromArray(retBytes, false);				
+				bytes = new ByteArray();
+				bytes.writeUTFBytes(value);				
 				EncryptedLocalStore.setItem(hashKey, bytes);
 			}
 		}
@@ -605,7 +602,11 @@ package
 		{
 			if (EncryptedLocalStore.isSupported)
 			{
-				var hashKey:String = SHA1.hash(Constants.APP_NAME + "_" + key);
+				var hash:IHash = Crypto.getHash("sha1");
+				var bytes:ByteArray = new ByteArray();
+				bytes.writeUTFBytes(Constants.APP_NAME + "_" + key);
+				var retBytes:ByteArray = hash.hash(bytes);				
+				var hashKey:String = Hex.fromArray(retBytes, false);
 				var storedValue:ByteArray = EncryptedLocalStore.getItem(hashKey);
 				return storedValue ? storedValue.readUTFBytes(storedValue.length) : null;
 			}

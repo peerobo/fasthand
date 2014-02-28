@@ -70,11 +70,10 @@ package fasthand.screen
 			waitTime2ShowAd = Constants.AD_FULL_WAITTIME;
 			cheatCountActivate = 0;
 			
-			var idxDiff:int = parseInt(Util.getPrivateKey("difficultMode"));
-			idxDiff = isNaN(idxDiff) ? 1 : idxDiff;
+			var idxDiff:int = parseInt(Util.getPrivateKey("difficultMode"));			
 			switchDiff = new ComboBox();
 			switchDiff.init(ButtonAsset.BT_BLUE, ButtonAsset.BT_DARK_GRAY, IconAsset.ICO_DROP_DOWN);			
-			var values:Array = [LangUtil.getText("fast"), LangUtil.getText("slow")];
+			var values:Array = [LangUtil.getText("slow"), LangUtil.getText("fast")];
 			switchDiff.initList(values, idxDiff, onSwitchDiff, [values]);
 			
 			Util.showBannerAd();

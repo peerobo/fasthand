@@ -134,6 +134,7 @@ package fasthand
 			gameRound.reset(shuffleArr);
 			while (prevWord == word2Find)
 				gameRound.reset(shuffleArr);
+			pause = false;
 			if (resumeData)
 			{
 				gameRound.mainWord = resumeData.word;
@@ -143,7 +144,7 @@ package fasthand
 				gameScr.onPause();
 				resumeData = null;
 			}
-			SoundManager.playSound(SoundAsset.getName(cat, word2Find));
+			SoundManager.playSound(SoundAsset.getName(cat, word2Find));			
 		}
 		
 		/* INTERFACE starling.animation.IAnimatable */
@@ -178,7 +179,8 @@ package fasthand
 				else
 				{
 					var gameScreen:GameScreen = Factory.getInstance(GameScreen);
-					gameScreen.preStartRound();					
+					gameScreen.preStartRound();
+					pause = true;
 				}
 			}			
 			else

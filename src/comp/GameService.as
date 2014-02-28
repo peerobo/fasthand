@@ -171,8 +171,7 @@ package comp
 			for (var s:String in highscoreMap) 
 			{
 				var tmpVal:String = Util.getPrivateKey(s);
-				var val:int = parseInt(tmpVal);
-				highscoreMap[s] = isNaN(val) ? 0 : val;
+				var val:int = parseInt(tmpVal);				
 			}
 			
 		}
