@@ -32,8 +32,11 @@ package
 		static public const OVERALL_HIGHSCORE:String = "overall";
 		static public const ANDROID_LICENSING:String = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8/qKPuGjvY3au5vj1o4DwunIfIvcQRq7h0U5rV9PumAUN9WpSYeHwPlrVpGdSwll5y9KoF0FqLHpQdCTyac8NpIsNINB5t6EvYxTukS2N/eWFWEvTapJwiSDgE0/tSj7ZsHGl4FqS+NkHvZjGXxc/09eEuNgNGGAhf0y04IZB2/fM772tcMO9gU1XTVRfnNCRul4MY8U1GsowBCru4IZHSsMxX+fiMeJE5vNToz03VoOzHaEojsOHfgLclqGkhVyOUrZQ8T9msCrBHlNIB/LNa2GP25rx+lssFke2koK246pf5TdVcLwOGkOcqQFnqxwUENg6SDw+3Mydd9ErdxVjQIDAQAB";
 		static public const FACEBOOK_APP_ID:String = "514222878621167";		
-		static public const TWITTER_PUBLIC_TOKEN:String = "KfPL6ciPokKHCv9Q3NkCMA";		
-		static public const TWITTER_SECRET_TOKEN:String = "muFK1ToTy6f5pPt4I7NuvAAkS880oRLQt5inDzgbiI";		
+		static public const TWITTER_PUBLIC_CONSUMER:String = "KfPL6ciPokKHCv9Q3NkCMA";		
+		static public const TWITTER_SECRET_CONSUMER:String = "muFK1ToTy6f5pPt4I7NuvAAkS880oRLQt5inDzgbiI";		
+		static public const TWITTER_URL_CALLBACK:String = "http://firecheetah.com/welcome/";
+		static public const TWITTER_KEY:String = "twitterkey";
+		static public const FB_KEY:String = "fbKey";
 		public function Constants() 
 		{
 			

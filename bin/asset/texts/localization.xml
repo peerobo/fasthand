@@ -5,9 +5,13 @@
 	<en>
 		<overall>Overall</overall>
 		<loading>Loading</loading>
+		<cancel>Cancel</cancel>
+		<notlogged>(Not logged in)</notlogged>
 		<extraContentLoad>Category: @cat (@idxCat/@totalCat)\nFile: (@idxFile/@totalFile)</extraContentLoad>
 		<downloadExtraContent>Downloading require content</downloadExtraContent>
-		<shareMsg>Beat me on @cat if you dare at @url.</shareMsg>
+		<shareMsg>Beat me on @cat if you dare at @url #fasthand.</shareMsg>
+		<shareError>Sharing Failed!</shareError>
+		<shareDone>Sharing Done!</shareDone>
 		<shareUnavailable>Please login @type account in System setting!</shareUnavailable>
 		<enableInAppPurchaseIOS>Your In-App Purchases feature has been disable. To enable, go to Settings > General > Restrictions.</enableInAppPurchaseIOS>
 		<IAPComplete>Thank you for purchasing our full app. Accept to start downloading extra contents...</IAPComplete>

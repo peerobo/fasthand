@@ -7,11 +7,11 @@
 	// Any mobile device (phones or tablets).
 	if ( $detect->isMobile() || $detect->isTablet()) {
 		if( $detect->isiOS() ){
-			header('Location: itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=820843454');
+			header('Location: http://appstore.com/fast-hand-english');
 		}
 		else
 		{
-			header('Location: market://details?id=com.chillingo.deadahead.rowgplay');
+			header('Location: market://details?id=com.fc.FastHandEnglish');
 		}
 	}
 	else

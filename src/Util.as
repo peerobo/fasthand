@@ -115,7 +115,25 @@ package
 				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
 				social.share(SocialForAndroid.TWITTER_TYPE, msg, image, onComplete);
 			}
-		}
+			
+			public static function getUsernameAndroidFB():String
+			{
+				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+				var retStr:String = social.FBName;				
+				if (!retStr)
+					retStr = LangUtil.getText("notlogged");
+				return "(as " + retStr + ")";
+			}
+			
+			public static function getUsernameAndroidTwitter():String
+			{
+				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+				var retStr:String = social.TwitterName;		
+				if (!retStr)
+					retStr = LangUtil.getText("notlogged");
+				return "(as " + retStr + ")";
+			}
+		}			
 		
 		CONFIG::isIOS{
 			public static function shareOnIOS(type:String,msg:String,image:BitmapData):void
@@ -587,14 +605,22 @@ package
 		{
 			if (EncryptedLocalStore.isSupported)
 			{
+				
 				var hash:IHash = Crypto.getHash("sha1");
 				var bytes:ByteArray = new ByteArray();
 				bytes.writeUTFBytes(Constants.APP_NAME + "_" + key);
 				var retBytes:ByteArray = hash.hash(bytes);				
-				var hashKey:String = Hex.fromArray(retBytes, false);				
-				bytes = new ByteArray();
-				bytes.writeUTFBytes(value);				
-				EncryptedLocalStore.setItem(hashKey, bytes);
+				var hashKey:String = Hex.fromArray(retBytes, false);								
+				if (value == null)
+				{
+					EncryptedLocalStore.removeItem(hashKey)
+				}
+				else
+				{
+					bytes = new ByteArray();
+					bytes.writeUTFBytes(value);		
+					EncryptedLocalStore.setItem(hashKey, bytes);
+				}
 			}
 		}
 		

@@ -49,7 +49,7 @@ package fasthand.comp
 			img.texture = Texture.empty(1, 1);
 			img.readjustSize();
 			img.touchable = false;
-			LayerMgr.getLayer(LayerMgr.LAYER_EFFECT).addChild(img);
+			LayerMgr.getLayer(LayerMgr.LAYER_TOOLTIP).addChild(img);
 			//addChild(img);
 		}
 		

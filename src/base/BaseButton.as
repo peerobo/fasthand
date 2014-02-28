@@ -41,10 +41,12 @@ package base
 		public var gui:BaseJsonGUI;
 		private var anchor:Point;
 		private var cMF:ColorMatrixFilter;
+		public var destroyOnRemove:Boolean;
 		
 		public function BaseButton()
 		{
 			super();
+			destroyOnRemove = true;
 			initTouch();
 			hoverFilter = Util.getFilter(Util.HOVER_FILTER);
 			downFilter = Util.getFilter(Util.isDesktop ? Util.DOWN_FILTER : Util.HOVER_FILTER);
@@ -58,8 +60,11 @@ package base
 		
 		override public function onRemoved(e:Event):void 
 		{
-			super.onRemoved(e);
-			destroy();
+			if(destroyOnRemove)
+			{
+				super.onRemoved(e);
+				destroy();
+			}
 		}
 		
 		public function destroy():void
@@ -223,10 +228,9 @@ package base
 				{
 					var l:BaseBitmapTextField = BFConstructor.getTextField(1, 1, text, BFConstructor.ARIAL, 0xFFFF80);
 					l.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
-					background.width = l.width+PADDNG;
-					background.height = l.height + PADDNG;
-					setLabel(l);
-					
+					background.width = l.width + PADDNG *3/2;
+					background.height = l.height + PADDNG*3/2;
+					setLabel(l);									
 				}
 				else
 				{
@@ -240,8 +244,8 @@ package base
 				{
 					label.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
 					label.text = text;
-					background.width = label.width+PADDNG;
-					background.height = label.height + PADDNG;					
+					background.width = label.width + PADDNG*3/2;
+					background.height = label.height + PADDNG*3/2;
 				}
 				else
 				{

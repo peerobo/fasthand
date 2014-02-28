@@ -16,7 +16,7 @@ package base
 		static private var quadBg:Quad;
 		
 		static private var queue:Array;
-		static private var current:DisplayObject;
+		static public var current:DisplayObject;
 		
 		static private var tween:Tween;
 		

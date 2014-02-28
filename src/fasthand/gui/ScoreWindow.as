@@ -2,6 +2,7 @@ package fasthand.gui
 {
 	import base.BaseButton;
 	import base.BaseJsonGUI;
+	import base.EffectMgr;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import base.GlobalInput;
@@ -23,8 +24,10 @@ package fasthand.gui
 	import res.asset.IconAsset;
 	import res.asset.ParticleAsset;
 	import res.asset.SoundAsset;
+	import starling.animation.DelayedCall;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
+	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.extensions.PDParticleSystem;
 	import starling.utils.Color;
@@ -53,7 +56,7 @@ package fasthand.gui
 		private var score:int;
 		private var scoreBest:int;
 		private var subjectPlayed:int;
-		
+		private var delayCalled:DelayedCall;
 		public var closeCallback:Function;
 		public var isChangeSubject:Boolean;
 		public var celebrate:Boolean;
@@ -77,7 +80,7 @@ package fasthand.gui
 			scoreBt.setCallbackFunc(onScoreBt);
 			
 			Factory.addMouseClickCallback(twitterBt, onTwitter);
-			Factory.addMouseClickCallback(facebookBt, onFacebook);
+			Factory.addMouseClickCallback(facebookBt, onFacebook);		
 			
 			addChildAt(particleSys,1);
 			particleSys.y = 0;
@@ -137,16 +140,19 @@ package fasthand.gui
 					Util.shareOnFBAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
 					PopupMgr.removePopup(this);
 					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-					Starling.juggler.delayCall(onShareOnAnroidComplete, 5);
+					delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);
 				}
 			}
 		}
 		
 		private function onShareOnAnroidComplete(success:Boolean):void 
 		{
+			Starling.juggler.remove(delayCalled);
+			if(PopupMgr.current != this)
+				EffectMgr.floatTextMessageEffectCenter(success ? LangUtil.getText("shareDone"):LangUtil.getText("shareFailed"),success?0xFFFFFF:0xC0C0C0);
 			celebrate = false;
 			PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
-			PopupMgr.addPopUp(this);
+			PopupMgr.addPopUp(this);			
 		}
 		
 		private function onTwitter():void 
@@ -165,7 +171,7 @@ package fasthand.gui
 					Util.shareOnTTAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
 					PopupMgr.removePopup(this);
 					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-					Starling.juggler.delayCall(onShareOnAnroidComplete, 5);
+					delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);
 				}
 			}
 		}

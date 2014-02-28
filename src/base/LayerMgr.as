@@ -13,9 +13,11 @@ package base
 		
 		private static const NUM_LAYERS:int = 4;
 		public static const LAYER_GAME:int = 0;					
-		public static const LAYER_EFFECT:int = 1;				
-		public static const LAYER_TOOLTIP:int = 2;
-		public static const LAYER_DIALOG:int = 3;
+		public static const LAYER_TOOLTIP:int = 1;
+		public static const LAYER_DIALOG:int = 2;
+		public static const LAYER_EFFECT:int = 3;				
+		
+		
 		static private var _lockGameLayer:Boolean;
 		
 		public function LayerMgr() 
