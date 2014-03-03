@@ -37,6 +37,7 @@ package
 		static public const TWITTER_URL_CALLBACK:String = "http://firecheetah.com/welcome/";
 		static public const TWITTER_KEY:String = "twitterkey";
 		static public const FB_KEY:String = "fbKey";
+		static public const TIMEOUT_MATH:int = 15;
 		public function Constants() 
 		{
 			

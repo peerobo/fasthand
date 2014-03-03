@@ -40,6 +40,7 @@ if "%C%"=="3" set TARGET=-captive-runtime
 if "%C%"=="4" set TARGET=-test-interpreter
 if "%C%"=="5" set TARGET=-debug-interpreter
 if "%C%"=="5" set OPTIONS=-connect %DEBUG_IP%
+if "%C%"=="6" set OPTIONS=-useLegacyAOT no
 if "%C%"=="6" set TARGET=-test
 if "%C%"=="7" set TARGET=-debug
 if "%C%"=="7" set OPTIONS=-connect %DEBUG_IP%

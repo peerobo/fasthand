@@ -18,6 +18,7 @@ package fasthand.screen
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.PageFooter;
+	import fasthand.gui.AdultDlg;
 	CONFIG::isAndroid{
 		import comp.SocialForAndroid;
 	}
@@ -253,7 +254,14 @@ package fasthand.screen
 		private function onRateMe():void
 		{
 			SoundManager.playSound(SoundAsset.SOUND_CLICK);
-			Util.rateMe();
+			CONFIG::isIOS{
+				var confirm:AdultDlg = Factory.getInstance(AdultDlg);
+				confirm.callback = Util.rateMe;
+				PopupMgr.addPopUp(confirm);
+			}
+			CONFIG::isAndroid{
+				Util.rateMe();
+			}
 		}
 		
 		private function onSwitchDiff(idx:int, list:Array):void
