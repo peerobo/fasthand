@@ -93,7 +93,8 @@ package base
 			queue = [];
 			if (current)
 				current.removeFromParent();
-			current = null;	
+			current = null;
+			quadBg.visible = false;
 		}
 		
 	}

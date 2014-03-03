@@ -29,8 +29,8 @@ package
 			tf.wordWrap = true;
 			//tf.background = fillBackground;
 			//tf.backgroundColor = backgroundColor;
-			tf.width = Util.deviceWidth / Starling.contentScaleFactor;
-			tf.height = Util.deviceHeight * Starling.contentScaleFactor;
+			tf.width = Util.deviceWidth;
+			tf.height = Util.deviceHeight;
 			tf.mouseEnabled = false;			
 			addChild(tf);			
 			addEventListener(Event.ENTER_FRAME, tick);
@@ -40,28 +40,32 @@ package
 		
 		public function tick(evt:Event):void
 		{
-			ticks++;
-			var now:uint = getTimer();
-			var delta:uint = now - last;
-			if (delta >= 1000)
+			if (parent)
 			{
-				//trace(ticks / delta * 1000+" ticks:"+ticks+" delta:"+delta);
-				var fps:Number = ticks / delta * 1000;
-				var str:String = fps.toFixed(1) + " fps";
-				str += " - " + Starling.current.mSupport.drawCount + " drw"; 
-				str += " - " + (System.totalMemory * 0.000000954).toFixed(2) + " MB";
-				str += " - " + Starling.current.nativeStage.fullScreenWidth + "x" + Starling.current.nativeStage.fullScreenHeight;
-				str += " - " + ( Util.isAndroid? ("Android: " + Util.deviceID) : (Util.isIOS? "IOS: " + Util.deviceID : "not device") );
-				tf.text = str + log;
-				ticks = 0;
-				last = now;
-				tf.scrollV = tf.maxScrollV;
+				ticks++;
+				var now:uint = getTimer();
+				var delta:uint = now - last;
+				if (delta >= 1000)
+				{
+					//trace(ticks / delta * 1000+" ticks:"+ticks+" delta:"+delta);
+					var fps:Number = ticks / delta * 1000;
+					var str:String = fps.toFixed(1) + " fps";
+					str += " - " + Starling.current.mSupport.drawCount + " drw"; 
+					str += " - " + (System.totalMemory * 0.000000954).toFixed(2) + " MB";
+					str += " - " + Starling.current.nativeStage.fullScreenWidth + "x" + Starling.current.nativeStage.fullScreenHeight;
+					str += " - " + ( Util.isAndroid? ("Android: " + Util.deviceID) : (Util.isIOS? "IOS: " + Util.deviceID : "not device") );
+					tf.text = str + log;
+					ticks = 0;
+					last = now;
+					tf.scrollV = tf.maxScrollV;
+				}
 			}
 		}
 		
 		public static function log(...args):void
 		{
-			self.log += "\n"+args.join(" ");
+			if(self.parent)
+				self.log += "\n"+args.join(" ");
 		}
 	}
 }

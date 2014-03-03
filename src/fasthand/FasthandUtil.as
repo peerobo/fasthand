@@ -100,6 +100,21 @@ package fasthand
 			return retStr;
 		}
 		
+		static public function getAchievementLabel(type:String):String
+		{
+			var retStr:String = "";
+			var parts:Array = type.toLowerCase().split("_");
+			var len:int = parts.length;
+			for (var i:int = 0; i < len; i++) 
+			{
+				var s:String = parts[i];
+				if (i == 0)
+					continue;
+				retStr += (i==1 ? "" : " ") + s.charAt(0).toUpperCase() + s.substr(1);
+			}
+			return retStr;
+		}
+		
 		static public function getAchievementAndroid(type:String):String
 		{
 			if (!GPLConstants)	// init 

@@ -166,7 +166,7 @@ package comp
 			webView.stage = Starling.current.nativeStage;
 			var rec:Rectangle = new Rectangle(0, 0, Util.deviceWidth - Util.deviceWidth / 3, Util.deviceHeight - Util.deviceHeight / 3);
 			rec.x = Util.deviceWidth - rec.width >> 1;
-			rec.y = Util.deviceHeight - rec.height >> 1;
+			rec.y = 60*Starling.contentScaleFactor;
 			webView.viewPort = rec;				
 			webView.addEventListener(ErrorEvent.ERROR, onNavigateToServiceError);
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onChangeLocation);			
@@ -176,7 +176,7 @@ package comp
 		
 		private function onChangeLocation(e:LocationChangeEvent):void 
 		{
-			FPSCounter.log(e.location);
+			//FPSCounter.log(e.location);
 			var url:String = e.location;			
 			if (url.indexOf(Constants.TWITTER_URL_CALLBACK) > -1)	// get pin for twitter authorize
 			{
@@ -294,8 +294,7 @@ package comp
 		}
 		
 		private function postFBPhoto(msg:String, image:BitmapData):void
-		{			
-			Starling.juggler.remove(this);
+		{						
 			var bArr:ByteArray = new ByteArray();
 			image.encode(new Rectangle(0, 0, image.width, image.height), new JPEGEncoderOptions(80), bArr);
 			
@@ -312,6 +311,8 @@ package comp
 		private function onPostFBComplete(result:Object,fail:Object):void 
 		{
 			FPSCounter.log("post fb complete");
+			Starling.juggler.remove(this);
+			closeBt.removeFromParent();
 			if (fail)
 			{	
 				FPSCounter.log(JSON.stringify(fail));
@@ -335,8 +336,7 @@ package comp
 			var twitterRequest:TwitterRequest = twitter.statuses_updateWithMedia(msg, bArr);
 			twitterRequest.addEventListener(TwitterRequestEvent.COMPLETE, onTwitterPostComplete );
 			twitterRequest.addEventListener(TwitterErrorEvent.CLIENT_ERROR, onTwitterPostFail );
-			twitterRequest.addEventListener(TwitterErrorEvent.SERVER_ERROR, onTwitterPostFail );
-			Starling.juggler.remove(this);
+			twitterRequest.addEventListener(TwitterErrorEvent.SERVER_ERROR, onTwitterPostFail );			
 			msg = null;
 			image = null;
 		}
@@ -347,6 +347,8 @@ package comp
 			(e.currentTarget as EventDispatcher).removeEventListener(TwitterErrorEvent.CLIENT_ERROR, onTwitterPostFail);
 			(e.currentTarget as EventDispatcher).removeEventListener(TwitterErrorEvent.CLIENT_ERROR, onTwitterPostFail);
 			onComplete(false);
+			closeBt.removeFromParent();
+			Starling.juggler.remove(this);
 		}
 		
 		private function onTwitterPostComplete(e:TwitterRequestEvent):void 
@@ -354,10 +356,9 @@ package comp
 			(e.currentTarget as EventDispatcher).removeEventListener(TwitterRequestEvent.COMPLETE, onTwitterPostComplete);
 			(e.currentTarget as EventDispatcher).removeEventListener(TwitterErrorEvent.CLIENT_ERROR, onTwitterPostFail);
 			(e.currentTarget as EventDispatcher).removeEventListener(TwitterErrorEvent.CLIENT_ERROR, onTwitterPostFail);
-			onComplete(true);
-			
-			var twitterRequest:TwitterRequest = twitter.account_verifyCredentials();				
-			twitterRequest.addEventListener(TwitterRequestEvent.COMPLETE, onGetTwitterAccountInfoComplete);
+			onComplete(true);			
+			closeBt.removeFromParent();
+			Starling.juggler.remove(this);
 		}
 		
 		private function onTwitterOauthTokenComplete(e:TwitterRequestEvent):void 
@@ -384,8 +385,10 @@ package comp
 			(e.currentTarget as EventDispatcher).removeEventListener(TwitterErrorEvent.CLIENT_ERROR, onTwitterAuthorizeError);							
 			Util.setPrivateValue(Constants.TWITTER_KEY, JSON.stringify(twitter.accessTokenSet));
 			
-			if (image && msg)
-				postTwitterPhoto(msg, image);
+			twitterLogged = true;
+			
+			var twitterRequest:TwitterRequest = twitter.account_verifyCredentials();				
+			twitterRequest.addEventListener(TwitterRequestEvent.COMPLETE, onGetTwitterAccountInfoComplete);			
 		}
 		
 		private function onGetTwitterAccountInfoComplete(e:TwitterRequestEvent):void 
@@ -393,7 +396,10 @@ package comp
 			(e.currentTarget as EventDispatcher).removeEventListener(TwitterRequestEvent.COMPLETE, onGetTwitterAccountInfoComplete);
 			var request:TwitterRequest = e.currentTarget as TwitterRequest;
 			var response:Object = JSON.parse(request.response);
-			twitterUsername = response.name;						
+			twitterUsername = response.name;	
+			
+			if (image && msg)
+				postTwitterPhoto(msg, image);
 		}
 		
 		public function logoutTwitter():void
@@ -404,16 +410,18 @@ package comp
 		/* INTERFACE starling.animation.IAnimatable */
 		
 		public function advanceTime(time:Number):void 
-		{
+		{					
 			if (webView && webView.stage && webView.viewPort && !closeBt.parent)
 			{
+				FPSCounter.log("show cancel bt");
 				var rec:Rectangle = webView.viewPort;
 				closeBt.y = rec.bottom / Starling.contentScaleFactor + 24;
 				closeBt.x = (rec.x + (rec.width - closeBt.width*Starling.contentScaleFactor >> 1))/Starling.contentScaleFactor;
 				LayerMgr.getLayer(LayerMgr.LAYER_EFFECT).addChild(closeBt);								
 			}
-			else if((!webView || !webView.stage) && closeBt.parent)
+			else if((!webView || !webView.stage || !webView.viewPort) && closeBt.parent)
 			{				
+				FPSCounter.log("hide cancel bt");
 				closeBt.removeFromParent();
 			}
 		}

@@ -24,6 +24,7 @@ package fasthand.gui
 	import res.asset.IconAsset;
 	import res.asset.ParticleAsset;
 	import res.asset.SoundAsset;
+	import res.ResMgr;
 	import starling.animation.DelayedCall;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
@@ -106,7 +107,8 @@ package fasthand.gui
 			{
 				SoundManager.playSound(SoundAsset.SOUND_HIGH_SCORE);
 				particleSys.start(5);
-			}
+				celebrate = false;
+			}			
 			
 			var cats:Array = FasthandUtil.getListCat();
 			var gameService:GameService = Factory.getInstance(GameService);
@@ -153,22 +155,34 @@ package fasthand.gui
 		
 		private function onFacebook():void 
 		{
-			CONFIG::isIOS{
-				if(Util.isIOS)
-				{
-					shareOnIOS(SocialServiceType.FACEBOOK);
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			if (resMgr.isInternetAvailable)
+			{
+				CONFIG::isIOS{
+					if(Util.isIOS)
+					{
+						shareOnIOS(SocialServiceType.FACEBOOK);
+					}
 				}
+				CONFIG::isAndroid {
+					if (Util.isAndroid)
+					{
+						var text:String = LangUtil.getText("shareMsg");
+						text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);
+						Util.shareOnFBAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
+						PopupMgr.removePopup(this);
+						PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+						delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);
+					}
+				}			
 			}
-			CONFIG::isAndroid {
-				if (Util.isAndroid)
-				{
-					var text:String = LangUtil.getText("shareMsg");
-					text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);
-					Util.shareOnFBAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
-					PopupMgr.removePopup(this);
-					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-					delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);
-				}
+			else
+			{
+				PopupMgr.removePopup(this);
+				var info:InfoDlg = Factory.getInstance(InfoDlg);
+				info.text = LangUtil.getText("enableInternet");
+				info.callback = openSelfAgain;
+				PopupMgr.addPopUp(info);
 			}
 		}
 		
@@ -184,42 +198,72 @@ package fasthand.gui
 		
 		private function onTwitter():void 
 		{
-			CONFIG::isIOS{
-				if(Util.isIOS)
-				{
-					shareOnIOS(SocialServiceType.TWITTER);
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			if (resMgr.isInternetAvailable)
+			{				
+				CONFIG::isIOS{
+					if(Util.isIOS)
+					{
+						shareOnIOS(SocialServiceType.TWITTER);
+					}
+				}
+				CONFIG::isAndroid {
+					if (Util.isAndroid)
+					{
+						var text:String = LangUtil.getText("shareMsg");
+						text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);
+						Util.shareOnTTAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
+						PopupMgr.removePopup(this);
+						PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+						delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);
+					}
 				}
 			}
-			CONFIG::isAndroid {
-				if (Util.isAndroid)
-				{
-					var text:String = LangUtil.getText("shareMsg");
-					text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);
-					Util.shareOnTTAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
-					PopupMgr.removePopup(this);
-					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
-					delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);
-				}
+			else
+			{
+				PopupMgr.removePopup(this);
+				var info:InfoDlg = Factory.getInstance(InfoDlg);
+				info.text = LangUtil.getText("enableInternet");
+				info.callback = openSelfAgain;
+				PopupMgr.addPopUp(info);
 			}
+			
+			
 		}
 		
 		private function onScoreBt():void 
 		{
 			var highscoreDB:GameService = Factory.getInstance(GameService);
 			var logic:Fasthand = Factory.getInstance(Fasthand);
-			var cat:String = logic.cat;			
-			if(Util.isIOS)
-			{			
-				highscoreDB.showGameCenterHighScore(cat);
+			var cat:String = logic.cat;
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			if (resMgr.isInternetAvailable)
+			{				
+				if(Util.isIOS)
+				{			
+					highscoreDB.showGameCenterHighScore(cat);					
+				}
+				else if (Util.isAndroid)
+				{
+					highscoreDB.showGooglePlayLeaderboard(cat);
+				}
+				PopupMgr.removePopup(this);
+				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+				Starling.juggler.delayCall(openSelfAgain,5);
 			}
-			else if (Util.isAndroid)
+			else
 			{
-				highscoreDB.showGooglePlayLeaderboard(cat);
+				PopupMgr.removePopup(this);
+				var info:InfoDlg = Factory.getInstance(InfoDlg);
+				info.text = LangUtil.getText("enableInternet");
+				info.callback = openSelfAgain;
+				PopupMgr.addPopUp(info);
 			}
 		}
 		
 		private function openSelfAgain():void 
-		{			
+		{	
+			PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 			PopupMgr.addPopUp(this);
 		}
 		
@@ -250,7 +294,7 @@ package fasthand.gui
 		{
 			Factory.removeMouseClickCallback(twitterBt);
 			Factory.removeMouseClickCallback(facebookBt);
-			particleSys.stop();
+			particleSys.stop(true);
 			particleSys.removeFromParent();
 			LayerMgr.lockGameLayer = false;
 			super.onRemoved(e);

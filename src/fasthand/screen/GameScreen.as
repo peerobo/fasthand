@@ -11,11 +11,13 @@ package fasthand.screen
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;
+	import comp.GameService;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.SpriteNumber;
 	import fasthand.comp.PauseDialog;
 	import fasthand.Fasthand;
+	import fasthand.FasthandUtil;
 	import fasthand.gui.GameBoard;	
 	import flash.geom.Point;
 	import flash.ui.GameInput;
@@ -46,6 +48,7 @@ package fasthand.screen
 			super();
 			gameboard = new GameBoard();
 			//gameboard.visible = false;
+			Util.registerRelayoutAfterAd(relayoutGameboard, true);
 		}
 		
 		override public function onAdded(e:Event):void 
@@ -80,8 +83,8 @@ package fasthand.screen
 			scoreTxt.y = pauseBt.y;
 			addChild(scoreTxt);
 			
-			addChildAt(gameboard,1);
-			Util.g_centerScreen(gameboard);
+			addChildAt(gameboard, 1);
+			relayoutGameboard(Util.isBannerAdShowed);			
 			gameboard.onSelectWord = validateWord;			
 			
 			//Util.showBannerAd();
@@ -89,6 +92,13 @@ package fasthand.screen
 			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			globalInput.registerKey(Keyboard.BACK, onBackBt);
+		}
+		
+		private function relayoutGameboard(bool:Boolean):void 
+		{
+			Util.g_centerScreen(gameboard);
+			if (bool)
+				gameboard.y -= 120;
 		}
 		
 		public function onPause():void 
@@ -124,6 +134,7 @@ package fasthand.screen
 		
 		private function onBackBt():void 
 		{
+			FPSCounter.log("back bt pressed");
 			Util.g_showConfirm(LangUtil.getText("confirmQuit"), onConfirmQuit);
 			pause();
 			
@@ -170,6 +181,10 @@ package fasthand.screen
 			gameboard.isAnimatedTime = true;
 			gameboard.setIcons(logic.seqs);
 			gameboard.setWord(logic.word2Find);
+			
+			//var gameService:GameService = Factory.getInstance(GameService);			
+			//if (logic.difficult)			
+				//gameService.unlockAchievement(FasthandUtil.ACH_FEARLESS);		
 		}
 		
 		public function startRound():void

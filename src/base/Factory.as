@@ -156,6 +156,22 @@ package base
 			return ins.getInstance(C);
 		}
 		
+		public static function killInstance(C:Class):void
+		{
+			ins.killInstance(C);
+		}
+		
+		public function killInstance(C:Class):* 
+		{
+			var key:String = getQualifiedClassName(C);
+			var obj:*= null;
+			
+			if (mapPersistent.hasOwnProperty(key))
+			{							
+				delete mapPersistent[key];
+			}					
+		}
+		
 		public function getInstance(C:Class):* 
 		{
 			var key:String = getQualifiedClassName(C);

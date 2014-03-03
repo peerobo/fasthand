@@ -18,6 +18,9 @@ package fasthand.screen
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.PageFooter;
+	CONFIG::isAndroid{
+		import comp.SocialForAndroid;
+	}
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;
 	import fasthand.gui.CategorySelector;
@@ -221,6 +224,10 @@ package fasthand.screen
 				infoDlg.text = "App reset! Exit App pls!";
 				PopupMgr.addPopUp(infoDlg);
 				cheatCountActivate = 0;
+				CONFIG::isAndroid {
+					var socialForAndroid:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+					socialForAndroid.logoutFB();
+				}
 			}
 		}
 		
@@ -233,7 +240,7 @@ package fasthand.screen
 				cDlg.text = LangUtil.getText("onExit");
 				cDlg.callback = onConfirmExit;
 				PopupMgr.addPopUp(cDlg);
-				NativeApplication.nativeApplication.exit();
+				//NativeApplication.nativeApplication.exit();
 			}
 		}
 		

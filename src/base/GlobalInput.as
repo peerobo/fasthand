@@ -32,7 +32,8 @@ package base
 			disableTimeout = -1;
 			keyMap = { };
 			Starling.juggler.add(this);
-			Starling.current.nativeStage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+			FPSCounter.log("add keyboard event");
+			Starling.current.nativeStage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown,false, 1000);
 		}
 		
 		public function registerKey(keyCode:uint, f:Function):void
@@ -45,13 +46,16 @@ package base
 			return keyMap[keyCode.toString()];
 		}
 		
-		private function onKeyUp(e:KeyboardEvent):void 
+		private function onKeyDown(e:KeyboardEvent):void 
 		{
+			FPSCounter.log("event keyboard capture");
 			e.preventDefault();
+			e.stopImmediatePropagation();
 			for (var key:String in keyMap) 
 			{
 				if (key == e.keyCode.toString())
 				{
+					FPSCounter.log("execute keyboard function");
 					var f:Function = keyMap[key];
 					f.apply(this);
 					break;
@@ -139,18 +143,14 @@ package base
 						{
 							directPt.x = touch.globalX;
 							directPt.y = touch.globalY;
-							if (directPt.subtract(anchorPt).length >= SWIPE_AMP)
+							if (directPt.subtract(anchorPt).length >= SWIPE_AMP && !PopupMgr.current)
 							{
 								swipe();
 								checkSwipe = false;
 							}
 						}					
 					break;
-					case TouchPhase.ENDED:
-						
-					break;
-				}
-				
+				}				
 			}
 		}
 		

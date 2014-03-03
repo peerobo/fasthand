@@ -7,7 +7,7 @@
 	// Any mobile device (phones or tablets).
 	if ( $detect->isMobile() || $detect->isTablet()) {
 		if( $detect->isiOS() ){
-			header('Location: http://appstore.com/fast-hand-english');
+			header('Location: itms-apps://itunes.apple.com/us/app/fast-hand-english/id820835123?ls=1&mt=8');
 		}
 		else
 		{
@@ -16,6 +16,6 @@
 	}
 	else
 	{
-		header( 'Location: http://firecheetah.com/' ) ;
+		header( 'Location: http://firecheetah.com/welcome/fasthandenglish.html' ) ;
 	}
 ?>

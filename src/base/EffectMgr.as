@@ -19,11 +19,11 @@ package base
 			
 		}
 		
-		public static function floatObject(obj:DisplayObject, pos:Point, dir:String = "y"):void
+		public static function floatObject(obj:DisplayObject, pos:Point, dir:String = "y", time:Number = 0.5):void
 		{			
 			LayerMgr.getLayer(LayerMgr.LAYER_EFFECT).addChild(obj);
 			
-			var t:Tween = new Tween(obj, 0.5, Transitions.EASE_OUT);
+			var t:Tween = new Tween(obj, time, Transitions.EASE_OUT);
 			t.delay = 0;
 			t.animate(dir, pos[dir]);
 			t.onComplete = onFloatObjectComplete;
@@ -45,7 +45,7 @@ package base
 			obj.removeFromParent(true);
 		}				
 		
-		public static function floatTextMessageEffect(text:String, pos:Point, color:uint = 0xFF0000 ):void
+		public static function floatTextMessageEffect(text:String, pos:Point, color:uint = 0xFF0000, time:Number = 0.5):void
 		{
 			var txt:TextField = BFConstructor.getTextField(1, 1, text, BFConstructor.BANHMI, color);
 			txt.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;			
@@ -54,13 +54,13 @@ package base
 			txt.y = pos.y - txt.height / 2;
 			txt.touchable = false;
 			pos.y -= 240;
-			floatObject(txt, pos);
+			floatObject(txt, pos,"y",time);
 		}
 		
-		public static function floatTextMessageEffectCenter(text:String, color:uint = 0xFF0000):void
+		public static function floatTextMessageEffectCenter(text:String, color:uint = 0xFF0000, time:Number = 0.5):void
 		{
 			var p:Point = new Point(Util.appWidth >> 1, Util.appHeight >> 1);			
-			floatTextMessageEffect(text, p, color);
+			floatTextMessageEffect(text, p, color, time);			
 		}
 		
 	}

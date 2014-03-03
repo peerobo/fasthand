@@ -1,7 +1,10 @@
 package comp 
 {
+	import base.CallbackObj;
 	import base.Factory;
 	import base.GlobalInput;
+	import base.LayerMgr;
+	import fasthand.gui.AchievementBanner;
 	import starling.core.Starling;
 	CONFIG::isIOS{
 		import com.adobe.ane.gameCenter.GameCenterAuthenticationEvent;
@@ -20,17 +23,18 @@ package comp
 	public class GameService 
 	{
 		private var highscoreMap:Object;
+		private var gameCenterLogged:Boolean;
+		private var googlePlayLogged:Boolean;
 		
 		// game center only
 		CONFIG::isIOS{
-			private var gcController:GameCenterController;		
-			private var gameCenterLogged:Boolean;
+			private var gcController:GameCenterController;					
 			private var validCats:Array;
 		}
 		
 		CONFIG::isAndroid{
-			private var googlePlay:AirGooglePlayGames;
-			private var googlePlayLogged:Boolean;
+			private var googlePlay:AirGooglePlayGames;			
+			private var callbackSignInOK:CallbackObj;
 		}
 		
 		
@@ -118,7 +122,7 @@ package comp
 		public function setHighscore(type:String, value:int):void
 		{
 			var catName:String;
-			highscoreMap[type ] = value;			
+			highscoreMap[type ] = value;					
 			CONFIG::isIOS{
 				if (Util.isIOS && gameCenterLogged && validCats)
 				{
@@ -150,17 +154,18 @@ package comp
 					{
 						catName = Constants.HIGHSCORE_ITUNE_PRE + Constants.OVERALL_HIGHSCORE.substr(0, 1).toUpperCase() + Constants.OVERALL_HIGHSCORE.substr(1);
 						if(validCats.indexOf(catName) > -1)
-							gcController.submitScore(value, catName);				
+							gcController.submitScore(tmpVal, catName);				
 					}				
 				}
 				CONFIG::isAndroid {
 					if (Util.isAndroid && googlePlayLogged)
 					{
 						catName = FasthandUtil.getCatForGooglePlay(Constants.OVERALL_HIGHSCORE);
-						googlePlay.reportScore(catName, value);
+						googlePlay.reportScore(catName, tmpVal);
 					}
 				}
 			}
+			saveHighscore();
 		}
 		
 		public function saveHighscore():void
@@ -168,6 +173,8 @@ package comp
 			for (var s:String in highscoreMap) 
 			{
 				Util.setPrivateValue(s, highscoreMap[s]);
+				if(highscoreMap[s] > 0)
+					FPSCounter.log(s,highscoreMap[s]);
 			}			
 		}
 		
@@ -176,7 +183,10 @@ package comp
 			for (var s:String in highscoreMap) 
 			{
 				var tmpVal:String = Util.getPrivateKey(s);
-				var val:int = parseInt(tmpVal);				
+				var val:int = parseInt(tmpVal);
+				highscoreMap[s] = val;
+				if(val > 0)
+					FPSCounter.log(s,val);
 			}
 			
 		}
@@ -209,9 +219,7 @@ package comp
 				googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_IN_SUCCESS, onGooglePlayResponse);
 				googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS, onGooglePlayResponse);
 				googlePlay.addEventListener(AirGooglePlayGamesEvent.ON_SIGN_IN_FAIL, onGooglePlayResponse);
-				googlePlay.startAtLaunch();
-				
-				Starling.juggler.delayCall(googlePlay.signOut, 5);
+				googlePlay.startAtLaunch();							
 			}
 		}
 				
@@ -225,6 +233,7 @@ package comp
 				else if(googlePlay)
 				{
 					googlePlay.signIn();
+					callbackSignInOK = new CallbackObj(googlePlay.showLeaderboard, [FasthandUtil.getCatForGooglePlay(cat)]);
 				}
 			}
 		}
@@ -237,14 +246,19 @@ package comp
 					case AirGooglePlayGamesEvent.ON_SIGN_IN_SUCCESS:
 						googlePlayLogged = true;
 						FPSCounter.log("play login ok");
+						if (callbackSignInOK)
+						{	
+							callbackSignInOK.execute();
+							callbackSignInOK = null;
+						}
 					break;
 					case AirGooglePlayGamesEvent.ON_SIGN_IN_FAIL:
-						googlePlayLogged = false;
+						googlePlayLogged = false;						
 						FPSCounter.log("play login fail");
 					break;
 					case AirGooglePlayGamesEvent.ON_SIGN_OUT_SUCCESS:
 						googlePlayLogged = false;
-						googlePlay.signIn();						
+						googlePlay.signIn();
 					break;
 				}
 			}
@@ -257,14 +271,36 @@ package comp
 			var checkDone:String = Util.getPrivateKey(key);
 			if (checkDone)
 				return;
-			Util.setPrivateValue(key, "available");
+			
 			CONFIG::isIOS {
-				ach = FasthandUtil.getAchievementIOS(type);
-				gcController.submitAchievement(ach, 100);
+				if(gameCenterLogged)
+				{
+					ach = FasthandUtil.getAchievementIOS(type);
+					gcController.submitAchievement(ach, 100);
+					Util.setPrivateValue(key, "available");
+				}
 			}
 			CONFIG::isAndroid {
-				ach = FasthandUtil.getAchievementAndroid(type);
-				googlePlay.reportAchievement(ach);
+				if(googlePlayLogged)
+				{
+					ach = FasthandUtil.getAchievementAndroid(type);
+					googlePlay.reportAchievement(ach);
+					Util.setPrivateValue(key, "available");
+				}
+			}
+			
+			if (gameCenterLogged || googlePlayLogged)
+			{
+				var banner:AchievementBanner = Factory.getInstance(AchievementBanner);
+				if(!banner.parent)
+				{
+					banner.label = FasthandUtil.getAchievementLabel(type);
+					LayerMgr.getLayer(LayerMgr.LAYER_EFFECT).addChild(banner);
+				}
+				else
+				{
+					banner.queue(FasthandUtil.getAchievementLabel(type));
+				}
 			}
 		}
 	}

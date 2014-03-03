@@ -24,6 +24,7 @@ package
 	[SWF(frameRate="60",backgroundColor="0x0")]
 	public class Main extends Sprite 
 	{		
+		private var starling:Starling;
 		
 		public function Main():void 
 		{
@@ -34,7 +35,8 @@ package
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;			
 			//EncryptedLocalStore.reset();			
-			startStarlingFramework();
+			stage.addEventListener(Event.UNLOAD, onStarlingErrorContext);
+			startStarlingFramework();			
 			if (Capabilities.cpuArchitecture == "ARM") 
 			{
 				NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
@@ -45,14 +47,16 @@ package
 		}			
 	
 		private function onAppDeactivate(e:Event):void 
-		{			
+		{
+			starling.stop(true);
 			Util.root.onAppDeactivate();			
 		}
 		
 		private function onAppActivate(e:Event):void 
 		{
 			if (Util.root)
-			{				
+			{	
+				starling.start();
 				Util.root.onAppActivate();			
 			}
 		}
@@ -106,12 +110,13 @@ package
 				//Starling.handleLostContext = true;
 			//else
 				//Starling.handleLostContext = false;
-			
-			var starling:Starling;
+			//CONFIG::isAndroid {
+				//Starling.handleLostContext = true;
+			//}			
 			if(needExtended)
 				starling = new Starling(App, stage,new Rectangle(0,0,sw,sh),null,"auto",Context3DProfile.BASELINE_EXTENDED);
 			else
-				starling = new Starling(App, stage,new Rectangle(0,0,sw,sh));
+				starling = new Starling(App, stage, new Rectangle(0, 0, sw, sh));			
 			starling.stage.stageWidth = w;
 			starling.stage.stageHeight = h;					
 			starling.start();	
@@ -119,12 +124,23 @@ package
 			Asset.init();
 			LangUtil.loadXMLData();
 			BaseJsonGUI.loadCfg();			
-			
+			//starling.addEventListener(Event.UNLOAD, onStarlingErrorContext);
 			if(Util.isDesktop)
 			{
 				EncryptedLocalStore.removeItem(Constants.APP_NAME + "_" + Constants.SUBJECT_STR);								
 			}
 		}					
+		
+		private function onStarlingErrorContext(e:Event):void 
+		{			
+			reinitializeTextures();
+		}
+		
+		private function reinitializeTextures():void 
+		{
+			FPSCounter.log("reinitialize")
+			Util.root.reinitializeTextures();
+		}
 	}
 	
 }

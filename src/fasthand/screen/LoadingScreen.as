@@ -116,6 +116,8 @@ package fasthand.screen
 					purchaseDL.onRestorePurchase();
 				break;
 			}
+			
+			Factory.killInstance(LoadingScreen);
 		}
 		
 		override public function onRemoved(e:Event):void 

@@ -35,8 +35,8 @@ package fasthand.gui
 		
 		private function onClicked(value:Boolean):void 
 		{
-			callback(value);
 			PopupMgr.removePopup(this);
+			callback(value);			
 		}
 	}
 

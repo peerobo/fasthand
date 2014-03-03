@@ -7,6 +7,7 @@
 		<loading>Loading</loading>
 		<cancel>Cancel</cancel>
 		<notlogged>(Not logged in)</notlogged>
+		<enableInternet>Please enable internet (WIFI/Data) to use this feature!</enableInternet>
 		<extraContentLoad>Category: @cat (@idxCat/@totalCat)\nFile: (@idxFile/@totalFile)</extraContentLoad>
 		<downloadExtraContent>Downloading require content</downloadExtraContent>
 		<shareMsg>Beat me on @cat if you dare at @url #fasthand.</shareMsg>

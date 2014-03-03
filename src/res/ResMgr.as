@@ -46,11 +46,15 @@ package res
 		public var extraCurrentByte:uint;
 		public var extraCurrentByte2Load:uint;	
 		public var extraCurrentProgressStr:String;
+		public var isInternetAvailable:Boolean;
 		
 		public function ResMgr() 
 		{
 			assetMgr = new AssetManager(Starling.contentScaleFactor);			
 			assetMgr.verbose = false;
+			
+			monitor = new URLMonitor(new URLRequest("http://www.google.com"));		
+			monitor.addEventListener(StatusEvent.STATUS, onMonitor);
 			
 			// for dynamic loading
 			urlLoader = new URLLoader();			
@@ -81,8 +85,8 @@ package res
 			{
 				extraCurrentByte = extraURLLoader.bytesLoaded;
 				extraCurrentByte2Load = extraURLLoader.bytesTotal;				
-			}
-			Starling.juggler.delayCall(updateInternalProgress, 0.2);
+				Starling.juggler.delayCall(updateInternalProgress, 0.2);
+			}			
 		}
 		
 		private function onNetworkChange(e:Event):void 
@@ -91,15 +95,14 @@ package res
 		}
 		
 		public function checkInternet():void
-		{
-			monitor = new URLMonitor(new URLRequest("http://www.yahoo.com"));		
-			monitor.addEventListener(StatusEvent.STATUS, onMonitor);
+		{			
 			monitor.start();
 		}
 		
 		private function onMonitor(e:StatusEvent):void 
 		{
-			trace("internet available:", monitor.available,getTimer());
+			FPSCounter.log("internet available:", monitor.available);
+			isInternetAvailable = monitor.available;
 		}
 		
 		private function onLoadedItem(e:Event):void 
@@ -158,6 +161,7 @@ package res
 		
 		public function start():void
 		{
+			assetMgr.purge();
 			updateInternalProgress();
 			
 			assetMgr.enqueue(Asset.getBasicTextureAtlURL());			

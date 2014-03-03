@@ -65,10 +65,15 @@ package
 		public function onAppExit():void 
 		{
 			var gameState:GameSave = Factory.getInstance(GameSave);
-			gameState.saveState();
-			var highscoreDB:GameService = Factory.getInstance(GameService);
-			highscoreDB.saveHighscore();		
+			gameState.saveState();	
 			
+		}
+		
+		public function reinitializeTextures():void 
+		{
+			ScreenMgr.showScreen(LoadingScreen);
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			resMgr.start();	
 		}
 		
 		private function onInit(e:Event):void 

@@ -61,14 +61,16 @@ package
 		public static const HOVER_FILTER:int = 0;
 		public static const DISABLE_FILTER:int = 1;
 		public static const DOWN_FILTER:int = 2;
-		private static var isInitAd:Boolean;
+		public static var isInitAd:Boolean;
 		static private var revmob:RevMob;
 		static private var isCreatingFullscreenAd:Boolean;
 		static private var isCreatingBanner:Boolean;
 		public static var root:App;			
+		static public var isBannerAdShowed:Boolean;
+		static private var relayoutFuntions:Array;
 		
 		CONFIG::isAndroid {
-			private static var leadBolt:LeadboltController;
+			private static var leadBolt:LeadboltController;			
 		}
 		
 		public static function getFilter(type:int):FragmentFilter
@@ -263,7 +265,7 @@ package
 					revmob.addEventListener( RevMobAdsEvent.AD_DISMISS, onRevMobAdEvent );
 					revmob.addEventListener( RevMobAdsEvent.AD_DISPLAYED, onRevMobAdEvent );
 					revmob.addEventListener( RevMobAdsEvent.AD_NOT_RECEIVED, onRevMobAdEvent );
-					revmob.addEventListener( RevMobAdsEvent.AD_RECEIVED, onRevMobAdEvent );
+					revmob.addEventListener( RevMobAdsEvent.AD_RECEIVED, onRevMobAdEvent );					
 				}
 				CONFIG::isIOS{
 					var admob:Admob = Admob.getInstance();
@@ -273,6 +275,8 @@ package
 						admob.addEventListener(AdmobEvent.onInterstitialReceive, onAdReceived);
 						admob.addEventListener(AdmobEvent.onInterstitialFailedReceive, onAdReceived);
 						admob.addEventListener(AdmobEvent.onBannerFailedReceive, onAdReceived);
+						admob.addEventListener(AdmobEvent.onBannerLeaveApplication, onAdReceived);
+						admob.addEventListener(AdmobEvent.onBannerReceive, onAdReceived);						
 					}				
 				}
 				CONFIG::isAndroid {
@@ -293,7 +297,7 @@ package
 		
 		CONFIG::isAndroid{
 		private static function onLeadBoltAdEvent(e:LeadboltAdEvent):void 
-			{
+			{				
 				switch (e.type) 
 				{
 					case LeadboltAdEvent.ON_AD_FAILED:
@@ -301,13 +305,48 @@ package
 					break;
 					case LeadboltAdEvent.ON_AD_CACHED:
 						leadBolt.loadAd();
+						relayoutAfterAd(true);						
+					break;
+					case LeadboltAdEvent.ON_AD_LOADED:
+						isBannerAdShowed = true;
 					break;
 					case LeadboltAdEvent.ON_AD_CLICKED:
 						leadBolt.destroyAd();
 						leadBolt.loadAdToCache();
 					break;
+					case LeadboltAdEvent.ON_AD_ALREADYCOMPLETED:
+						relayoutAfterAd(false);
+						isBannerAdShowed = false;
+					break;
 					default:
 				}
+			}					
+		}
+		
+		static private function relayoutAfterAd(adShowed:Boolean):void 
+		{
+			var len:int = relayoutFuntions ? relayoutFuntions.length : 0;
+			for (var i:int = 0; i < len; i++) 
+			{
+				var f:Function = relayoutFuntions[i];
+				f.apply(null, [adShowed]);
+			}
+		}
+		
+		static public function registerRelayoutAfterAd(f:Function, isRemove:Boolean):void
+		{
+			if(!relayoutFuntions)
+				relayoutFuntions = [];
+			var idx:int = relayoutFuntions.indexOf(f);
+			if (isRemove)
+			{
+				if (idx > -1)
+					relayoutFuntions.splice(idx, 1);
+			}
+			else
+			{
+				if (idx == -1)
+					relayoutFuntions.push(f);
 			}
 		}
 		
@@ -319,8 +358,8 @@ package
 				{				
 					if (isCreatingFullscreenAd)
 					{
+						PopupMgr.flush();
 						revmob.releaseFullscreen();
-						//Util.showBannerAd();
 						isCreatingFullscreenAd = false;
 					}
 					break;
@@ -329,8 +368,8 @@ package
 				{		
 					if (isCreatingFullscreenAd)
 					{
-						revmob.releaseFullscreen();
-						//Util.showBannerAd();
+						PopupMgr.flush();
+						revmob.releaseFullscreen();											
 						isCreatingFullscreenAd = false;
 					}
 					break;
@@ -339,7 +378,7 @@ package
 				{		
 					if (isCreatingFullscreenAd)
 					{
-						PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+						PopupMgr.flush();
 					}
 					break;
 				}
@@ -348,25 +387,17 @@ package
 					FPSCounter.log(e.error, e.name);
 					if(isCreatingFullscreenAd)
 					{
-						PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
+						PopupMgr.flush();
 						isCreatingFullscreenAd = false;
-					}
-					else if (isCreatingBanner)
-					{
-						isCreatingBanner = false;
 					}
 					break;
 				}
 				case RevMobAdsEvent.AD_RECEIVED:
 				{			
 					if (isCreatingFullscreenAd)
-					{						
-						revmob.showFullscreen();
-					}
-					else if(isCreatingBanner)
-					{			
-						revmob.showBanner(0, Util.deviceHeight - 370);
-						isCreatingBanner = false
+					{	
+						PopupMgr.flush();
+						revmob.showFullscreen();						
 					}
 					break;
 				}	
@@ -404,7 +435,7 @@ package
 		
 		CONFIG::isIOS{		
 			private static function onAdReceived(e:AdmobEvent):void
-			{
+			{				
 				var admob:Admob = Admob.getInstance();
 				if (e.type == AdmobEvent.onInterstitialReceive)
 				{
@@ -414,12 +445,23 @@ package
 				else if (e.type == AdmobEvent.onBannerFailedReceive)
 				{
 					FPSCounter.log(JSON.stringify(e.data));
+					isBannerAdShowed = false;
+					relayoutAfterAd(false);
 				}
 				else if (e.type == AdmobEvent.onInterstitialFailedReceive)
 				{				
 					PopupMgr.removePopup(Factory.getInstance(LoadingIcon));
 				}
-				 
+				else if (e.type == AdmobEvent.onBannerReceive)
+				{				
+					isBannerAdShowed = true;
+					relayoutAfterAd(true);
+				}
+				else if (e.type == AdmobEvent.onBannerDismiss)
+				{
+					isBannerAdShowed = false;
+					relayoutAfterAd(false);
+				}
 			}
 		}
 		
@@ -436,6 +478,7 @@ package
 				CONFIG::isAndroid {
 					leadBolt.destroyAd();
 				}
+				isBannerAdShowed = false;
 			}
 		}
 		
