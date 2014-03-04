@@ -219,9 +219,10 @@ package fasthand.gui
 			backCatIndicator.visible = false;
 			sprNext.x = Util.appWidth;
 			sprNext.y = 0;
+			sprNext.visible = true;
 			addChild(sprNext);			
 			updatePage(sprNext, currentPage);
-						
+			
 			Starling.juggler.tween(sprNext, 0.5, { x:0, alpha: 1 } );
 			Starling.juggler.tween(sprCurr, 0.5, { x: -Util.appWidth, alpha:0, onComplete: onScrollComplete } );
 			
@@ -248,6 +249,7 @@ package fasthand.gui
 			sprNext = spr;	
 						
 			sprNext.x = 0;
+			spr.visible = false;
 			
 			var input:GlobalInput = Factory.getInstance(GlobalInput );
 			input.disable = false;
@@ -263,6 +265,7 @@ package fasthand.gui
 			backCatIndicator.visible = false;
 			sprNext.x = -Util.appWidth;
 			sprNext.y = 0;
+			sprNext.visible = true;
 			addChild(sprNext);			
 			updatePage(sprNext, currentPage);
 			
