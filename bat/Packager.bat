@@ -18,7 +18,6 @@ goto start
 :ios-config
 set CERT_FILE=%IOS_DEV_CERT_FILE%
 set SIGNING_OPTIONS=%IOS_DEV_SIGNING_OPTIONS%
-set OPTIONS=
 set ICONS=%IOS_ICONS%
 set DIST_EXT=ipa
 set TYPE=ipa

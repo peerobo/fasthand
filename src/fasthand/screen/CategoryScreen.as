@@ -93,7 +93,7 @@ package fasthand.screen
 				SoundAsset.unload(logic.cat, FasthandUtil.getListWords(logic.cat));
 			}
 			logic.cat = cat;
-			isExternalContent = FasthandUtil.getListCat().indexOf(cat) >= 6;
+			isExternalContent = FasthandUtil.getListCat().indexOf(cat) >= Constants.CAT_INTERNAL;
 			loadContent(cat);
 		}
 		

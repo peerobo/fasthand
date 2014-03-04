@@ -16,6 +16,12 @@ package
 		public static const TILE_PER_ROUND:int = 10;
 		public static const CAT_PER_PAGE:int = 6;		
 		public static const CAT_FREE_NUM:int = 6;
+		CONFIG::isIOS{
+			public static const CAT_INTERNAL:int = 30;
+		}
+		CONFIG::isAndroid{
+			public static const CAT_INTERNAL:int = 6;
+		}
 		public static const REVMOB_IOS_ID:String = "53072df6e39aa7fe2f209983";
 		public static const REVMOB_ANDROID_ID:String = "530ad7310ff0aa2f32569ca1";
 		static public const ADMOB_IOS_ID:String = "a15309f418b3a43";

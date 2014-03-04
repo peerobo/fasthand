@@ -138,6 +138,7 @@ package fasthand.comp
 			icon.touchable = false;
 			title.text = LangUtil.getText(name);
 			flatten();
+			bt.touchable = true;
 		}
 		
 		public function setComingSoon():void
@@ -155,6 +156,7 @@ package fasthand.comp
 			addChildAt(icon, 1);
 			icon.touchable = false;
 			title.text = "";
+			bt.touchable = false;
 			flatten();
 		}
 		

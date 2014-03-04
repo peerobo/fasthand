@@ -99,9 +99,12 @@ package
 		}	
 		
 		public static function get isFullApp():Boolean
-		{
+		{			
 			var iap:IAP = Factory.getInstance(IAP);
 			var ret:Boolean = Util.isIOS ? iap.checkBought(Constants.IOS_PRODUCT_IDS[0]) : iap.checkBought(Constants.ANDROID_PRODUCT_IDS[0]);
+			CONFIG::isIOS {
+				ret = true;
+			}
 			return ret;
 		}
 		

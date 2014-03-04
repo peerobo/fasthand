@@ -16,7 +16,7 @@ package fasthand
         public static var kitchen:String = "bottle;bowl;cup;fork;glass;jar;jug;knife;plate;spoon;bath;faucet;hairbrush;mirror;shower;sink;soap;toothbrush;toothpaste;towel;chopping board;cleaver;cloth;frying pan;kettle;ladle;saucepan;spatula;teapot;tray;";
         public static var nature:String = "beach;bush;flower;island;lake;leaf;mountain;river;tree;wave;cloud;lightning;moon;rain;rainbow;snow;star;sun;tornado;wind;";
         public static var transport:String = "bike;bus;car;motorbike;plane;ship;taxi;train;truck;walking;ambulance;elevator;escalator;fire engine;glider;helicopter;rocket;skateboard;tractor;van;";
-        public static var computer:String = "computer;mouse;keyboard;laptop;monitor;headset;printer;speakers;battery;light bulb;usb stick;dvd;dvd player;switch;line;microphone;plug;socket;webcam;speakers;";
+        public static var computer:String = "computer;mouse;keyboard;laptop;monitor;headset;printer;speakers;battery;light bulb;usb stick;dvd;dvd player;switch;line;microphone;plug;socket;webcam;";
         public static var numbers1:String = "zero;one;two;three;four;five;six;seven;eight;nine;ten;eleven;twelve;thirteen;fourteen;fifteen;sixteen;seventeen;eighteen;nineteen;twenty;";
         public static var numbers2:String = "twenty one;twenty two;twenty three;twenty four;twenty five;twenty six;twenty seven;twenty eight;twenty nine;thirty;one hundred;two hundred;one thousand;two thousand;ten thousand;twenty thousand;one hundred thousand;two hundred thousand;one million;one billion;";
         public static var adjectives:String = "big;small;tall;short;new;old;fast;slow;fat;thin;happy;sad;heavy;light;hot;cold;long;young;";
