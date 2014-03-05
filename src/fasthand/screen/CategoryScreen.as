@@ -92,8 +92,14 @@ package fasthand.screen
 				resMgr.removeTextureAtlas(logic.cat);
 				SoundAsset.unload(logic.cat, FasthandUtil.getListWords(logic.cat));
 			}
-			logic.cat = cat;
-			isExternalContent = FasthandUtil.getListCat().indexOf(cat) >= Constants.CAT_INTERNAL;
+			logic.cat = cat;			
+			isExternalContent = FasthandUtil.getListCat().indexOf(cat) >= 6;
+			CONFIG::isIOS{
+				isExternalContent = FasthandUtil.getListCat().indexOf(cat) >= Constants.CAT_INTERNAL;
+			}
+			CONFIG::isAndroid{
+				isExternalContent = FasthandUtil.getListCat().indexOf(cat) >= Constants.CAT_INTERNAL;
+			}			
 			loadContent(cat);
 		}
 		

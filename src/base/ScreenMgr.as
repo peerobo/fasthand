@@ -22,8 +22,9 @@ package base
 				return;
 			if (currScr)
 				currScr.removeFromParent();
+			PopupMgr.flush();
 			LayerMgr.getLayer(LayerMgr.LAYER_GAME).addChild(scr);			
-			currScr = scr;
+			currScr = scr;						
 		}
 		
 	}

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/13.0">
   <id>com.fc.FastHandEnglish</id>
-  <versionNumber>1.0.2</versionNumber>
+  <versionNumber>1.0.3</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>Fasthand</filename>
   <name>Fasthand</name>

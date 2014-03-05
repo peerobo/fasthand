@@ -105,6 +105,8 @@ package
 			CONFIG::isIOS {
 				ret = true;
 			}
+			if (Util.isDesktop)
+				ret = true;
 			return ret;
 		}
 		
@@ -399,7 +401,6 @@ package
 				{			
 					if (isCreatingFullscreenAd)
 					{	
-						PopupMgr.flush();
 						revmob.showFullscreen();						
 					}
 					break;
