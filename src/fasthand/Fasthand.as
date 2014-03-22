@@ -156,7 +156,10 @@ package fasthand
 				roundTime -= time;	
 				
 				if (roundTime < 0)
+				{
+					FPSCounter.log("game over");
 					gameOver();				
+				}
 			}
 		}
 		
@@ -202,7 +205,7 @@ package fasthand
 		}
 		
 		public function gameOver(noScoreWnd:Boolean = false):void 
-		{
+		{					
 			var hScoreDB:GameService = Factory.getInstance(GameService);
 			var hScoreType:String = cat;
 			highscore = hScoreDB.getHighscore(hScoreType);
@@ -212,7 +215,7 @@ package fasthand
 			var gameScreen:GameScreen = Factory.getInstance(GameScreen);
 			gameScreen.endGame();
 			if(!noScoreWnd)
-				showScoreWindow();			
+				showScoreWindow();						
 			
 			hScoreDB.setHighscore(hScoreType, highscore);
 		}
@@ -230,7 +233,7 @@ package fasthand
 		}
 		
 		private function showScoreWindow():void 
-		{
+		{			
 			var hScoreDB:GameService = Factory.getInstance(GameService);
 			var hScoreType:String = cat;
 			PopupMgr.flush();

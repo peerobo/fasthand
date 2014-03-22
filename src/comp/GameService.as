@@ -164,17 +164,16 @@ package comp
 						googlePlay.reportScore(catName, tmpVal);
 					}
 				}
+				Util.setPrivateValue(Constants.OVERALL_HIGHSCORE, highscoreMap[Constants.OVERALL_HIGHSCORE]);
 			}
-			saveHighscore();
+			Util.setPrivateValue(type, highscoreMap[type]);
 		}
 		
 		public function saveHighscore():void
 		{
 			for (var s:String in highscoreMap) 
 			{
-				Util.setPrivateValue(s, highscoreMap[s]);
-				if(highscoreMap[s] > 0)
-					FPSCounter.log(s,highscoreMap[s]);
+				Util.setPrivateValue(s, highscoreMap[s]);				
 			}			
 		}
 		
@@ -185,8 +184,6 @@ package comp
 				var tmpVal:String = Util.getPrivateKey(s);
 				var val:int = parseInt(tmpVal);
 				highscoreMap[s] = val;
-				if(val > 0)
-					FPSCounter.log(s,val);
 			}
 			
 		}
