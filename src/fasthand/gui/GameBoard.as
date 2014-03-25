@@ -93,7 +93,7 @@ package fasthand.gui
 			time = maxTime;
 			if (timeoutSound)
 				timeoutSound.stop();
-			timeoutSound = null
+			timeoutSound = null;
 		}
 		
 		override public function update(time:Number):void 
@@ -120,7 +120,8 @@ package fasthand.gui
 					{
 						timeProgressbar.alpha = 1;
 					}
-					timeProgressbar.width = w;
+					if(w >= rectPBMin.width)
+						timeProgressbar.width = w;
 				}			
 			}			
 		}
@@ -136,11 +137,10 @@ package fasthand.gui
 				var item:TileRenderer = getChildByName("tile" + i) as TileRenderer;
 				item.reset();
 				item.flatten();
-				item.scaleX = item.scaleY = 0.3;				
+				item.scaleX = item.scaleY = 0.3;
 				Starling.juggler.tween(item, 0.5, { scaleX:1, scaleY:1, onComplete: animatedDone } );
-			}
-			if (timeoutSound)
-				timeoutSound.stop();
+				//animatedDone();
+			}			
 		}
 		
 		public function setIcons(seqs:Array):void 

@@ -54,7 +54,7 @@ package res.asset
 				if(!isExternal)
 					soundManager.queueSound(FOLDER + cat + "/" + list[i] + ".mp3", getName(cat, list[i]));
 				else 
-					soundManager.queueSound(File.cacheDirectory.resolvePath(cat + "/" + list[i] + ".mp3"), getName(cat, list[i]));
+					soundManager.queueSound(File.cacheDirectory.resolvePath(cat + "/" + list[i] + ".mp3").url, getName(cat, list[i]));
 			}
 			soundManager.loadAll(onDownloadDone);
 		}

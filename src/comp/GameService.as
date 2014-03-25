@@ -164,9 +164,9 @@ package comp
 						googlePlay.reportScore(catName, tmpVal);
 					}
 				}
-				Util.setPrivateValue(Constants.OVERALL_HIGHSCORE, highscoreMap[Constants.OVERALL_HIGHSCORE]);
+				//Util.setPrivateValue(Constants.OVERALL_HIGHSCORE, highscoreMap[Constants.OVERALL_HIGHSCORE]);
 			}
-			Util.setPrivateValue(type, highscoreMap[type]);
+			//Util.setPrivateValue(type, highscoreMap[type]);
 		}
 		
 		public function saveHighscore():void

@@ -1,6 +1,7 @@
 package base
 {	
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.media.AudioPlaybackMode;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
@@ -24,7 +25,6 @@ package base
 	 */
 	public class SoundManager
 	{
-		private var _assetMgr:AssetManager; // asset manager for sound
 		private var _mute:Boolean;
 		private var _muteMusic:Boolean;
 		private var _currentPlayingSound:Array; // array of object sound: { channel: SoundChannel, url: String, isThemeMusic: boolean }
@@ -32,6 +32,7 @@ package base
 		private var _urlLoader:URLLoader; // song downloader
 		private var completeSound:Object;
 		private var soundVolume:int;	// 0-100
+		private var onDownloadDone:Function;
 		
 		/**
 		 * get sound. if sound not loaded => auto load sound for later use
@@ -46,7 +47,7 @@ package base
 		
 		public function removeSound(name:String):void
 		{
-			_assetMgr.removeSound(name);
+			delete completeSound[name];
 		}
 		
 		/**
@@ -76,15 +77,37 @@ package base
 		
 		public function SoundManager()
 		{
-			_assetMgr = new AssetManager();
-			_assetMgr.verbose = false;
 			soundVolume = 100;
-			SoundMixer.audioPlaybackMode = AudioPlaybackMode.AMBIENT;
+			CONFIG::isIOS{
+				SoundMixer.audioPlaybackMode = AudioPlaybackMode.AMBIENT;
+			}			
 		}			
 		
-		public function queueSound(url:*,name:String):void
+		public function queueSound(url:String,name:String):void
 		{
-			_assetMgr.enqueueWithName(url,name);
+			var alreadyQueue:Boolean = false;
+			var len:int = _loadList.length;
+			url += Constants.CONTENT_VER;
+			for (var i:int = 0; i < len; i++)
+			{
+				if (_loadList[i].url == url) // already queue
+				{
+					alreadyQueue = true;
+					break;
+				}				
+			}
+			if (!alreadyQueue)							
+				_loadList.push( { url: url, name: name } );	
+			// init loader if needed
+			if (!_urlLoader)
+			{
+				_urlLoader = new URLLoader();
+				_urlLoader.dataFormat = URLLoaderDataFormat.BINARY;
+				_urlLoader.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
+				_urlLoader.addEventListener(Event.COMPLETE, downloadSoundComplete);
+				// start download
+				_urlLoader.load(new URLRequest(_loadList[0].url));
+			}
 		}
 		
 		public function loadSoundSettings():void {
@@ -104,10 +127,11 @@ package base
 		 */
 		public function getSound(url:String):Sound
 		{
-			var snd:Sound = null;
-			snd = _assetMgr.getSound(url);
-			var sndName:String = url;				
+			var snd:Sound = null;			
+			var sndName:String = url;
 			sndName = sndName.replace(Constants.CONTENT_VER, "");			
+			if (completeSound)
+				snd = completeSound[sndName];
 			if (!snd && (!completeSound || !completeSound[sndName]))
 				loadNewSound(url);
 			return snd;
@@ -122,22 +146,27 @@ package base
 		public function playSound(url:String, isThemeMusic:Boolean = false, loopCount:int = 0, volume:Number = 1, startTime:Number = 0):SoundChannel		
 		{
 			var sndName:String;
-			sndName = url;
+			sndName = url;			
 			sndName = sndName.replace(Constants.CONTENT_VER, "");
 			if (!isThemeMusic && _mute)
 				return null;
 			var soundTranform:SoundTransform = new SoundTransform();
 			soundTranform.volume = volume * (!isThemeMusic ? this.soundVolume/100 : 1);
 			var sndCh:SoundChannel = null;
-			if (isThemeMusic)
+			var snd:Sound = (completeSound && completeSound[sndName] is Sound) ? completeSound[sndName] : null;
+			if(snd)
 			{
-				sndCh = _assetMgr.playSound(sndName, startTime, int.MAX_VALUE, soundTranform);
-				if (_muteMusic && sndCh)
-					sndCh.stop();
-			}
-			else
-			{
-				sndCh = _assetMgr.playSound(sndName, startTime, loopCount, soundTranform);
+				if (isThemeMusic)			
+				{
+					
+					sndCh = snd.play(startTime, int.MAX_VALUE, soundTranform);					
+					if (_muteMusic && sndCh)
+						sndCh.stop();
+				}
+				else
+				{				
+					sndCh = snd.play(startTime, loopCount, soundTranform);
+				}
 			}
 			if (sndCh != null) // sound loaded
 			{
@@ -180,13 +209,18 @@ package base
 		
 		public function loadAll(onDownloadDone:Function):void 
 		{
-			_assetMgr.loadQueue(onDownloadDone);
+			this.onDownloadDone = onDownloadDone;
+			if (_loadList.length == 0)
+			{
+				onDownloadDone(1);
+				this.onDownloadDone = null;
+			}
 		}
 		
 		private function loadNewSound(url:String, isThemeMusic:Boolean = false):void
 		{
 			if (!_loadList)			
-				_loadList = [];			
+				_loadList = [];	
 			var alreadyQueue:Boolean = false;
 			var len:int = _loadList.length;
 			url += Constants.CONTENT_VER;
@@ -203,7 +237,7 @@ package base
 				}
 			}
 			if (alreadyQueue)
-				return;			
+				return;				
 			// queue url
 			_loadList.push( { url: url, isThemeMusic: isThemeMusic } );			
 			// init loader if needed
@@ -212,23 +246,28 @@ package base
 				_urlLoader = new URLLoader();
 				_urlLoader.dataFormat = URLLoaderDataFormat.BINARY;
 				_urlLoader.addEventListener(Event.COMPLETE, downloadSoundComplete);
+				_urlLoader.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
 				// start download
 				_urlLoader.load(new URLRequest(_loadList[0].url));
-			}
+			}			
+		}
 		
+		private function onIOError(e:IOErrorEvent):void 
+		{			
+			FPSCounter.log(e.text,_loadList[0].url);
 		}
 		
 		private function downloadSoundComplete(e:Event):void
 		{
 			var snd:Sound = new Sound();
 			snd.loadCompressedDataFromByteArray(_urlLoader.data, (_urlLoader.data as ByteArray).length);
-			var sndName:String = _loadList[0].url;
+			var sndName:String = _loadList[0].url;			
 			sndName = sndName.replace(Constants.CONTENT_VER, "");
-			if(!completeSound || !completeSound[sndName])
-				_assetMgr.addSound(sndName, snd);
+			if (_loadList[0].hasOwnProperty("name"))
+				sndName = _loadList[0].name;
 			if (!completeSound)			
-				completeSound = { };
-			completeSound[sndName] = true;
+				completeSound = { };			
+			completeSound[sndName] = snd;			
 			// play instantly if it is theme song
 			if (_loadList[0].isThemeMusic)
 				this.playSound(sndName, true);
@@ -239,11 +278,18 @@ package base
 			{
 				_urlLoader.removeEventListener(Event.COMPLETE, downloadSoundComplete);
 				_urlLoader = null;
+				if (onDownloadDone is Function)
+				{
+					onDownloadDone(1);
+					onDownloadDone = null;
+				}
 			}
 			else // continue load remaining sound
 			{
 				_urlLoader.close();
 				_urlLoader.load(new URLRequest(_loadList[0].url));
+				if (onDownloadDone is Function)
+					onDownloadDone(1 / _loadList.length);
 			}
 		}
 		
@@ -309,6 +355,8 @@ package base
 		
 		public function set muteMusic(value:Boolean):void
 		{
+			var transform:SoundTransform;
+			var sndCh:SoundChannel;
 			if (_muteMusic == value)
 				return;
 			_muteMusic = value;
@@ -322,7 +370,11 @@ package base
 					{
 						if (_currentPlayingSound[i].isThemeMusic)
 						{
-							_currentPlayingSound[i].channel.stop();
+							sndCh = _currentPlayingSound[i].channel;
+							transform = sndCh.soundTransform;
+							transform.volume = 0;
+							sndCh.soundTransform = transform;
+							break;
 						}
 					}
 				}
@@ -332,8 +384,11 @@ package base
 					{
 						if (_currentPlayingSound[i].isThemeMusic)
 						{
-							var sndCh:SoundChannel = _assetMgr.playSound(_currentPlayingSound[i].url, 0, int.MAX_VALUE);
-							_currentPlayingSound[i].channel = sndCh;
+							sndCh = _currentPlayingSound[i].channel;
+							transform = sndCh.soundTransform;
+							transform.volume = 1;
+							sndCh.soundTransform = transform;
+							break;
 						}
 					}
 				}

@@ -20,6 +20,7 @@ package fasthand.screen
 	import fasthand.FasthandUtil;
 	import fasthand.gui.GameBoard;	
 	import flash.geom.Point;
+	import flash.system.System;
 	import flash.ui.GameInput;
 	import flash.ui.Keyboard;
 	import res.Asset;
@@ -27,6 +28,7 @@ package fasthand.screen
 	import res.asset.IconAsset;
 	import res.asset.SoundAsset;
 	import starling.display.DisplayObject;
+	import starling.display.Quad;
 	import starling.events.Event;
 	import starling.text.TextFieldAutoSize;
 	import starling.utils.Color;
@@ -55,8 +57,13 @@ package fasthand.screen
 		{
 			super.onAdded(e);
 			
-			var disp:DisplayObject = Asset.getImage(Asset.WALL_GAME, Asset.WALL_GAME);
-			addChildAt(disp,0);
+			//var disp:DisplayObject = Asset.getImage(Asset.WALL_GAME, Asset.WALL_GAME);
+			
+			var disp:Quad = Factory.getObjectFromPool(Quad);
+			disp.color = 0xF5DC4B;
+			disp.width = Util.appWidth;
+			disp.height = Util.appHeight;
+			addChildAt(disp, 0);
 			Util.g_centerScreen(disp);
 			
 			SoundManager.instance.muteMusic = true;						
@@ -233,7 +240,8 @@ package fasthand.screen
 		{
 			super.update(time);
 			var logic:Fasthand = Factory.getInstance(Fasthand);
-			scoreTxt.text =LangUtil.getText("score") + " " + logic.currentPlayerScore.toString();
+			scoreTxt.text = LangUtil.getText("score") + " " + logic.currentPlayerScore.toString();
+			System.pauseForGCIfCollectionImminent(1);
 		}
 	}
 

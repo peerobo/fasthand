@@ -608,7 +608,7 @@ package
 				});
 			Factory.registerPoolCreator(Scale9Image, function():Scale9Image
 				{
-					var scale9Textures:Scale9Textures = new Scale9Textures(Texture.empty(1, 1), new Rectangle(0, 0, 1, 1));
+					var scale9Textures:Scale9Textures = new Scale9Textures(Texture.empty(4, 4), new Rectangle(1, 1, 1, 1));
 					var scale9Img:Scale9Image = new Scale9Image(scale9Textures);
 					return scale9Img;
 				}, function(img:Scale9Image):void
@@ -621,7 +621,6 @@ package
 					img.pivotY = img.pivotX = 0;
 					img.rotation = 0;
 					img.alpha = 1;					
-					img.unflatten();
 				});
 		}
 		

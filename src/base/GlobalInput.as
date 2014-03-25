@@ -1,5 +1,6 @@
 package base 
 {
+	import flash.desktop.NativeApplication;
 	import flash.events.KeyboardEvent;
 	import flash.geom.Point;
 	import starling.animation.IAnimatable;
@@ -33,7 +34,7 @@ package base
 			keyMap = { };
 			Starling.juggler.add(this);
 			FPSCounter.log("add keyboard event");
-			Starling.current.nativeStage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown,false, 1000);
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);			
 		}
 		
 		public function registerKey(keyCode:uint, f:Function):void

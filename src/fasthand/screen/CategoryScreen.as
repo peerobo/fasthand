@@ -19,6 +19,8 @@ package fasthand.screen
 	import comp.LoopableSprite;
 	import comp.PageFooter;
 	import fasthand.gui.AdultDlg;
+	import flash.system.System;
+	import starling.display.Quad;
 	CONFIG::isAndroid{
 		import comp.SocialForAndroid;
 	}
@@ -165,7 +167,12 @@ package fasthand.screen
 			
 			fullApp = Util.isFullApp;
 			
-			var disp:DisplayObject = Asset.getImage(Asset.WALL_CATEGORY, Asset.WALL_CATEGORY);
+			//var disp:DisplayObject = Asset.getImage(Asset.WALL_CATEGORY, Asset.WALL_CATEGORY);
+			//addChild(disp);
+			var disp:Quad = Factory.getObjectFromPool(Quad);
+			disp.color = 0x9F6311;
+			disp.width = Util.appWidth;
+			disp.height = Util.appHeight;
 			addChild(disp);
 			Util.g_centerScreen(disp);
 			
@@ -306,6 +313,7 @@ package fasthand.screen
 					moveToGameScreen();					
 				}
 			}
+			System.pauseForGCIfCollectionImminent(0);
 		}
 		
 		public function refresh():void

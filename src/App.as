@@ -51,6 +51,8 @@ package
 				var gScr:GameScreen = Factory.getInstance(GameScreen);
 				gScr.onPause();
 			}
+			var gameService:GameService = Factory.getInstance(GameService);
+			gameService.saveHighscore();
 		}
 		
 		public function onAppActivate():void 

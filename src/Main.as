@@ -43,13 +43,14 @@ package
 			}
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onAppExit);
 			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onAppActivate);
-			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);
+			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);			
 		}			
 	
 		private function onAppDeactivate(e:Event):void 
 		{
 			starling.stop(true);
-			Util.root.onAppDeactivate();			
+			Util.root.onAppDeactivate();	
+			trace("deactivate");
 		}
 		
 		private function onAppActivate(e:Event):void 
@@ -59,6 +60,7 @@ package
 				starling.start();
 				Util.root.onAppActivate();			
 			}
+			trace("activate");
 		}
 		
 		private function onAppExit(e:Event):void 
@@ -66,7 +68,8 @@ package
 			if (Util.root)
 			{
 				Util.root.onAppExit();
-			}			
+			}	
+			NativeApplication.nativeApplication.exit();
 		}
 		
 		private function startStarlingFramework():void 

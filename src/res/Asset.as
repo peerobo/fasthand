@@ -24,10 +24,6 @@ package res
 		
 		public static const BASE_GUI:String = "gui";		
 		
-		public static const WALL_CATEGORY:String = "categoryscreen";
-		public static const WALL_GAME:String = "gamescreen";
-		public static const WALL_LIST:Array = [WALL_CATEGORY, WALL_GAME];	
-		
 		static public const URL_EXTRA_RES:String = "http://firecheetah.com/mobile/fasthandres/";
 		
 		public static var contentSuffix:String;
@@ -51,8 +47,8 @@ package res
 			for each(var s:String in BFConstructor.LIST_FONTS)
 				list.push(TEXT_FOLDER + s + ".xml");
 				
-			for each(s in WALL_LIST)
-				list.push(ASSET_FOLDER + s + Asset.contentSuffix +  ".atf", ASSET_FOLDER + s + Asset.contentSuffix + ".xml");
+			//for each(s in WALL_LIST)
+				//list.push(ASSET_FOLDER + s + Asset.contentSuffix +  ".atf", ASSET_FOLDER + s + Asset.contentSuffix + ".xml");
 				
 			return list;
 		}
