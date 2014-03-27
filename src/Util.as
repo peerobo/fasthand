@@ -114,7 +114,7 @@ package
 			public static function shareOnFBAndroid(msg:String,image:BitmapData, onComplete:Function):void
 			{
 				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
-				social.share(SocialForAndroid.FACEBOOK_TYPE, msg, image, onComplete);
+				social.share(SocialForAndroid.FACEBOOK_TYPE, msg, image, onComplete);				
 			}
 			
 			public static function shareOnTTAndroid(msg:String,image:BitmapData, onComplete:Function):void
@@ -310,14 +310,19 @@ package
 					break;
 					case LeadboltAdEvent.ON_AD_CACHED:
 						leadBolt.loadAd();
-						relayoutAfterAd(true);						
+						relayoutAfterAd(true);
 					break;
 					case LeadboltAdEvent.ON_AD_LOADED:
 						isBannerAdShowed = true;
+						relayoutAfterAd(true);
 					break;
 					case LeadboltAdEvent.ON_AD_CLICKED:
 						leadBolt.destroyAd();
 						leadBolt.loadAdToCache();
+					break;
+					case LeadboltAdEvent.ON_AD_CLOSED:
+						isBannerAdShowed = false;
+						relayoutAfterAd(false);
 					break;
 					case LeadboltAdEvent.ON_AD_ALREADYCOMPLETED:
 						relayoutAfterAd(false);
@@ -512,6 +517,13 @@ package
 			return str;
 		}
 		
+		public static function get adBannerHeight():int 
+		{
+			var h:int = 0.124 * Starling.current.nativeStage.fullScreenHeight;
+			h = h > 135 ? 135 : h;
+			return  h/ Starling.contentScaleFactor;
+		}
+		
 		public static function get appWidth():int
 		{
 			return Starling.current.stage.stageWidth;
@@ -524,12 +536,12 @@ package
 		
 		public static function get deviceWidth():int
 		{
-			return Starling.current.nativeStage.fullScreenWidth;
+			return Starling.current.nativeStage.stageWidth;
 		}
 		
 		public static function get deviceHeight():int
 		{
-			return Starling.current.nativeStage.fullScreenHeight;
+			return Starling.current.nativeStage.stageHeight;
 		}
 		
 		public static function getLocalData(soName:String):SharedObject
@@ -624,9 +636,10 @@ package
 				});
 		}
 		
-		static public function showInAppPurchase():void
+		static public function showInAppPurchase(cat:String):void
 		{
 			var purchaseDlg:PurchaseDlg = Factory.getInstance(PurchaseDlg);
+			purchaseDlg.categorySelect = cat;
 			PopupMgr.addPopUp(purchaseDlg);
 		}
 		

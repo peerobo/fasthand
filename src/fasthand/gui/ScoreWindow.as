@@ -37,6 +37,10 @@ package fasthand.gui
 		import com.adobe.ane.social.SocialServiceType;	
 	}	
 	
+	CONFIG::isAndroid {
+		import com.fc.FCAndroidUtility;
+	}
+	
 	/**
 	 * ...
 	 * @author ndp
@@ -89,9 +93,14 @@ package fasthand.gui
 			
 			SoundManager.playSound(SoundAsset.SOUND_END_GAME);	
 			
-			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-			prevF = globalInput.getCurrentKeyHandler(Keyboard.BACK);
-			globalInput.registerKey(Keyboard.BACK, onBackBt);
+			//var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			//prevF = globalInput.getCurrentKeyHandler(Keyboard.BACK);
+			//globalInput.registerKey(Keyboard.BACK, onBackBt);
+			CONFIG::isAndroid {
+				FCAndroidUtility.instance.isHandleBackKey = true;
+				prevF = FCAndroidUtility.instance.onBackKeyHandle;
+				FCAndroidUtility.instance.onBackKeyHandle = onBackBt;
+			}
 			
 			LayerMgr.lockGameLayer = true;
 			
@@ -233,6 +242,7 @@ package fasthand.gui
 		
 		private function onScoreBt():void 
 		{
+			var info:InfoDlg;
 			var highscoreDB:GameService = Factory.getInstance(GameService);
 			var logic:Fasthand = Factory.getInstance(Fasthand);
 			var cat:String = logic.cat;
@@ -245,6 +255,17 @@ package fasthand.gui
 				}
 				else if (Util.isAndroid)
 				{
+					CONFIG::isAndroid {
+						if (FCAndroidUtility.instance.getVersionInt() < 11)
+						{
+							PopupMgr.removePopup(this);
+							info = Factory.getInstance(InfoDlg);
+							info.text = LangUtil.getText("upgradeAndroid4GooglePlay");
+							info.callback = openSelfAgain;
+							PopupMgr.addPopUp(info);
+							return;
+						}
+					}
 					highscoreDB.showGooglePlayLeaderboard(cat);
 				}
 				PopupMgr.removePopup(this);
@@ -254,7 +275,7 @@ package fasthand.gui
 			else
 			{
 				PopupMgr.removePopup(this);
-				var info:InfoDlg = Factory.getInstance(InfoDlg);
+				info = Factory.getInstance(InfoDlg);
 				info.text = LangUtil.getText("enableInternet");
 				info.callback = openSelfAgain;
 				PopupMgr.addPopUp(info);
@@ -281,8 +302,13 @@ package fasthand.gui
 			isChangeSubject = false;
 			closeCallback();
 			closeCallback  = null;		
-			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);			
-			globalInput.registerKey(Keyboard.BACK, prevF);
+			//var globalInput:GlobalInput = Factory.getInstance(GlobalInput);			
+			//globalInput.registerKey(Keyboard.BACK, prevF);
+			CONFIG::isAndroid {
+				FCAndroidUtility.instance.isHandleBackKey = true;
+				FCAndroidUtility.instance.onBackKeyHandle = prevF;
+			}
+			
 		}
 		
 		public function setTitle(subject:String):void

@@ -33,6 +33,19 @@ package base
 			root.addChild(quadBg);
 			queue = [];
 			tween = new Tween(null, 0.75);
+			Util.registerRelayoutAfterAd(onAdShow, true);
+		}
+		
+		static private function onAdShow(isAdShow:Boolean):void 
+		{
+			if (current)
+			{
+				Util.g_centerScreen(current);
+				if (isAdShow)
+				{
+					current.y -= Util.adBannerHeight;
+				}
+			}
 		}
 		
 		public static function addPopUp(disp:DisplayObject, withAnim:Boolean = false):void
@@ -42,12 +55,14 @@ package base
 			{
 				root.addChild(disp);
 				current = disp;
-				centerDisp(disp);
+				Util.g_centerScreen(disp);				
+				if (Util.isBannerAdShowed)
+					disp.y -= Util.adBannerHeight;
 				if (withAnim)
 				{
 					Starling.juggler.tween(disp, 0.75, { x:disp.x, y:disp.y, scaleX:1, scaleY:1, transition:Transitions.EASE_IN_OUT_BOUNCE } );					
 					disp.scaleX = disp.scaleY = 0.1;
-					centerDisp(disp);										
+					Util.g_centerScreen(disp);					
 				}
 			}
 			else if (current != disp)			
@@ -56,13 +71,7 @@ package base
 			}
 			
 		}
-		
-		static private function centerDisp(disp:DisplayObject):void 
-		{
-			disp.x = Util.appWidth - disp.width >> 1;
-			disp.y = Util.appHeight - disp.height >> 1;
-		}
-		
+
 		public static function removePopup(disp:DisplayObject= null):void
 		{			
 			if(!disp || (current == disp && disp))
@@ -75,7 +84,9 @@ package base
 					queue.splice(0, 1);
 					root.addChild(disp);
 					current = disp;
-					centerDisp(disp);
+					Util.g_centerScreen(disp);
+					if (Util.isBannerAdShowed)
+						disp.y -= Util.adBannerHeight;
 				}
 				else
 				{

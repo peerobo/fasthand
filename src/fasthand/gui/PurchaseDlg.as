@@ -9,6 +9,10 @@ package fasthand.gui
 	import base.LangUtil;
 	import base.PopupMgr;
 	import base.ScreenMgr;
+	import flash.net.SharedObject;
+	CONFIG::isAndroid{
+		import com.fc.FCAndroidUtility;
+	}
 	import comp.LoadingIcon;
 	import fasthand.FasthandUtil;
 	import fasthand.screen.CategoryScreen;
@@ -24,8 +28,10 @@ package fasthand.gui
 	{
 		public var yesBt:BaseButton;
 		public var noBt:BaseButton;
+		public var watchVideoBt:BaseButton;
 		public var purchaseBt:BaseButton;
 		public var contentTxt:BaseBitmapTextField;
+		public var categorySelect:String;
 		
 		private var state:int = -1;
 		private const PURCHASE:int = 0;
@@ -68,8 +74,38 @@ package fasthand.gui
 			yesBt.setCallbackFunc(onPurchase);
 			purchaseBt.setCallbackFunc(onRestorePurchase);
 			
+			watchVideoBt.setCallbackFunc(onWatchVideo);
+			watchVideoBt.isDisable = true;
+			
 			var iap:IAP = Factory.getInstance(IAP);
 			purchaseBt.isDisable = yesBt.isDisable = !iap.canPurchase;
+			
+			CONFIG::isAndroid {
+				FCAndroidUtility.instance.isHandleBackKey = true;
+				FCAndroidUtility.instance.onBackKeyHandle = onHandleBackKey;
+				watchVideoBt.isDisable = !FCAndroidUtility.instance.isVideoAdAvailable();
+			}
+		}
+		
+		private function onWatchVideo():void 
+		{
+			CONFIG::isAndroid {				
+				FCAndroidUtility.instance.onAdDone = unlockCurrCat;		
+				FCAndroidUtility.instance.showVideoAd();
+			}
+		}
+		
+		private function unlockCurrCat():void 
+		{
+			var so:SharedObject = Util.getLocalData("tmpCat" + Util.deviceID);
+			so.data[categorySelect] = new Date().getTime();			
+			onExtraContentDownloadCompleted();
+		}
+		
+		private function onHandleBackKey():void 
+		{
+			FCAndroidUtility.instance.isHandleBackKey = false;
+			PopupMgr.removePopup(this);
 		}
 		
 		public function onRestorePurchase():void

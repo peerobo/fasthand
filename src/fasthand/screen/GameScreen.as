@@ -11,6 +11,9 @@ package fasthand.screen
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import base.SoundManager;
+	CONFIG::isAndroid {
+		import com.fc.FCAndroidUtility;
+	}
 	import comp.GameService;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
@@ -49,8 +52,7 @@ package fasthand.screen
 		{
 			super();
 			gameboard = new GameBoard();
-			//gameboard.visible = false;
-			Util.registerRelayoutAfterAd(relayoutGameboard, true);
+			//gameboard.visible = false;			
 		}
 		
 		override public function onAdded(e:Event):void 
@@ -64,7 +66,7 @@ package fasthand.screen
 			disp.width = Util.appWidth;
 			disp.height = Util.appHeight;
 			addChildAt(disp, 0);
-			Util.g_centerScreen(disp);
+			//Util.g_centerScreen(disp);
 			
 			SoundManager.instance.muteMusic = true;						
 			
@@ -97,15 +99,21 @@ package fasthand.screen
 			//Util.showBannerAd();
 			preStartGame();
 			
-			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-			globalInput.registerKey(Keyboard.BACK, onBackBt);
+			//var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			//globalInput.registerKey(Keyboard.BACK, onBackBt);
+			CONFIG::isAndroid {
+				FCAndroidUtility.instance.isHandleBackKey = true;
+				FCAndroidUtility.instance.onBackKeyHandle = onBackBt;
+			}
+			
+			Util.registerRelayoutAfterAd(relayoutGameboard, false);
 		}
 		
 		private function relayoutGameboard(bool:Boolean):void 
 		{
 			Util.g_centerScreen(gameboard);
 			if (bool)
-				gameboard.y -= 120;
+				gameboard.y -= Util.adBannerHeight;
 		}
 		
 		public function onPause():void 
@@ -212,6 +220,7 @@ package fasthand.screen
 			
 			SoundManager.instance.muteMusic = false;
 			//Util.hideBannerAd();
+			Util.registerRelayoutAfterAd(relayoutGameboard, true);
 		}
 		
 		public function endGame():void

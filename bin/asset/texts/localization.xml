@@ -6,7 +6,9 @@
 		<overall>Overall</overall>
 		<loading>Loading</loading>
 		<cancel>Cancel</cancel>
+		<watchvideo>Unlock for 1 day (watch video)</watchvideo>
 		<notlogged>(Not logged in)</notlogged>
+		<upgradeAndroid4GooglePlay>Please upgrade firmware to version 3.0 or above to use this feature!</upgradeAndroid4GooglePlay>
 		<enableInternet>Please enable internet (WIFI/Data) to use this feature!</enableInternet>
 		<adult>Opps! Adult feature.\nPlease answer this question:</adult>
 		<adultClose>(Auto close in @secs)</adultClose>
@@ -40,8 +42,8 @@
 		<comingsoon>Coming\nSoon</comingsoon>
 		<adjectives>Adjectives</adjectives>,
 		<animalparts>Animal Parts</animalparts>
-		<animals1>Animals 1</animals1>
-		<animals2>Animals 2</animals2>
+		<animals1>Animal 1</animals1>
+		<animals2>Animal 2</animals2>
 		<body1>Body 1</body1>
 		<body2>Body 2</body2>
 		<city>City</city>

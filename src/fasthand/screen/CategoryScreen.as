@@ -11,7 +11,7 @@ package fasthand.screen
 	import base.LayerMgr;
 	import base.PopupMgr;
 	import base.ScreenMgr;
-	import base.SoundManager;
+	import base.SoundManager;	
 	import comp.ComboBox;
 	import comp.FlatSwitchButton;
 	import comp.GameService;
@@ -23,6 +23,7 @@ package fasthand.screen
 	import starling.display.Quad;
 	CONFIG::isAndroid{
 		import comp.SocialForAndroid;
+		import com.fc.FCAndroidUtility;
 	}
 	import fasthand.Fasthand;
 	import fasthand.FasthandUtil;
@@ -174,11 +175,14 @@ package fasthand.screen
 			disp.width = Util.appWidth;
 			disp.height = Util.appHeight;
 			addChild(disp);
-			Util.g_centerScreen(disp);
+			//Util.g_centerScreen(disp);
 			
 			addChild(catChooser);
 			//catChooser.visible = false;
 			Util.g_centerScreen(catChooser);
+			Util.registerRelayoutAfterAd(onAdChange, false);
+			if(Util.isBannerAdShowed)
+				catChooser.y -= Util.adBannerHeight;
 			
 			title = BFConstructor.getTextField(Util.appWidth, 1, "", BFConstructor.BANHMI, Color.YELLOW);
 			title.autoSize = TextFieldAutoSize.VERTICAL;
@@ -201,8 +205,12 @@ package fasthand.screen
 			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			cb = globalInput.registerSwipe(onSwipe);
-			if (Util.isAndroid)
-				globalInput.registerKey(Keyboard.BACK, onBackAndroidBt);
+			CONFIG::isAndroid {				
+				FCAndroidUtility.instance.isHandleBackKey = true;				
+				FCAndroidUtility.instance.onBackKeyHandle = onBackAndroidBt;
+			}
+			//if (Util.isAndroid)
+				//globalInput.registerKey(Keyboard.BACK, onBackAndroidBt);
 			
 			waitTime2ShowAd--;
 			if (waitTime2ShowAd == 0)
@@ -228,6 +236,13 @@ package fasthand.screen
 			Factory.addMouseClickCallback(title, onCheat);			
 		}
 		
+		private function onAdChange(adshowed:Boolean):void 
+		{
+			Util.g_centerScreen(catChooser)
+			if(adshowed)
+				catChooser.y -= Util.adBannerHeight;
+		}
+		
 		private function onCheat():void 
 		{
 			cheatCountActivate++;
@@ -241,6 +256,8 @@ package fasthand.screen
 				CONFIG::isAndroid {
 					var socialForAndroid:SocialForAndroid = Factory.getInstance(SocialForAndroid);
 					socialForAndroid.logoutFB();
+					var gameService:GameService = Factory.getInstance(GameService);
+					gameService.logout();
 				}
 			}
 		}
@@ -250,11 +267,12 @@ package fasthand.screen
 		{
 			if (Util.isAndroid)
 			{
-				var cDlg:ConfirmDlg = Factory.getInstance(ConfirmDlg);
-				cDlg.text = LangUtil.getText("onExit");
-				cDlg.callback = onConfirmExit;
-				PopupMgr.addPopUp(cDlg);
-				//NativeApplication.nativeApplication.exit();
+				//var cDlg:ConfirmDlg = Factory.getInstance(ConfirmDlg);
+				//cDlg.text = LangUtil.getText("onExit");
+				//cDlg.callback = onConfirmExit;
+				//PopupMgr.addPopUp(cDlg);
+				
+				NativeApplication.nativeApplication.exit();
 			}
 		}
 		
@@ -294,6 +312,7 @@ package fasthand.screen
 		
 		override public function onRemoved(e:Event):void
 		{
+			Util.registerRelayoutAfterAd(onAdChange, true);
 			Factory.removeMouseClickCallback(title);
 			catChooser.removeFromParent();			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);

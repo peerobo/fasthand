@@ -15,7 +15,7 @@ package base
 	 * 
 	 * @author PhuongND
 	 */
-	public class Factory implements IAnimatable 
+	public class Factory /*implements IAnimatable */
 	{
 		private var map:Object;	// "key" => { obj: Object, time: int}
 		private var pool:Object;	// "key" => [instance1, instance2,...]
@@ -117,7 +117,7 @@ package base
 		
 		public function Factory() 
 		{			
-			Starling.juggler.add(this);
+			//Starling.juggler.add(this);
 			map = new Object();
 			pool = new Object();
 			mapPersistent = new Object();
@@ -215,16 +215,16 @@ package base
 		
 		/* INTERFACE starling.animation.IAnimatable */
 		
-		public function advanceTime(time:Number):void 
-		{
-			var dt:int = time * 1000;
-			for (var key:String in map) 
-			{
-				map[key]["time"] += dt;
-				if (map[key]["time"] >= DESTROYTIME)
-					delete map[key];
-			}
-		}
+		//public function advanceTime(time:Number):void 
+		//{
+			//var dt:int = time * 1000;
+			//for (var key:String in map) 
+			//{
+				//map[key]["time"] += dt;
+				//if (map[key]["time"] >= DESTROYTIME)
+					//delete map[key];
+			//}
+		//}
 		
 	}
 

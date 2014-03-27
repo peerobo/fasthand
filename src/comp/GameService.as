@@ -225,7 +225,7 @@ package comp
 			CONFIG::isAndroid{
 				if(googlePlay && googlePlayLogged)
 				{
-					googlePlay.showLeaderboard(FasthandUtil.getCatForGooglePlay(cat));
+					googlePlay.showLeaderboard(FasthandUtil.getCatForGooglePlay(cat));					
 				}
 				else if(googlePlay)
 				{
@@ -257,6 +257,22 @@ package comp
 						googlePlayLogged = false;
 						googlePlay.signIn();
 					break;
+				}
+			}
+		}
+		
+		public function logout():void
+		{			
+			CONFIG::isIOS {
+				if(gameCenterLogged)
+				{
+					gameCenterLogged = false;
+				}
+			}
+			CONFIG::isAndroid {
+				if(googlePlayLogged)
+				{
+					googlePlay.signOut();
 				}
 			}
 		}

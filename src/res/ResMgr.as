@@ -51,7 +51,7 @@ package res
 		public function ResMgr() 
 		{
 			assetMgr = new AssetManager(Starling.contentScaleFactor);			
-			assetMgr.verbose = false;
+			assetMgr.verbose = true;
 			
 			monitor = new URLMonitor(new URLRequest("http://www.google.com"));		
 			monitor.addEventListener(StatusEvent.STATUS, onMonitor);

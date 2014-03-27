@@ -13,6 +13,7 @@ package fasthand.gui
 	import fasthand.FasthandUtil;
 	import fasthand.screen.CategoryScreen;
 	import flash.geom.Rectangle;
+	import flash.net.SharedObject;
 	import res.Asset;
 	import res.asset.BackgroundAsset;
 	import res.asset.IconAsset;
@@ -47,6 +48,7 @@ package fasthand.gui
 		private var backCatIndicator:Sprite;
 		private var nextCatIndicator:Sprite;
 		private var pageFooter:PageFooter;
+		private var date:Date;
 		
 		/**
 		 * a callback function: c(cat:String):void
@@ -61,11 +63,12 @@ package fasthand.gui
 			currentPage = 0;	
 			initNextBackIndicator();
 			pageFooter = new PageFooter();
-			pageFooter.initTexture(Asset.getBaseImage(BackgroundAsset.BG_SQUARE) as Image, Asset.getBaseImage(BackgroundAsset.BG_SQUARE_ALPHA) as Image);
+			pageFooter.initTexture(Asset.getBaseImage(BackgroundAsset.BG_SQUARE) as Image, Asset.getBaseImage(BackgroundAsset.BG_SQUARE_ALPHA) as Image);			
 		}
 		
 		override public function onAdded(e:Event):void 
 		{
+			date = new Date();
 			super.onAdded(e);			
 			sprNext.alpha = 0;
 			addChild(sprNext);
@@ -147,7 +150,25 @@ package fasthand.gui
 			image.filter = filter;
 			nextCatIndicator.addChild(image);
 			nextCatIndicator.y = Util.appHeight - nextCatIndicator.height >> 1;
-			nextCatIndicator.x = Util.appWidth - image.width*2/3;
+			nextCatIndicator.x = Util.appWidth - image.width * 2 / 3;
+			
+			if (Util.isBannerAdShowed)
+			{
+				nextCatIndicator.y -= Util.adBannerHeight;
+				backCatIndicator.y -= Util.adBannerHeight;
+			}
+			Util.registerRelayoutAfterAd(onAdShow,false);
+		}
+		
+		private function onAdShow(isAd:Boolean):void 
+		{
+			backCatIndicator.y = Util.appHeight - backCatIndicator.height >> 1;
+			nextCatIndicator.y = Util.appHeight - nextCatIndicator.height >> 1;
+			if (isAd)
+			{
+				nextCatIndicator.y -= Util.adBannerHeight;
+				backCatIndicator.y -= Util.adBannerHeight;
+			}
 		}
 		
 		private function onSelectCat(catRender:CatRenderer):void
@@ -155,7 +176,7 @@ package fasthand.gui
 			SoundManager.playSound(SoundAsset.SOUND_CLICK);
 			if (catRender.isLock)
 			{
-				Util.showInAppPurchase();
+				Util.showInAppPurchase(catRender.cat);
 			}
 			else
 			{
@@ -169,19 +190,34 @@ package fasthand.gui
 			var idx:int = page * Constants.CAT_PER_PAGE;
 			var len:int = rectPlace.length;
 			var listCat:Array = FasthandUtil.getListCat();
+			var currTime:Number = date.getTime();
+			var so:SharedObject = Util.getLocalData("tmpCat" + Util.deviceID);
 			for (var i:int = 0; i < len; i++) 
 			{				
 				var item:CatRenderer = pageHolder.getChildByName("item" + i) as CatRenderer;
 				item.isLock = !CategoryScreen.fullApp ? (idx + i >= Constants.CAT_FREE_NUM) : false;
+				var cat:String = listCat[idx + i];
 				if (listCat.length > idx + i)				
 				{
-					item.setIcon(IconAsset.PREFIX + listCat[idx + i],listCat[idx + i]);
+					item.setIcon(IconAsset.PREFIX + cat, cat);
 				}
 				else
 				{
 					item.setComingSoon();
 					item.isLock = true;
-				}								
+				}
+				if (so.data.hasOwnProperty(cat))
+				{
+					var ret:Number = currTime - so.data[cat];
+					if (ret < 86400000)
+					{
+						item.isLock = false;
+					}
+					else
+					{
+						delete so.data[cat];
+					}
+				}
 			}			
 		}
 		

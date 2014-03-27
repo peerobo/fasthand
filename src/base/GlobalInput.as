@@ -34,7 +34,7 @@ package base
 			keyMap = { };
 			Starling.juggler.add(this);
 			FPSCounter.log("add keyboard event");
-			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);			
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);				
 		}
 		
 		public function registerKey(keyCode:uint, f:Function):void
@@ -49,14 +49,10 @@ package base
 		
 		private function onKeyDown(e:KeyboardEvent):void 
 		{
-			FPSCounter.log("event keyboard capture");
-			e.preventDefault();
-			e.stopImmediatePropagation();
 			for (var key:String in keyMap) 
 			{
 				if (key == e.keyCode.toString())
 				{
-					FPSCounter.log("execute keyboard function");
 					var f:Function = keyMap[key];
 					f.apply(this);
 					break;

@@ -87,12 +87,7 @@ package
 			try
 			{
 				var gameState:GameSave = Factory.getInstance(GameSave);
-				gameState.loadState();
-				var highscoreDB:GameService = Factory.getInstance(GameService);			
-				if(Util.isIOS)
-					highscoreDB.initGameCenter();
-				else if (Util.isAndroid)
-					highscoreDB.initGooglePlayGameService();
+				gameState.loadState();				
 				var iap:IAP = Factory.getInstance(IAP);
 				iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
 				CONFIG::isAndroid {
