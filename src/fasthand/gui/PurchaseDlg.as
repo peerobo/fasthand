@@ -2,6 +2,7 @@ package fasthand.gui
 {
 	import base.BaseButton;
 	import base.BaseJsonGUI;
+	import base.EffectMgr;
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import base.GameSave;
@@ -74,24 +75,34 @@ package fasthand.gui
 			yesBt.setCallbackFunc(onPurchase);
 			purchaseBt.setCallbackFunc(onRestorePurchase);
 			
-			watchVideoBt.setCallbackFunc(onWatchVideo);
-			watchVideoBt.isDisable = true;
+			watchVideoBt.setCallbackFunc(onWatchVideo);			
 			
 			var iap:IAP = Factory.getInstance(IAP);
 			purchaseBt.isDisable = yesBt.isDisable = !iap.canPurchase;
 			
 			CONFIG::isAndroid {
 				FCAndroidUtility.instance.isHandleBackKey = true;
-				FCAndroidUtility.instance.onBackKeyHandle = onHandleBackKey;
-				watchVideoBt.isDisable = !FCAndroidUtility.instance.isVideoAdAvailable();
+				FCAndroidUtility.instance.onBackKeyHandle = onHandleBackKey;				
 			}
 		}
 		
 		private function onWatchVideo():void 
 		{
-			CONFIG::isAndroid {				
-				FCAndroidUtility.instance.onAdDone = unlockCurrCat;		
-				FCAndroidUtility.instance.showVideoAd();
+			CONFIG::isAndroid {								
+				var resMgr:ResMgr = Factory.getInstance(ResMgr);
+				if (!resMgr.isInternetAvailable)
+				{
+					EffectMgr.floatTextMessageEffectCenter(LangUtil.getText("enableInternet"), 0xFF8080, 2);
+				}
+				else if (!FCAndroidUtility.instance.isVideoAdAvailable())
+				{
+					EffectMgr.floatTextMessageEffectCenter(LangUtil.getText("adNotAvailable"), 0xFF8080, 2);
+				}
+				else
+				{
+					FCAndroidUtility.instance.onAdDone = unlockCurrCat;		
+					FCAndroidUtility.instance.showVideoAd();
+				}
 			}
 		}
 		

@@ -83,7 +83,8 @@ package
 					colorMatrixFilter.adjustContrast(0.05);
 					break;
 				case DISABLE_FILTER: 
-					colorMatrixFilter.adjustSaturation(-1);
+					colorMatrixFilter.adjustSaturation( -1);
+					colorMatrixFilter.adjustBrightness(-0.5);
 					break;
 				case DOWN_FILTER: 
 					colorMatrixFilter.adjustBrightness(0.2);
@@ -520,7 +521,8 @@ package
 		public static function get adBannerHeight():int 
 		{
 			var h:int = 0.124 * Starling.current.nativeStage.fullScreenHeight;
-			h = h > 135 ? 135 : h;
+			//h = h > 135 ? 135 : h;
+			h = h > 60 ? 60 : h;
 			return  h/ Starling.contentScaleFactor;
 		}
 		

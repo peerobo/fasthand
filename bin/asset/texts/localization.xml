@@ -9,7 +9,8 @@
 		<watchvideo>Unlock for 1 day (watch video)</watchvideo>
 		<notlogged>(Not logged in)</notlogged>
 		<upgradeAndroid4GooglePlay>Please upgrade firmware to version 3.0 or above to use this feature!</upgradeAndroid4GooglePlay>
-		<enableInternet>Please enable internet (WIFI/Data) to use this feature!</enableInternet>
+		<enableInternet>Please enable internet (WIFI/Data)\n to use this feature!</enableInternet>
+		<adNotAvailable>Ad not available,\n please check back later!</adNotAvailable>
 		<adult>Opps! Adult feature.\nPlease answer this question:</adult>
 		<adultClose>(Auto close in @secs)</adultClose>
 		<extraContentLoad>Category: @cat (@idxCat/@totalCat)\nFile: (@idxFile/@totalFile)</extraContentLoad>
