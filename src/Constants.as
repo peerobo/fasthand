@@ -44,6 +44,7 @@ package
 		static public const TWITTER_KEY:String = "twitterkey";
 		static public const FB_KEY:String = "fbKey";
 		static public const TIMEOUT_MATH:int = 15;
+		static public const VIDEO_AD_ANDROID:String = "com.fc.FastHandEnglish";
 		public function Constants() 
 		{
 			

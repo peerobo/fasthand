@@ -99,12 +99,13 @@ package fasthand.screen
 			//Util.showBannerAd();
 			preStartGame();
 			
-			//var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			//globalInput.registerKey(Keyboard.BACK, onBackBt);
-			CONFIG::isAndroid {
-				FCAndroidUtility.instance.isHandleBackKey = true;
-				FCAndroidUtility.instance.onBackKeyHandle = onBackBt;
-			}
+			globalInput.handleBackKey(onBackBt);
+			//CONFIG::isAndroid {
+				//FCAndroidUtility.instance.isHandleBackKey = true;
+				//FCAndroidUtility.instance.onBackKeyHandle = onBackBt;
+			//}
 			
 			Util.registerRelayoutAfterAd(relayoutGameboard, false);
 		}

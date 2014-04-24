@@ -6,6 +6,7 @@ package fasthand.gui
 	import base.Factory;
 	import base.font.BaseBitmapTextField;
 	import base.GameSave;
+	import base.GlobalInput;
 	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;
@@ -80,10 +81,12 @@ package fasthand.gui
 			var iap:IAP = Factory.getInstance(IAP);
 			purchaseBt.isDisable = yesBt.isDisable = !iap.canPurchase;
 			
-			CONFIG::isAndroid {
-				FCAndroidUtility.instance.isHandleBackKey = true;
-				FCAndroidUtility.instance.onBackKeyHandle = onHandleBackKey;				
-			}
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			globalInput.handleBackKey(onHandleBackKey);
+			//CONFIG::isAndroid {
+				//FCAndroidUtility.instance.isHandleBackKey = true;
+				//FCAndroidUtility.instance.onBackKeyHandle = onHandleBackKey;				
+			//}
 		}
 		
 		private function onWatchVideo():void 
@@ -94,28 +97,31 @@ package fasthand.gui
 				{
 					EffectMgr.floatTextMessageEffectCenter(LangUtil.getText("enableInternet"), 0xFF8080, 2);
 				}
-				else if (!FCAndroidUtility.instance.isVideoAdAvailable())
+				else if (!Util.isVideoAdAvailable())
 				{
 					EffectMgr.floatTextMessageEffectCenter(LangUtil.getText("adNotAvailable"), 0xFF8080, 2);
 				}
 				else
-				{
-					FCAndroidUtility.instance.onAdDone = unlockCurrCat;		
-					FCAndroidUtility.instance.showVideoAd();
+				{					
+					Util.showVideoAd();
 				}
 			}
 		}
 		
-		private function unlockCurrCat():void 
+		public static function unlockCurrCat():void 
 		{
+			var purchaseDlg:PurchaseDlg = Factory.getInstance(PurchaseDlg);
 			var so:SharedObject = Util.getLocalData("tmpCat" + Util.deviceID);
-			so.data[categorySelect] = new Date().getTime();			
-			onExtraContentDownloadCompleted();
+			so.data[purchaseDlg.categorySelect] = new Date().getTime();
+			
+			purchaseDlg.onExtraContentDownloadCompleted();
 		}
 		
 		private function onHandleBackKey():void 
 		{
-			FCAndroidUtility.instance.isHandleBackKey = false;
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			globalInput.handleBackKey();
+			//FCAndroidUtility.instance.isHandleBackKey = false;
 			PopupMgr.removePopup(this);
 		}
 		

@@ -15,9 +15,11 @@ package fasthand.screen
 	import comp.ComboBox;
 	import comp.FlatSwitchButton;
 	import comp.GameService;
+	import comp.IAchievementBanner;
 	import comp.LoadingIcon;
 	import comp.LoopableSprite;
 	import comp.PageFooter;
+	import fasthand.gui.AchievementBanner;
 	import fasthand.gui.AdultDlg;
 	import flash.system.System;
 	import starling.display.Quad;
@@ -83,7 +85,11 @@ package fasthand.screen
 			var values:Array = [LangUtil.getText("slow"), LangUtil.getText("fast")];
 			switchDiff.initList(values, idxDiff, onSwitchDiff, [values]);
 			
-			Util.showBannerAd();			
+			Util.showBannerAd();
+			
+			var gameService:GameService = Factory.getInstance(GameService);
+			var achievementBanner:IAchievementBanner = Factory.getInstance(AchievementBanner);
+			gameService.achievementBanner = achievementBanner;
 		}
 		
 		public function selectCategory(cat:String):void
@@ -205,10 +211,12 @@ package fasthand.screen
 			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			cb = globalInput.registerSwipe(onSwipe);
-			CONFIG::isAndroid {				
-				FCAndroidUtility.instance.isHandleBackKey = true;				
-				FCAndroidUtility.instance.onBackKeyHandle = onBackAndroidBt;
-			}
+			globalInput.handleBackKey(onBackAndroidBt)
+			//CONFIG::isAndroid {				
+				//FCAndroidUtility.instance.isHandleBackKey = true;				
+				//FCAndroidUtility.instance.onBackKeyHandle = onBackAndroidBt;
+				//
+			//}
 			//if (Util.isAndroid)
 				//globalInput.registerKey(Keyboard.BACK, onBackAndroidBt);
 			
@@ -256,8 +264,8 @@ package fasthand.screen
 				CONFIG::isAndroid {
 					var socialForAndroid:SocialForAndroid = Factory.getInstance(SocialForAndroid);
 					socialForAndroid.logoutFB();
-					var gameService:GameService = Factory.getInstance(GameService);
-					gameService.logout();
+					//var gameService:GameService = Factory.getInstance(GameService);
+					//gameService.logout();
 				}
 			}
 		}

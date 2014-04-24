@@ -7,12 +7,13 @@ package
 	import base.IAP;
 	import base.LangUtil;
 	import base.PopupMgr;
+	import com.fc.FCAndroidUtility;
 	import com.freshplanet.ane.AirDeviceId;
 	import com.hurlant.crypto.Crypto;
 	import com.hurlant.crypto.hash.IHash;
 	import com.hurlant.util.Hex;
 	import com.revmob.airextension.events.RevMobAdsEvent;
-	import com.revmob.airextension.RevMob;
+	import com.revmob.airextension.RevMob;			
 	import comp.LoadingIcon;
 	import fasthand.gui.ConfirmDlg;
 	import fasthand.gui.InfoDlg;
@@ -30,6 +31,7 @@ package
 	import flash.net.URLRequest;
 	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
+	import res.ResMgr;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -42,6 +44,9 @@ package
 		import com.leadbolt.aslib.LeadboltController;
 		import com.leadbolt.aslib.LeadboltAdEvent;
 		import comp.SocialForAndroid;
+		import com.vungle.extensions.Vungle;
+		import com.vungle.extensions.events.VungleEvent;
+		import com.vungle.extensions.VungleOrientation;
 	}
 	
 	CONFIG::isIOS {
@@ -68,7 +73,9 @@ package
 		public static var root:App;			
 		static public var isBannerAdShowed:Boolean;
 		static private var relayoutFuntions:Array;
-		
+		static private var videoAdViewedCallback:Function;
+		static private var videoAdStartCallback:Function;
+		static private var videoAdDoneCallback:Function;
 		CONFIG::isAndroid {
 			private static var leadBolt:LeadboltController;			
 		}
@@ -111,7 +118,137 @@ package
 			return ret;
 		}
 		
+		static public function get internetAvailable():Boolean
+		{
+			var resMgr:ResMgr = Factory.getInstance(ResMgr);
+			return resMgr.isInternetAvailable;
+		}
+		
 		CONFIG::isAndroid {
+			public static const BASE:int = 1
+			public static const BASE_1_1:int = 2
+			public static const CUPCAKE:int = 3
+			public static const CUR_DEVELOPMENT:int = 10000
+			public static const DONUT:int = 4
+			public static const ECLAIR:int = 5
+			public static const ECLAIR_0_1:int = 6
+			public static const ECLAIR_MR1:int = 7
+			public static const FROYO:int = 8
+			public static const GINGERBREAD:int = 9
+			public static const GINGERBREAD_MR1:int = 10
+			public static const HONEYCOMB:int = 11
+			public static const HONEYCOMB_MR1:int = 12
+			public static const HONEYCOMB_MR2:int = 13
+			public static const ICE_CREAM_SANDWICH:int = 14
+			public static const ICE_CREAM_SANDWICH_MR1:int = 15
+			public static const JELLY_BEAN:int = 16
+			public static const JELLY_BEAN_MR1:int = 17
+			public static const JELLY_BEAN_MR2:int = 18
+			public static const KITKAT:int = 19			
+			private static var initAndroidDone:Function;
+			public static function initAndroidUtility(enableGooglePlay:Boolean, onInitDone:Function):void
+			{				
+				if(!FCAndroidUtility.instance.isInit)
+				{
+					FCAndroidUtility.instance.init(enableGooglePlay);
+					initAndroidDone = onInitDone;
+					if (enableGooglePlay)
+					{
+						/*FCAndroidUtility.instance.addEventListener(FCAndroidUtility.ACHIEVEMENT_WRONG, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.ACHIVEMENT_WND_SHOWN, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.LEADERBOARD_WND_SHOWN, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.LICENSE_ERROR, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.NETWORK_ERROR, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.NOT_SIGN_IN, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.SERVICE_ERROR, onGPResponse);*/
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.SIGN_IN_FAILED, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.SIGN_IN_OK, onGPResponse);
+					}
+					else
+					{
+						if(initAndroidDone is Function)
+							initAndroidDone();
+						initAndroidDone = null;
+					}
+				}
+			}
+			
+			static private function onGPResponse(e:Event):void 
+			{
+				if (e.type == FCAndroidUtility.SIGN_IN_FAILED || e.type == FCAndroidUtility.SIGN_IN_OK)
+				{
+					if(initAndroidDone is Function)
+						initAndroidDone();
+					initAndroidDone = null;					
+					FCAndroidUtility.instance.removeEventListener(FCAndroidUtility.SIGN_IN_FAILED, onGPResponse);
+					FCAndroidUtility.instance.removeEventListener(FCAndroidUtility.SIGN_IN_OK, onGPResponse);
+				}
+			}
+
+			public static function get androidVersionInt():int
+			{
+				return FCAndroidUtility.instance.getVersionInt();
+			}
+			
+			public static function setAndroidFullscreen(value:Boolean):void
+			{
+				if (androidVersionInt >= KITKAT)
+					FCAndroidUtility.instance.setImmersive(value);
+			}
+			
+			static private var initVideoAdDone:Boolean;
+			public static function initVideoAd(appID:String, landscape:Boolean, viewDone:Function, videoStart:Function, videoStop:Function):void		
+			{			
+				if (isDesktop)
+					return;
+				if (Vungle.isSupported() && !initVideoAdDone)
+				{			
+					initVideoAdDone = true;
+					Vungle.create([appID], landscape? VungleOrientation.LANDSCAPE:VungleOrientation.PORTRAIT);
+					Vungle.vungle.addEventListener(VungleEvent.AD_VIEWED, onVideoAdViewed);
+					Vungle.vungle.addEventListener(VungleEvent.AD_STARTED, onVideoAdViewed);
+					Vungle.vungle.addEventListener(VungleEvent.AD_FINISHED, onVideoAdViewed);
+					videoAdViewedCallback = viewDone;
+					videoAdStartCallback = videoStart;
+					videoAdDoneCallback = videoStop;
+				}
+				
+			}
+			
+			static private function onVideoAdViewed(e:VungleEvent):void 
+			{
+				if (e.type == VungleEvent.AD_VIEWED)
+				{
+					var percentComplete:Number=e.watched/e.length;
+					if(percentComplete>=1)
+					{
+						if (videoAdViewedCallback is Function)
+							videoAdViewedCallback();
+					}
+				}
+				else if (e.type == VungleEvent.AD_STARTED)
+				{
+					if (videoAdStartCallback is Function)
+						videoAdStartCallback();
+				}
+				else if (e.type == VungleEvent.AD_FINISHED)
+				{
+					if (videoAdDoneCallback is Function)
+						videoAdDoneCallback();
+				}
+			}
+			
+			public static function isVideoAdAvailable():Boolean
+			{								
+				return Vungle.vungle.isAdAvailable();
+			}
+			
+			public static function showVideoAd():void
+			{
+				Vungle.vungle.displayAd();
+			}
+			
+			
 			public static function shareOnFBAndroid(msg:String,image:BitmapData, onComplete:Function):void
 			{
 				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
@@ -219,14 +356,14 @@ package
 			for (var i:int = 0; i < len; i++) 
 			{
 				regexp = new RegExp(strs2Replace[i]);
-				var res:Array = regexp.exec(str);
-				if (res)
+				var result:Array = regexp.exec(str);
+				if (result)
 				{
-					str = str.replace(res[0], strs2ReplaceWith[i]);
+					str = str.replace(result[0], strs2ReplaceWith[i]);
 					if (colorup)
 					{
 						textField.colors.push(null, colorup[i]);
-						textField.colorRanges.push(res.index, res.index + strs2ReplaceWith[i].length);
+						textField.colorRanges.push(result.index, result.index + strs2ReplaceWith[i].length);
 					}
 				}
 			}

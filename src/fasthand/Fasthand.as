@@ -82,7 +82,7 @@ package fasthand
 				highscoreDB.registerType(s);				
 			}				
 			highscoreDB.registerType(Constants.OVERALL_HIGHSCORE);
-			highscoreDB.loadHighscore();
+			highscoreDB.load();
 		}
 		
 		public function startNewGame():void

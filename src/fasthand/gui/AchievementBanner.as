@@ -2,6 +2,9 @@ package fasthand.gui
 {
 	import base.BaseJsonGUI;
 	import base.font.BaseBitmapTextField;
+	import base.LayerMgr;
+	import comp.IAchievementBanner;
+	import fasthand.FasthandUtil;
 	import starling.display.DisplayObject;
 	import starling.core.Starling;
 	import starling.events.Event;
@@ -11,8 +14,9 @@ package fasthand.gui
 	 * ...
 	 * @author ndp
 	 */
-	public class AchievementBanner extends BaseJsonGUI 
+	public class AchievementBanner extends BaseJsonGUI implements IAchievementBanner
 	{
+		private var _isShowing:Boolean;
 		public var label:String;
 		public var achievementTxt:BaseBitmapTextField;
 		public var bg:DisplayObject;
@@ -29,7 +33,7 @@ package fasthand.gui
 		override public function onAdded(e:Event):void 
 		{
 			super.onAdded(e);
-			
+			_isShowing = true;
 			achievementTxt.text = label;
 			bg.alpha = 0.8;
 			textBg.alpha = 0.6;
@@ -49,6 +53,19 @@ package fasthand.gui
 			queueAchievement.push(achievementLabel);
 		}
 		
+		/* INTERFACE comp.IAchievementBanner */
+		
+		public function get isShowing():Boolean 
+		{
+			return _isShowing;
+		}
+		
+		public function setLabelAndShow(achName:String):void 
+		{
+			label = FasthandUtil.getAchievementLabel(achName);
+			LayerMgr.getLayer(LayerMgr.LAYER_EFFECT).addChild(this);
+		}
+		
 		private function onCompleteShow():void 
 		{
 			Starling.juggler.tween(this, 0.5, { y: -this.height, onComplete: onCompleteHide, delay: 3})
@@ -57,8 +74,9 @@ package fasthand.gui
 		private function onCompleteHide():void 
 		{			
 			if (queueAchievement.length == 0)
-			{
+			{				
 				this.removeFromParent();
+				_isShowing = false;
 			}
 			else
 			{

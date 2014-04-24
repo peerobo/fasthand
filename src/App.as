@@ -9,7 +9,9 @@ package
 	import base.ScreenMgr;
 	import base.SoundManager;
 	import comp.GameService;
+	import comp.IAchievementBanner;
 	import fasthand.Fasthand;
+	import fasthand.gui.AchievementBanner;
 	import fasthand.screen.CategoryScreen;
 	import fasthand.screen.GameScreen;
 	import fasthand.screen.LoadingScreen;
@@ -37,7 +39,7 @@ package
 			super();
 			
 			addEventListener(Event.ADDED_TO_STAGE, onInit);
-			this.alpha = 0.9999;			
+			this.alpha = 0.9999;							
 		}				
 		
 		public function onAppDeactivate():void 
@@ -52,7 +54,7 @@ package
 				gScr.onPause();
 			}
 			var gameService:GameService = Factory.getInstance(GameService);
-			gameService.saveHighscore();
+			gameService.save();
 		}
 		
 		public function onAppActivate():void 
@@ -84,6 +86,7 @@ package
 			Util.root = this;
 			var fps:FPSCounter = new FPSCounter(0, 0, 0xFFFFFF, true, 0x0);
 			//Starling.current.nativeOverlay.addChild(fps);
+			FPSCounter.log("init app");
 			try
 			{
 				var gameState:GameSave = Factory.getInstance(GameSave);
@@ -108,10 +111,9 @@ package
 			ParticleAsset.loadCfg();
 			SoundAsset.preload();
 			ScreenMgr.showScreen(LoadingScreen);			
-			Util.initAd();				
-			
+			Util.initAd();							
 			trace("--- init game: stage", Util.appWidth, "x", Util.appHeight, "-", Util.deviceWidth, "x", Util.deviceHeight);						
-			addEventListener(TouchEvent.TOUCH, onTouch);									
+			addEventListener(TouchEvent.TOUCH, onTouch);							
 		}
 		
 		private function onTouch(e:TouchEvent):void 

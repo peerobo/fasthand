@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/13.0">
   <id>com.fc.FastHandEnglish</id>
-  <versionNumber>1.0.5</versionNumber>
+  <versionNumber>1.0.6</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>Fasthand</filename>
   <name>Fasthand</name>
@@ -21,9 +21,8 @@
 			<application android:enabled="true">
 				<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 734115580995" />
 				<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-				<activity android:name="com.freshplanet.googleplaygames.SignInActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />								
-				<activity android:name="com.revmob.ads.fullscreen.FullscreenActivity" android:configChanges="keyboardHidden|orientation"></activity>
-				<activity android:name="com.fc.FCMainActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+				<activity android:name="com.fc.FCAndroidUtilityActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+				<activity android:name="com.revmob.ads.fullscreen.FullscreenActivity" android:configChanges="keyboardHidden|orientation"></activity>				
 				<activity android:name="com.pozirk.payment.BillingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />				
 				<activity android:excludeFromRecents="false">
 					<intent-filter>
@@ -109,8 +108,8 @@
     <extensionID>com.freshplanet.ane.AirDeviceId</extensionID>
 	<extensionID>com.revmob.airextension</extensionID>
 	<extensionID>com.fc.AndroidUtility</extensionID>
-	<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
-	<extensionID>com.freshplanet.AirGooglePlayGamesService</extensionID>
+	<extensionID>com.vungle.extensions.Vungle</extensionID>
+	<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>	
 	<extensionID>com.leadbolt.LeadboltANE</extensionID>
 	<!--<extensionID>so.cuo.platform.admob</extensionID>
 	<extensionID>com.adobe.ane.gameCenter</extensionID>

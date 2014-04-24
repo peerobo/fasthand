@@ -3,6 +3,7 @@ package base
 	import flash.desktop.NativeApplication;
 	import flash.events.KeyboardEvent;
 	import flash.geom.Point;
+	import flash.ui.Keyboard;
 	import starling.animation.IAnimatable;
 	import starling.core.Starling;
 	import starling.events.Touch;
@@ -25,7 +26,8 @@ package base
 		private var disableTimeout:Number;
 		private var swipeCallbacks:Array;	// callback object		
 		private var keyMap:Object;
-		
+		public var onBackKeyHandle:Function;
+		public var currDownKey:int;
 		public static const SWIPE_AMP:int = 136;
 		
 		public function GlobalInput() 
@@ -33,8 +35,13 @@ package base
 			disableTimeout = -1;
 			keyMap = { };
 			Starling.juggler.add(this);
-			FPSCounter.log("add keyboard event");
-			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);				
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown,false, 1000);
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_UP, onKeyUp,false, 1000);
+		}
+		
+		public function handleBackKey(onBackKey:Function = null):void
+		{
+			onBackKeyHandle = onBackKey;
 		}
 		
 		public function registerKey(keyCode:uint, f:Function):void
@@ -47,12 +54,42 @@ package base
 			return keyMap[keyCode.toString()];
 		}
 		
-		private function onKeyDown(e:KeyboardEvent):void 
+		private function onKeyUp(e:KeyboardEvent):void 
 		{
+			if(e.keyCode == currDownKey)
+				currDownKey = -1;
+			e.preventDefault();
+			e.stopImmediatePropagation();
 			for (var key:String in keyMap) 
 			{
 				if (key == e.keyCode.toString())
+				{		
+					var f:Function = keyMap[key];
+					f.apply(this);
+					break;
+				}
+			}
+		}
+		
+		private function onKeyDown(e:KeyboardEvent):void 
+		{	
+			if (e.keyCode == Keyboard.BACK)
+			{
+				if (onBackKeyHandle is Function)
 				{
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					onBackKeyHandle();
+				}				
+				return;
+			}
+			currDownKey = e.keyCode;
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			for (var key:String in keyMap) 
+			{
+				if (key == e.keyCode.toString())
+				{		
 					var f:Function = keyMap[key];
 					f.apply(this);
 					break;

@@ -93,14 +93,14 @@ package fasthand.gui
 			
 			SoundManager.playSound(SoundAsset.SOUND_END_GAME);	
 			
-			//var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-			//prevF = globalInput.getCurrentKeyHandler(Keyboard.BACK);
-			//globalInput.registerKey(Keyboard.BACK, onBackBt);
-			CONFIG::isAndroid {
-				FCAndroidUtility.instance.isHandleBackKey = true;
-				prevF = FCAndroidUtility.instance.onBackKeyHandle;
-				FCAndroidUtility.instance.onBackKeyHandle = onBackBt;
-			}
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
+			prevF = globalInput.onBackKeyHandle;
+			globalInput.handleBackKey(onBackBt);
+			//CONFIG::isAndroid {
+				//FCAndroidUtility.instance.isHandleBackKey = true;
+				//prevF = FCAndroidUtility.instance.onBackKeyHandle;
+				//FCAndroidUtility.instance.onBackKeyHandle = onBackBt;
+			//}
 			
 			LayerMgr.lockGameLayer = true;
 			
@@ -266,7 +266,7 @@ package fasthand.gui
 							return;
 						}
 					}
-					highscoreDB.showGooglePlayLeaderboard(cat);
+					highscoreDB.showGooglePlayLeaderboard();
 				}
 				PopupMgr.removePopup(this);
 				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
@@ -302,12 +302,12 @@ package fasthand.gui
 			isChangeSubject = false;
 			closeCallback();
 			closeCallback  = null;		
-			//var globalInput:GlobalInput = Factory.getInstance(GlobalInput);			
-			//globalInput.registerKey(Keyboard.BACK, prevF);
-			CONFIG::isAndroid {
+			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);			
+			globalInput.handleBackKey(prevF);
+			/*CONFIG::isAndroid {
 				FCAndroidUtility.instance.isHandleBackKey = true;
 				FCAndroidUtility.instance.onBackKeyHandle = prevF;
-			}
+			}*/
 			
 		}
 		
