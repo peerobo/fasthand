@@ -6,8 +6,7 @@ package
 	import base.GlobalInput;
 	import base.IAP;
 	import base.LangUtil;
-	import base.PopupMgr;
-	import com.fc.FCAndroidUtility;
+	import base.PopupMgr;	
 	import com.freshplanet.ane.AirDeviceId;
 	import com.hurlant.crypto.Crypto;
 	import com.hurlant.crypto.hash.IHash;
@@ -43,6 +42,14 @@ package
 	CONFIG::isAndroid {
 		import com.leadbolt.aslib.LeadboltController;
 		import com.leadbolt.aslib.LeadboltAdEvent;
+		import comp.SocialForAndroid;
+		import com.vungle.extensions.Vungle;
+		import com.vungle.extensions.events.VungleEvent;
+		import com.vungle.extensions.VungleOrientation;
+	}
+	
+	CONFIG::isAmazon {
+		import com.fc.FCAndroidUtility;
 		import comp.SocialForAndroid;
 		import com.vungle.extensions.Vungle;
 		import com.vungle.extensions.events.VungleEvent;
@@ -113,6 +120,9 @@ package
 			CONFIG::isIOS {
 				ret = true;
 			}
+			CONFIG::isAmazon {
+				ret = true;
+			}
 			if (Util.isDesktop)
 				ret = true;
 			return ret;
@@ -125,6 +135,162 @@ package
 		}
 		
 		CONFIG::isAndroid {
+			public static const BASE:int = 1
+			public static const BASE_1_1:int = 2
+			public static const CUPCAKE:int = 3
+			public static const CUR_DEVELOPMENT:int = 10000
+			public static const DONUT:int = 4
+			public static const ECLAIR:int = 5
+			public static const ECLAIR_0_1:int = 6
+			public static const ECLAIR_MR1:int = 7
+			public static const FROYO:int = 8
+			public static const GINGERBREAD:int = 9
+			public static const GINGERBREAD_MR1:int = 10
+			public static const HONEYCOMB:int = 11
+			public static const HONEYCOMB_MR1:int = 12
+			public static const HONEYCOMB_MR2:int = 13
+			public static const ICE_CREAM_SANDWICH:int = 14
+			public static const ICE_CREAM_SANDWICH_MR1:int = 15
+			public static const JELLY_BEAN:int = 16
+			public static const JELLY_BEAN_MR1:int = 17
+			public static const JELLY_BEAN_MR2:int = 18
+			public static const KITKAT:int = 19			
+			private static var initAndroidDone:Function;
+			public static function initAndroidUtility(enableGooglePlay:Boolean, onInitDone:Function):void
+			{				
+				if(!FCAndroidUtility.instance.isInit)
+				{
+					FCAndroidUtility.instance.init(enableGooglePlay);
+					initAndroidDone = onInitDone;
+					if (enableGooglePlay)
+					{
+						/*FCAndroidUtility.instance.addEventListener(FCAndroidUtility.ACHIEVEMENT_WRONG, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.ACHIVEMENT_WND_SHOWN, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.LEADERBOARD_WND_SHOWN, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.LICENSE_ERROR, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.NETWORK_ERROR, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.NOT_SIGN_IN, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.SERVICE_ERROR, onGPResponse);*/
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.SIGN_IN_FAILED, onGPResponse);
+						FCAndroidUtility.instance.addEventListener(FCAndroidUtility.SIGN_IN_OK, onGPResponse);
+					}
+					else
+					{
+						if(initAndroidDone is Function)
+							initAndroidDone();
+						initAndroidDone = null;
+					}
+				}
+			}
+			
+			static private function onGPResponse(e:Event):void 
+			{
+				if (e.type == FCAndroidUtility.SIGN_IN_FAILED || e.type == FCAndroidUtility.SIGN_IN_OK)
+				{
+					if(initAndroidDone is Function)
+						initAndroidDone();
+					initAndroidDone = null;					
+					FCAndroidUtility.instance.removeEventListener(FCAndroidUtility.SIGN_IN_FAILED, onGPResponse);
+					FCAndroidUtility.instance.removeEventListener(FCAndroidUtility.SIGN_IN_OK, onGPResponse);
+				}
+			}
+
+			public static function get androidVersionInt():int
+			{
+				return FCAndroidUtility.instance.getVersionInt();
+			}
+			
+			public static function setAndroidFullscreen(value:Boolean):void
+			{
+				if (androidVersionInt >= KITKAT)
+					FCAndroidUtility.instance.setImmersive(value);
+			}
+			
+			static private var initVideoAdDone:Boolean;
+			public static function initVideoAd(appID:String, landscape:Boolean, viewDone:Function, videoStart:Function, videoStop:Function):void		
+			{			
+				if (isDesktop)
+					return;
+				if (Vungle.isSupported() && !initVideoAdDone)
+				{			
+					initVideoAdDone = true;
+					Vungle.create([appID], landscape? VungleOrientation.LANDSCAPE:VungleOrientation.PORTRAIT);
+					Vungle.vungle.addEventListener(VungleEvent.AD_VIEWED, onVideoAdViewed);
+					Vungle.vungle.addEventListener(VungleEvent.AD_STARTED, onVideoAdViewed);
+					Vungle.vungle.addEventListener(VungleEvent.AD_FINISHED, onVideoAdViewed);
+					videoAdViewedCallback = viewDone;
+					videoAdStartCallback = videoStart;
+					videoAdDoneCallback = videoStop;
+				}
+				
+			}
+			
+			static private function onVideoAdViewed(e:VungleEvent):void 
+			{
+				if (e.type == VungleEvent.AD_VIEWED)
+				{
+					var percentComplete:Number=e.watched/e.length;
+					if(percentComplete>=1)
+					{
+						if (videoAdViewedCallback is Function)
+							videoAdViewedCallback();
+					}
+				}
+				else if (e.type == VungleEvent.AD_STARTED)
+				{
+					if (videoAdStartCallback is Function)
+						videoAdStartCallback();
+				}
+				else if (e.type == VungleEvent.AD_FINISHED)
+				{
+					if (videoAdDoneCallback is Function)
+						videoAdDoneCallback();
+				}
+			}
+			
+			public static function isVideoAdAvailable():Boolean
+			{								
+				return Vungle.vungle.isAdAvailable();
+			}
+			
+			public static function showVideoAd():void
+			{
+				Vungle.vungle.displayAd();
+			}
+			
+			
+			public static function shareOnFBAndroid(msg:String,image:BitmapData, onComplete:Function):void
+			{
+				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+				social.share(SocialForAndroid.FACEBOOK_TYPE, msg, image, onComplete);				
+			}
+			
+			public static function shareOnTTAndroid(msg:String,image:BitmapData, onComplete:Function):void
+			{
+				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+				social.share(SocialForAndroid.TWITTER_TYPE, msg, image, onComplete);
+			}
+			
+			public static function getUsernameAndroidFB():String
+			{
+				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+				var retStr:String = social.FBName;				
+				if (!retStr)
+					retStr = LangUtil.getText("notlogged");
+				return "(as " + retStr + ")";
+			}
+			
+			public static function getUsernameAndroidTwitter():String
+			{
+				var social:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+				var retStr:String = social.TwitterName;		
+				if (!retStr)
+					retStr = LangUtil.getText("notlogged");
+				return "(as " + retStr + ")";
+			}
+		}			
+		
+		CONFIG::isAmazon {
 			public static const BASE:int = 1
 			public static const BASE_1_1:int = 2
 			public static const CUPCAKE:int = 3

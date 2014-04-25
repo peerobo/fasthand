@@ -10,20 +10,20 @@
 		<![CDATA[<manifest android:installLocation="auto">
 			<uses-sdk android:targetSdkVersion="19"/>
 			<uses-sdk android:minSdkVersion="8"/>			
-			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>			
+			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 			<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>			
-			<uses-permission android:name="com.android.vending.BILLING" />
+			<!--<uses-permission android:name="com.android.vending.BILLING" />-->
 			<uses-permission android:name="android.permission.INTERNET"/>
-			<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+			<!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
 			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 			<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
 			<uses-permission android:name="android.permission.WAKE_LOCK"/>
 			<application android:enabled="true">
-				<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 734115580995" />
-				<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+				<!--<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 734115580995" />
+				<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />-->
 				<activity android:name="com.fc.FCAndroidUtilityActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-				<activity android:name="com.revmob.ads.fullscreen.FullscreenActivity" android:configChanges="keyboardHidden|orientation"></activity>				
-				<activity android:name="com.pozirk.payment.BillingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />				
+				<activity android:name="com.revmob.ads.fullscreen.FullscreenActivity" android:configChanges="keyboardHidden|orientation"></activity>
+				<!--<activity android:name="com.pozirk.payment.BillingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />-->
 				<activity android:excludeFromRecents="false">
 					<intent-filter>
 						<action android:name="android.intent.action.MAIN"/>
@@ -109,8 +109,8 @@
 	<extensionID>com.revmob.airextension</extensionID>
 	<extensionID>com.fc.AndroidUtility</extensionID>
 	<extensionID>com.vungle.extensions.Vungle</extensionID>
-	<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>	
-	<extensionID>com.leadbolt.LeadboltANE</extensionID>
+	<!--<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>	
+	<extensionID>com.leadbolt.LeadboltANE</extensionID>-->
 	<!--<extensionID>so.cuo.platform.admob</extensionID>
 	<extensionID>com.adobe.ane.gameCenter</extensionID>
 	<extensionID>com.adobe.ane.social</extensionID>

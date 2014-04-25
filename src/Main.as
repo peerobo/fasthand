@@ -4,9 +4,6 @@ package
 	import base.Factory;
 	import base.LangUtil;
 	import fasthand.gui.PurchaseDlg;
-	CONFIG::isAndroid{
-		import com.fc.FCAndroidUtility;
-	}
 	import comp.GameService;
 	import flash.data.EncryptedLocalStore;
 	import flash.desktop.NativeApplication;
@@ -51,6 +48,11 @@ package
 				Util.initAndroidUtility(true, onAndroidInit);
 				Util.setAndroidFullscreen(true);
 			}
+			CONFIG::isAmazon {				
+				Util.initAndroidUtility(false, null);
+				Util.setAndroidFullscreen(true);
+				setTimeout(onAndroidInit, 1000);
+			}
 			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onAppActivate);
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onAppDeactivate);	
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onAppExit);
@@ -62,7 +64,24 @@ package
 			var highscoreDB:GameService = Factory.getInstance(GameService);			
 			if(Util.isIOS)
 				highscoreDB.initGameCenter();
-		}			
+		}					
+		
+		CONFIG::isAmazon{		
+			private function onAndroidInit():void 
+			{
+					if (Util.androidVersionInt >= Util.KITKAT)
+					{	
+						Starling.handleLostContext = true;						
+					}
+					else 
+					{
+						Starling.handleLostContext = false;						
+					}	
+					startStarlingFramework();					
+					//var gS:GameService = Factory.getInstance(GameService);			
+					//gS.initGooglePlayGameService();
+			}
+		}
 		
 		CONFIG::isAndroid{		
 			private function onAndroidInit():void 
@@ -75,7 +94,7 @@ package
 					{
 						Starling.handleLostContext = false;						
 					}	
-					startStarlingFramework();
+					startStarlingFramework();					
 					var gS:GameService = Factory.getInstance(GameService);			
 					gS.initGooglePlayGameService();
 			}
@@ -101,6 +120,14 @@ package
 			}
 			trace("activate");
 			CONFIG::isAndroid {
+				if (Util.root)
+				{	
+					starling.start();
+					Util.root.onAppActivate();			
+				}
+				Util.setAndroidFullscreen(true);
+			}
+			CONFIG::isAmazon {
 				if (Util.root)
 				{	
 					starling.start();

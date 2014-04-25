@@ -80,7 +80,7 @@ package fasthand.gui
 			}
 			else
 			{
-				achievementTxt.text = queueAchievement[0];
+				achievementTxt.text = FasthandUtil.getAchievementLabel(queueAchievement[0]);
 				queueAchievement.splice(0, 1);
 				Starling.juggler.tween(this, 0.5, { y: 60, onComplete: onCompleteShow } );
 			}

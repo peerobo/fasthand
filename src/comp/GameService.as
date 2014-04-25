@@ -310,7 +310,7 @@ package comp
 				if(!achievementBanner.isShowing)
 					achievementBanner.setLabelAndShow(type);
 				else
-					achievementBanner.queue(type);											
+					achievementBanner.queue(type);
 			}
 			else
 			{

@@ -281,6 +281,8 @@ package comp
 		private function onRequestFBPermissionComplete(success:Object,fail:Object):void 
 		{
 			FPSCounter.log("post fb");
+			trace("fail", fail);
+			trace("success", success);
 			if(success)
 				postFBPhoto(msg, image);
 			else
@@ -376,6 +378,7 @@ package comp
 			(e.currentTarget as EventDispatcher).removeEventListener(TwitterErrorEvent.CLIENT_ERROR, onTwitterAuthorizeError);
 			(e.currentTarget as EventDispatcher).removeEventListener(TwitterErrorEvent.CLIENT_ERROR, onTwitterAuthorizeError);
 			onComplete(false);
+			trace(e.message);
 		}
 		
 		private function onTwitterAuthorizeComplete(e:TwitterRequestEvent):void 

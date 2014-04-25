@@ -41,6 +41,10 @@ package fasthand.gui
 		import com.fc.FCAndroidUtility;
 	}
 	
+	CONFIG::isAmazon {
+		import com.fc.FCAndroidUtility;
+	}
+	
 	/**
 	 * ...
 	 * @author ndp
@@ -118,7 +122,9 @@ package fasthand.gui
 				particleSys.start(5);
 				celebrate = false;
 			}			
-			
+			CONFIG::isAmazon {
+				return;
+			}
 			var cats:Array = FasthandUtil.getListCat();
 			var gameService:GameService = Factory.getInstance(GameService);
 			var logic:Fasthand = Factory.getInstance(Fasthand);
@@ -183,7 +189,15 @@ package fasthand.gui
 						PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
 						delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);
 					}
-				}			
+				}
+				CONFIG::isAmazon {
+					var text:String = LangUtil.getText("shareMsg");
+					text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);
+					Util.shareOnFBAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
+					PopupMgr.removePopup(this);
+					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+					delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);	
+				}
 			}
 			else
 			{
@@ -227,6 +241,14 @@ package fasthand.gui
 						delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);
 					}
 				}
+				CONFIG::isAmazon {				
+					var text:String = LangUtil.getText("shareMsg");
+					text = Util.replaceStr(text, ["@cat", "@url"], ["\"" + LangUtil.getText(_cat) + "\"", Constants.SHORT_LINK]);
+					Util.shareOnTTAndroid(text, Util.g_takeSnapshot(), onShareOnAnroidComplete);
+					PopupMgr.removePopup(this);
+					PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
+					delayCalled = Starling.juggler.delayCall(onShareOnAnroidComplete, 15, false);					
+				}
 			}
 			else
 			{
@@ -265,8 +287,9 @@ package fasthand.gui
 							PopupMgr.addPopUp(info);
 							return;
 						}
-					}
-					highscoreDB.showGooglePlayLeaderboard();
+						highscoreDB.showGooglePlayLeaderboard();
+					}			
+					trace("highscore")
 				}
 				PopupMgr.removePopup(this);
 				PopupMgr.addPopUp(Factory.getInstance(LoadingIcon));
@@ -304,10 +327,6 @@ package fasthand.gui
 			closeCallback  = null;		
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);			
 			globalInput.handleBackKey(prevF);
-			/*CONFIG::isAndroid {
-				FCAndroidUtility.instance.isHandleBackKey = true;
-				FCAndroidUtility.instance.onBackKeyHandle = prevF;
-			}*/
 			
 		}
 		

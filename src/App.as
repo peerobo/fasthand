@@ -25,6 +25,9 @@ package
 	CONFIG::isAndroid{
 		import comp.SocialForAndroid;
 	}
+	CONFIG::isAmazon{
+		import comp.SocialForAndroid;
+	}
 	
 	/**
 	 * ...
@@ -94,6 +97,10 @@ package
 				var iap:IAP = Factory.getInstance(IAP);
 				iap.initInAppPurchase(Util.isIOS?Constants.IOS_PRODUCT_IDS:Constants.ANDROID_LICENSING);			
 				CONFIG::isAndroid {
+					var shareAndroid:SocialForAndroid = Factory.getInstance(SocialForAndroid);
+					shareAndroid.init();
+				}
+				CONFIG::isAmazon {
 					var shareAndroid:SocialForAndroid = Factory.getInstance(SocialForAndroid);
 					shareAndroid.init();
 				}

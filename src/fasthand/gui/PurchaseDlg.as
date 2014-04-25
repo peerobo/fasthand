@@ -12,9 +12,6 @@ package fasthand.gui
 	import base.PopupMgr;
 	import base.ScreenMgr;
 	import flash.net.SharedObject;
-	CONFIG::isAndroid{
-		import com.fc.FCAndroidUtility;
-	}
 	import comp.LoadingIcon;
 	import fasthand.FasthandUtil;
 	import fasthand.screen.CategoryScreen;
@@ -83,10 +80,6 @@ package fasthand.gui
 			
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
 			globalInput.handleBackKey(onHandleBackKey);
-			//CONFIG::isAndroid {
-				//FCAndroidUtility.instance.isHandleBackKey = true;
-				//FCAndroidUtility.instance.onBackKeyHandle = onHandleBackKey;				
-			//}
 		}
 		
 		private function onWatchVideo():void 
@@ -120,8 +113,7 @@ package fasthand.gui
 		private function onHandleBackKey():void 
 		{
 			var globalInput:GlobalInput = Factory.getInstance(GlobalInput);
-			globalInput.handleBackKey();
-			//FCAndroidUtility.instance.isHandleBackKey = false;
+			globalInput.handleBackKey();			
 			PopupMgr.removePopup(this);
 		}
 		

@@ -65,7 +65,8 @@ package
 		public static function log(...args):void
 		{
 			if(self && self.parent)
-				self.log += "\n"+args.join(" ");
+				self.log += "\n" + args.join(" ");
+			trace(args.join(" "));
 		}
 	}
 }

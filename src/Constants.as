@@ -19,6 +19,9 @@ package
 		CONFIG::isIOS{
 			public static const CAT_INTERNAL:int = 30;
 		}
+		CONFIG::isAmazon{
+			public static const CAT_INTERNAL:int = 30;
+		}
 		CONFIG::isAndroid{
 			public static const CAT_INTERNAL:int = 6;
 		}
